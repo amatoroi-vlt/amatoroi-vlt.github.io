@@ -10,17 +10,8 @@ rsync -av --delete --delete-excluded \
   --exclude='.obsidian/' \
   --exclude='.gitignore' \
   --exclude='000_INDEX/' \
-  --exclude='300_연구정리/320_3D 프린팅 섬광체 개발(양한철, 학위논문 심사)/' \
+  --exclude='320_*/' \
   --exclude='Clippings/' \
-  --filter='+ */' \
-  --filter='+ *.md' \
-  --filter='+ *.png' \
-  --filter='+ *.jpg' \
-  --filter='+ *.jpeg' \
-  --filter='+ *.gif' \
-  --filter='+ *.svg' \
-  --filter='+ *.pdf' \
-  --filter='- *' \
   "$VAULT" "$CONTENT/"
 
 echo "📦 Git 커밋 & 푸시 중..."
