@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전략 후보 분석 — Phase 1 | TraderX</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", sans-serif; font-size: 14px; background: #f5f5f3; color: #1a1a1a; line-height: 1.65; }
+.page { max-width: 980px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+/* Header */
+.hd h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+.hd p { font-size: 12px; color: #888; margin-bottom: 2rem; }
+
+/* Term box */
+.term-wrap { background: #fff; border: 0.5px solid #e0e0dc; border-radius: 10px; padding: 14px 18px; margin-bottom: 2rem; }
+.term-title { font-size: 11px; font-weight: 500; color: #999; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
+.term-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 6px 24px; }
+.term-row { display: flex; gap: 8px; font-size: 12px; }
+.term-k { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
+.term-v { color: #555; }
+.term-note { font-size: 11px; color: #999; margin-top: 10px; padding-top: 10px; border-top: 0.5px solid #f0f0ee; }
+
+/* Section label */
+.sec-lbl { font-size: 11px; font-weight: 500; color: #999; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
+
+/* Legend */
+.legend { display: flex; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #777; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* Grid */
+.s-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 10px; margin-bottom: 2.5rem; }
+
+/* Card */
+.card { background: #fff; border: 0.5px solid #e2e2de; border-radius: 12px; overflow: hidden; }
+.card-hd { padding: 14px 16px; cursor: pointer; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.card-hd:hover { background: #fafaf9; }
+.card.open .card-hd { background: #fafaf9; }
+.card-hd-left { flex: 1; }
+.badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 10px; margin-bottom: 7px; }
+.bb { background: #E6F1FB; color: #185FA5; }
+.br { background: #FAECE7; color: #993C1D; }
+.bs { background: #E1F5EE; color: #0F6E56; }
+.bg { background: #F1EFE8; color: #444441; }
+.c-title { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 2px; }
+.c-chap { font-size: 11px; color: #aaa; margin-bottom: 6px; }
+.c-sum { font-size: 12px; color: #666; line-height: 1.55; }
+.chev { font-size: 18px; color: #ccc; transition: transform .2s; flex-shrink: 0; margin-top: 2px; }
+.card.open .chev { transform: rotate(180deg); }
+
+/* Detail */
+.detail { display: none; border-top: 0.5px solid #ebebeb; }
+.card.open .detail { display: block; }
+
+/* Detail sections */
+.d-sec { padding: 14px 16px; border-bottom: 0.5px solid #f2f2f0; }
+.d-sec:last-child { border-bottom: none; }
+.d-sec-title { font-size: 10px; font-weight: 500; color: #bbb; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+.story { font-size: 13px; color: #333; line-height: 1.75; }
+.story strong { font-weight: 500; color: #1a1a1a; }
+.story .num { font-family: "SF Mono", "Fira Code", monospace; font-size: 12px; background: #f5f5f3; padding: 1px 5px; border-radius: 4px; color: #444; }
+
+/* Steps */
+.steps { list-style: none; }
+.steps li { display: flex; gap: 10px; margin-bottom: 8px; font-size: 12px; align-items: flex-start; }
+.step-n { min-width: 20px; height: 20px; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 10px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-body { color: #333; line-height: 1.6; }
+.step-body strong { font-weight: 500; }
+
+/* Row grid */
+.d-row { display: grid; grid-template-columns: 62px 1fr; gap: 4px 10px; margin-bottom: 7px; font-size: 12px; }
+.d-lbl { color: #aaa; font-weight: 500; padding-top: 1px; }
+.d-val { color: #1a1a1a; line-height: 1.6; }
+.d-val.na { color: #ccc; font-style: italic; }
+.mono { font-family: "SF Mono", "Fira Code", monospace; font-size: 11px; background: #f5f5f3; padding: 1px 5px; border-radius: 4px; }
+
+/* Callout boxes */
+.warn { background: #FFF8EC; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #7a4f0a; line-height: 1.6; margin-top: 2px; }
+.edge { background: #f5f5f3; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #444; line-height: 1.7; }
+.edge strong { font-weight: 500; color: #1a1a1a; }
+.limit { background: #FFF1F0; border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #a03030; line-height: 1.6; margin-top: 8px; }
+
+/* SVG diagram */
+.diag { margin: 4px 0; display: block; width: 100%; }
+
+/* Precaution list */
+.prec { list-style: none; }
+.prec li { font-size: 12px; color: #444; padding: 3px 0 3px 14px; position: relative; line-height: 1.6; }
+.prec li::before { content: "·"; position: absolute; left: 4px; color: #bbb; }
+
+/* Principle grid */
+.p-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-bottom: 2.5rem; }
+.p-card { background: #fff; border: 0.5px solid #e2e2de; border-radius: 10px; padding: 16px 18px; }
+.p-title { font-size: 13px; font-weight: 500; margin-bottom: 12px; }
+.p-item { font-size: 12px; color: #444; margin-bottom: 8px; padding-left: 14px; position: relative; line-height: 1.6; }
+.p-item::before { content: ""; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: #ddd; }
+.p-item strong { font-weight: 500; color: #1a1a1a; }
+
+/* Pending table */
+.table-wrap { background: #fff; border: 0.5px solid #e2e2de; border-radius: 10px; overflow: hidden; margin-bottom: 2.5rem; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; padding: 9px 14px; background: #f9f9f7; color: #888; font-weight: 500; border-bottom: 0.5px solid #ebebeb; }
+td { padding: 9px 14px; border-bottom: 0.5px solid #f2f2f0; color: #333; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
+
+/* Footer */
+.footer { font-size: 11px; color: #bbb; border-top: 0.5px solid #e8e8e5; padding-top: 1.5rem; }
+
+/* Phase divider */
+.phase-div { margin: 3.5rem 0 2.5rem; display: flex; align-items: center; gap: 1rem; }
+.phase-div-line { flex: 1; height: 1.5px; background: #c8c8c4; }
+.phase-div-label { font-size: 11px; font-weight: 500; color: #888; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; background: #f5f5f3; padding: 0 8px; }
+
+/* Eval section */
+.eval-note { font-size: 12px; color: #555; margin-bottom: 1.5rem; line-height: 1.75; background: #fff; border: 0.5px solid #e2e2de; border-radius: 10px; padding: 12px 16px; }
+.eval-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2.5rem; }
+.eval-item { background: #fff; border: 0.5px solid #e2e2de; border-radius: 10px; padding: 14px 16px; }
+.eval-item-hd { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.eval-title { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+.verdict { font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: 10px; white-space: nowrap; }
+.v-pass { background: #E1F5EE; color: #0F6E56; }
+.v-cond { background: #FFF8EC; color: #7a4f0a; }
+.v-fail { background: #FAECE7; color: #993C1D; }
+.v-new { background: #EEE8FF; color: #5A35B0; }
+.eval-reason { font-size: 12px; color: #444; line-height: 1.75; }
+.eval-reason strong { font-weight: 500; color: #1a1a1a; }
+.eval-reason em { color: #666; font-style: italic; }
+.eval-reason code { font-family: "SF Mono", "Fira Code", monospace; font-size: 11px; background: #f5f5f3; padding: 1px 5px; border-radius: 4px; color: #444; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hd">
+  <h1>전략 후보 분석 — Phase 1</h1>
+  <p>출처: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em> (reference/ 원본 기반) &nbsp;|&nbsp; 2026-06-14</p>
+</div>
+
+<div class="term-wrap">
+  <div class="term-title">용어 정의</div>
+  <div class="term-grid">
+    <div class="term-row"><span class="term-k">매수 진입</span><span class="term-v">롱 포지션 취득 (당일 장중)</span></div>
+    <div class="term-row"><span class="term-k">이익실현</span><span class="term-v">수익 상태에서 포지션 종료</span></div>
+    <div class="term-row"><span class="term-k">손절</span><span class="term-v">손실 한도 도달 시 포지션 강제 종료</span></div>
+    <div class="term-row"><span class="term-k">포지션 청산</span><span class="term-v">이익실현 또는 손절을 통한 포지션 종료의 총칭</span></div>
+  </div>
+  <div class="term-note">이 프로젝트는 롱(매수) 전략만 운영. 공매도 신호는 참고 기록하되 실행 대상 아님.</div>
+</div>
+
+<!-- ──────────────── STRATEGIES ──────────────── -->
+<div class="sec-lbl">전략 후보 (7개) &nbsp;—&nbsp; 카드 클릭 시 상세 설명 펼침</div>
+<div class="legend">
+  <span class="leg"><span class="dot" style="background:#185FA5"></span>브레이크아웃</span>
+  <span class="leg"><span class="dot" style="background:#D85A30"></span>반전 패턴</span>
+  <span class="leg"><span class="dot" style="background:#1D9E75"></span>구조 분석 / 추세 추종</span>
+</div>
+
+<div class="s-grid">
+
+<!-- ═══ A. Volatility Breakout ═══ -->
+<div class="card" id="cA">
+  <div class="card-hd" onclick="toggle('cA')">
+    <div class="card-hd-left">
+      <span class="badge bb">브레이크아웃</span>
+      <p class="c-title">A. Volatility Breakout</p>
+      <p class="c-chap">Chapter 4</p>
+      <p class="c-sum">전일 range를 기준으로, 오늘 시가 대비 일정 비율 이상 위로 폭발하면 매수 진입한다.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기</div>
+      <p class="story">
+        삼성전자가 3일 동안 하루 <strong>1,500원</strong> 안팎으로 움직이고 있다. 별다를 게 없는 하루하루다.<br><br>
+        그런데 오늘, 장이 열리자마자 평소와 다른 느낌이 난다. 시가 <span class="num">75,000원</span>에서 시작했는데 가격이 계속 올라간다. 매수세가 강하다. <span class="num">75,750원</span>을 넘어선 순간 — <strong>이건 전일 range(1,500원)의 50%인 750원을 돌파한 것</strong>이다.<br><br>
+        "평소엔 750원도 못 넘었는데 이미 750원을 넘었다 — 뭔가 달라졌다." 기관이나 외국인이 진입하고 있다는 신호. 오늘 이 움직임은 계속될 가능성이 높다. 매수 진입.
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">패턴 다이어그램</div>
+      <svg class="diag" viewBox="0 0 380 110" xmlns="http://www.w3.org/2000/svg">
+        <text x="8" y="12" font-size="9" fill="#aaa">평소 (소폭 range)</text>
+        <rect x="8" y="30" width="7" height="40" fill="#ccc" rx="1"/>
+        <rect x="24" y="25" width="7" height="45" fill="#ccc" rx="1"/>
+        <rect x="40" y="32" width="7" height="38" fill="#ccc" rx="1"/>
+        <rect x="56" y="28" width="7" height="42" fill="#ccc" rx="1"/>
+        <line x1="75" y1="10" x2="75" y2="100" stroke="#e0e0dc" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="78" y="12" font-size="9" fill="#aaa">오늘</text>
+        <line x1="75" y1="55" x2="380" y2="55" stroke="#185FA5" stroke-width="0.5" stroke-dasharray="4,3"/>
+        <text x="240" y="52" font-size="9" fill="#185FA5">시가 + Range×50% (매수선)</text>
+        <rect x="75" y="16" width="9" height="70" fill="#185FA5" opacity=".85" rx="1"/>
+        <text x="88" y="28" font-size="9" fill="#185FA5" font-weight="500">▲ 돌파 → 매수 진입</text>
+        <rect x="93" y="10" width="9" height="75" fill="#185FA5" opacity=".7" rx="1"/>
+        <rect x="111" y="6" width="9" height="78" fill="#185FA5" opacity=".6" rx="1"/>
+        <text x="8" y="105" font-size="9" fill="#aaa">← 소폭 range 반복 →</text>
+        <text x="78" y="105" font-size="9" fill="#185FA5">range 폭발 → 추세 시작</text>
+      </svg>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">전일 Range 계산: <span class="mono">전일 고가 − 전일 저가</span></span></li>
+        <li><span class="step-n">2</span><span class="step-body">매수선 계산: <span class="mono">당일 시가 + (전일 Range × 50%)</span></span></li>
+        <li><span class="step-n">3</span><span class="step-body">장중 가격이 매수선을 <strong>상향 돌파</strong>하는 순간 매수</span></li>
+        <li><span class="step-n">4</span><span class="step-body">손절선 계산: <span class="mono">진입가 − (전일 Range × 50%)</span> — 진입 직후 설정</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 주의사항</div>
+      <ul class="prec">
+        <li>기준점은 반드시 <strong>시가(Open)</strong>. 종가 기준($327/trade) < 전일고가 기준($313) < 시가 기준($389) — 책에서 세 방식 실증 비교</li>
+        <li>k값(50%)은 미국 시장 기준값. 한국 주식에서는 백테스팅으로 재최적화 필요</li>
+        <li>TDW(Trade Day of Week) 필터 적용 시 성과 향상. 책 실증: 채권에서 화·목 매수가 다른 요일보다 우월</li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val"><strong>Bail Out</strong> — 익일 첫 번째 수익 시가에서 청산. 단 1틱이라도 수익이면 탐욕 없이 청산한다.</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val"><span class="mono">진입가 − 전일 Range × 50%</span></span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">"가격이 한번 방향을 잡으면 계속 그 방향으로 간다(Newton의 운동법칙)." 임계치(Range × 50%)를 넘는 움직임만 포착하므로 일상적 노이즈가 걸러진다. 책에서 <strong>"가장 일관성 있는 기계적 진입 기법"</strong>으로 직접 명시. 채권 1990~1998 백테스팅: 승률 80%, 총이익 $73,468.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ B. Smash Day ═══ -->
+<div class="card" id="cB">
+  <div class="card-hd" onclick="toggle('cB')">
+    <div class="card-hd-left">
+      <span class="badge br">반전 패턴</span>
+      <p class="c-title">B. Smash Day Pattern</p>
+      <p class="c-chap">Chapter 7</p>
+      <p class="c-sum">하락 돌파에 뛰어든 공매도 세력이 즉각 틀렸다는 것이 확인될 때 — 그들의 강제 손절(매수)이 연료가 되어 상승 매수 진입한다.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기 — 일반형</div>
+      <p class="story">
+        어제 LG화학이 장 막판에 급락하며 전일 저가(<span class="num">480,000원</span>) 아래에서 종가(<span class="num">477,000원</span>)를 냈다. 며칠치 저가를 한번에 이탈한 것.<br><br>
+        차트를 보는 사람들은 흥분한다. <strong>"지지선 완전 이탈! 추가 하락 나온다!"</strong> 공매도가 쏟아진다.<br><br>
+        그런데 오늘 장이 열리고 가격이 올라가기 시작한다. 어제 고가(<span class="num">485,000원</span>)를 넘어서는 순간 — <strong>이것이 매수 진입 신호.</strong><br><br>
+        어제 공매도한 사람들의 손절 목표가 바로 어제 고가 근처다. 그들이 손절(매수)하면서 가격은 더 올라간다. 우리는 이미 진입해 있다.
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기 — Hidden형</div>
+      <p class="story">
+        어제 삼성SDI: 시가 <span class="num">399,000원</span>에서 출발해 장중 <span class="num">420,000원</span>까지 급등했다가 <span class="num">393,000원</span>까지 밀린 뒤, <span class="num">398,500원</span>에 마감. 전날 종가(398,000원)보다 소폭 높아 캔들로 보면 "상승 마감"이다.<br><br>
+        그런데 차트를 꼼꼼히 보면: 종가(<span class="num">398,500원</span>)가 당일 range(<span class="num">420,000 − 393,000 = 27,000원</span>)의 하단 25%(<span class="num">393,000 + 6,750 = 399,750원</span>) 아래. 게다가 시가(<span class="num">399,000원</span>)보다도 낮다.<br><br>
+        <strong>상승 마감이라는 외형과 달리 내막은 약하다.</strong> 이를 간파한 공매도 세력이 어제 진입해 있다. 그들의 손절가(stop-loss)는 어제 고가(<span class="num">420,000원</span>) 위.<br><br>
+        오늘 장중 가격이 <span class="num">420,000원</span>을 넘어서는 순간 — 공매도 세력이 강제 손절(매수)에 나서며 가격을 더 끌어올린다. <strong>이것이 매수 진입 신호.</strong>
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">패턴 다이어그램</div>
+      <svg class="diag" viewBox="0 0 380 115" xmlns="http://www.w3.org/2000/svg">
+        <text x="6" y="11" font-size="9" fill="#aaa">일반형</text>
+        <rect x="6" y="20" width="8" height="40" fill="#ccc" rx="1"/>
+        <rect x="22" y="18" width="8" height="42" fill="#ccc" rx="1"/>
+        <line x1="6" y1="60" x2="170" y2="60" stroke="#e0e0dc" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="172" y="63" font-size="8" fill="#aaa">전일 저가</text>
+        <line x1="6" y1="20" x2="170" y2="20" stroke="#e0e0dc" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="172" y="23" font-size="8" fill="#aaa">전일 고가</text>
+        <rect x="38" y="62" width="8" height="35" fill="#D85A30" opacity=".8" rx="1"/>
+        <text x="34" y="108" font-size="8" fill="#993C1D">Smash Day</text>
+        <line x1="38" y1="20" x2="100" y2="20" stroke="#185FA5" stroke-width="0.5" stroke-dasharray="4,3"/>
+        <rect x="55" y="5" width="8" height="55" fill="#185FA5" opacity=".85" rx="1"/>
+        <text x="66" y="16" font-size="8" fill="#185FA5">고가 돌파 → 매수</text>
+
+        <text x="210" y="11" font-size="9" fill="#aaa">Hidden형</text>
+        <rect x="210" y="20" width="8" height="50" fill="#ccc" rx="1"/>
+        <rect x="226" y="16" width="8" height="54" fill="#ccc" rx="1"/>
+        <rect x="242" y="38" width="8" height="32" fill="#D85A30" opacity=".7" rx="1"/>
+        <text x="238" y="82" font-size="8" fill="#993C1D">상승 마감이나</text>
+        <text x="238" y="91" font-size="8" fill="#993C1D">range 하단 종가</text>
+        <line x1="242" y1="38" x2="340" y2="38" stroke="#185FA5" stroke-width="0.5" stroke-dasharray="4,3"/>
+        <rect x="258" y="10" width="8" height="55" fill="#185FA5" opacity=".85" rx="1"/>
+        <text x="270" y="22" font-size="8" fill="#185FA5">고가 돌파 → 매수</text>
+      </svg>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계 — 일반형</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">설정일 확인: <strong>당일 종가 &lt; 전일 저가</strong> (naked close 하락)</span></li>
+        <li><span class="step-n">2</span><span class="step-body">다음날 장중, 설정일 고가를 상향 돌파하면 <strong>즉시 매수</strong></span></li>
+        <li><span class="step-n">3</span><span class="step-body">반전이 당일(다음날) 발생해야 유효 — 이틀 이상 지연되면 신호 소멸</span></li>
+      </ul>
+      <div class="d-sec-title" style="margin-top:10px">진입 단계 — Hidden형</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">설정일 확인: ① 상승 종가 ② 종가가 당일 range 하단 25% 이하 — <strong>①②필수</strong>. ③ 종가 &lt; 시가 — <strong>신호 강화 조건</strong> (충족 시 최선의 패턴)</span></li>
+        <li><span class="step-n">2</span><span class="step-body">다음날 설정일 고가 상향 돌파 시 <strong>즉시 매수</strong></span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 주의사항</div>
+      <ul class="prec">
+        <li>단독 사용 금지 — 추세 방향, TDW, TDM 등 배경 조건 확인 필수 (책에서 명시)</li>
+        <li>반전의 즉각성이 핵심: "다음날"이 지나면 신호 무효. 갇힌 포지션이 빠르게 빠져나갈수록 압력이 크다</li>
+        <li>Hidden형: ①②는 필수. ③ 충족 시 신호 강도 상승 — "in the very best patterns" (p.102)</li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">Bail Out — 익일 첫 번째 수익 시가 (TDW·TDM은 진입 필터, 청산 기준 아님 — p.104)</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">설정일 저가 이탈 시</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">거짓 돌파 방향으로 진입한 사람들의 <strong>강제 손절이 우리 수익의 연료</strong>가 된다. 이들이 손절(반대 방향 매매)에 나서는 속도가 우리의 수익 창구. 빠른 반전일수록 갇힌 포지션 비율이 높아 신호가 강하다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ C. Oops! ═══ -->
+<div class="card" id="cC">
+  <div class="card-hd" onclick="toggle('cC')">
+    <div class="card-hd-left">
+      <span class="badge br">반전 패턴</span>
+      <p class="c-title">C. Oops! Pattern</p>
+      <p class="c-chap">Chapter 7 &nbsp;—&nbsp; 책에서 "가장 신뢰도 높은 단기 패턴"으로 명시</p>
+      <p class="c-sum">밤사이 패닉이 시가를 전일 range 밖으로 밀어냈다가 회복되는 순간을 노린다.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기</div>
+      <p class="story">
+        어제 삼성전자: 저가 <span class="num">75,000원</span>, 고가 <span class="num">76,500원</span>, 종가 <span class="num">75,800원</span>.<br><br>
+        밤사이 악재가 터졌다. 오늘 장이 열리자마자 <span class="num">74,500원</span>에 시작 — 전일 저가(75,000원)보다 <strong>500원 아래</strong>. 개인들이 "큰일 났다!"며 시가에 던진다.<br><br>
+        그런데 30분 후 <span class="num">74,700원</span>, 1시간 후 <span class="num">74,900원</span>… 가격이 조금씩 올라온다.<br><br>
+        <span class="num">75,000원</span>(전일 저가)에 도달하는 순간 — <strong>매수 진입.</strong><br><br>
+        이 수준까지 회복됐다는 것은 패닉 매도가 소진됐다는 의미다. 팔 사람이 다 팔았다. 이제 "시가에 팔지 말았어야 했는데(Oops!)" 라고 후회하는 사람들이 되사기 시작한다.
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">패턴 다이어그램</div>
+      <svg class="diag" viewBox="0 0 380 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="25" width="9" height="60" fill="#ccc" rx="1"/>
+        <line x1="20" y1="85" x2="370" y2="85" stroke="#e0e0dc" stroke-width="0.5" stroke-dasharray="4,3"/>
+        <text x="290" y="82" font-size="9" fill="#aaa">전일 저가 = 매수 trigger</text>
+        <text x="20" y="16" font-size="9" fill="#aaa">전일봉</text>
+        <text x="70" y="108" font-size="9" fill="#993C1D">① 시가가 전일저가 아래로</text>
+        <text x="70" y="118" font-size="9" fill="#993C1D">갭다운 (패닉 매도 쏟아짐)</text>
+        <circle cx="72" cy="100" r="4" fill="none" stroke="#D85A30" stroke-width="1.5"/>
+        <line x1="38" y1="85" x2="72" y2="100" stroke="#D85A30" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <path d="M72 100 Q100 108 125 85" stroke="#185FA5" stroke-width="1.5" fill="none"/>
+        <circle cx="125" cy="85" r="4" fill="#185FA5"/>
+        <text x="130" y="82" font-size="9" fill="#185FA5" font-weight="500">② 전일저가 회복 → 매수</text>
+        <path d="M125 85 Q160 65 195 45 Q220 30 245 18" stroke="#185FA5" stroke-width="1.5" fill="none" opacity=".6"/>
+        <text x="248" y="16" font-size="9" fill="#185FA5">랠리</text>
+      </svg>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">오늘 시가 확인: <strong>시가 &lt; 전일 저가</strong> (갭다운이 전일 range를 완전히 이탈)</span></li>
+        <li><span class="step-n">2</span><span class="step-body">장이 열린 후 가격 흐름 관찰 — 계속 내려가면 진입 없음</span></li>
+        <li><span class="step-n">3</span><span class="step-body">가격이 상승해 <strong>전일 저가에 도달하는 순간 매수</strong></span></li>
+        <li><span class="step-n">4</span><span class="step-body">손절선: 당일 시가 이하로 재하락 시</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 주의사항</div>
+      <ul class="prec">
+        <li>단순 갭다운이 아님 — 시가가 <strong>전일 저가 밖</strong>으로 완전히 이탈해야 함. 전일 저가보다 높게 시작하면 Oops! 아님</li>
+        <li>시가 이후 계속 하락하면(패닉 지속) 진입하지 않는다 — 패닉이 실제 추세일 수 있음</li>
+        <li>TDW 중요: 책에서 S&amp;P는 수·목 매수 제외 시 82% 승률, 평균 $438/trade. 한국 시장 재검증 필요</li>
+        <li>한국 주식: 가격제한폭(±30%) 환경에서 갭의 크기와 발생 빈도 별도 확인 필요</li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">Bail Out — 익일 첫 번째 수익 시가에서 청산</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">당일 시가 이하 재하락 시 (S&amp;P 기준 $2,000 고정 손절)</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">패닉 매도가 진짜 추세라면 전일 저가까지 회복하지 못한다. <strong>회복 자체가 패닉 소진의 증거</strong>다. 시가에 팔았던 사람들의 "되사기"가 추가 상승 연료가 된다. 책 실증: S&amp;P 승률 82%, 평균 보유 1.5일.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ D. Specialists' Trap ═══ -->
+<div class="card" id="cD">
+  <div class="card-hd" onclick="toggle('cD')">
+    <div class="card-hd-left">
+      <span class="badge br">반전 패턴</span>
+      <p class="c-title">D. Specialists' Trap</p>
+      <p class="c-chap">Chapter 7 &nbsp;—&nbsp; Wyckoff 분배·매집 이론 기반</p>
+      <p class="c-sum">박스권을 이탈한 것처럼 보였다가 바로 실패하는 순간 — 잘못된 방향의 세력을 역이용한다.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기 (매수 신호 — 거짓 하락 돌파)</div>
+      <p class="story">
+        LG에너지솔루션이 2주째 <span class="num">390,000 ~ 410,000원</span> 박스권. 하락 추세 중 잠깐 쉬는 모습이다.<br><br>
+        차트쟁이들은 박스 하단에 공매도 주문을 걸어둔다: <strong>"390,000원을 뚫으면 더 내려간다!"</strong><br><br>
+        어느 날 <span class="num">388,000원</span>에 종가 마감 — 박스 하단을 이탈한 것처럼 보인다. 공매도 세력이 대거 진입한다. "드디어 돌파!"<br><br>
+        그런데 이틀 후, 가격이 다시 올라와 <span class="num">392,000원</span>을 넘어선다 — 이날의 고가가 <span class="num">391,500원</span>이었다면 이것을 넘어선 것.<br><br>
+        <strong>이 순간 매수 진입.</strong> 공매도 세력의 손절가(보통 돌파일 고가 근처에 설정)가 체결되기 시작한다. 그들의 손절(매수)이 가격을 더 끌어올린다.
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">패턴 다이어그램</div>
+      <svg class="diag" viewBox="0 0 380 135" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="42" x2="220" y2="42" stroke="#ccc" stroke-width="0.5" stroke-dasharray="3,2"/>
+        <line x1="20" y1="82" x2="220" y2="82" stroke="#ccc" stroke-width="0.5" stroke-dasharray="3,2"/>
+        <text x="222" y="45" font-size="8" fill="#aaa">박스 상단</text>
+        <text x="222" y="85" font-size="8" fill="#aaa">박스 하단</text>
+        <rect x="24" y="50" width="7" height="28" fill="#ddd" rx="1"/>
+        <rect x="38" y="48" width="7" height="30" fill="#ddd" rx="1"/>
+        <rect x="52" y="52" width="7" height="24" fill="#ddd" rx="1"/>
+        <rect x="66" y="46" width="7" height="32" fill="#ddd" rx="1"/>
+        <rect x="80" y="54" width="7" height="24" fill="#ddd" rx="1"/>
+        <text x="24" y="15" font-size="8" fill="#aaa">① 박스권 횡보 (5~10일)</text>
+        <rect x="100" y="84" width="8" height="34" fill="#D85A30" opacity=".75" rx="1"/>
+        <text x="96" y="128" font-size="8" fill="#993C1D">② 하단 이탈</text>
+        <text x="96" y="136" font-size="8" fill="#993C1D">공매도 진입</text>
+        <line x1="100" y1="84" x2="230" y2="84" stroke="#993C1D" stroke-width="0.5" stroke-dasharray="3,2"/>
+        <text x="232" y="87" font-size="8" fill="#993C1D">돌파일 고가</text>
+        <path d="M112 95 Q140 80 160 65 Q175 52 190 35" stroke="#185FA5" stroke-width="1.5" fill="none"/>
+        <circle cx="160" cy="65" r="4" fill="#185FA5"/>
+        <text x="164" y="62" font-size="8" fill="#185FA5" font-weight="500">③ 고가 회복 → 매수</text>
+        <text x="164" y="72" font-size="8" fill="#185FA5">(1~3일 내)</text>
+      </svg>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">배경 확인: 하락 추세 + <strong>5~10일 박스권 횡보</strong></span></li>
+        <li><span class="step-n">2</span><span class="step-body">함정 발생: 박스 <strong>하단 아래 naked close</strong> (공매도 세력 대거 진입)</span></li>
+        <li><span class="step-n">3</span><span class="step-body">1~3일 내 가격이 <strong>돌파일 고가를 상향 돌파</strong> — 거짓 하락 돌파 확인</span></li>
+        <li><span class="step-n">4</span><span class="step-body">돌파일 고가 상향 돌파 시 <strong>즉시 매수</strong></span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 주의사항</div>
+      <ul class="prec">
+        <li>박스권은 <strong>5~10일</strong> — 짧을수록 신뢰도 하락, 10일 초과 시에도 신뢰도 하락 (p.109)</li>
+        <li>돌파 실패 확인은 반드시 <strong>1~3일 내</strong> — 이후에는 단순 기술적 조정과 구분 불가</li>
+        <li>핵심 한계: 거짓 돌파 이후 일시적 회복 뒤 진짜 하락이 재개될 수 있음. 이 전략의 엣지는 <strong>통계적 확률</strong>이지 논리적 보증이 아님</li>
+      </ul>
+      <div class="limit">일시적 회복 후 하락 재개 가능성은 항상 존재한다. 손절이 필수인 이유.</div>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">다음 중 먼저 도달하는 조건: A. <strong>Bail Out</strong> (익일 첫 번째 수익 시가) / B. <strong>박스권 상단 도달</strong> (공매도 세력 손절가 소진 지점)</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">돌파일 저가 이탈 시 — 하락 돌파가 실제였음을 확인하는 신호</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">Wyckoff: 기관(또는 집단적 시장 압력)은 박스권 이탈처럼 보이는 움직임으로 대중을 잘못된 방향으로 유인한다. <strong>함정이 확인된 순간, 갇힌 공매도 세력의 강제 손절이 연쇄적으로 발생</strong>하며 가격을 위로 밀어올린다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ E. GSV ═══ -->
+<div class="card" id="cE">
+  <div class="card-hd" onclick="toggle('cE')">
+    <div class="card-hd-left">
+      <span class="badge bb">브레이크아웃</span>
+      <p class="c-title">E. Greatest Swing Value (GSV)</p>
+      <p class="c-chap">Chapter 8</p>
+      <p class="c-sum">"과거에 실패했던 범위"를 기준선으로 삼아, 그 범위를 초과하는 움직임을 진짜 방향성으로 판단한다.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">핵심 개념 — 실패 스윙이란?</div>
+      <p class="story">
+        상승 마감한 날을 생각해보자. 그날 시가에서 출발해 잠깐 내려갔다가 결국 올라와서 마감했다. <strong>"아래로 내려가려 했지만 실패한 폭"</strong>이 바로 매수 실패 스윙이다.<br><br>
+        예시: 시가 <span class="num">50,000원</span>, 장중 저가 <span class="num">49,400원</span>, 상승 마감 → 실패 스윙 = <span class="num">600원</span><br><br>
+        이걸 4일간 모아 평균을 내면, "이 종목이 하루에 아래로 탐색하는 보통 폭"이 나온다. <strong>이 보통 폭의 180%를 위쪽으로 돌파하면 — 단순한 탐색이 아닌 진짜 상승 모멘텀이다.</strong>
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">계산 예시</div>
+      <p class="story" style="font-size:12px">
+        최근 상승 종가일 4개의 매수 스윙(open→low 거리):<br>
+        &nbsp;&nbsp;Day 1: <span class="num">600원</span> &nbsp; Day 2: <span class="num">450원</span> &nbsp; Day 3: <span class="num">500원</span> &nbsp; Day 4: <span class="num">550원</span><br>
+        4일 평균 스윙 = <span class="num">525원</span><br><br>
+        내일 시가가 <span class="num">50,000원</span>이라면:<br>
+        &nbsp;&nbsp;<strong>매수선</strong> = <span class="num">50,000 + (525 × 1.80) = 50,945원</span><br>
+        &nbsp;&nbsp;<strong>손절선</strong> = <span class="num">50,000 − (525 × 2.25) = 48,819원</span><br><br>
+        "이 종목은 평소 525원 이상을 위로 못 올라갔는데, 945원을 넘어간다면 뭔가 다른 것이다."
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">패턴 다이어그램</div>
+      <svg class="diag" viewBox="0 0 380 115" xmlns="http://www.w3.org/2000/svg">
+        <text x="8" y="12" font-size="9" fill="#aaa">실패 스윙 수집 (상승 종가일만)</text>
+        <line x1="30" y1="55" x2="380" y2="55" stroke="#e8e8e5" stroke-width="0.5"/>
+        <text x="320" y="52" font-size="9" fill="#aaa">시가 기준선</text>
+        <line x1="30" y1="55" x2="30" y2="82" stroke="#D85A30" stroke-width="2"/>
+        <circle cx="30" cy="82" r="3" fill="#D85A30"/>
+        <text x="22" y="95" font-size="8" fill="#993C1D">−600</text>
+        <line x1="70" y1="55" x2="70" y2="75" stroke="#D85A30" stroke-width="2"/>
+        <circle cx="70" cy="75" r="3" fill="#D85A30"/>
+        <text x="62" y="88" font-size="8" fill="#993C1D">−450</text>
+        <line x1="110" y1="55" x2="110" y2="78" stroke="#D85A30" stroke-width="2"/>
+        <circle cx="110" cy="78" r="3" fill="#D85A30"/>
+        <text x="102" y="91" font-size="8" fill="#993C1D">−500</text>
+        <line x1="150" y1="55" x2="150" y2="80" stroke="#D85A30" stroke-width="2"/>
+        <circle cx="150" cy="80" r="3" fill="#D85A30"/>
+        <text x="142" y="93" font-size="8" fill="#993C1D">−550</text>
+        <text x="8" y="110" font-size="8" fill="#aaa">평균 스윙 = 525원</text>
+        <line x1="185" y1="10" x2="185" y2="105" stroke="#e0e0dc" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="188" y="14" font-size="8" fill="#aaa">내일</text>
+        <line x1="185" y1="55" x2="380" y2="27" stroke="#185FA5" stroke-width="0.5" stroke-dasharray="4,3"/>
+        <text x="280" y="22" font-size="8" fill="#185FA5">매수선 (+945원)</text>
+        <line x1="185" y1="55" x2="380" y2="83" stroke="#993C1D" stroke-width="0.5" stroke-dasharray="4,3"/>
+        <text x="280" y="96" font-size="8" fill="#993C1D">손절선 (−1,181원)</text>
+        <line x1="185" y1="55" x2="270" y2="20" stroke="#185FA5" stroke-width="2"/>
+        <text x="272" y="18" font-size="9" fill="#185FA5" font-weight="500">돌파 → 매수</text>
+      </svg>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">직전 4거래일의 <strong>고가 − 시가 (High − Open)</strong> 계산 (종가 방향 무관)</span></li>
+        <li><span class="step-n">2</span><span class="step-body">4일 스윙의 <strong>평균</strong> 계산</span></li>
+        <li><span class="step-n">3</span><span class="step-body">설정 확인: 오늘 종가 &lt; 5일 전 종가(과매도) + TDW 필터 충족</span></li>
+        <li><span class="step-n">4</span><span class="step-body">내일 장중: <span class="mono">시가 + (평균 × 180%)</span> 상향 돌파 시 <strong>즉시 매수</strong></span></li>
+        <li><span class="step-n">5</span><span class="step-body">손절: 당일 시가 이하로 재하락 시 즉시 청산</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 주의사항</div>
+      <ul class="prec">
+        <li>매수 스윙 = 직전 4거래일의 <strong>고가 − 시가 (High − Open)</strong>. 종가 방향 무관하게 수집 (p.123)</li>
+        <li>기간: <strong>직전 4거래일</strong>. 10일 이상은 성과 저하 (p.128)</li>
+        <li>배율 180%(진입)는 책 실증값. 손절 225% 배율은 p.127 장중 역추세 변형 공식 — 이 전략 미적용</li>
+        <li>과매도 설정 조건(종가 &lt; 5일전 종가) 필수 — 없으면 단순 방향성 추종이 됨</li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">매수 후 <strong>2일 보유</strong>, 이후 첫 번째 수익 시초가에서 청산 (Bail Out) — p.123 원서 기준</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">당일 시가 이하로 재하락 시 즉시 청산 — 매수 세력 성공 전제 붕괴 (p.125)</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">"억제된 범위를 초과한 움직임 = 진짜 방향성." 시장이 반복적으로 실패한 범위(실패 스윙)가 역동적 기준선이 된다. Volatility Breakout보다 논리적 근거가 탄탄한 심화 버전. <strong>책에서 "가장 견고하고 논리적인 접근법"으로 명시.</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ F. Three-Bar ═══ -->
+<div class="card" id="cF">
+  <div class="card-hd" onclick="toggle('cF')">
+    <div class="card-hd-left">
+      <span class="badge bs">추세 추종</span>
+      <p class="c-title">F. Three-Bar High/Low System</p>
+      <p class="c-chap">Chapter 9 &nbsp;—&nbsp; 주로 일중(intraday) 전략</p>
+      <p class="c-sum">추세 방향이 확인된 상태에서, 3봉 이평 저점으로의 눌림목을 진입 기회로 삼는다.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기</div>
+      <p class="story">
+        삼성전자 15분봉 차트. 스윙 포인트 기법으로 상승 추세 확인됨.<br><br>
+        최근 3봉의 저점: <span class="num">75,200원</span>, <span class="num">75,350원</span>, <span class="num">75,180원</span> → 3봉 저점 이평: <span class="num">75,243원</span><br>
+        최근 3봉의 고점: <span class="num">75,500원</span>, <span class="num">75,620원</span>, <span class="num">75,450원</span> → 3봉 고점 이평: <span class="num">75,523원</span><br><br>
+        상승 추세 중 가격이 잠깐 숨을 고르며 <span class="num">75,243원</span> 근처로 눌린다. <strong>이 수준이 "참여자들이 최근 경험한 지지대"</strong>다. 매수자들이 여기서 다시 들어온다.<br><br>
+        <span class="num">75,243원</span>에 매수 진입 → <span class="num">75,523원</span>에 이익실현.
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">패턴 다이어그램</div>
+      <svg class="diag" viewBox="0 0 380 105" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 90 Q40 75 80 60 Q120 45 160 30 Q200 18 240 8" stroke="#e0e0dc" stroke-width="0.5" stroke-dasharray="2,2" fill="none"/>
+        <text x="242" y="11" font-size="8" fill="#ccc">상승 추세</text>
+        <line x1="10" y1="72" x2="280" y2="48" stroke="#185FA5" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="282" y="51" font-size="8" fill="#185FA5">3봉 저점 이평 (매수선)</text>
+        <line x1="10" y1="52" x2="280" y2="28" stroke="#D85A30" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <text x="282" y="31" font-size="8" fill="#993C1D">3봉 고점 이평 (이익실현선)</text>
+        <rect x="20" y="58" width="7" height="30" fill="#ccc" rx="1"/>
+        <rect x="40" y="52" width="7" height="28" fill="#ccc" rx="1"/>
+        <rect x="60" y="48" width="7" height="26" fill="#ccc" rx="1"/>
+        <rect x="80" y="43" width="7" height="24" fill="#ccc" rx="1"/>
+        <circle cx="53" cy="70" r="4" fill="#185FA5"/>
+        <text x="57" y="82" font-size="8" fill="#185FA5">매수</text>
+        <path d="M53 68 Q80 52 100 38" stroke="#185FA5" stroke-width="1.5" fill="none"/>
+        <circle cx="100" cy="38" r="4" fill="#D85A30"/>
+        <text x="104" y="36" font-size="8" fill="#993C1D">이익실현</text>
+      </svg>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body"><strong>추세 확인 필수</strong>: 스윙 포인트 기법으로 상승 추세 먼저 판단</span></li>
+        <li><span class="step-n">2</span><span class="step-body">최근 3봉의 저점 이동평균 계산</span></li>
+        <li><span class="step-n">3</span><span class="step-body">가격이 3봉 저점 이평에 닿을 때 <strong>매수</strong></span></li>
+        <li><span class="step-n">4</span><span class="step-body">최근 3봉의 고점 이동평균에 도달 시 <strong>이익실현</strong></span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 주의사항</div>
+      <ul class="prec">
+        <li>추세 확인 없이 단독 사용 <strong>절대 금지</strong> — 하락 추세에서 쓰면 역추세 진입이 됨</li>
+        <li>책 기준 시간축: <strong>5분봉·15분봉</strong>. 일봉 적용 시 동일한 논리가 작동하는지 별도 검증 필요</li>
+        <li>이 프로젝트(당일 매수 → 익일 장중 청산)의 타임프레임과 <strong>불일치 가능성 높음</strong></li>
+      </ul>
+      <div class="warn">⚠ 타임프레임 불일치: 일중(intraday) 전략으로 설계됨. 일봉 적용 가능 여부가 점수화 핵심 항목.</div>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">3봉 고점 이동평균 도달 시</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">추세 반전 신호 발생 시 (스윙 포인트 하향 돌파)</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">건강한 추세에서 눌림목은 반복된다. <strong>3봉 저점 이평은 참여자들이 가장 최근 경험한 지지 수준</strong>을 동적으로 추적하며, 이 수준에서 매수자들이 재진입한다는 통계적 경향을 이용한다.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ G. Power Play ═══ -->
+<div class="card" id="cG">
+  <div class="card-hd" onclick="toggle('cG')">
+    <div class="card-hd-left">
+      <span class="badge bg">구조 분석</span>
+      <p class="c-title">G. Power Play Pattern</p>
+      <p class="c-chap">Chapter 2</p>
+      <p class="c-sum">하루 동안 가격이 어디서 마감했는지가 그날 매수·매도 세력의 승패다. 이 비율의 변화가 추세 전환의 초기 신호.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">핵심 공식</div>
+      <p class="story">
+        하루의 range 안에서 <strong>종가가 어디에 있느냐</strong>가 핵심이다.<br><br>
+        &nbsp;&nbsp;<strong>매수력</strong> = Close − Low (종가가 저가에서 얼마나 올라왔나 → 클수록 매수 우세)<br>
+        &nbsp;&nbsp;<strong>매도력</strong> = High − Close (고가에서 종가까지 얼마나 내려왔나 → 클수록 매도 우세)<br><br>
+        예: 저가 <span class="num">73,000원</span>, 고가 <span class="num">76,000원</span>, 종가 <span class="num">75,500원</span><br>
+        &nbsp;&nbsp;매수력 = <span class="num">2,500원</span> / 매도력 = <span class="num">500원</span> → <strong>매수 세력 압도</strong>
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기 — 추세 전환 포착</div>
+      <p class="story">
+        SK하이닉스가 2주째 하락 추세. 최근 5일 종가의 range 내 위치(%):
+      </p>
+      <div style="margin:10px 0;font-size:12px;color:#333">
+        <div style="display:grid;grid-template-columns:60px repeat(5,1fr);gap:4px;font-size:11px">
+          <div style="color:#aaa">날짜</div><div style="color:#aaa;text-align:center">5일전</div><div style="color:#aaa;text-align:center">4일전</div><div style="color:#aaa;text-align:center">3일전</div><div style="color:#aaa;text-align:center">2일전</div><div style="color:#aaa;text-align:center">1일전</div>
+          <div style="color:#aaa">위치</div>
+          <div style="text-align:center;color:#D85A30;font-weight:500">8%</div>
+          <div style="text-align:center;color:#D85A30;font-weight:500">12%</div>
+          <div style="text-align:center;color:#888;font-weight:500">38%</div>
+          <div style="text-align:center;color:#185FA5;font-weight:500">65%</div>
+          <div style="text-align:center;color:#185FA5;font-weight:500">78%</div>
+        </div>
+      </div>
+      <p class="story">
+        종가 위치가 <span class="num">8% → 12% → 38% → 65% → 78%</span>로 이동.<br><br>
+        <strong>매도 세력이 지배하던 구조에서 매수 세력으로 힘이 이동하고 있다.</strong> 이 시점에 다른 전략(A~E)의 매수 신호가 나온다면 — Power Play가 그 신호를 강화하는 확인 지표가 된다.
+      </p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">패턴 다이어그램</div>
+      <svg class="diag" viewBox="0 0 380 105" xmlns="http://www.w3.org/2000/svg">
+        <text x="8" y="12" font-size="9" fill="#aaa">종가 위치 (range 내 %) — 아래: 매도 우세 / 위: 매수 우세</text>
+        <line x1="8" y1="90" x2="370" y2="90" stroke="#e8e8e5" stroke-width="0.5"/>
+        <line x1="8" y1="25" x2="370" y2="25" stroke="#e8e8e5" stroke-width="0.5"/>
+        <text x="372" y="93" font-size="8" fill="#ccc">0%</text>
+        <text x="372" y="28" font-size="8" fill="#ccc">100%</text>
+        <rect x="30" y="84" width="22" height="6" fill="#D85A30" opacity=".7" rx="1"/>
+        <rect x="80" y="81" width="22" height="9" fill="#D85A30" opacity=".7" rx="1"/>
+        <rect x="130" y="58" width="22" height="32" fill="#888" opacity=".5" rx="1"/>
+        <rect x="180" y="41" width="22" height="49" fill="#185FA5" opacity=".7" rx="1"/>
+        <rect x="230" y="31" width="22" height="59" fill="#185FA5" opacity=".85" rx="1"/>
+        <text x="30" y="100" font-size="8" fill="#D85A30">8%</text>
+        <text x="80" y="100" font-size="8" fill="#D85A30">12%</text>
+        <text x="128" y="100" font-size="8" fill="#888">38%</text>
+        <text x="178" y="100" font-size="8" fill="#185FA5">65%</text>
+        <text x="228" y="100" font-size="8" fill="#185FA5">78%</text>
+        <text x="280" y="55" font-size="9" fill="#185FA5" font-weight="500">← 매수 세력</text>
+        <text x="280" y="65" font-size="9" fill="#185FA5">강화 추세</text>
+        <text x="280" y="80" font-size="9" fill="#185FA5">= 타 전략 확인</text>
+      </svg>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">사용 방법</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">매일 <span class="mono">(Close − Low) / (High − Low)</span> 계산 → 종가의 range 내 위치(%)</span></li>
+        <li><span class="step-n">2</span><span class="step-body">수일간 이 수치의 <strong>변화 방향</strong>을 관찰 (상승 중 / 하락 중)</span></li>
+        <li><span class="step-n">3</span><span class="step-body">하단 → 상단으로 이동 중일 때, <strong>다른 전략(A~E)의 매수 신호를 확인</strong>하는 용도로 활용</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 주의사항</div>
+      <ul class="prec">
+        <li><strong>단독 진입 신호로 사용 금지</strong> — 확인 지표 역할만</li>
+        <li>1~2일 신호로 판단 불가 — 최소 수일간의 방향성 변화가 필요</li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val na">단독 전략 아님 — 타 전략 결합 시 해당 전략의 이익실현 규칙 적용</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val na">단독 전략 아님</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">추세는 종가 위치의 변화로 먼저 신호를 보낸다. <strong>매수력과 매도력의 균형이 바뀌는 것이 추세 변화보다 한 박자 빠른 신호</strong>다. 단독 전략보다 필터·확인 지표로서의 가치가 높다.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /s-grid -->
+
+<!-- ──────────────── COMMON PRINCIPLES ──────────────── -->
+<div class="sec-lbl">공통 원칙 — 모든 전략에 적용 (Chapter 11)</div>
+<div class="p-grid">
+  <div class="p-card">
+    <p class="p-title">청산 3원칙 (원문 3가지)</p>
+    <p class="p-item"><strong>① 손절</strong>: 모든 트레이드에 고정 금액 손절을 설정한다. 다른 모든 것이 실패해도 계좌를 보호하는 최후의 방어선.</p>
+    <p class="p-item"><strong>② 이익실현 (Bail Out)</strong>: 첫 번째 수익 시가에서 청산. 단 1틱이라도 수익이면 탐욕 없이 청산한다.</p>
+    <p class="p-item"><strong>③ 반전 즉시 청산</strong>: 반대 방향 신호 발생 시 Bail Out 전이라도 즉시 청산 후 반전 진입.</p>
+  </div>
+  <div class="p-card">
+    <p class="p-title">이익실현 원칙</p>
+    <p class="p-item"><strong>빠른 시장</strong>: 즉시 Bail Out (익일 첫 수익 시가)</p>
+    <p class="p-item"><strong>느린 시장</strong>: 1~2일 대기 후 Bail Out (수익이 자랄 시간 부여)</p>
+    <p class="p-item">"규칙이 트레이드를 처리하게 하라 — 감정 개입 금지" (책 원문)</p>
+  </div>
+  <div class="p-card">
+    <p class="p-title">필터 원칙</p>
+    <p class="p-item"><strong>TDW</strong>: 요일별 성과 편차 존재. 모든 전략에 적용 검토 필요.</p>
+    <p class="p-item"><strong>TDM</strong>: 월중 특정 구간 편향. 필터로 성과 개선 가능.</p>
+    <p class="p-item">단일 신호 금지: 독립된 여러 조건이 겹칠 때만 진입. "쌓을수록 확률이 높아진다."</p>
+  </div>
+</div>
+
+<!-- ──────────────── PENDING ──────────────── -->
+<div class="sec-lbl">이 프로젝트 적용 시 미결 사항</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>항목</th><th>책의 기준</th><th>이 프로젝트</th><th>결정 필요 시점</th></tr></thead>
+    <tbody>
+      <tr><td>이익실현 시점</td><td>익일 시가 (Bail Out)</td><td>익일 장중 (미확정)</td><td>전략 구체화 단계</td></tr>
+      <tr><td>공매도 전략</td><td>각 전략의 매도 버전 존재</td><td>미적용 (롱온리)</td><td>—</td></tr>
+      <tr><td>TDW 요일</td><td>미국 시장 기반</td><td>한국 시장 재검증 필요</td><td>백테스팅 단계</td></tr>
+      <tr><td>k값·배율</td><td>미국 시장 최적화값</td><td>한국 시장 재최적화 필요</td><td>백테스팅 단계</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ──────────────── PHASE DIVIDER ──────────────── -->
+<div class="phase-div">
+  <div class="phase-div-line"></div>
+  <div class="phase-div-label">백테스팅 후보 도출 — Phase 1 최종 결과 (2026-06-22)</div>
+  <div class="phase-div-line"></div>
+</div>
+
+<p class="eval-note">
+  Phase 1에서 사전 정성 평가가 가능한 기준은 <strong>당일매수-익일매도 호환성</strong> 하나다. 나머지 두 기준은 실제 데이터 없이 측정이 불가능하므로 Phase 3으로 이관한다.
+</p>
+
+<!-- 평가 기준 배정 -->
+<div class="sec-lbl">평가 기준별 Phase 배정</div>
+<div class="table-wrap" style="margin-bottom: 2rem;">
+  <table>
+    <thead><tr><th>기준</th><th>Phase 1 평가 가능 여부</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>당일매수-익일매도 호환성</td><td>✅ 가능</td><td>전략 설계 구조에서 직접 판단</td></tr>
+      <tr><td>한국 시장 적용 가능성</td><td>❌ 백테스트 필요</td><td>공매도 제한 등 제도적 제약의 실제 영향은 데이터로만 측정</td></tr>
+      <tr><td>전략 간 독립성</td><td>❌ 백테스트 필요</td><td>신호 동시 발생률은 실제 데이터 없이 측정 불가</td></tr>
+      <tr><td>성공 확률 / 이익률 / 손실률 / 소요기간</td><td>❌ 백테스트 필요</td><td>Phase 3 핵심 평가 항목</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 전략별 평가 -->
+<div class="sec-lbl">전략별 평가 — 당일매수-익일매도 호환성</div>
+<div class="eval-grid">
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">A. Volatility Breakout</span>
+      <span class="verdict v-pass">✅ 백테스트 대상</span>
+    </div>
+    <p class="eval-reason">진입 조건 <code>시가 + (전일 Range × k%)</code>는 시가 확정과 동시에 레벨이 정해지며, 장중 돌파 즉시 포착된다. 당일 진입 → 익일 Bail Out 청산 구조와 완벽히 일치. 호환성 문제 없음.</p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">B. Smash Day Pattern</span>
+      <span class="verdict v-pass">✅ 백테스트 대상</span>
+    </div>
+    <p class="eval-reason">전일(설정일) 패턴 확인 후 당일 전일 고가 돌파 시 진입 → 신호가 당일 장중에 발생한다. 일반형·Hidden형 모두 동일한 타이밍 구조. 익일 Bail Out 청산과 일치.</p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">C. Oops! Pattern</span>
+      <span class="verdict v-pass">✅ 백테스트 대상</span>
+    </div>
+    <p class="eval-reason">갭다운 시가(전일 저가 이하)가 장중 상승해 전일 저가에 도달하는 순간 진입 → 당일 장중 확정. 책에서 평균 보유 1.5일로 제시해 프로젝트 타이밍 기준과 부합. 호환성 문제 없음.</p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">D. Specialists' Trap</span>
+      <span class="verdict v-pass">✅ 백테스트 대상</span>
+    </div>
+    <p class="eval-reason">박스권 거짓 하락 돌파 → 1~3일 내 돌파일 고가 회복을 확인한 당일 진입. 박스권 형성(최소 5일)과 회복 확인(1~3일)은 <em>보유 기간이 아닌 진입 조건</em>이므로, 진입 후 익일 Bail Out 청산 구조와 호환된다.</p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">E. Greatest Swing Value (GSV)</span>
+      <span class="verdict v-pass">✅ 백테스트 대상</span>
+    </div>
+    <p class="eval-reason">진입 조건(시가 + 4일 평균 매수 스윙 × 180% 돌파)은 당일 확정 가능. Phase 1 말기 원서 재검토로 규칙 정정 완료 (2026-06-22): 스윙 공식 <strong>고가−시가</strong>로 정정, 손절 <strong>당일 시가 이하 재하락</strong>으로 정정, 이익실현 <strong>2일 보유 후 첫 수익 시초가</strong> (원서 기준 복원). 백테스트 대상 확정.</p>
+  </div>
+
+  <div class="eval-item" style="border-color: #f0e0e0;">
+    <div class="eval-item-hd">
+      <span class="eval-title">F. Three-Bar High/Low System</span>
+      <span class="verdict v-fail">❌ 단독 기각</span>
+    </div>
+    <p class="eval-reason">책 기준 타임프레임이 <strong>5분봉·10분봉</strong> (일중 단기 거래). 이 프로젝트는 일봉 기반 당일매수-익일매도 구조로, <em>레이어 자체가 다르다.</em> 일봉으로 적용할 경우 "최근 3봉 저점 이평 접촉"은 3일 경과 후 진입이 되어 익일 청산 원칙과 구조적으로 맞지 않는다. 단독 전략으로 기각.</p>
+  </div>
+
+  <div class="eval-item" style="border-color: #f0e0e0;">
+    <div class="eval-item-hd">
+      <span class="eval-title">G. Power Play Pattern</span>
+      <span class="verdict v-fail">❌ 단독 기각</span>
+    </div>
+    <p class="eval-reason">독립적인 진입 신호가 없다. "수일간 range 내 종가 위치의 점진적 이동"은 방향성 필터로 기능하며, 단독으로는 진입 시점을 특정할 수 없다. 책에서도 다른 전략과 결합 사용을 명시. 단독 전략으로 기각. <strong>A~E 전략의 보조 지표로는 유효하다.</strong></p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">H. Three-Bar(일봉) + Power Play 복합</span>
+      <span class="verdict v-pass">✅ 백테스트 대상</span>
+    </div>
+    <p class="eval-reason">F·G 단독 기각 후 복합으로 재도출. <strong>Phase 1 말기(2026-06-22) 규칙 전면 확정:</strong> 설정 조건 — PP 3일 단조 증가 + 30% &lt; D-1 PP &lt; 65%. 진입 — 3일 저가 이평 예약 매수. 이익실현 — 3일 고가 이평 도달 또는 익일 Bail Out. 손절 — 매수 진입가 이탈. 당일 진입 → 익일 청산 구조와 완전 호환.</p>
+  </div>
+
+</div>
+
+<!-- 정리 -->
+<div class="sec-lbl">백테스팅 후보 정리</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>전략</th><th>평가</th><th>사유 요약</th></tr></thead>
+    <tbody>
+      <tr><td>A. Volatility Breakout</td><td>✅ 백테스트 대상</td><td>당일 진입 신호 명확, Bail Out 구조와 완벽 일치</td></tr>
+      <tr><td>B. Smash Day</td><td>✅ 백테스트 대상</td><td>당일 고가 돌파 = 즉시 진입, 타이밍 호환</td></tr>
+      <tr><td>C. Oops!</td><td>✅ 백테스트 대상</td><td>갭 회복 = 당일 확정, 책 평균 보유 1.5일</td></tr>
+      <tr><td>D. Specialists' Trap</td><td>✅ 백테스트 대상</td><td>거짓 돌파 확인 당일 진입, 익일 청산 호환</td></tr>
+      <tr><td>E. GSV</td><td>✅ 백테스트 대상</td><td>스윙·손절 정정 완료, 이익실현 2일 보유 확정 (2026-06-22)</td></tr>
+      <tr><td>F. Three-Bar</td><td>❌ 단독 기각</td><td>5분봉·10분봉 기반 — 일봉 레이어와 불일치</td></tr>
+      <tr><td>G. Power Play</td><td>❌ 단독 기각</td><td>독립 진입 신호 없음, A~E 보조 지표로 활용</td></tr>
+      <tr><td>H. Three-Bar(일봉)+Power Play 복합</td><td>✅ 백테스트 대상</td><td>PP·Three-Bar 복합 규칙 전면 확정 (2026-06-22)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  TraderX Phase 1 Research &nbsp;|&nbsp; 출처: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em> (reference/ 원본 기반)
+</div>
+
+</div><!-- /page -->
+<script>
+function toggle(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+</script>
+</body>
+</html>

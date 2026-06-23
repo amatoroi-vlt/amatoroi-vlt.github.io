@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "연구분석",
+      "files": [
+        {
+          "name": "QPE 기반 블랭크 감산 Jacobian 보정 — 분석 및 검증 보고서",
+          "path": "reports/연구분석/260330_qpe_jacobian_correction_report.html"
+        },
+        {
+          "name": "UGAB_jeongsoo_exp01 4회 반복 측정(Rep01~Rep04) 종합 분석 보고서",
+          "path": "reports/연구분석/260330_rep01_rep04_combined_analysis.html"
+        }
+      ]
+    }
+  ]
+}

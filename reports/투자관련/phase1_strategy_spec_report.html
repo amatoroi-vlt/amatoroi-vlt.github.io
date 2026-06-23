@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 1 완료 보고서: 전략 명세화 | TraderX</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Apple SD Gothic Neo", "Noto Serif KR", "Georgia", serif;
+  font-size: 13px;
+  background: #fff;
+  color: #1a1a1a;
+  line-height: 1.75;
+}
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+/* ── Full-width elements ── */
+.full { width: 100%; margin-bottom: 1.5rem; }
+
+/* ── Paper header ── */
+.paper-title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.paper-subtitle {
+  font-size: 13px;
+  text-align: center;
+  color: #666;
+  margin-bottom: 4px;
+}
+.paper-meta {
+  font-size: 11px;
+  text-align: center;
+  color: #999;
+  margin-bottom: 1.5rem;
+}
+.rule-heavy {
+  border: none;
+  border-top: 2px solid #1a1a1a;
+  margin: 1rem 0 0.5rem;
+}
+.rule-light {
+  border: none;
+  border-top: 0.5px solid #ccc;
+  margin: 0.5rem 0 1.2rem;
+}
+
+/* ── Abstract ── */
+.abstract {
+  background: #f9f9f7;
+  border-left: 3px solid #1a1a1a;
+  padding: 14px 18px;
+  margin-bottom: 2rem;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.abstract-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+/* ── Two-column layout ── */
+.two-col {
+  column-count: 2;
+  column-gap: 2.2rem;
+  column-rule: 0.5px solid #ddd;
+  margin-bottom: 2rem;
+}
+/* Tables and wide elements break out of columns */
+.span-col {
+  column-span: all;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Section headings ── */
+h2 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  border-bottom: 1.5px solid #1a1a1a;
+  padding-bottom: 3px;
+  margin-top: 1.6rem;
+  margin-bottom: 0.8rem;
+  break-after: avoid;
+}
+h3 {
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 1.1rem;
+  margin-bottom: 0.5rem;
+  break-after: avoid;
+}
+h4 {
+  font-size: 11px;
+  font-weight: 700;
+  color: #555;
+  margin-top: 0.8rem;
+  margin-bottom: 0.3rem;
+  break-after: avoid;
+}
+p { margin-bottom: 0.75rem; }
+ul, ol { padding-left: 1.4rem; margin-bottom: 0.75rem; }
+li { margin-bottom: 0.3rem; font-size: 12px; }
+
+/* ── Footnote refs ── */
+sup { font-size: 9px; color: #888; vertical-align: super; }
+.fn { font-size: 10px; color: #666; line-height: 1.6; margin-bottom: 3px; }
+.fn-num { font-weight: 700; margin-right: 4px; }
+
+/* ── Tables ── */
+.tbl-wrap { overflow-x: auto; margin-bottom: 1rem; }
+table { width: 100%; border-collapse: collapse; font-size: 11px; }
+th {
+  text-align: left;
+  padding: 6px 10px;
+  background: #f2f2f0;
+  color: #444;
+  font-weight: 700;
+  border: 0.5px solid #ddd;
+  font-size: 10px;
+  letter-spacing: .03em;
+}
+td {
+  padding: 6px 10px;
+  border: 0.5px solid #ddd;
+  color: #333;
+  vertical-align: top;
+}
+tr:nth-child(even) td { background: #fafaf9; }
+
+/* ── Status badges ── */
+.badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.b-pass { background: #E1F5EE; color: #0F6E56; }
+.b-cond { background: #FFF8EC; color: #7a4f0a; }
+.b-fail { background: #FAECE7; color: #993C1D; }
+.b-new  { background: #EEE8FF; color: #5A35B0; }
+
+/* ── Callout ── */
+.callout {
+  background: #FFF8EC;
+  border-left: 3px solid #f0a030;
+  padding: 10px 14px;
+  font-size: 11px;
+  line-height: 1.7;
+  margin-bottom: 0.8rem;
+  break-inside: avoid;
+}
+.callout strong { color: #7a4f0a; }
+
+/* ── References ── */
+.ref-section { margin-top: 2.5rem; border-top: 1.5px solid #1a1a1a; padding-top: 1rem; }
+.ref-title { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 0.8rem; }
+.ref-item { font-size: 11px; color: #444; margin-bottom: 4px; padding-left: 2rem; text-indent: -2rem; line-height: 1.6; }
+
+/* ── Footer ── */
+.paper-footer {
+  font-size: 10px;
+  color: #bbb;
+  border-top: 0.5px solid #e0e0dd;
+  padding-top: 1rem;
+  margin-top: 3rem;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ════════════════════ HEADER ════════════════════ -->
+<div class="full">
+  <p class="paper-subtitle">TraderX Project — Phase 1 완료 보고서</p>
+  <h1 class="paper-title">단기 매매 전략 명세화:<br>백테스팅 후보 도출 및 Phase 2 준비</h1>
+  <p class="paper-meta">초안 2026-06-17 &nbsp;|&nbsp; 최종 2026-06-22 &nbsp;|&nbsp; 기반 문헌: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em></p>
+  <hr class="rule-heavy">
+  <hr class="rule-light">
+</div>
+
+<!-- ════════════════════ ABSTRACT ════════════════════ -->
+<div class="abstract full">
+  <p class="abstract-label">요약 (Abstract)</p>
+  <p>본 보고서는 TraderX 프로젝트 Phase 1(전략 명세화)의 연구 및 협의 결과를 정리한다. Larry Williams의 저서를 단일 원천으로 삼아 7개 전략 후보(A–G)를 분석하였으며, 당일매수-익일매도 호환성을 Phase 1 평가 기준으로 삼아 6개 후보(A·B·C·D·E·H)를 Phase 3 백테스팅 대상으로 확정하였다. Phase 1 말기(2026-06-22) 원서 재대조 검토를 통해 B·C·D·E·H 전략의 매수 스윙 공식, 손절 기준, 청산 기준, 박스권 정의 등의 오류를 정정하고 H의 진입·청산 규칙을 전면 확정하였다. 한국 시장 적용 가능성 및 전략 간 독립성 검증은 실증 데이터가 필요하므로 Phase 3으로 이관한다.</p>
+</div>
+
+<!-- ════════════════════ BODY (2단) ════════════════════ -->
+<div class="two-col">
+
+<!-- 1. 서론 -->
+<h2>1. 서론</h2>
+
+<h3>1.1 프로젝트 배경 및 목적</h3>
+<p>TraderX는 한국 주식 시장에서 <strong>당일 매수 → 익일 장중 매도</strong>를 반복하는 단기 투자 시스템을 구축하는 프로젝트다. 알고리즘 트레이딩과 인간 판단의 결합 없이, 명확한 규칙에 기반한 기계적 매매를 목표로 한다.</p>
+<p>이론적 토대는 Larry Williams의 저서로 한정한다.<sup>1</sup> 이는 다수 이론을 절충하는 과정에서 발생하는 일관성 훼손을 방지하고, 검증된 단일 원천에 기반한 전략 체계를 구축하기 위함이다.</p>
+<p>실행 환경은 한국투자증권 계좌 및 KIS OpenAPI이며, 롱온리(매수 전용) 전략만을 운영한다. 공매도 관련 개념은 진입 근거 이해를 위해 참고하되 실행 대상이 아니다.</p>
+
+<h3>1.2 Phase 1의 범위와 목표</h3>
+<p>Phase 1의 목표는 두 가지다: (1) 거래 규칙의 명문화, (2) 사용자의 전략 이해 확인. 코드 작성 이전 단계로, 전략 파라미터와 진입·청산 조건을 확정 문서로 기록하는 것이 핵심이다.<sup>2</sup></p>
+<p>이 단계에서 성과 최적화(수익률, 승률 등)는 목표가 아니다. 성과 관련 판단은 실증 데이터를 갖춘 Phase 3에서 이루어진다.</p>
+
+<!-- 2. 이론적 배경 -->
+<h2>2. 이론적 배경</h2>
+
+<h3>2.1 Williams의 단기 매매 철학</h3>
+<p>Larry Williams는 단기 시장을 "비랜덤(nonrandom)"으로 규정하며, 반복 가능한 패턴과 통계적 우위(edge)가 존재한다고 주장한다.<sup>3</sup> 그의 핵심 테제는 "대중은 반복적으로 잘못된 방향으로 진입한다"는 것이며, 이를 역이용하는 전략이 지속 가능한 수익의 원천이라고 본다.</p>
+<p>시간 필터(TDW·TDM)의 중요성도 강조한다. 시장에는 요일(Trade Day of Week)과 월중 위치(Trade Day of Month)에 따른 통계적 편향이 존재하며, 이 필터를 통해 진입 조건 없이도 단순한 방향 배팅만으로 일부 수익이 가능하다고 밝힌다.<sup>4</sup></p>
+
+<h3>2.2 핵심 개념 정의</h3>
+
+<!-- 개념 표 — 컬럼 전체 폭 -->
+<div class="span-col">
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>개념</th><th>정의</th><th>출처</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Bail Out</strong></td><td>첫 번째 수익 시가에서 즉시 청산. 단 1틱이라도 수익이면 탐욕 없이 청산</td><td>Ch.11, p.157</td></tr>
+        <tr><td><strong>Naked Close</strong></td><td>종가가 전일 저가(또는 박스 하단) 아래로 마감. 거짓 하락 돌파의 설정 조건</td><td>Ch.7, p.101</td></tr>
+        <tr><td><strong>TDW</strong></td><td>Trade Day of Week. 요일별 시장 편향을 진입 필터로 활용</td><td>Ch.3, p.46</td></tr>
+        <tr><td><strong>TDM</strong></td><td>Trade Day of Month. 월중 특정 구간의 통계적 편향을 필터로 활용</td><td>Ch.6, p.89</td></tr>
+        <tr><td><strong>Greatest Swing Value</strong></td><td>실패 스윙의 평균값. 과거 억제된 범위를 동적 기준선으로 삼음</td><td>Ch.8, p.123</td></tr>
+        <tr><td><strong>Power Play</strong></td><td>종가의 range 내 위치(Close−Low, High−Close)로 매수·매도 세력 균형을 측정</td><td>Ch.2, p.36</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h3>2.3 청산 3원칙</h3>
+<p>Williams는 청산을 세 원칙으로 정의한다<sup>5</sup>: ① 고정 손절(Dollar Stop) — 모든 포지션에 최후 방어선, ② Bail Out — 첫 번째 수익 시가 즉시 청산, ③ 반전 즉시 청산 — 반대 신호 발생 시 Bail Out 전이라도 청산 후 반전 진입. 이 프로젝트는 ①②를 기본으로 채택한다.</p>
+
+<!-- 3. 전략 후보 분석 -->
+<h2>3. 전략 후보 분석</h2>
+
+<h3>3.1 분석 방법론</h3>
+<p>원서를 단일 근거로 삼아 총 7개 전략(A–G)을 발굴하였다. 각 전략에 대해 ① 원리 및 이익의 원천, ② 진입 조건, ③ 청산 조건, ④ 주의사항을 정리하였다. 전략 개요는 다음과 같다.</p>
+
+<!-- 전략 개요 표 -->
+<div class="span-col">
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>전략명</th><th>출처</th><th>핵심 원리</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>Volatility Breakout</td><td>Ch.4, pp.57–73</td><td>시가 대비 전일 range × k% 돌파 시 모멘텀 진입</td></tr>
+        <tr><td>B</td><td>Smash Day Pattern</td><td>Ch.7, pp.101–108</td><td>거짓 하락 돌파에 진입한 공매도 세력의 강제 손절을 역이용</td></tr>
+        <tr><td>C</td><td>Oops! Pattern</td><td>Ch.7, pp.113–119</td><td>패닉 갭다운 회복 — 과잉 반응 소진 포착</td></tr>
+        <tr><td>D</td><td>Specialists' Trap</td><td>Ch.7, pp.108–113</td><td>박스권 거짓 하락 돌파 실패 확인 후 진입 (Wyckoff 기반)</td></tr>
+        <tr><td>E</td><td>Greatest Swing Value</td><td>Ch.8, pp.123–128</td><td>실패 스윙 평균(GSV)을 동적 기준선으로 삼은 Volatility Breakout 심화</td></tr>
+        <tr><td>F</td><td>Three-Bar High/Low</td><td>Ch.9, p.136</td><td>3봉 저점 이평 눌림목 진입 (5분봉·10분봉 기반)</td></tr>
+        <tr><td>G</td><td>Power Play Pattern</td><td>Ch.2, p.36</td><td>종가의 range 내 위치 추이로 세력 전환 조기 포착 (보조 지표)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h3>3.2 공통 원칙</h3>
+<p>Williams는 단일 신호에 의존하지 말 것을 반복 강조한다.<sup>6</sup> "쌓을수록 확률이 높아진다"는 원칙에 따라, 독립된 조건이 동시에 충족될 때만 진입한다. TDW·TDM 필터, G(Power Play) 보조 지표, 배경 추세 방향이 보조 레이어를 구성한다.</p>
+
+<!-- 4. 백테스팅 후보 도출 -->
+<h2>4. 백테스팅 후보 도출</h2>
+
+<h3>4.1 평가 기준 선정</h3>
+<p>Phase 1에서 정성적으로 평가 가능한 기준과 실증 데이터가 필요한 기준을 분리하였다.</p>
+
+<div class="callout">
+  <strong>Phase 1 적용 기준:</strong> 당일매수-익일매도 호환성<br>
+  진입 신호가 당일 장중에 확정되고, 익일 Bail Out 청산 구조와 결합 가능한가?
+</div>
+
+<p>한국 시장 적용 가능성(공매도 제한 등 제도적 제약의 실제 영향)과 전략 간 독립성(신호 동시 발생률)은 실제 데이터 없이 측정이 불가능하므로 Phase 3으로 이관한다.</p>
+
+<h3>4.2 도출 결과</h3>
+
+<!-- 결과 표 -->
+<div class="span-col">
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>전략</th><th>평가</th><th>호환성 근거</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>A. Volatility Breakout</td>
+          <td><span class="badge b-pass">✅ 백테스트 대상</span></td>
+          <td>시가 + k×Range 레벨이 장 시작과 동시에 확정, 당일 즉시 포착</td>
+        </tr>
+        <tr>
+          <td>B. Smash Day</td>
+          <td><span class="badge b-pass">✅ 백테스트 대상</span></td>
+          <td>전일 설정 + 당일 전일 고가 돌파 = 당일 장중 확정</td>
+        </tr>
+        <tr>
+          <td>C. Oops!</td>
+          <td><span class="badge b-pass">✅ 백테스트 대상</span></td>
+          <td>갭다운 시가 후 전일 저가 회복 = 당일 확정. 평균 보유 1.5일<sup>7</sup></td>
+        </tr>
+        <tr>
+          <td>D. Specialists' Trap</td>
+          <td><span class="badge b-pass">✅ 백테스트 대상</span></td>
+          <td>박스권 형성·회복 확인은 진입 조건(보유 기간 아님). 진입 후 익일 청산 호환</td>
+        </tr>
+        <tr>
+          <td>E. GSV</td>
+          <td><span class="badge b-pass">✅ 백테스트 대상</span></td>
+          <td>스윙 공식(고가−시가) 정정, 손절(당일 시가 이하 재하락) 정정, 이익실현(2일 보유 후 첫 수익 시초가) 원서 복원 완료 (2026-06-22)</td>
+        </tr>
+        <tr>
+          <td>F. Three-Bar (단독)</td>
+          <td><span class="badge b-fail">❌ 단독 기각</span></td>
+          <td>5분봉·10분봉 기반 — 일봉 레이어와 불일치</td>
+        </tr>
+        <tr>
+          <td>G. Power Play (단독)</td>
+          <td><span class="badge b-fail">❌ 단독 기각</span></td>
+          <td>독립 진입 신호 없음. 보조 지표로 A~E에 활용</td>
+        </tr>
+        <tr>
+          <td>H. Three-Bar(일봉)+Power Play 복합</td>
+          <td><span class="badge b-pass">✅ 백테스트 대상</span></td>
+          <td>PP 3일 단조 증가 + 30%&lt;D-1 PP&lt;65%, 3일 저가/고가 이평 진입·청산 규칙 전면 확정 (2026-06-22)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 5. Phase 2 전제 조건 -->
+<h2>5. Phase 2 전제 조건</h2>
+
+<h3>5.1 E(GSV) 규칙 정정 (2026-06-22)</h3>
+<p>원서(pp.123–128) 재대조로 다음 세 가지 오류를 정정하였다.</p>
+<ul>
+  <li><strong>매수 스윙 공식</strong>: 시가−저가(Open−Low) → <strong>고가−시가(High−Open)</strong>. 직전 4거래일, 종가 방향 무관 (p.123: "take the difference from open to the high for each of the past 4 days")</li>
+  <li><strong>손절 기준</strong>: 225% 배율 공식 삭제 → <strong>당일 시가 이하 재하락 시 즉시 청산</strong>. 225% 배율은 p.127 장중 역추세 변형(본 전략과 무관)의 공식임이 확인됨 (p.125: "stop at or slightly above or below the open")</li>
+  <li><strong>이익실현</strong>: 익일 Bail Out(v1.1) → <strong>원서 기준 복원: 2일 보유 후 첫 수익 시초가</strong>.<sup>8</sup> 1일 vs 2일 보유 비교는 백테스팅에서 검증.</li>
+</ul>
+
+<h3>5.2 H 진입·청산 규칙 확정 (2026-06-22)</h3>
+<p>Phase 1 말기 원서(Ch.2 pp.36–39, Ch.9 pp.136–138) 재검토 및 협의를 통해 규칙을 전면 확정하였다 (v1.0).</p>
+<ul>
+  <li><strong>PP 정의</strong>: (종가−저가)/(고가−저가)×100 — 종가의 range 내 위치(%)</li>
+  <li><strong>설정 조건 ①</strong>: 3일 단조 증가 — (D-1 PP−D-2 PP)&gt;0 AND (D-2 PP−D-3 PP)&gt;0</li>
+  <li><strong>설정 조건 ②</strong>: 30% &lt; D-1 PP &lt; 65% — 전환 구간, 천장 미도달 확인</li>
+  <li><strong>매수 진입</strong>: 3일 저가 이평 [=(D-1+D-2+D-3 저가)÷3] 에 예약 매수 (장 개시 30분 전 계산)</li>
+  <li><strong>이익실현</strong>: 3일 고가 이평 도달 시 예약 매도 / 미체결 시 익일 시초가 Bail Out</li>
+  <li><strong>손절</strong>: 매수 진입가 이탈 시 즉시 청산</li>
+</ul>
+
+<h3>5.3 B·C·D 규칙 정정 (2026-06-22)</h3>
+<p>원서 재대조로 다음 항목을 정정하였다.</p>
+<ul>
+  <li><strong>B (Smash Day) 청산</strong>: "TDW·TDM 기반 익일 시가 또는 Bail Out" → <strong>Bail Out만</strong>. TDW·TDM은 진입 배경 조건이며 청산 기준이 아님 (p.104)</li>
+  <li><strong>B Hidden형 조건 ③</strong>: "세 조건 모두 필수" → <strong>①②만 필수, ③은 신호 강화 조건</strong> (p.102: "in the very best patterns")</li>
+  <li><strong>C (Oops!) 손절</strong>: 당일 시가 이하 재하락 유지. 원서 고정 달러 기준($2,000) 병기. 백테스팅 검증 예정</li>
+  <li><strong>D (Specialists' Trap) 박스권</strong>: "5일 이상" → <strong>5~10일</strong>. 박스권 하단 = 기간 내 최저 저가, 상단 = 최고 고가로 명확화 (p.109)</li>
+  <li><strong>D 이익실현</strong>: Bail Out 단독 → <strong>Bail Out OR 박스권 상단 도달</strong> (공매도 세력 손절가 소진 지점)</li>
+</ul>
+
+<!-- 6. 후속 작업 -->
+<h2>6. 후속 작업 및 필요성</h2>
+
+<h3>6.1 Phase 2: 전략 코드화</h3>
+<p>확정된 전략 스펙(docs/strategy/)을 기반으로 각 전략의 신호 생성 로직을 코드로 구현한다. A·B·C·D·E·H 6개 전략 모두 규칙이 확정된 상태로 Phase 2를 시작한다. 한국투자증권 KIS OpenAPI를 통한 데이터 수신 및 주문 실행 인터페이스도 이 단계에서 구축한다.</p>
+
+<h3>6.2 Phase 3: 백테스팅</h3>
+<p>Phase 1에서 이관한 두 평가 기준을 이 단계에서 실증한다:</p>
+<ul>
+  <li><strong>한국 시장 적용 가능성</strong>: 공매도 제한 환경에서의 Smash Day 유효성, 가격제한폭(±30%)이 Volatility Breakout 발생 빈도에 미치는 영향, TDW 최적 요일 등</li>
+  <li><strong>전략 간 독립성</strong>: 신호 동시 발생률 측정으로 포트폴리오 구성 시 분산 효과 평가</li>
+  <li><strong>성과 기준 확정</strong>: 백테스팅 코드 작성 전에 최소 승률, 수익/손실 비율, 최대 낙폭 허용치 등의 성과 기준을 협의·확정한다</li>
+</ul>
+
+<h3>6.3 평가 보류 항목</h3>
+<p>다음 사항은 실증 결과에 따라 재검토한다: G(Power Play)의 A~E 결합 효과 측정, k값 및 배율 파라미터 한국 시장 최적화, 전략별 최적 TDW 요일 도출.</p>
+
+</div>
+<!-- /two-col -->
+
+<!-- ════════════════════ REFERENCES ════════════════════ -->
+<div class="ref-section">
+  <p class="ref-title">인용 문헌</p>
+  <p class="ref-item">Williams, L. (1999). <em>Long-Term Secrets to Short-Term Trading.</em> John Wiley &amp; Sons.</p>
+  <br>
+  <p class="fn"><span class="fn-num">1.</span> Williams (1999), Ch.1 "Making Order Out of Short-Term Chaos," pp.9–21.</p>
+  <p class="fn"><span class="fn-num">2.</span> TraderX CLAUDE.md: "전략 파라미터는 코드 작성 전에 문서화한다."</p>
+  <p class="fn"><span class="fn-num">3.</span> Williams (1999), Ch.1 "The Nonrandom Market," p.14.</p>
+  <p class="fn"><span class="fn-num">4.</span> Williams (1999), Ch.3 "It Is All about Time," p.46; Ch.6 "Monthly Road Maps," p.89.</p>
+  <p class="fn"><span class="fn-num">5.</span> Williams (1999), Ch.11 "When to Get Out of Your Trades," p.157.</p>
+  <p class="fn"><span class="fn-num">6.</span> Williams (1999), Ch.7 "How to Use Smash Day Patterns," p.104: "Do not use them by themselves."</p>
+  <p class="fn"><span class="fn-num">7.</span> Williams (1999), Ch.7 "S&amp;P Oops! Trading," p.119: 승률 82%, 평균 수익 $438/trade, 평균 보유 1.5일.</p>
+  <p class="fn"><span class="fn-num">8.</span> Williams (1999), Ch.8 "Greatest Swing Value," p.124: "exit on the first profitable opening — but give it 2 days."</p>
+</div>
+
+<div class="paper-footer">
+  TraderX Phase 1 완료 보고서 &nbsp;|&nbsp; 초안 2026-06-17 · 최종 2026-06-22 &nbsp;|&nbsp; 원본 검증: reference/Larry Williams - Long-Term Secrets To Short-Term Trading.pdf
+</div>
+
+</div><!-- /page -->
+</body>
+</html>
