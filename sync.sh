@@ -12,6 +12,7 @@ rsync -av --delete --delete-excluded \
   --exclude='000_INDEX/' \
   --exclude='320_*/' \
   --exclude='Clippings/' \
+  --filter='P /index.md' \
   "$VAULT" "$CONTENT/"
 
 echo "📦 Git 커밋 & 푸시 중..."
