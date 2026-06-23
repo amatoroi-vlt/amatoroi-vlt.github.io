@@ -9,6 +9,9 @@ echo "🔄 Obsidian vault → content/ 동기화 중..."
 rsync -av --delete \
   --exclude='.obsidian/' \
   --exclude='.gitignore' \
+  --exclude='000_INDEX/' \
+  --exclude='300_연구정리/320_3D 프린팅 섬광체 개발(양한철, 학위논문 심사)/' \
+  --exclude='Clippings/' \
   --filter='+ */' \
   --filter='+ *.md' \
   --filter='+ *.png' \
