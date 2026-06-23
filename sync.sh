@@ -6,7 +6,7 @@ CONTENT="./content"
 
 echo "🔄 Obsidian vault → content/ 동기화 중..."
 
-rsync -av --delete \
+rsync -av --delete --delete-excluded \
   --exclude='.obsidian/' \
   --exclude='.gitignore' \
   --exclude='000_INDEX/' \
