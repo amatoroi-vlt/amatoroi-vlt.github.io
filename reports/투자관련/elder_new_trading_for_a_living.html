@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>독서 노트 — The New Trading for a Living (Elder, 2014)</title>
+<style>
+  :root {
+    --bg: #fafaf8;
+    --fg: #1a1a1a;
+    --accent: #8b4513;
+    --accent2: #2c5f2e;
+    --muted: #666;
+    --border: #ddd;
+    --quote-bg: #f5f0e8;
+    --tag-bg: #e8f0e8;
+    --nav-bg: #2a2a2a;
+    --nav-fg: #e0e0e0;
+    --part-bg: #f0ebe0;
+    --section0: #fff8e1;
+    --section1: #f1f8ff;
+    --section2: #fff3e0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', 'Nanum Myeongjo', serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+  /* NAV */
+  nav {
+    background: var(--nav-bg);
+    color: var(--nav-fg);
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+  nav strong { color: #f0c060; font-size: 14px; margin-right: 8px; }
+  nav a { color: #aaa; text-decoration: none; }
+  nav a:hover { color: #fff; }
+  nav .sep { color: #555; }
+  /* LAYOUT */
+  .container { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+  /* HEADER */
+  .book-header {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+  }
+  .book-header h1 {
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .book-header .meta {
+    font-size: 14px;
+    color: var(--muted);
+    font-family: sans-serif;
+  }
+  .disclaimer {
+    background: #fff3cd;
+    border-left: 4px solid #f0a000;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-family: sans-serif;
+    color: #555;
+    margin-bottom: 32px;
+    border-radius: 0 4px 4px 0;
+  }
+  /* SECTION BADGES */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-family: sans-serif;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .badge-0 { background: #ffe082; color: #5d4037; }
+  .badge-1 { background: #bbdefb; color: #1a237e; }
+  .badge-2 { background: #ffe0b2; color: #bf360c; }
+  /* PARTS */
+  .part-header {
+    background: var(--part-bg);
+    border-left: 5px solid var(--accent);
+    padding: 16px 20px;
+    margin: 48px 0 24px;
+    border-radius: 0 6px 6px 0;
+  }
+  .part-header h2 {
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .part-header .part-range {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: sans-serif;
+  }
+  /* CHAPTER */
+  .chapter {
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .chapter-title {
+    background: #f5f5f0;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: sans-serif;
+    border-bottom: 1px solid var(--border);
+    color: #333;
+  }
+  .chapter-title .ch-num {
+    color: var(--muted);
+    font-weight: normal;
+    margin-right: 6px;
+  }
+  /* SUMMARY & QUOTE BLOCKS */
+  .block {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .block:last-child { border-bottom: none; }
+  .block-0 { background: var(--section0); }
+  .block-1 { background: var(--section1); }
+  .block-2 { background: var(--section2); }
+  .block p { margin-bottom: 8px; font-size: 15px; }
+  .block p:last-child { margin-bottom: 0; }
+  /* QUOTES */
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 8px 14px;
+    margin: 8px 0;
+    font-style: italic;
+    color: #444;
+    background: rgba(255,255,255,0.6);
+    border-radius: 0 4px 4px 0;
+  }
+  blockquote cite {
+    display: block;
+    font-size: 12px;
+    font-style: normal;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: sans-serif;
+  }
+  /* OVERVIEW (Section 0) */
+  .overview-box {
+    background: var(--section0);
+    border: 1px solid #ffe082;
+    border-radius: 6px;
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+  .overview-box h3 {
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+  .arc {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .arc-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .arc-num {
+    background: var(--accent);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .arc-text strong { color: var(--accent2); }
+  /* THREE PILLARS BOX */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .pillar {
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px;
+    text-align: center;
+  }
+  .pillar .pillar-icon { font-size: 22px; margin-bottom: 6px; }
+  .pillar .pillar-name { font-size: 14px; font-weight: bold; color: var(--accent); font-family: sans-serif; }
+  .pillar .pillar-desc { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  /* RULE BOXES */
+  .rule-box {
+    background: #ffebee;
+    border: 2px solid #c62828;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-family: sans-serif;
+    font-size: 14px;
+  }
+  .rule-box strong { color: #c62828; }
+  /* TOC */
+  .toc {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+  .toc h3 { margin-bottom: 12px; font-size: 16px; font-family: sans-serif; }
+  .toc ul { list-style: none; }
+  .toc li { padding: 3px 0; font-size: 14px; font-family: sans-serif; }
+  .toc li a { color: var(--accent); text-decoration: none; }
+  .toc li a:hover { text-decoration: underline; }
+  .toc .toc-part { font-weight: bold; margin-top: 8px; color: #333; }
+  /* KEY QUOTE section */
+  .key-quote-intro {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: sans-serif;
+    margin-bottom: 8px;
+  }
+  /* RESPONSIVE */
+  @media(max-width: 600px) {
+    .pillars { grid-template-columns: 1fr; }
+    nav { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <strong>독서 노트</strong>
+  <a href="#overview">전체 흐름</a><span class="sep">·</span>
+  <a href="#intro">서론</a><span class="sep">·</span>
+  <a href="#part1">Part 1 심리</a><span class="sep">·</span>
+  <a href="#part2">Part 2 군중</a><span class="sep">·</span>
+  <a href="#part3">Part 3 차트</a><span class="sep">·</span>
+  <a href="#part4">Part 4 지표</a><span class="sep">·</span>
+  <a href="#part5">Part 5 거래량</a><span class="sep">·</span>
+  <a href="#part6">Part 6 시장지표</a><span class="sep">·</span>
+  <a href="#part7">Part 7 시스템</a><span class="sep">·</span>
+  <a href="#part8">Part 8 거래수단</a><span class="sep">·</span>
+  <a href="#part9">Part 9 리스크</a><span class="sep">·</span>
+  <a href="#part10">Part 10 실무</a><span class="sep">·</span>
+  <a href="#part11">Part 11 기록</a>
+</nav>
+
+<div class="container">
+
+  <div class="book-header">
+    <h1>The New Trading for a Living</h1>
+    <div class="meta">Dr. Alexander Elder · Wiley, 2014 · 251p<br>
+    Psychology · Discipline · Trading Tools and Systems · Risk Control · Trade Management</div>
+  </div>
+
+  <div class="disclaimer">
+    이 문서는 TraderX 프로젝트의 독립 참고 자료입니다. <strong>전략 파이프라인(PLAN.md · docs/strategy/)과 무관합니다.</strong><br>
+    목적: 직접 읽고 내용을 검증하기 위한 독서 가이드. 요약은 내 표현, 인용은 원문 短句 발췌.
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h3>목차 구조</h3>
+    <ul>
+      <li class="toc-part">서론 (Ch.1–3)</li>
+      <li><a href="#intro">트레이딩의 본질 / 심리가 열쇠 / 불리한 확률</a></li>
+      <li class="toc-part">Part 1 — 개인 심리 (Ch.4–10)</li>
+      <li><a href="#part1">왜 거래하는가 / 현실과 환상 / 자기파괴 / 거래심리 / AA 교훈 / 패자 무명회 / 승자와 패자</a></li>
+      <li class="toc-part">Part 2 — 군중 심리 (Ch.11–16)</li>
+      <li><a href="#part2">가격이란 / 시장이란 / 거래 무대 / 시장 군중과 나 / 추세의 심리 / 관리 vs 예측</a></li>
+      <li class="toc-part">Part 3 — 고전 차트 분석 (Ch.17–20)</li>
+      <li><a href="#part3">차팅 / 지지와 저항 / 추세와 레인지 / 캥거루 꼬리</a></li>
+      <li class="toc-part">Part 4 — 전산 기술 분석 (Ch.21–27)</li>
+      <li><a href="#part4">컴퓨터 / 이동평균 / MACD / 방향성 시스템 / 오실레이터 / 스토캐스틱 / RSI</a></li>
+      <li class="toc-part">Part 5 — 거래량과 시간 (Ch.28–33)</li>
+      <li><a href="#part5">거래량 / 거래량 기반 지표 / Force Index / 미결제약정 / 시간 / 타임프레임</a></li>
+      <li class="toc-part">Part 6 — 시장 전반 지표 (Ch.34–37)</li>
+      <li><a href="#part6">신고-신저 지수 / 50일 MA 상회 종목 / 기타 지표 / 센티먼트 지표</a></li>
+      <li class="toc-part">Part 7 — 거래 시스템 (Ch.38–41)</li>
+      <li><a href="#part7">시스템 테스트 / Triple Screen / Impulse System / Channel Trading</a></li>
+      <li class="toc-part">Part 8 — 거래 수단 (Ch.42–47)</li>
+      <li><a href="#part8">주식 / ETF / 옵션 / CFD / 선물 / 외환</a></li>
+      <li class="toc-part">Part 9 — 리스크 관리 (Ch.48–52)</li>
+      <li><a href="#part9">감정과 확률 / 두 가지 원칙 / 2% 룰 / 6% 룰 / 드로다운 복구</a></li>
+      <li class="toc-part">Part 10 — 실무 세부사항 (Ch.53–56)</li>
+      <li><a href="#part10">이익 목표 설정 / 손절 설정 / A급 거래 / 종목 스캔</a></li>
+      <li class="toc-part">Part 11 — 기록 관리 (Ch.57–59)</li>
+      <li><a href="#part11">일일 숙제 / 거래 계획 작성과 채점 / 거래 일지</a></li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 0: 전체 흐름 -->
+  <!-- ============================================================ -->
+  <div class="overview-box" id="overview">
+    <h3><span class="badge badge-0">0</span> 전체 흐름 — 책이 말하는 것</h3>
+
+    <p>이 책의 핵심 명제는 하나다: <strong>거래에서 실패하는 원인은 대부분 기술 부족이 아니라 심리적 자기파괴다.</strong> 시장은 군중 심리로 움직이고, 트레이더는 자신이 분석하려는 군중의 일부가 되지 않아야 한다.</p>
+
+    <p style="margin-top:12px;">책은 네 층위의 문제를 순서대로 해결한다:</p>
+
+    <div class="arc" style="margin-top:16px;">
+      <div class="arc-item">
+        <div class="arc-num">1</div>
+        <div class="arc-text"><strong>나 자신 (Part 1):</strong> 왜 트레이더는 자기 계좌를 스스로 파괴하는가. 도박 중독, 자기기만, 환상(뇌 신화·자동화 신화)을 해체한다. 해법은 AA(익명 알코올 중독자 모임)의 12단계를 거래에 적용하는 것이다.</div>
+      </div>
+      <div class="arc-item">
+        <div class="arc-num">2</div>
+        <div class="arc-text"><strong>시장 (Part 2–6):</strong> 가격은 시장 참가자 전체의 순간 합의다. 차트와 지표는 군중 심리를 수치화한 도구다. 추세추종 지표(EMA, MACD)와 오실레이터(RSI, Stochastic)를 조합해야 한다.</div>
+      </div>
+      <div class="arc-item">
+        <div class="arc-num">3</div>
+        <div class="arc-text"><strong>시스템 (Part 7):</strong> Triple Screen — 주간 차트로 방향을 결정하고, 일간 차트에서 역방향 파동을 이용해 진입한다. Impulse System은 진입 금지 구간을 색으로 표시하는 검열 시스템이다.</div>
+      </div>
+      <div class="arc-item">
+        <div class="arc-num">4</div>
+        <div class="arc-text"><strong>자본 보호 (Part 9–11):</strong> 2% 룰(한 거래당 계좌의 2% 이하 리스크)과 6% 룰(월 손실이 6% 도달 시 거래 중단)이 두 가지 안전망이다. 기록 없이는 개선 없다.</div>
+      </div>
+    </div>
+
+    <p style="margin-top:20px;"><strong>책의 세 기둥 (책 전체를 관통하는 구조):</strong></p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">🧠</div>
+        <div class="pillar-name">심리</div>
+        <div class="pillar-desc">자기 자신을 통제해야 시장을 분석할 수 있다</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">📊</div>
+        <div class="pillar-name">시장 분석</div>
+        <div class="pillar-desc">지표는 군중 심리를 수량화한 도구다</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🛡</div>
+        <div class="pillar-name">리스크 관리</div>
+        <div class="pillar-desc">자본 보호 없이는 좋은 시스템도 소용없다</div>
+      </div>
+    </div>
+    <p style="font-size:14px;color:var(--muted);margin-top:12px;">이 세 기둥을 묶는 네 번째 요소: <strong>기록 (Record-Keeping)</strong></p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 서론 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="intro">
+    <h2>서론 (Introduction)</h2>
+    <div class="part-range">Chapter 1–3 · pp.1–8</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.1</span> Trading—The Last Frontier</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>트레이딩은 어디서든 독립적으로 일할 수 있는 자유를 제공하는 것처럼 보이지만, 실패하는 사람이 압도적으로 많다. 실패 원인은 시장이 어렵거나, 무지하거나, 규율이 없기 때문이다. 트레이딩은 지적 자기계발의 영역이며, 방어적 자금 관리 없이는 성공할 수 없다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.2</span> Psychology Is the Key</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>수천 명의 트레이더 감정이 합쳐져 시장의 거대한 심리적 조류를 형성한다. 거래에 진입한 후 대부분의 아마추어는 포지션을 관리하지 않고 감정의 롤러코스터를 탄다. 좋은 트레이더는 자신의 감정 상태를 분석하면서 시장을 분석한다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "You can succeed in trading only if you handle it as a serious intellectual pursuit. Emotional trading is lethal."
+        <cite>— Ch.2, p.3</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.3</span> The Odds against You</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>트레이딩은 제로섬이 아니라 마이너스섬 게임이다. 커미션과 슬리피지가 지속적으로 계좌를 갉아먹는다. 평균을 웃도는 것만으로는 부족하며, 군중보다 훨씬 앞서야 이 마이너스섬 게임에서 이길 수 있다. 지정가 주문을 원칙으로 삼아 슬리피지를 최소화하라.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Commissions and slippage are to traders what death and taxes are to all of us."
+        <cite>— Ch.3, p.6</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 1 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part1">
+    <h2>Part 1 — Individual Psychology (개인 심리)</h2>
+    <div class="part-range">Chapter 4–10 · pp.9–30</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.4</span> Why Trade?</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>트레이딩은 돈·자유·자기실현의 욕구를 동시에 자극한다. 하지만 좋은 트레이더의 역설적인 목표는 돈을 버는 것이 아니라 잘 거래하는 것이다. 거래를 잘하면 돈은 거의 자동으로 따라온다. 많은 이들이 자기파괴적 충동을 시장에서 표출한다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "The goal of a good trader, paradoxically, is not to make money. His goal is to trade well. If he trades right, money follows almost as an afterthought."
+        <cite>— Ch.4, p.9</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.5</span> Reality versus Fantasy</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>패자들이 공유하는 세 가지 환상: ① 뇌 신화(비밀 지식이 있다), ② 자본 부족 신화(돈이 더 있으면 이긴다), ③ 자동화 신화(시스템이 알아서 해준다). 성공한 트레이더는 철저한 현실주의자다. 자동 거래 시스템을 사면 구원받는다는 생각은 중세 기사가 연금술사에게 돈을 주는 것과 같다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "A successful trader is a realist. He knows his abilities and limitations. He sees what's happening in the markets and knows how to react."
+        <cite>— Ch.5, p.10</cite>
+      </blockquote>
+      <blockquote>
+        "Markets are always changing and defeating automatic trading systems. Yesterday's rigid rules will work less well today and will probably stop working tomorrow."
+        <cite>— Ch.5, p.13</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.6</span> Self-Destructiveness</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>Elder는 수십 년간 정신과 의사로 일한 후, 대부분의 실패는 무능이 아닌 무의식적 자기파괴 욕구에서 비롯된다고 결론 내렸다. 트레이딩은 자기파괴를 실행할 기회를 끊임없이 제공한다. 충동적 거래, 도박 성향, 손절 거부는 모두 자기파괴의 표현이다. 해결책은 패턴을 인식하고 거래 일지로 기록하는 것이다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "The mental baggage from childhood can prevent you from succeeding in the markets. You have to identify your weaknesses and work to change. Keep a trading diary—write down your reasons for entering and exiting every trade."
+        <cite>— Ch.6, p.18</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.7</span> Trading Psychology</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>훌륭한 거래 시스템을 가져도 심리 준비가 안 된 트레이더는 실패한다. 규칙을 구부리고 싶은 유혹이 가장 강할 때가 가장 위험한 순간이다. 거래를 최대한 객관적으로 만들기 위해 모든 거래 전 계획을 문서화하고 자금 관리 규칙을 따라야 한다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "It is hard enough to know what the market is going to do; if you don't know what you are going to do, the game is lost."
+        <cite>— Ch.7, p.19 (Kerry Lovvorn 인용)</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.8</span> Trading Lessons from AA</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>Elder는 알코올 중독자 모임(AA)에 참석한 후, AA의 구조가 트레이딩 손실 문제에 그대로 적용됨을 깨달았다. 알코올 중독자가 "술"이라는 단어를 "손실"로 바꾸면 AA 미팅이 거래 이야기처럼 들린다. 핵심 교훈: 하루씩 버티기, 부인(Denial) 깨기, 책임 수용.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "There is a stark parallel between an alcoholic and a trader whose account is being demolished by losses. As he keeps changing his trading tactics, he acts like an alcoholic who tries to solve his problem by switching from hard liquor to beer."
+        <cite>— Ch.8, p.22</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.9</span> Losers Anonymous</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>트레이더가 회복을 시작하는 첫 단계는 자신이 패자임을 인정하는 것이다. 사업상의 리스크와 손실의 차이를 명확히 정의해야 한다: 사업상의 리스크는 사전에 계획된 것이며, 그 이상의 손실은 절대 허용하지 않는다. 거래 계좌의 어느 거래에서도 2%를 초과해 위험에 노출해서는 안 된다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "When you admit that your personal problem causes you to lose, you can begin building a new trading life. You can start developing the discipline of a winner."
+        <cite>— Ch.9, p.25</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.10</span> Winners and Losers</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>시장은 바다와 같다. 내가 원하는 방향으로 움직이지 않으며, 내가 존재하는지도 모른다. 통제할 수 있는 것은 나 자신의 행동뿐이다. 승자가 되려면 지적으로 냉정하게 행동해야 하며, 승리에 흥분하거나 손실에 우울해지는 감정적 거래는 누구도 감당할 수 없는 사치다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Your human nature leads you to give up your independence under stress. When you put on a trade, you feel the desire to imitate others, overlooking objective signals. This is why you need to write down and follow your trading system and money management rules."
+        <cite>— Ch.10 (later edition version, p.41의 요약)</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 2 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part2">
+    <h2>Part 2 — Mass Psychology (군중 심리)</h2>
+    <div class="part-range">Chapter 11–16 · pp.31–48</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.11</span> What Is Price?</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>모든 가격은 그 순간 모든 시장 참가자의 가치에 대한 합의다. 매수자, 매도자, 미결정자 세 그룹이 상호작용하면서 가격이 형성된다. 차트의 모든 패턴 뒤에는 군중이 있다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Each price is a momentary consensus of value of all market participants expressed in action."
+        <cite>— Ch.11, p.32</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.12</span> What Is the Market?</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>시장은 서로 상대방의 돈을 빼앗으려는 거대한 군중이다. 내가 원하는 수익은 다른 트레이더의 포켓에 있으며, 그들은 결코 자발적으로 주지 않는다. 개인 트레이더가 기관보다 유리한 유일한 점은 언제든 거래하지 않을 자유가 있다는 것이다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "The only reason there is money in the markets is that other traders put it there. The money you want to make belongs to other people who have no intention of giving it to you."
+        <cite>— Ch.12, p.35</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.13</span> The Trading Scene</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>개인 트레이더, 기관, 내부자가 같은 시장에서 경쟁한다. 기관은 자금력과 정보력이 우월하지만, 반드시 거래해야 하는 제약이 있다. 개인의 강점은 기회를 기다릴 수 있다는 것이다. 이 강점을 과도한 거래로 날리지 말 것.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.14</span> The Market Crowd and You</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>포지션을 잡은 순간부터 군중의 감정이 판단을 흐리기 시작한다. 독립적 사고를 유지하려면 거래 전에 세운 계획을 포지션 보유 중에는 변경하지 않아야 한다. 시장의 리더는 가격 자체이며, 가격을 따르는 군중은 자신의 리더를 스스로 만든다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.15</span> Psychology of Trends</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>가격은 매수자와 매도자 수가 같아서 움직이는 것이 아니라, 양측의 감정 강도 차이 때문에 움직인다. 상승장에서 강세자는 열정적으로 고가를 감수하고, 약세자는 두려워 높은 가격에 매도한다. 추세의 끝에서는 기술 지표에 다이버전스(이격)가 나타난다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Technical analysis is for-profit social psychology."
+        <cite>— Ch.15, p.43</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.16</span> Managing versus Forecasting</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>수익을 내기 위해 미래를 예측할 필요가 없다. 의사가 예측이 아닌 관리를 하듯, 트레이더도 현재 황소와 곰의 세력 균형을 측정하고 그에 맞게 관리해야 한다. 기술적 분석은 선거 여론조사와 같다: 군중의 의도를 읽는 것이지 미래를 예언하는 것이 아니다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Successful trading stands on three pillars. You need to analyze the balance of power between bulls and bears. You need to practice good money management. You need personal discipline to follow your trading plan and avoid getting high or depressed in the markets."
+        <cite>— Ch.16, p.48</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 3 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part3">
+    <h2>Part 3 — Classical Chart Analysis (고전 차트 분석)</h2>
+    <div class="part-range">Chapter 17–20 · pp.49–68</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.17</span> Charting</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>고전 차팅은 희망과 두려움을 차트에 투영하는 로르샤흐 테스트처럼 주관적이다. Elder는 객관성이 충분한 소수의 패턴만 신뢰한다: 수평 지지·저항, 시가·종가의 관계, 캥거루 꼬리. 시가는 아마추어가 지배하고, 종가는 프로가 지배한다는 해석이 캔들스틱의 근거다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Most traders use charts as a giant Rorschach test. They project their hopes, fears, and fantasies onto the charts."
+        <cite>— Ch.17, p.50</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.18</span> Support and Resistance</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>지지와 저항은 군중의 기억이 만든다. 매수자의 고통(손실)과 매도자의 후회(기회 상실)가 누적되어 특정 가격에서 대량의 주문이 집중된다. 강도는 해당 구간의 기간·높이·거래량에 비례한다. False breakout(가짜 돌파)을 전문가는 역방향으로 이용한다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Support and resistance exist because masses of traders feel pain and regret."
+        <cite>— Ch.18, p.57</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.19</span> Trends and Trading Ranges</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>시장은 추세보다 레인지에서 더 많은 시간을 보낸다. 추세 중에는 기다렸다가 되돌림에서 진입하고, 레인지 중에는 극단에서 역방향으로 진입한다. 다른 타임프레임의 추세가 내 포지션을 덮칠 수 있으므로 항상 상위 타임프레임을 먼저 확인해야 한다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.20</span> Kangaroo Tails</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>Elder가 신뢰하는 소수의 패턴 중 하나. 촘촘한 가격대에서 하나의 아주 긴 막대가 돌출하는 3봉 패턴이다. 위로 솟은 꼬리는 매도 신호, 아래로 솟은 꼬리는 매수 신호다. 꼬리의 반대 방향으로 즉시 역행하며, 손절은 꼬리 중간에 설정한다. 단기 전술 신호로만 사용.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 4 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part4">
+    <h2>Part 4 — Computerized Technical Analysis (전산 기술 분석)</h2>
+    <div class="part-range">Chapter 21–27 · pp.69–101</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.21</span> Computers in Trading</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>컴퓨터 지표는 방향이 오르내리는지 논쟁 여지가 없다는 점에서 고전 차팅보다 객관적이다. 지표는 세 그룹: 추세추종(EMA, MACD 라인), 오실레이터(MACD-Histogram, Force Index, RSI, Stochastic), 기타(New High-New Low 지수 등). 서로 다른 그룹에서 골라 조합해야 한다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.22</span> Moving Averages</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>이동평균(MA)은 군중의 평균 가치 합의를 사진처럼 찍어낸다. 단순 MA는 옛 데이터가 이탈할 때 두 번 반응하는 결함이 있어 지수이동평균(EMA)이 우월하다. Elder는 빠른 EMA(13일)과 느린 EMA(26일)를 함께 사용하며, 두 EMA 사이 공간을 "가치 구역(Value Zone)"이라 부른다. 추세장에서는 가치 구역 되돌림이 매수 기회다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "A moving average represents an average consensus of value for the period of time in its window."
+        <cite>— Ch.22, p.75</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.23</span> MACD Lines and MACD-Histogram</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>MACD 라인(12일 EMA - 26일 EMA)과 시그널 라인(MACD의 9일 EMA)의 교차가 추세 전환을 알린다. MACD-Histogram(라인 간 차이)은 단순 교차보다 정교한 신호를 준다: 히스토그램의 기울기 방향이 핵심이며, 영역(0선 위아래)보다 중요하다. 가격이 신고점인데 히스토그램이 낮은 고점을 만들면 약세 다이버전스 → 매도 신호.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.24–27</span> Directional System / Oscillators / Stochastic / RSI</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>방향성 시스템(ADX)은 추세 강도를 측정한다. 오실레이터는 횡보장에서 유용하지만 추세장에서는 조기 신호를 준다. Stochastic은 최근 레인지 내 종가의 위치를 측정하고, RSI는 상승과 하락의 상대적 힘을 비교한다. 모든 오실레이터는 다이버전스 신호가 가장 강력하다.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 5 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part5">
+    <h2>Part 5 — Volume and Time (거래량과 시간)</h2>
+    <div class="part-range">Chapter 28–33 · pp.103–131</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.28–30</span> Volume / Volume-Based Indicators / Force Index</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>거래량은 군중의 감정적 몰입도를 측정한다. 거래량이 많을수록 군중의 확신이 강하다. Force Index = (오늘 종가 - 어제 종가) × 거래량. Elder가 직접 개발한 이 지표는 가격 변동과 거래량을 결합해 황소·곰의 순수한 힘을 측정한다. Triple Screen의 2차 스크린으로 사용된다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.31–33</span> Open Interest / Time / Trading Timeframes</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>미결제약정(선물)은 포지션 보유자 수를 반영하며 군중의 헌신도를 보여준다. 시간도 하나의 지표다. 시장은 여러 타임프레임에서 동시에 움직이며 서로 다른 방향일 수 있다. 이 갈등을 해결하는 것이 Triple Screen의 핵심 과제다.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 6 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part6">
+    <h2>Part 6 — General Market Indicators (시장 전반 지표)</h2>
+    <div class="part-range">Chapter 34–37 · pp.133–147</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.34–37</span> NH-NL Index / Stocks above 50-Day MA / Other / Consensus</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>신고-신저 지수(New High-New Low Index)는 주식 시장 전체의 리더십 강도를 측정한다. Elder는 이를 시장 분위기계라 부른다. 50일 MA 상회 종목 비율은 시장 강도의 또 다른 측정이다. 이 파트의 지표들은 개별 주식보다 시장 전체의 방향성을 확인하는 데 쓴다.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 7 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part7">
+    <h2>Part 7 — Trading Systems (거래 시스템)</h2>
+    <div class="part-range">Chapter 38–41 · pp.149–172</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.38</span> System Testing and Three Key Demands</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>모든 거래에는 세 가지가 사전에 정의돼야 한다: A) 진입가·목표가·손절가, B) 달러 리스크(계좌의 2% 이하), C) 명확한 전략. 이 세 요소 없이 진입하는 것은 도박이다. 단순하고 강건한 시스템이 최적화된 복잡한 시스템보다 실전에서 낫다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.39</span> Triple Screen Trading System</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>Elder가 1985년 개발하고 1986년 Futures 지에 발표한 다중 타임프레임 시스템. 세 화면으로 구성된다: ① 1차(주간) — 추세추종 지표로 방향 결정, 그 방향으로만 거래 가능. ② 2차(일간) — 오실레이터로 조류 역방향 파동을 포착해 진입. ③ 3차(단기) — 진입 기법(EMA 평균 침투 또는 이전 고점·저점 돌파). 주간 추세가 상승이면 일간 하락 때만 매수한다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Triple Screen demands that you examine the long-term chart first. It allows you to trade only in the direction of the tide—the trend on the long-term chart."
+        <cite>— Ch.39, p.156</cite>
+      </blockquote>
+      <p class="key-quote-intro" style="margin-top:10px;">Triple Screen 요약표:</p>
+      <table style="width:100%;font-size:13px;border-collapse:collapse;font-family:sans-serif;margin-top:6px;">
+        <tr style="background:#ddd;"><th style="padding:6px;border:1px solid #ccc;">주간 추세</th><th style="padding:6px;border:1px solid #ccc;">일간 추세</th><th style="padding:6px;border:1px solid #ccc;">행동</th></tr>
+        <tr><td style="padding:6px;border:1px solid #ccc;text-align:center;">상승</td><td style="padding:6px;border:1px solid #ccc;text-align:center;">상승</td><td style="padding:6px;border:1px solid #ccc;text-align:center;">대기</td></tr>
+        <tr style="background:#f9f9f9;"><td style="padding:6px;border:1px solid #ccc;text-align:center;">상승</td><td style="padding:6px;border:1px solid #ccc;text-align:center;">하락</td><td style="padding:6px;border:1px solid #ccc;text-align:center;color:green;font-weight:bold;">매수 기회</td></tr>
+        <tr><td style="padding:6px;border:1px solid #ccc;text-align:center;">하락</td><td style="padding:6px;border:1px solid #ccc;text-align:center;">하락</td><td style="padding:6px;border:1px solid #ccc;text-align:center;">대기</td></tr>
+        <tr style="background:#f9f9f9;"><td style="padding:6px;border:1px solid #ccc;text-align:center;">하락</td><td style="padding:6px;border:1px solid #ccc;text-align:center;">상승</td><td style="padding:6px;border:1px solid #ccc;text-align:center;color:red;font-weight:bold;">공매도 기회</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.40</span> The Impulse System</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>EMA 방향(관성)과 MACD-Histogram 방향(힘)을 조합한 검열 시스템. 둘 다 상승이면 초록(매수 허용, 공매도 금지), 둘 다 하락이면 빨강(공매도 허용, 매수 금지), 엇갈리면 파랑(자유). 무엇을 해야 하는지가 아니라 무엇을 하면 안 되는지를 알려주는 시스템이다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "The Impulse system is a censorship system. It doesn't tell you what to do—but it clearly tells you what you're not allowed to do."
+        <cite>— Ch.40, p.163</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.41</span> Channel Trading Systems</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>채널은 EMA를 중심으로 위아래에 대칭적으로 그린 두 선이며, 과거 100개 봉의 95%를 포함하도록 조정한다. 채널 상단은 시장의 과열(조증), 하단은 침체(우울증)를 나타낸다. 전문가는 채널 상단에서 팔고 하단에서 사는 반면, 아마추어는 돌파를 추격한다.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 8 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part8">
+    <h2>Part 8 — Trading Vehicles (거래 수단)</h2>
+    <div class="part-range">Chapter 42–47 · pp.173–195</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.42–47</span> Stocks / ETF / Options / CFD / Futures / Forex</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>각 거래 수단의 특성, 장단점, 적합한 트레이더 유형을 설명한다. 주식은 레버리지가 낮아 입문자에 적합. 선물은 마진이 얇아 자금 관리가 더욱 엄격해야 한다. 옵션은 매수보다 매도(옵션 라이터)가 장기적으로 유리하다. 외환 시장은 광고와 달리 투명하지 않고 레버리지가 치명적일 수 있다. 이 파트는 어느 도구를 선택하든 앞서 배운 원칙이 동일하게 적용됨을 확인한다.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 9 — RISK MANAGEMENT -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part9">
+    <h2>Part 9 — Risk Management (리스크 관리)</h2>
+    <div class="part-range">Chapter 48–52 · pp.197–213</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.48</span> Emotions and Probabilities</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>긍정적 기댓값 없이는 어떤 자금 관리도 계좌를 살릴 수 없다. 역으로, 좋은 시스템도 자금 관리가 나쁘면 결국 파산한다. 사업상의 리스크(Businessman's risk)와 손실(Loss)을 명확히 구분해야 한다: 사전에 정한 한도 내 손실은 정상, 그 이상은 재앙이다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.49</span> The Two Main Rules of Risk Control</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>두 가지 안전망: 2% 룰은 상어 한 마리로부터 계좌를 보호하고, 6% 룰은 피라냐 떼로부터 계좌를 보호한다. 두 규칙을 함께 따르면 합리적인 시스템이 있는 한 장기 생존이 보장된다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "The 2% Rule will save your account from shark bites, while the 6% Rule will save you from the piranhas."
+        <cite>— Ch.49, p.212</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.50</span> The Two Percent Rule</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>한 거래에서 계좌 자본의 2%를 초과해 위험에 노출해서는 안 된다. 이는 포지션 크기가 아니라 손절가까지의 거리로 계산한다. Iron Triangle: A(최대 허용 달러 리스크 = 계좌의 2%) ÷ B(주당 리스크 = 진입가 - 손절가) = C(최대 거래 가능 수량). 전문가들은 2%조차 너무 높다며 0.5~1%로 관리하는 경향이 있다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "The 2% Rule prohibits you from risking more than 2% of your account equity on any single trade."
+        <cite>— Ch.50, p.203</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.51</span> The Six Percent Rule</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>한 달 내 실현 손실 + 미결 포지션의 현재 리스크 합계가 계좌 자본의 6%에 도달하면 그달 나머지 기간 신규 거래를 전면 중단한다. 기관 트레이더의 월간 손실 한도를 개인 트레이더가 스스로 구현하는 방법이다. 이 규칙은 내가 시장과 맞지 않는 시기를 강제로 인식하게 만든다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "The 6% Rule prohibits you from opening any new trades for the rest of the month when the sum of your losses for the current month and the risks in open trades reach 6% of your account equity."
+        <cite>— Ch.51, p.208</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.52</span> A Comeback from a Drawdown</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>리스크 수준이 높아질수록 성과가 떨어진다. 연속 손실 후에는 포지션 크기를 줄이고 두 주 연속 수익을 올린 다음 단계씩 늘려야 한다. 기관 트레이더가 개인보다 더 잘하는 이유는 실력이 아니라 거래 매니저(외부 규율)가 있기 때문이다. 개인 트레이더는 2%/6% 룰로 스스로 매니저 역할을 해야 한다.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 10 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part10">
+    <h2>Part 10 — Practical Details (실무 세부사항)</h2>
+    <div class="part-range">Chapter 53–56 · pp.215–231</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.53</span> How to Set Profit Targets</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>"Enough"가 핵심 단어다. 이익 목표는 EMA·채널·지지저항 세 가지 기준에서 결정한다. 스윙 거래에서는 가치 구역(두 EMA 사이)에 도달하면 충분히 취하는 것이 목표를 정하지 않고 버티는 것보다 낫다. 보상/리스크 비율은 최소 2:1이어야 한다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "'Enough' is a power word—in life as well as in trading. It puts you in control."
+        <cite>— Ch.53, p.218</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.54</span> How to Set Stops</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>손절 없는 거래는 도박이다. SafeZone 손절: 22일 EMA 기울기로 추세를 정의하고, 추세에 역행하는 침투들의 평균 깊이를 측정해 그 두 배 이상 거리에 손절을 설정한다. 명백한 가격대(직전 저점 바로 아래 등)에는 손절이 몰리므로 약간 어긋난 위치에 설정한다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.55–56</span> Is This an A-Trade? / Scanning</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>Trade Apgar: 잠재적 거래를 5가지 질문으로 0~2점씩 채점한다. 총점 7 이상이어야 진입을 고려한다. 이 채점 시스템은 Kahneman의 연구에서 영감을 받았으며, 충동적 결정을 막고 최고 품질의 거래만 선별하게 한다.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PART 11 -->
+  <!-- ============================================================ -->
+  <div class="part-header" id="part11">
+    <h2>Part 11 — Good Record-Keeping (기록 관리)</h2>
+    <div class="part-range">Chapter 57–59 · pp.233–251</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.57</span> Your Daily Homework</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>매일 장 전 루틴이 성공의 기반이다. Elder는 보유 종목과 관심 종목 차트를 검토하고 "오늘 거래할 준비가 됐는가?" 자기 테스트를 실시한다. 5가지 질문(컨디션·어제 결과·준비도·기분·일정)을 0~2점으로 채점해 총점이 낮으면 거래하지 않는다.</p>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.58</span> Creating and Scoring Trade Plans</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>거래마다 Tradebill(거래 명세서)을 작성한다: 진입가·목표가·손절가·포지션 크기·전략·Trade Apgar 점수. 포지션 진입 후에는 계획을 변경하지 않는다. 기록은 "폭풍 한가운데의 이성의 섬"이다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Writing down a trade plan makes it real. The plan you write prior to entering a trade becomes your island of sanity and stability in the middle of a storm."
+        <cite>— Ch.58, p.238</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title"><span class="ch-num">Ch.59</span> Trade Journal</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>거래 일지의 세 가지 효과: ① 즉각적 — 질서와 구조감, ② 1~2개월 후 — 마감 거래 복기를 통한 학습, ③ 장기 — 자본 곡선 분석으로 전략·전술별 강약점 파악. 거래 2개월 후 복기할 때 당시 혼란스러웠던 신호가 명료하게 보인다. 일지 없이는 과거에서 배울 수 없다.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Let your diary entries serve as your 'extra-cranial memory,' a tool for building the structure of success."
+        <cite>— Ch.59, p.243</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 결론 -->
+  <!-- ============================================================ -->
+  <div class="part-header">
+    <h2>결론 — A Journey without an End</h2>
+    <div class="part-range">pp.249–251</div>
+  </div>
+
+  <div class="chapter">
+    <div class="chapter-title">맺음말</div>
+    <div class="block block-1">
+      <span class="badge badge-1">요약</span>
+      <p>트레이딩은 지적으로 어렵지 않다. 데이터는 5가지(시가·고가·저가·종가·거래량)뿐이다. 어려운 것은 심리다. Elder가 마지막으로 강조하는 다섯 가지 규칙: ① 학습 중에는 소규모로 거래하라. ② 거래 중에는 돈을 세지 마라. ③ 2% 룰을 사용하라. ④ 진입가·손절가·목표가를 기록하라. ⑤ 거래 일지를 쓰고 매달 복기하라.</p>
+    </div>
+    <div class="block block-2">
+      <span class="badge badge-2">핵심 발췌</span>
+      <blockquote>
+        "Technically, trading isn't very hard. Psychologically, it's the hardest game on the planet."
+        <cite>— Conclusion, p.250</cite>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div style="margin-top:60px;padding:16px;background:#f5f5f0;border-radius:6px;font-size:13px;font-family:sans-serif;color:var(--muted);">
+    <strong>범례</strong> &nbsp;
+    <span class="badge badge-0">0</span> 전체 흐름 &nbsp;
+    <span class="badge badge-1">요약</span> 챕터별 요약 (내 표현) &nbsp;
+    <span class="badge badge-2">핵심 발췌</span> 원문 단문 인용
+  </div>
+
+</div>
+</body>
+</html>
