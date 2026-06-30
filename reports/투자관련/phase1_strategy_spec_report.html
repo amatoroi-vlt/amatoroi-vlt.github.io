@@ -191,7 +191,7 @@ tr:nth-child(even) td { background: #fafaf9; }
 <div class="full">
   <p class="paper-subtitle">TraderX Project — Phase 1 완료 보고서</p>
   <h1 class="paper-title">단기 매매 전략 명세화:<br>백테스팅 후보 도출 및 Phase 2 준비</h1>
-  <p class="paper-meta">초안 2026-06-17 &nbsp;|&nbsp; 최종 2026-06-22 &nbsp;|&nbsp; 기반 문헌: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em></p>
+  <p class="paper-meta">초안 2026-06-17 &nbsp;|&nbsp; 최종 2026-06-22 &nbsp;|&nbsp; Stage 1 재개·Elder 후보 추가 2026-06-30<br>기반 문헌: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em> &amp; Alexander Elder, <em>The New Trading For a Living</em></p>
   <hr class="rule-heavy">
   <hr class="rule-light">
 </div>
@@ -199,7 +199,7 @@ tr:nth-child(even) td { background: #fafaf9; }
 <!-- ════════════════════ ABSTRACT ════════════════════ -->
 <div class="abstract full">
   <p class="abstract-label">요약 (Abstract)</p>
-  <p>본 보고서는 TraderX 프로젝트 Phase 1(전략 명세화)의 연구 및 협의 결과를 정리한다. Larry Williams의 저서를 단일 원천으로 삼아 7개 전략 후보(A–G)를 분석하였으며, 당일매수-익일매도 호환성을 Phase 1 평가 기준으로 삼아 6개 후보(A·B·C·D·E·H)를 Phase 3 백테스팅 대상으로 확정하였다. Phase 1 말기(2026-06-22) 원서 재대조 검토를 통해 B·C·D·E·H 전략의 매수 스윙 공식, 손절 기준, 청산 기준, 박스권 정의 등의 오류를 정정하고 H의 진입·청산 규칙을 전면 확정하였다. 한국 시장 적용 가능성 및 전략 간 독립성 검증은 실증 데이터가 필요하므로 Phase 3으로 이관한다.</p>
+  <p>본 보고서는 TraderX 프로젝트 Phase 1(전략 명세화)의 연구 및 협의 결과를 정리한다. Larry Williams의 저서를 단일 원천으로 삼아 8개 전략 후보(A–H)를 분석하였으며, 당일매수-익일매도 호환성을 Phase 1 평가 기준으로 삼아 6개 후보(A·B·C·D·E·H)를 Phase 3 백테스팅 대상으로 확정하였다. Phase 1 말기(2026-06-22) 원서 재대조 검토를 통해 B·C·D·E·H 전략의 매수 스윙 공식, 손절 기준, 청산 기준, 박스권 정의 등의 오류를 정정하고 H의 진입·청산 규칙을 전면 확정하였다. 이후 Stage 1이 재개(2026-06-30)되어 Alexander Elder의 저서를 추가 원천으로 편입하였으며, Elder 후보 5개(전략 I·J·K + 매크로 필터 2개)를 검토 중이다. 이 5개 후보의 최종 처분(확정/제외)은 사용자 검토 후 결정된다. 한국 시장 적용 가능성 및 전략 간 독립성 검증은 실증 데이터가 필요하므로 Phase 3으로 이관한다.</p>
 </div>
 
 <!-- ════════════════════ BODY (2단) ════════════════════ -->
@@ -265,6 +265,12 @@ tr:nth-child(even) td { background: #fafaf9; }
         <tr><td>E</td><td>Greatest Swing Value</td><td>Ch.8, pp.123–128</td><td>실패 스윙 평균(GSV)을 동적 기준선으로 삼은 Volatility Breakout 심화</td></tr>
         <tr><td>F</td><td>Three-Bar High/Low</td><td>Ch.9, p.136</td><td>3봉 저점 이평 눌림목 진입 (5분봉·10분봉 기반)</td></tr>
         <tr><td>G</td><td>Power Play Pattern</td><td>Ch.2, p.36</td><td>종가의 range 내 위치 추이로 세력 전환 조기 포착 (보조 지표)</td></tr>
+        <tr><td colspan="4" style="background:#f5f2ff;color:#5A35B0;font-size:11px;font-weight:500;padding:6px 14px;letter-spacing:.04em">Elder, The New Trading For a Living (2014) — 검토 중 (2026-06-30)</td></tr>
+        <tr><td>I</td><td>Elder Triple Screen System</td><td>Ch.39·40·30·55</td><td>주봉 Impulse(추세 방향) + 일봉 Force Index(타이밍) + Trade Apgar(진입 품질) 3중 조합</td></tr>
+        <tr><td>J</td><td>Kangaroo Tails</td><td>Ch.20, pp.65–67</td><td>빽빽한 가격대에서 돌출된 단일 봉 → 꼬리 방향 추세 실패 신호</td></tr>
+        <tr><td>K</td><td>False Breakout + Divergence</td><td>Ch.18·55</td><td>거짓 하락돌파 + MACD-H 강세 다이버전스 동시 발생 — Elder 주력 전략 #1</td></tr>
+        <tr><td>필터</td><td>NH-NL Index</td><td>Ch.34, pp.133–139</td><td>52주 신고가-신저가 차. 시장 강도 선행 지표. 매크로 게이트 역할.</td></tr>
+        <tr><td>필터</td><td>Stocks above 50-Day MA</td><td>Ch.35, pp.139–140</td><td>50일 MA 상위 종목 비율(%). 75%/25% 기준선으로 과열·과매도 판단.</td></tr>
       </tbody>
     </table>
   </div>
@@ -334,10 +340,65 @@ tr:nth-child(even) td { background: #fafaf9; }
           <td><span class="badge b-pass">✅ 백테스트 대상</span></td>
           <td>PP 3일 단조 증가 + 30%&lt;D-1 PP&lt;65%, 3일 저가/고가 이평 진입·청산 규칙 전면 확정 (2026-06-22)</td>
         </tr>
+        <tr><td colspan="3" style="background:#f5f2ff;color:#5A35B0;font-size:11px;font-weight:500;padding:6px 14px;letter-spacing:.04em">Elder 후보 — 검토 중 (2026-06-30, 사용자 결정 대기)</td></tr>
+        <tr>
+          <td>I. Elder Triple Screen</td>
+          <td><span class="badge b-new">🔍 검토 중</span></td>
+          <td>수일 보유 스윙 트레이드 전제 — 익일 청산 원칙과의 충돌 여부 확인 필요. 구성 요소(Impulse, Force Index, Trade Apgar) 분리 활용 가능성도 검토 대상.</td>
+        </tr>
+        <tr>
+          <td>J. Kangaroo Tails</td>
+          <td><span class="badge b-new">🔍 검토 중</span></td>
+          <td>전일 꼬리 봉 확인 후 당일 진입 가능 — 익일 Bail Out과 호환 가능성 있음. Elder 반전 패턴 중 가장 단순. 꼬리 판별 기준 수치화 필요.</td>
+        </tr>
+        <tr>
+          <td>K. False Breakout + Divergence</td>
+          <td><span class="badge b-new">🔍 검토 중</span></td>
+          <td>다이버전스 형성에 수주 소요. Williams B(Smash Day)와 중복성 검토 필요. 이익실현 목표까지 수일 보유 필요 가능성 있음.</td>
+        </tr>
+        <tr>
+          <td>NH-NL Index (필터)</td>
+          <td><span class="badge b-new">🔍 검토 중</span></td>
+          <td>독립 전략 아님. 별도 52주 집계 파이프라인 필요. Elder 강추 시장 선행 지표.</td>
+        </tr>
+        <tr>
+          <td>Stocks above 50-Day MA (필터)</td>
+          <td><span class="badge b-new">🔍 검토 중</span></td>
+          <td>독립 전략 아님. 기존 데이터로 즉시 계산 가능. 구현 난이도 낮음.</td>
+        </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+<!-- Elder 후보 명세 (Stage 1 재개) -->
+<h2>부록. Elder 후보 명세 <small style="font-size:13px;font-weight:400;color:#888">(Stage 1 재개 · 2026-06-30 · 검토 중)</small></h2>
+
+<h3>분석 배경</h3>
+<p>Williams 분석 완료 후 Stage 1이 재개(2026-06-30)되어 Alexander Elder의 저서(<em>The New Trading For a Living</em>, 2014)를 추가 원천으로 편입하였다. Williams 전략이 "패턴 인식 → 즉시 진입"이라면, Elder는 "다중 타임프레임 필터링 → 진입 허가"라는 다른 접근을 취한다. 두 저자의 철학은 상호 보완적이다.</p>
+
+<h3>I. Elder Triple Screen System</h3>
+<p>3단계 다중 타임프레임 필터링 시스템. 구성 요소:</p>
+<ul>
+  <li><strong>1차 스크린 (주봉 Impulse)</strong>: EMA↑+MACD-H↑ = Green(매수만), EMA↓+MACD-H↓ = Red(매수 금지), 혼재 = Blue(자유). 진입 방향을 구조적으로 결정.</li>
+  <li><strong>2차 스크린 (일봉 Force Index 2일 EMA)</strong>: Force Index = 거래량 × 전일비 가격 변화. 2일 EMA &lt; 0이면 눌림목 — 반등 시 매수 타이밍.</li>
+  <li><strong>진입 결정 (Trade Apgar)</strong>: 5항목 × 0~2점, 합산 7점 이상만 실제 진입. "A-trade" = 채널 높이의 30% 이상을 포획하는 트레이드.</li>
+</ul>
+<div class="callout">검토 사항: Elder Triple Screen은 수일 보유 스윙 트레이드 전제. TraderX 익일 청산 원칙과의 충돌 여부 검토 필요. 구성 요소를 Williams 전략의 필터로 분리 사용하는 방안도 가능.</div>
+
+<h3>J. Kangaroo Tails</h3>
+<p>빽빽한 가격대에서 단 하나의 봉이 극단적으로 돌출되고 양쪽을 평균 높이 봉이 감싸는 3봉 패턴. Elder: "신뢰할 만한 차트 패턴 단기 목록." 꼬리 방향의 추세 실패 → 반대 방향 진입.</p>
+<ul>
+  <li><strong>매수 조건</strong>: 빽빽한 가격대 내 하향 돌출 봉(range 2배↑) + 시가·종가 상단 위치 + 다음 봉 좁은 range 확인</li>
+  <li><strong>이익실현</strong>: "a few days" (Elder) — 익일 Bail Out과 구조 호환 가능성 있음</li>
+  <li><strong>손절</strong>: 꼬리 중간 지점 (halfway through the tail)</li>
+</ul>
+
+<h3>K. False Breakout + Divergence (FB+BD)</h3>
+<p>Elder 주력 전략 #1. 거짓 하락돌파(지지선 이탈 후 즉각 복귀)와 강세 다이버전스(MACD-H 얕아짐)의 동시 발생. Williams B(Smash Day)와 개념적으로 유사하나 다이버전스 조건이 추가 필터 역할을 하여 신뢰도는 높고 발생 빈도는 낮다.</p>
+
+<h3>매크로 필터 후보 (NH-NL · Stocks above 50-Day MA)</h3>
+<p>NH-NL Index와 Stocks above 50-Day MA는 독립 전략이 아닌 시장 환경 판단용 게이트 필터다. NH-NL은 별도 파이프라인이 필요하고, Stocks above 50-Day MA는 기존 312개 종목 데이터로 즉시 계산 가능하다.</p>
 
 <!-- 5. Phase 2 전제 조건 -->
 <h2>5. Phase 2 전제 조건</h2>
@@ -374,8 +435,8 @@ tr:nth-child(even) td { background: #fafaf9; }
 <!-- 6. 후속 작업 -->
 <h2>6. 후속 작업 및 필요성</h2>
 
-<h3>6.1 Phase 2: 전략 코드화</h3>
-<p>확정된 전략 스펙(docs/strategy/)을 기반으로 각 전략의 신호 생성 로직을 코드로 구현한다. A·B·C·D·E·H 6개 전략 모두 규칙이 확정된 상태로 Phase 2를 시작한다. 한국투자증권 KIS OpenAPI를 통한 데이터 수신 및 주문 실행 인터페이스도 이 단계에서 구축한다.</p>
+<h3>6.1 Phase 2: 전략 코드화 (Elder 후보 결정 후 착수)</h3>
+<p>확정된 전략 스펙(docs/strategy/)을 기반으로 각 전략의 신호 생성 로직을 코드로 구현한다. A·B·C·D·E·H 6개 Williams 전략은 규칙이 확정된 상태다. <strong>Elder 후보 5개(I·J·K + 필터 2개)는 사용자 검토 중이며, 검토 완료 후 전략 목록이 최종 확정된다.</strong> 증권사 API는 토스증권 Open API로 확정(2026-06-26)되었으며, 데이터 수신 및 주문 실행 인터페이스는 Phase 2에서 구축한다.</p>
 
 <h3>6.2 Phase 3: 백테스팅</h3>
 <p>Phase 1에서 이관한 두 평가 기준을 이 단계에서 실증한다:</p>
@@ -395,6 +456,7 @@ tr:nth-child(even) td { background: #fafaf9; }
 <div class="ref-section">
   <p class="ref-title">인용 문헌</p>
   <p class="ref-item">Williams, L. (1999). <em>Long-Term Secrets to Short-Term Trading.</em> John Wiley &amp; Sons.</p>
+  <p class="ref-item">Elder, A. (2014). <em>The New Trading For a Living.</em> John Wiley &amp; Sons. [Elder 후보 I·J·K 및 매크로 필터 2개의 원천]</p>
   <br>
   <p class="fn"><span class="fn-num">1.</span> Williams (1999), Ch.1 "Making Order Out of Short-Term Chaos," pp.9–21.</p>
   <p class="fn"><span class="fn-num">2.</span> TraderX CLAUDE.md: "전략 파라미터는 코드 작성 전에 문서화한다."</p>
@@ -407,7 +469,8 @@ tr:nth-child(even) td { background: #fafaf9; }
 </div>
 
 <div class="paper-footer">
-  TraderX Phase 1 완료 보고서 &nbsp;|&nbsp; 초안 2026-06-17 · 최종 2026-06-22 &nbsp;|&nbsp; 원본 검증: reference/Larry Williams - Long-Term Secrets To Short-Term Trading.pdf
+  TraderX Phase 1 완료 보고서 &nbsp;|&nbsp; 초안 2026-06-17 · 최종 2026-06-22 · Elder 후보 추가 2026-06-30<br>
+  원본 검증: reference/Larry Williams - Long-Term Secrets To Short-Term Trading.pdf &amp; reference/Alexander Elder - The New Trading For a Living 2014.pdf
 </div>
 
 </div><!-- /page -->

@@ -44,6 +44,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Got
 .br { background: #FAECE7; color: #993C1D; }
 .bs { background: #E1F5EE; color: #0F6E56; }
 .bg { background: #F1EFE8; color: #444441; }
+.be { background: #EEE8FF; color: #5A35B0; }
+.bf { background: #E0F5F5; color: #0A6E6E; }
 .c-title { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 2px; }
 .c-chap { font-size: 11px; color: #aaa; margin-bottom: 6px; }
 .c-sum { font-size: 12px; color: #666; line-height: 1.55; }
@@ -136,7 +138,7 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
 
 <div class="hd">
   <h1>전략 후보 분석 — Phase 1</h1>
-  <p>출처: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em> (reference/ 원본 기반) &nbsp;|&nbsp; 2026-06-14</p>
+  <p>출처: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em> &nbsp;·&nbsp; Alexander Elder, <em>The New Trading For a Living</em> (reference/ 원본 기반) &nbsp;|&nbsp; 최종 갱신 2026-06-30</p>
 </div>
 
 <div class="term-wrap">
@@ -151,11 +153,13 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
 </div>
 
 <!-- ──────────────── STRATEGIES ──────────────── -->
-<div class="sec-lbl">전략 후보 (7개) &nbsp;—&nbsp; 카드 클릭 시 상세 설명 펼침</div>
+<div class="sec-lbl">Williams 전략 후보 (A–H) &nbsp;—&nbsp; 카드 클릭 시 상세 설명 펼침</div>
 <div class="legend">
   <span class="leg"><span class="dot" style="background:#185FA5"></span>브레이크아웃</span>
   <span class="leg"><span class="dot" style="background:#D85A30"></span>반전 패턴</span>
   <span class="leg"><span class="dot" style="background:#1D9E75"></span>구조 분석 / 추세 추종</span>
+  <span class="leg"><span class="dot" style="background:#5A35B0"></span>Elder 전략</span>
+  <span class="leg"><span class="dot" style="background:#0A6E6E"></span>Elder 매크로 필터</span>
 </div>
 
 <div class="s-grid">
@@ -715,7 +719,280 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
   </div>
 </div>
 
-</div><!-- /s-grid -->
+</div><!-- /s-grid Williams -->
+
+<!-- ──────────────── ELDER CANDIDATES ──────────────── -->
+<div class="phase-div">
+  <div class="phase-div-line"></div>
+  <div class="phase-div-label">Elder 후보 — Stage 1 재개 (2026-06-30) — 검토 중</div>
+  <div class="phase-div-line"></div>
+</div>
+
+<p style="font-size:13px;color:#555;margin:0 0 2rem;line-height:1.7">
+  출처: Alexander Elder, <em>The New Trading For a Living</em> (2014). 아래 5개 후보는 사용자 검토 중이며, 전략 확정 또는 제외는 피드백 후 결정한다.
+</p>
+
+<!-- ──────────────── Elder 전략 후보 ──────────────── -->
+<div class="sec-lbl">Elder 전략 후보 (I–K)</div>
+<div class="s-grid">
+
+<!-- Card I: Triple Screen -->
+<div class="card" id="cI">
+  <div class="card-hd" onclick="toggle('cI')">
+    <div class="card-hd-left">
+      <span class="badge be">Elder 시스템</span>
+      <p class="c-title">I. Elder Triple Screen System</p>
+      <p class="c-chap">Chapter 39 · 40 · 30 · 55</p>
+      <p class="c-sum">3중 타임프레임 필터링 시스템. 주봉 Impulse로 진입 방향을 결정하고, 일봉 Force Index로 최적 타이밍을 포착하며, Trade Apgar로 최종 진입 품질을 점수화한다.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기</div>
+      <p class="story">Elder는 항상 세 가지를 묻는다: "지금 조류(tide)는 어느 쪽? 파도(wave)는? 물결(ripple)은?" 삼성전자가 주봉에서 상승 추세(Impulse Green)를 형성 중이다. 일봉에서 Force Index가 2일 연속 음수 — 가격이 잠시 눌렸다. 바로 이 순간, 주봉 추세를 따르면서 일봉 되돌림에 편승하는 것이 Triple Screen 매수 시점이다.</p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">3개 구성 요소</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+        <div style="flex:1;min-width:130px;border:1px solid #e0e0db;border-radius:6px;padding:10px;background:#f9f9f7">
+          <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:5px">1차 스크린 (주봉)</div>
+          <div style="font-size:11px;color:#333;line-height:1.6"><strong>Impulse System</strong><br>EMA↑+MACD-H↑ = <span style="color:#2E7D32">Green</span> (매수만)<br>EMA↓+MACD-H↓ = <span style="color:#C62828">Red</span> (매수 금지)<br>혼재 = <span style="color:#555">Blue</span> (자유)</div>
+        </div>
+        <div style="flex:1;min-width:130px;border:1px solid #e0e0db;border-radius:6px;padding:10px;background:#f9f9f7">
+          <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:5px">2차 스크린 (일봉)</div>
+          <div style="font-size:11px;color:#333;line-height:1.6"><strong>Force Index 2일 EMA</strong><br>Force = 거래량 × 전일비 가격변화<br>2일 EMA &lt; 0 → 눌림목<br>반등 시 매수 타이밍</div>
+        </div>
+        <div style="flex:1;min-width:130px;border:1px solid #e0e0db;border-radius:6px;padding:10px;background:#f9f9f7">
+          <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:5px">진입 결정</div>
+          <div style="font-size:11px;color:#333;line-height:1.6"><strong>Trade Apgar</strong><br>5항목 × 0~2점<br>≥ 7점만 진입<br>채널 30% 이상 = A-trade</div>
+        </div>
+      </div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">주봉 Impulse 상태 확인 — Green 또는 Blue일 때만 매수 허용, Red이면 패스</span></li>
+        <li><span class="step-n">2</span><span class="step-body">일봉 Force Index 2일 EMA가 0 이하로 눌린 뒤 반등 → 매수 신호 발생</span></li>
+        <li><span class="step-n">3</span><span class="step-body">진입 방법 ① 전일 고가 1틱 위 매수 스탑 ② EMA 아래 평균 침투 깊이 지정가 중 선택</span></li>
+        <li><span class="step-n">4</span><span class="step-body">Trade Apgar 5개 항목 채점 → 7점 이상만 실제 진입. 미달이면 패스.</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">가치 구간 상단(EMA) 또는 채널 상한선 도달 시</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">SafeZone: 최근 10~20일 EMA 침투 평균 × 2 거리</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">"조류를 거슬러 헤엄치지 말라." 주봉 추세 방향에서만 거래하면 확률이 구조적으로 유리해진다. 일봉 역추세 되돌림은 최적 진입 시점과 좁은 손절선을 동시에 제공한다. Williams 전략이 패턴 인식 → 즉시 진입이라면, Triple Screen은 3중 조건 동시 충족 → 진입 허가다.</div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">검토 필요 사항</div>
+      <ul class="prec">
+        <li><strong>당일매수-익일매도 호환성</strong>: Elder Triple Screen은 수일 보유 스윙 트레이드 기준. TraderX 익일 청산 원칙과 충돌 여부 검토 필요.</li>
+        <li><strong>주봉 데이터</strong>: Impulse System이 주봉 EMA + MACD-H를 사용. 현재 일봉 데이터에서 주봉 재구성 가능.</li>
+        <li><strong>Force Index</strong>: 거래량 데이터 필요. 현재 수집 데이터에서 계산 가능 여부 확인 필요.</li>
+        <li><strong>구성 요소 분리 활용</strong>: Impulse, Force Index, Trade Apgar 각각을 Williams 전략의 필터로 적용하는 방식도 가능.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Card J: Kangaroo Tails -->
+<div class="card" id="cJ">
+  <div class="card-hd" onclick="toggle('cJ')">
+    <div class="card-hd-left">
+      <span class="badge be">Elder 반전</span>
+      <p class="c-title">J. Kangaroo Tails</p>
+      <p class="c-chap">Chapter 20 (pp.65–67)</p>
+      <p class="c-sum">빽빽한 가격대에서 단 하나의 봉이 극단적으로 돌출되고, 양쪽을 평균 높이 봉이 감싸는 3봉 패턴. Elder: "신뢰할 만한 차트 패턴 단기 목록." 꼬리 방향의 추세 실패 → 반대 방향으로 거래.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기</div>
+      <p class="story">삼성전자가 2주째 60,000원~62,000원 사이에서 횡보 중. 어느 날, 59,200원까지 급락(꼬리 봉)했다가 61,500원에 종가 마감. 다음 날은 60,500원~61,800원의 좁은 범위. 이 꼬리 봉은 "곰의 기습"이 실패했음을 보여준다 — 매도 세력이 가격을 지지 아래로 밀었으나 시장이 즉시 회수. 꼬리가 가리키는 방향(아래)을 거부한 시장의 메시지다.</p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">패턴 다이어그램</div>
+      <svg class="diag" viewBox="0 0 380 120" xmlns="http://www.w3.org/2000/svg">
+        <text x="8" y="12" font-size="9" fill="#aaa">하향 꼬리 (매수 신호) — 3봉 구조</text>
+        <line x1="60" y1="38" x2="60" y2="68" stroke="#888" stroke-width="1.5"/>
+        <rect x="54" y="43" width="12" height="20" fill="#888" rx="1"/>
+        <text x="51" y="83" font-size="8" fill="#aaa">봉 1 (평균)</text>
+        <line x1="160" y1="32" x2="160" y2="105" stroke="#C62828" stroke-width="2"/>
+        <rect x="154" y="34" width="12" height="16" fill="#2E7D32" rx="1"/>
+        <text x="143" y="115" font-size="9" fill="#C62828" font-weight="600">꼬리 봉 (돌출)</text>
+        <text x="176" y="75" font-size="8" fill="#C62828">← 꼬리</text>
+        <line x1="260" y1="36" x2="260" y2="65" stroke="#888" stroke-width="1.5"/>
+        <rect x="254" y="40" width="12" height="20" fill="#888" rx="1"/>
+        <text x="251" y="80" font-size="8" fill="#aaa">봉 3 (평균)</text>
+        <text x="285" y="50" font-size="9" fill="#185FA5" font-weight="500">← 봉 3 확인</text>
+        <text x="285" y="62" font-size="9" fill="#185FA5">시 매수 진입</text>
+        <line x1="120" y1="71" x2="205" y2="71" stroke="#C62828" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="120" y="80" font-size="8" fill="#C62828">손절: 꼬리 중간점</text>
+      </svg>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">최근 2주 내 좁은 range 횡보 확인 — "빽빽한 가격대(tight weave of prices)"가 선행되어야 함</span></li>
+        <li><span class="step-n">2</span><span class="step-body">단 하나의 봉이 현저히 아래로 돌출 (range가 인접 봉의 2배 이상). 시가·종가는 봉 상단에 위치 (긴 하향 그림자)</span></li>
+        <li><span class="step-n">3</span><span class="step-body">다음 날(3번째 봉)이 좁은 range로 마감 확인 → 꼬리 반대 방향(매수) 진입</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">수일 내 청산 (Elder: "a few days on daily charts")</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">꼬리 중간 지점 (halfway through the tail)</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">"캥거루 꼬리는 실패한 황소 또는 곰의 기습을 반영한다." 시장이 그 방향으로 주문을 찾지 못하자 반대로 움직인다. 꼬리 = 가격이 특정 레벨을 거부했다는 증거. Elder는 이를 "신뢰할 만한 차트 패턴 단기 목록"에 명시적으로 올려두었다.</div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">검토 필요 사항</div>
+      <ul class="prec">
+        <li><strong>진입 타이밍</strong>: 전일 꼬리 봉 확인 후 당일 시초가 진입 가능 → 당일매수-익일매도 구조와 호환 가능성 있음.</li>
+        <li><strong>Elder 경고</strong>: "Real kangaroo tails are unmistakable. If you have to ask, it's not one." — 의심스러우면 없는 것으로 간주.</li>
+        <li><strong>이익실현</strong>: "a few days" 기준이 익일 Bail Out 원칙과 부합하는지 백테스팅 검증 필요.</li>
+        <li><strong>정량적 필터</strong>: 꼬리 봉 판별 기준(range 비율 등)을 수치화해야 스캔 자동화 가능.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Card K: False Breakout + Divergence -->
+<div class="card" id="cK">
+  <div class="card-hd" onclick="toggle('cK')">
+    <div class="card-hd-left">
+      <span class="badge be">Elder 반전</span>
+      <p class="c-title">K. False Breakout + Divergence (FB+BD)</p>
+      <p class="c-chap">Chapter 18 · 55</p>
+      <p class="c-sum">Elder 자신의 주력 전략 #1. 거짓 하락돌파(지지선 이탈 후 즉각 복귀)와 강세 다이버전스(MACD-H 얕아짐)가 동시에 발생하는 이중 확인 반전 신호.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">시장 이야기</div>
+      <p class="story">LG에너지솔루션이 수개월간 하락 중. 저점 A에서 MACD-H = −200. 이후 반등, MACD-H가 0선 위로 상승 ("곰의 등을 부러뜨린다"). 이후 재하락, 저점 B는 저점 A보다 낮은 신저가. 그러나 MACD-H는 −120으로 이전 저점(−200)보다 얕다 (강세 다이버전스). 동시에, 저점 B에서 지지선 이하로 잠시 이탈했다가 당일 종가에서 지지선 위로 회복 (거짓 하락돌파). 두 신호가 겹쳤다 — Elder는 이 봉이 마감하기 전에 매수 진입한다.</p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">2가지 동시 조건</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+        <div style="flex:1;min-width:140px;border:1px solid #e0e0db;border-radius:6px;padding:10px;background:#f9f9f7">
+          <div style="font-size:10px;font-weight:600;color:#D85A30;margin-bottom:5px">조건 A: 거짓 하락돌파</div>
+          <div style="font-size:11px;color:#333;line-height:1.6">지지선(이전 저점) 이하 이탈 후 당일 내 지지선 위로 복귀하며 종가 마감. 공매도 세력을 함정에 빠뜨린 역방향 움직임.</div>
+        </div>
+        <div style="flex:1;min-width:140px;border:1px solid #e0e0db;border-radius:6px;padding:10px;background:#f9f9f7">
+          <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:5px">조건 B: 강세 다이버전스</div>
+          <div style="font-size:11px;color:#333;line-height:1.6">가격은 이전 저점보다 낮은 새 저점. MACD-H는 이전 저점보다 얕은 저점(0에 가까운). 하락 모멘텀 소진 신호.</div>
+        </div>
+      </div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">진입 단계</div>
+      <ul class="steps">
+        <li><span class="step-n">1</span><span class="step-body">배경: 하락 추세 또는 조정. MACD-H가 한 차례 0선 위로 올라온 이력 확인("곰의 등을 부러뜨린" 신호)</span></li>
+        <li><span class="step-n">2</span><span class="step-body">이전 저점보다 낮은 새 저점 형성 — 동시에 MACD-H는 이전 저점보다 얕음 (강세 다이버전스 성립)</span></li>
+        <li><span class="step-n">3</span><span class="step-body">해당 봉이 지지선 이하 이탈 후 지지선 위로 당일 회복 → 거짓 하락돌파 확인</span></li>
+        <li><span class="step-n">4</span><span class="step-body">두 조건(A + B) 동시 충족 시 매수 진입 (당일 장중 또는 다음 날 시초가)</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">채널 상한선 또는 가치 구간(두 EMA 사이) 도달</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">거짓 하락돌파 봉의 저점 이하</span></div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">이익의 원천</div>
+      <div class="edge">거짓 돌파에 진입한 공매도 세력의 강제 손절(매수 청산)이 상승 연료가 된다. 다이버전스는 하락 모멘텀이 소진됐음을 독립적으로 확인한다. Williams Smash Day와 개념적으로 유사하지만, 다이버전스 조건이 추가 필터 역할을 해 신뢰도가 높아지는 대신 발생 빈도는 낮아진다.</div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">검토 필요 사항</div>
+      <ul class="prec">
+        <li><strong>Williams B(Smash Day)와의 차이</strong>: Smash Day = 패턴 완성 즉시 진입. FB+BD = 다이버전스 확인에 수주 소요 → 발생 빈도 훨씬 낮음.</li>
+        <li><strong>다이버전스 형성 기간</strong>: 최소 2개 저점 비교 필요 → 수주~수개월 패턴 형성 기간. 단기 자동 스캔에 제약.</li>
+        <li><strong>당일매수-익일매도 호환성</strong>: 거짓돌파 확인 당일 진입 가능. 이익실현 목표(채널 상한)까지 수일이 필요할 수 있어 익일 청산 원칙과 충돌 여부 검토 필요.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- /s-grid Elder 전략 -->
+
+<!-- ──────────────── MACRO FILTERS ──────────────── -->
+<div class="sec-lbl" style="margin-top:2.5rem">Elder 매크로 필터 후보</div>
+<p style="font-size:13px;color:#555;margin:0 0 1.5rem;line-height:1.7">
+  아래 두 지표는 독립 전략이 아닌 <strong>시장 환경 판단용 매크로 필터</strong>다. 특정 시장 환경에서만 개별 전략 진입을 허용하는 게이트 역할을 한다.
+</p>
+<div class="s-grid">
+
+<!-- Card NH-NL -->
+<div class="card" id="cNH">
+  <div class="card-hd" onclick="toggle('cNH')">
+    <div class="card-hd-left">
+      <span class="badge bf">매크로 필터</span>
+      <p class="c-title">NH-NL Index</p>
+      <p class="c-chap">Chapter 34 (pp.133–139)</p>
+      <p class="c-sum">52주 신고가 종목 수 − 신저가 종목 수. Elder: "최고의 선행 주식시장 지표." 시장 리더십의 방향과 강도를 숫자 하나로 요약. 음수 지속 시 매수 전략 진입 자제.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">핵심 개념</div>
+      <p class="story">NH-NL = 당일 52주 신고가(New High) 종목 수 − 52주 신저가(New Low) 종목 수.<br><br>
+      &nbsp;&nbsp;NH-NL &gt; 0 → 강세 리더십 우세 → 개별 종목 매수 허용<br>
+      &nbsp;&nbsp;NH-NL &lt; 0 → 약세 리더십 우세 → 매수 자제<br>
+      &nbsp;&nbsp;NH-NL 극단 음수에서 반등 → "Spike Bounce" 강력 매수 신호</p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">필터 적용 방식</div>
+      <ul class="steps">
+        <li><span class="step-n">게이트</span><span class="step-body">NH-NL이 지속적 음수 상태 → 개별 전략 매수 진입 자제</span></li>
+        <li><span class="step-n">경고</span><span class="step-body">지수가 고점 갱신하나 NH-NL이 낮아지면 → 상승 추세 약화 경고</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">구현 난이도</span><span class="d-val warn">KRX 전 종목 52주 고저가 일간 집계 필요. 기존 312개 종목 데이터로 구현 가능하나 별도 파이프라인 작성 필요.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Card Stocks above 50-Day MA -->
+<div class="card" id="cS50">
+  <div class="card-hd" onclick="toggle('cS50')">
+    <div class="card-hd-left">
+      <span class="badge bf">매크로 필터</span>
+      <p class="c-title">Stocks above 50-Day MA</p>
+      <p class="c-chap">Chapter 35 (pp.139–140)</p>
+      <p class="c-sum">전체 종목 중 50일 이동평균 위에 있는 비율(%). 기준선 75%(과열) / 25%(과매도). 기존 312개 종목 일봉 데이터로 즉시 계산 가능.</p>
+    </div>
+    <span class="chev">⌄</span>
+  </div>
+  <div class="detail">
+    <div class="d-sec">
+      <div class="d-sec-title">핵심 개념</div>
+      <p class="story">전체 종목 중 50일 이동평균 위에 있는 종목 비율(%). 기준선: 75%(과열) / 25%(과매도).<br><br>
+      &nbsp;&nbsp;75% 이상 → 시장 과열 → 신규 매수 자제<br>
+      &nbsp;&nbsp;25% 이하 → 시장 과매도 → 반등 신호 탐색 강화<br>
+      &nbsp;&nbsp;과열/과매도 구간에서 지표가 반전할 때 시장 전환 신호</p>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-title">필터 적용 방식</div>
+      <ul class="steps">
+        <li><span class="step-n">게이트</span><span class="step-body">75% 이상 과열 상태 → 신규 매수 전략 진입 자제</span></li>
+        <li><span class="step-n">강화</span><span class="step-body">25% 이하 과매도 시 → 매수 신호 발생 시 더 적극적 진입 허용</span></li>
+      </ul>
+    </div>
+    <div class="d-sec">
+      <div class="d-row"><span class="d-lbl">구현 난이도</span><span class="d-val">기존 312개 종목 일봉 데이터로 즉시 계산 가능. 별도 파이프라인 불필요.</span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /s-grid Elder 필터 -->
 
 <!-- ──────────────── COMMON PRINCIPLES ──────────────── -->
 <div class="sec-lbl">공통 원칙 — 모든 전략에 적용 (Chapter 11)</div>
@@ -849,8 +1126,63 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
 
 </div>
 
+<!-- Elder 평가 -->
+<div class="phase-div" style="margin-top:2rem">
+  <div class="phase-div-line"></div>
+  <div class="phase-div-label">Elder 후보 — 당일매수-익일매도 호환성 예비 검토 (2026-06-30)</div>
+  <div class="phase-div-line"></div>
+</div>
+
+<p class="eval-note">
+  Elder 후보 5개는 아직 사용자 검토 중이다. 아래 평가는 <strong>당일매수-익일매도 호환성 관점의 예비 메모</strong>이며, 사용자 확정 후 업데이트된다.
+</p>
+
+<div class="eval-grid">
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">I. Elder Triple Screen System</span>
+      <span class="verdict v-new">🔍 검토 중</span>
+    </div>
+    <p class="eval-reason">Impulse(주봉)+Force Index(일봉)+Trade Apgar(진입 결정) 3중 조합. <strong>당일매수-익일매도 호환성 미확인</strong>: Elder는 수일 보유 swing trade를 전제하나, 진입 신호(Force Index 반등) 자체는 당일 생성 가능. 구성 요소 중 Impulse/Force Index를 기존 Williams 전략의 필터로만 사용하는 방안도 검토 대상.</p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">J. Kangaroo Tails</span>
+      <span class="verdict v-new">🔍 검토 중</span>
+    </div>
+    <p class="eval-reason">3봉 패턴 완성(꼬리 봉 + 좁은 3번째 봉) 확인 후 당일 시초가 진입 가능. Elder: "a few days" 보유 기준으로 제시하나, 익일 Bail Out 규칙 적용 시 호환 가능성 있음. 꼬리 봉 판별 기준(range 비율 등)을 수치화해야 자동 스캔 가능. Elder 반전 패턴 중 당일매수-익일매도와 가장 구조적으로 가까운 후보.</p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">K. False Breakout + Divergence (FB+BD)</span>
+      <span class="verdict v-new">🔍 검토 중</span>
+    </div>
+    <p class="eval-reason">Elder 주력 전략 #1. 거짓 하락돌파 당일 진입은 가능하나, <strong>다이버전스 형성에 수주~수개월 소요</strong>. 패턴 완성 후 당일 매수는 가능해도 이익실현 목표(채널 상한)까지 수일이 필요할 수 있어 익일 청산 원칙과의 충돌 여부 확인 필요. Williams B(Smash Day)와 겹치는 구조 — 중복성 검토 필요.</p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">NH-NL Index (매크로 필터)</span>
+      <span class="verdict v-new">🔍 검토 중</span>
+    </div>
+    <p class="eval-reason">독립 전략 아님. 시장 환경 게이트 역할. KRX 전 종목 52주 고저가 일간 집계 파이프라인 구축 필요. Elder가 "최고의 선행 지표"로 강조하며, 한국 시장에서도 적용 가능하나 <em>추가 데이터 수집 파이프라인 작성</em>이 전제 조건.</p>
+  </div>
+
+  <div class="eval-item">
+    <div class="eval-item-hd">
+      <span class="eval-title">Stocks above 50-Day MA (매크로 필터)</span>
+      <span class="verdict v-new">🔍 검토 중</span>
+    </div>
+    <p class="eval-reason">독립 전략 아님. 시장 과열/과매도 게이트 역할. <strong>기존 312개 종목 일봉 데이터로 즉시 계산 가능</strong>. 구현 난이도가 낮아 NH-NL보다 먼저 적용 실험 가능. 75%/25% 기준선의 한국 시장 적합성은 백테스팅으로 검증 필요.</p>
+  </div>
+
+</div>
+
 <!-- 정리 -->
-<div class="sec-lbl">백테스팅 후보 정리</div>
+<div class="sec-lbl">백테스팅 후보 정리 — Williams (A–H)</div>
 <div class="table-wrap">
   <table>
     <thead><tr><th>전략</th><th>평가</th><th>사유 요약</th></tr></thead>
@@ -867,8 +1199,22 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
   </table>
 </div>
 
+<div class="sec-lbl" style="margin-top:2rem">Elder 후보 검토 현황 (I–K + 필터 2개)</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>후보</th><th>분류</th><th>상태</th><th>핵심 검토 사항</th></tr></thead>
+    <tbody>
+      <tr><td>I. Elder Triple Screen</td><td>전략 후보</td><td>🔍 검토 중</td><td>수일 보유 vs. 익일 청산 원칙 충돌 여부. 구성 요소 분리 활용 가능성.</td></tr>
+      <tr><td>J. Kangaroo Tails</td><td>전략 후보</td><td>🔍 검토 중</td><td>3봉 완성 후 당일 진입 가능. 꼬리 판별 기준 수치화 필요. Elder 반전 중 가장 단순.</td></tr>
+      <tr><td>K. FB+BD</td><td>전략 후보</td><td>🔍 검토 중</td><td>다이버전스 형성 수주 소요. Williams B와 중복성 검토 필요.</td></tr>
+      <tr><td>NH-NL Index</td><td>매크로 필터</td><td>🔍 검토 중</td><td>별도 파이프라인 필요. Elder 강추 지표.</td></tr>
+      <tr><td>Stocks above 50-Day MA</td><td>매크로 필터</td><td>🔍 검토 중</td><td>기존 데이터로 즉시 계산 가능. 구현 난이도 낮음.</td></tr>
+    </tbody>
+  </table>
+</div>
+
 <div class="footer">
-  TraderX Phase 1 Research &nbsp;|&nbsp; 출처: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em> (reference/ 원본 기반)
+  TraderX Phase 1 Research &nbsp;|&nbsp; 출처: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em> &amp; Alexander Elder, <em>The New Trading For a Living</em> (reference/ 원본 기반)
 </div>
 
 </div><!-- /page -->
