@@ -340,16 +340,16 @@ tr:nth-child(even) td { background: #fafaf9; }
           <td><span class="badge b-pass">✅ 백테스트 대상</span></td>
           <td>PP 3일 단조 증가 + 30%&lt;D-1 PP&lt;65%, 3일 저가/고가 이평 진입·청산 규칙 전면 확정 (2026-06-22)</td>
         </tr>
-        <tr><td colspan="3" style="background:#f5f2ff;color:#5A35B0;font-size:11px;font-weight:500;padding:6px 14px;letter-spacing:.04em">Elder 후보 — 검토 중 (2026-06-30, 사용자 결정 대기)</td></tr>
+        <tr><td colspan="3" style="background:#f5f2ff;color:#5A35B0;font-size:11px;font-weight:500;padding:6px 14px;letter-spacing:.04em">Elder 후보 — I·J 명세 확정 (2026-07-01) · K·필터 2개 검토 중</td></tr>
         <tr>
           <td>I. Elder Triple Screen</td>
-          <td><span class="badge b-new">🔍 검토 중</span></td>
-          <td>수일 보유 스윙 트레이드 전제 — 익일 청산 원칙과의 충돌 여부 확인 필요. 구성 요소(Impulse, Force Index, Trade Apgar) 분리 활용 가능성도 검토 대상.</td>
+          <td><span class="badge b-pass">✅ 명세 확정</span></td>
+          <td>익일 Bail Out 예외 확정. 청산 3조건 확정: Upper Channel(목표), SafeZone Stop(손절), Impulse→RED(강제). Apgar ②(FI 깊이 기준)·⑤(시장 환경) 파라미터 미결 — 백테스팅·외부 데이터 소스 확정 후 결정. (2026-07-01)</td>
         </tr>
         <tr>
           <td>J. Kangaroo Tails</td>
-          <td><span class="badge b-new">🔍 검토 중</span></td>
-          <td>전일 꼬리 봉 확인 후 당일 진입 가능 — 익일 Bail Out과 호환 가능성 있음. Elder 반전 패턴 중 가장 단순. 꼬리 판별 기준 수치화 필요.</td>
+          <td><span class="badge b-pass">✅ 명세 확정</span></td>
+          <td>독립 전략 확정(Triple Screen 비종속). Smash Day와 봉 구조상 상호 배타적이라 비중복 확정. 진입: 확인 봉 종가 / 청산: 익일 Bail Out. 정량 파라미터 5개 백테스팅 결정. (2026-07-01)</td>
         </tr>
         <tr>
           <td>K. False Breakout + Divergence</td>
@@ -372,26 +372,38 @@ tr:nth-child(even) td { background: #fafaf9; }
 </div>
 
 <!-- Elder 후보 명세 (Stage 1 재개) -->
-<h2>부록. Elder 후보 명세 <small style="font-size:13px;font-weight:400;color:#888">(Stage 1 재개 · 2026-06-30 · 검토 중)</small></h2>
+<h2>부록. Elder 후보 명세 <small style="font-size:13px;font-weight:400;color:#888">(Stage 1 재개 · 2026-06-30 · I·J: 명세 확정 · K: 검토 중)</small></h2>
 
 <h3>분석 배경</h3>
 <p>Williams 분석 완료 후 Stage 1이 재개(2026-06-30)되어 Alexander Elder의 저서(<em>The New Trading For a Living</em>, 2014)를 추가 원천으로 편입하였다. Williams 전략이 "패턴 인식 → 즉시 진입"이라면, Elder는 "다중 타임프레임 필터링 → 진입 허가"라는 다른 접근을 취한다. 두 저자의 철학은 상호 보완적이다.</p>
 
-<h3>I. Elder Triple Screen System</h3>
-<p>3단계 다중 타임프레임 필터링 시스템. 구성 요소:</p>
+<h3>I. Elder Triple Screen System <small style="font-size:12px;font-weight:400;color:#2e7d32">✅ 명세 확정 (2026-07-01)</small></h3>
+<p>3단계 다중 타임프레임 필터링 시스템. 조류(주봉 추세)를 따르되 파도(일봉 되돌림)를 역이용해 최적 진입 시점을 포착한다. 상세 명세: <code>docs/strategy/I_elder_triple_screen.md</code></p>
 <ul>
-  <li><strong>1차 스크린 (주봉 Impulse)</strong>: EMA↑+MACD-H↑ = Green(매수만), EMA↓+MACD-H↓ = Red(매수 금지), 혼재 = Blue(자유). 진입 방향을 구조적으로 결정.</li>
-  <li><strong>2차 스크린 (일봉 Force Index 2일 EMA)</strong>: Force Index = 거래량 × 전일비 가격 변화. 2일 EMA &lt; 0이면 눌림목 — 반등 시 매수 타이밍.</li>
-  <li><strong>진입 결정 (Trade Apgar)</strong>: 5항목 × 0~2점, 합산 7점 이상만 실제 진입. "A-trade" = 채널 높이의 30% 이상을 포획하는 트레이드.</li>
+  <li><strong>1차 스크린 (주봉 Impulse)</strong>: EMA(13주) 방향 + MACD-H(12-26-9주) 방향 조합. Green(매수만) / Red(매수 금지) / Blue(허용). 진입 방향을 구조적으로 결정 — "검열".</li>
+  <li><strong>2차 스크린 (일봉 Force Index 2일 EMA)</strong>: FI = 거래량 × 전일비 가격 변화. FI_2EMA가 음수→양수 전환 시 신호. 주봉 상승 추세 속 일봉 눌림목의 끝을 포착.</li>
+  <li><strong>진입 결정 (Trade Apgar)</strong>: 5항목 × 0~2점, 합산 ≥7점만 실제 진입. 3~6점은 가상 추적(백테스팅 분석용). A-trade = 채널 높이 30% 이상 포획.</li>
+  <li><strong>진입 실행 (3차 스크린)</strong>: T+1일 T의 고가+1틱 매수 스탑 주문. 미체결 시 당일 취소.</li>
 </ul>
-<div class="callout">검토 사항: Elder Triple Screen은 수일 보유 스윙 트레이드 전제. TraderX 익일 청산 원칙과의 충돌 여부 검토 필요. 구성 요소를 Williams 전략의 필터로 분리 사용하는 방안도 가능.</div>
-
-<h3>J. Kangaroo Tails</h3>
-<p>빽빽한 가격대에서 단 하나의 봉이 극단적으로 돌출되고 양쪽을 평균 높이 봉이 감싸는 3봉 패턴. Elder: "신뢰할 만한 차트 패턴 단기 목록." 꼬리 방향의 추세 실패 → 반대 방향 진입.</p>
+<p><strong>청산 규칙 (2026-07-01 확정)</strong> — TraderX 익일 Bail Out 원칙 <em>예외</em>. 아래 3조건 중 최초 충족 시 청산:</p>
 <ul>
-  <li><strong>매수 조건</strong>: 빽빽한 가격대 내 하향 돌출 봉(range 2배↑) + 시가·종가 상단 위치 + 다음 봉 좁은 range 확인</li>
-  <li><strong>이익실현</strong>: "a few days" (Elder) — 익일 Bail Out과 구조 호환 가능성 있음</li>
-  <li><strong>손절</strong>: 꼬리 중간 지점 (halfway through the tail)</li>
+  <li><strong>조건 A (목표가)</strong>: 당일 고가 ≥ Upper EMA Channel (EMA_fast × (1+c))</li>
+  <li><strong>조건 B (손절가)</strong>: 당일 저가 ≤ SafeZone Stop (EMA_fast − 2 × 최근 20일 평균 EMA 침투 깊이)</li>
+  <li><strong>조건 C (강제 청산)</strong>: 주봉 Impulse → RED 전환. 포지션 보유 근거(주봉 상승 추세) 소멸 시 즉시 청산.</li>
+  <li><del>2차 스크린(FI) 훼손 조건</del> — 폐기 결정 (2026-07-01). Force Index는 진입 타이밍 전용, 포지션 관리 관여 없음.</li>
+</ul>
+<p><strong>Apgar 미결 항목</strong>: ②(FI 깊이 기준 — FI_DEEP_PCT / FI_MID_PCT, 백테스팅 결정) · ⑤(시장 환경 — NH-NL + Stocks above 50MA, 외부 데이터 소스 확정 후. 백테스팅에서는 1점 고정).</p>
+<p><strong>신호 추적 계획</strong>: Apgar ≥ 3 신호에 대해 signal_events → signal_tracking (일별) → signal_outcomes 3단계 테이블로 다수일 포지션을 가상 추적. 추적 종료는 조건 A/B/C 최초 충족 시.</p>
+
+<h3>J. Kangaroo Tails <small style="font-size:12px;font-weight:400;color:#2e7d32">✅ 명세 확정 (2026-07-01)</small></h3>
+<p>빽빽한 가격대(tight weave)에서 단 하나의 봉이 극단적으로 돌출되고 양쪽을 평균 높이 봉이 감싸는 3봉 패턴. Elder: "신뢰할 만한 차트 패턴 단기 목록." 실패한 습격(꼬리 방향의 추세 실패) → 반대 방향 진입. 상세 명세: <code>docs/strategy/J_kangaroo_tails.md</code></p>
+<ul>
+  <li><strong>독립 전략</strong>: Strategy I(Triple Screen)에 종속되지 않음. 주봉 Impulse를 배경 필터로만 재사용(도구 공유, 전략은 독립). 익일 Bail Out이라는 독자적 청산 규칙이 이 독립성의 근거 — 종속 신호였다면 Triple Screen의 3조건 청산을 물려받았을 것.</li>
+  <li><strong>매수 조건</strong>: 배경 필터(주봉 Impulse = Green/Blue) + tight weave 선행 + 하향 돌출 꼬리 봉(range가 인접 봉 평균 대비 TAIL_RANGE_MULT배↑, 시가·종가 상단 위치) + 확인 봉(익일) 좁은 range 확인</li>
+  <li><strong>진입</strong>: 확인 봉의 <strong>종가</strong> 매수. Elder 원문의 "3번째 봉 형성 중 종가 직전 매수"는 장 종료 무렵 판단이므로 종가 매수로 근사 — T+1 지연 불필요.</li>
+  <li><strong>청산</strong>: 익일 시초가 무조건 청산 (Bail Out). Elder의 모호한 "a few days" 대신 TraderX 표준 청산 방식 적용 — 반등 연료(강제 숏커버링)가 통상 1거래일 내 소진되는 경향에 근거.</li>
+  <li><strong>Smash Day(전략 B)와 비중복 확정</strong>: Hidden형 설정 봉은 종가가 자기 range 하단 25% 이내, 캥거루 꼬리는 종가가 상단 근처 — 같은 봉이 동시에 두 조건을 만족할 수 없어 구조적으로 상호 배타적. 필터 병합 대신 별도 후보로 병행 — 신호 풀이 겹치지 않아 거래 기회만 증가.</li>
+  <li><strong>미결 파라미터</strong>: WEAVE_DAYS, WEAVE_RANGE_PCT, TAIL_RANGE_MULT, CONFIRM_RANGE_PCT, CONFIRM_TOP_PCT — 5개 전부 백테스팅으로 결정 (Strategy A의 k값 탐색과 동일 방식론).</li>
 </ul>
 
 <h3>K. False Breakout + Divergence (FB+BD)</h3>

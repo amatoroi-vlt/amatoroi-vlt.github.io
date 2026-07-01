@@ -52,12 +52,12 @@
     "summary": "Alexander Elder의 저서 'The New Trading for a Living'을 직접 검증하며 정리한 독서 노트다. 심리, 고전/전산 차트 분석, 거래량·시간 지표, 거래 시스템, 리스크 관리, 실무 기록까지 11개 파트 전체를 챕터별로 요약하고 원문 인용을 발췌했다."
   },
   "reports/투자관련/phase1_strategy_candidates.html": {
-    "hash": "17f95b07567aa339198fa53716668b3fe4071fdf",
-    "summary": "TraderX 프로젝트의 Phase 1 전략 후보 분석 보고서로, Larry Williams와 Alexander Elder의 저서를 근거로 브레이크아웃·반전 패턴·추세추종·Elder 매크로 필터 등 다수의 롱 전용 매수 전략 후보(A~H 및 Elder 전략)를 진입·청산 규칙과 함께 카드 형태로 정리했다."
+    "hash": "309c79a9c56ddf0fca2a6935bb62dfb2d37465da",
+    "summary": "TraderX 프로젝트의 Phase 1 전략 후보 분석 보고서로, Larry Williams와 Alexander Elder의 저서를 근거로 브레이크아웃·반전 패턴·추세추종·Elder 매크로 필터 등 다수의 롱 전용 매수 전략 후보(A~H 및 Elder 전략)를 진입·청산 규칙과 함께 카드 형태로 정리했다. Elder 후보 중 I(Triple Screen)와 J(Kangaroo Tails)는 익일 Bail Out 청산 규칙을 포함해 명세가 확정되었고, K와 필터 후보는 검토 중이다."
   },
   "reports/투자관련/phase1_strategy_spec_report.html": {
-    "hash": "44e0e66eaffaa7839ec023777e854ae89ea969f1",
-    "summary": "TraderX 프로젝트 Phase 1(전략 명세화)의 연구 및 협의 결과를 정리한 완료 보고서다. Larry Williams 저서 기반 8개 전략 후보 중 6개(A·B·C·D·E·H)를 Phase 3 백테스팅 대상으로 확정하고, Elder 저서 기반 추가 후보 5개를 검토 중인 상태를 기록한다."
+    "hash": "6c4430423089f5f812344a8ba85cb33c25ca4121",
+    "summary": "TraderX 프로젝트 Phase 1(전략 명세화)의 연구 및 협의 결과를 정리한 완료 보고서다. Larry Williams 저서 기반 8개 전략 후보 중 6개(A·B·C·D·E·H)를 Phase 3 백테스팅 대상으로 확정했고, Elder 저서 기반 후보 중 I(Elder Triple Screen)·J(Kangaroo Tails)도 청산 규칙까지 명세를 확정했으며 K와 필터 후보 2개는 검토 중이다."
   },
   "reports/투자관련/strategy_a_final_v1.html": {
     "hash": "1f49823fdfbac325b0b1e272f6fce4c3b354f507",

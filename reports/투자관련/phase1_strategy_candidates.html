@@ -779,20 +779,22 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
       </ul>
     </div>
     <div class="d-sec">
-      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">가치 구간 상단(EMA) 또는 채널 상한선 도달 시</span></div>
-      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">SafeZone: 최근 10~20일 EMA 침투 평균 × 2 거리</span></div>
+      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">Upper EMA Channel 도달 시 (EMA_fast × (1 + c), c = 최근 100봉 95th pct 이탈폭)</span></div>
+      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">SafeZone: EMA_fast − 2 × 최근 20일 EMA 침투 평균</span></div>
+      <div class="d-row"><span class="d-lbl">강제청산</span><span class="d-val">주봉 Impulse → RED 전환 시 익일 시초가</span></div>
     </div>
     <div class="d-sec">
       <div class="d-sec-title">이익의 원천</div>
       <div class="edge">"조류를 거슬러 헤엄치지 말라." 주봉 추세 방향에서만 거래하면 확률이 구조적으로 유리해진다. 일봉 역추세 되돌림은 최적 진입 시점과 좁은 손절선을 동시에 제공한다. Williams 전략이 패턴 인식 → 즉시 진입이라면, Triple Screen은 3중 조건 동시 충족 → 진입 허가다.</div>
     </div>
     <div class="d-sec">
-      <div class="d-sec-title">검토 필요 사항</div>
+      <div class="d-sec-title">확정된 결정 사항 <small style="font-size:10px;font-weight:400;color:#888">(2026-07-01)</small></div>
       <ul class="prec">
-        <li><strong>당일매수-익일매도 호환성</strong>: Elder Triple Screen은 수일 보유 스윙 트레이드 기준. TraderX 익일 청산 원칙과 충돌 여부 검토 필요.</li>
-        <li><strong>주봉 데이터</strong>: Impulse System이 주봉 EMA + MACD-H를 사용. 현재 일봉 데이터에서 주봉 재구성 가능.</li>
-        <li><strong>Force Index</strong>: 거래량 데이터 필요. 현재 수집 데이터에서 계산 가능 여부 확인 필요.</li>
-        <li><strong>구성 요소 분리 활용</strong>: Impulse, Force Index, Trade Apgar 각각을 Williams 전략의 필터로 적용하는 방식도 가능.</li>
+        <li><strong>익일 Bail Out 예외</strong>: TraderX 기본 원칙 예외 적용 확정. 목표가/손절가/Impulse RED 3조건 중 최초 충족 시 청산.</li>
+        <li><strong>Force Index 청산 조건 폐기</strong>: Force Index는 진입 타이밍 전용. 포지션 관리에 관여하지 않음.</li>
+        <li><strong>주봉 데이터</strong>: 일봉 데이터에서 주봉 재구성 가능 (W-FRI resample). Force Index에 거래량 필요 — Naver Finance siseJson에 포함.</li>
+        <li><strong>Apgar ② FI 깊이 기준</strong>: 10%/25% 임시값 — 백테스팅으로 결정 (FI_DEEP_PCT, FI_MID_PCT).</li>
+        <li><strong>Apgar ⑤ 시장 환경</strong>: NH-NL + Stocks above 50MA. 외부 데이터 소스 확정 전까지 백테스팅에서 1점 고정.</li>
       </ul>
     </div>
   </div>
@@ -835,28 +837,29 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
       </svg>
     </div>
     <div class="d-sec">
-      <div class="d-sec-title">진입 단계</div>
+      <div class="d-sec-title">진입 단계 <small style="font-size:10px;font-weight:400;color:#2e7d32">✅ 확정 (2026-07-01)</small></div>
       <ul class="steps">
-        <li><span class="step-n">1</span><span class="step-body">최근 2주 내 좁은 range 횡보 확인 — "빽빽한 가격대(tight weave of prices)"가 선행되어야 함</span></li>
-        <li><span class="step-n">2</span><span class="step-body">단 하나의 봉이 현저히 아래로 돌출 (range가 인접 봉의 2배 이상). 시가·종가는 봉 상단에 위치 (긴 하향 그림자)</span></li>
-        <li><span class="step-n">3</span><span class="step-body">다음 날(3번째 봉)이 좁은 range로 마감 확인 → 꼬리 반대 방향(매수) 진입</span></li>
+        <li><span class="step-n">0</span><span class="step-body">배경 필터: 주봉 Impulse = Green 또는 Blue (Strategy I과 동일 계산 도구 재사용, 전략은 독립)</span></li>
+        <li><span class="step-n">1</span><span class="step-body">최근 WEAVE_DAYS일 내 좁은 range 횡보 확인 — "빽빽한 가격대(tight weave)"가 선행되어야 함</span></li>
+        <li><span class="step-n">2</span><span class="step-body">단 하나의 봉이 현저히 아래로 돌출 (range가 인접 봉 평균의 TAIL_RANGE_MULT배 이상). 시가·종가는 봉 상단에 위치</span></li>
+        <li><span class="step-n">3</span><span class="step-body">확인 봉(익일)이 좁은 range로 마감 확인 → 그 봉의 <strong>종가</strong>에 매수</span></li>
       </ul>
     </div>
     <div class="d-sec">
-      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">수일 내 청산 (Elder: "a few days on daily charts")</span></div>
-      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">꼬리 중간 지점 (halfway through the tail)</span></div>
+      <div class="d-row"><span class="d-lbl">이익실현/손절</span><span class="d-val">별도 목표가·손절가 없음</span></div>
+      <div class="d-row"><span class="d-lbl">청산</span><span class="d-val">익일 시초가 무조건 청산 (Bail Out)</span></div>
     </div>
     <div class="d-sec">
       <div class="d-sec-title">이익의 원천</div>
       <div class="edge">"캥거루 꼬리는 실패한 황소 또는 곰의 기습을 반영한다." 시장이 그 방향으로 주문을 찾지 못하자 반대로 움직인다. 꼬리 = 가격이 특정 레벨을 거부했다는 증거. Elder는 이를 "신뢰할 만한 차트 패턴 단기 목록"에 명시적으로 올려두었다.</div>
     </div>
     <div class="d-sec">
-      <div class="d-sec-title">검토 필요 사항</div>
+      <div class="d-sec-title">확정된 결정 사항 <small style="font-size:10px;font-weight:400;color:#888">(2026-07-01)</small></div>
       <ul class="prec">
-        <li><strong>진입 타이밍</strong>: 전일 꼬리 봉 확인 후 당일 시초가 진입 가능 → 당일매수-익일매도 구조와 호환 가능성 있음.</li>
-        <li><strong>Elder 경고</strong>: "Real kangaroo tails are unmistakable. If you have to ask, it's not one." — 의심스러우면 없는 것으로 간주.</li>
-        <li><strong>이익실현</strong>: "a few days" 기준이 익일 Bail Out 원칙과 부합하는지 백테스팅 검증 필요.</li>
-        <li><strong>정량적 필터</strong>: 꼬리 봉 판별 기준(range 비율 등)을 수치화해야 스캔 자동화 가능.</li>
+        <li><strong>독립 전략</strong>: Strategy I(Triple Screen)에 종속되지 않는다. 익일 Bail Out이라는 독자적 청산 규칙이 그 근거 — 종속 신호였다면 Triple Screen의 3조건 청산을 물려받았을 것.</li>
+        <li><strong>Smash Day(전략 B)와 비중복</strong>: Hidden형 설정 봉은 종가가 range 하단 25% 이내, 캥거루 꼬리는 종가가 상단 근처 — 같은 봉이 둘 다 만족 불가. 필터 병합 대신 별도 후보로 병행.</li>
+        <li><strong>진입 타이밍</strong>: Elder의 "3번째 봉 형성 중 종가 직전 매수"는 장 종료 무렵 판단이므로 확인 봉 종가 매수로 근사. T+1 지연 불필요.</li>
+        <li><strong>정량 파라미터 5개</strong>(WEAVE_DAYS, WEAVE_RANGE_PCT, TAIL_RANGE_MULT, CONFIRM_RANGE_PCT, CONFIRM_TOP_PCT): 지금 고정하지 않고 백테스팅으로 결정 (Strategy A의 k값 탐색과 동일 방식론).</li>
       </ul>
     </div>
   </div>
@@ -1129,12 +1132,12 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
 <!-- Elder 평가 -->
 <div class="phase-div" style="margin-top:2rem">
   <div class="phase-div-line"></div>
-  <div class="phase-div-label">Elder 후보 — 당일매수-익일매도 호환성 예비 검토 (2026-06-30)</div>
+  <div class="phase-div-label">Elder 후보 — 검토 현황 (I: 명세 확정 · J/K: 검토 중)</div>
   <div class="phase-div-line"></div>
 </div>
 
 <p class="eval-note">
-  Elder 후보 5개는 아직 사용자 검토 중이다. 아래 평가는 <strong>당일매수-익일매도 호환성 관점의 예비 메모</strong>이며, 사용자 확정 후 업데이트된다.
+  J·K·필터 후보는 사용자 검토 중. I는 명세 확정 완료 (2026-07-01).
 </p>
 
 <div class="eval-grid">
@@ -1142,17 +1145,17 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
   <div class="eval-item">
     <div class="eval-item-hd">
       <span class="eval-title">I. Elder Triple Screen System</span>
-      <span class="verdict v-new">🔍 검토 중</span>
+      <span class="verdict v-pass">✅ 명세 확정</span>
     </div>
-    <p class="eval-reason">Impulse(주봉)+Force Index(일봉)+Trade Apgar(진입 결정) 3중 조합. <strong>당일매수-익일매도 호환성 미확인</strong>: Elder는 수일 보유 swing trade를 전제하나, 진입 신호(Force Index 반등) 자체는 당일 생성 가능. 구성 요소 중 Impulse/Force Index를 기존 Williams 전략의 필터로만 사용하는 방안도 검토 대상.</p>
+    <p class="eval-reason">익일 Bail Out <strong>예외</strong> 확정. 청산 3조건: Upper Channel(목표) · SafeZone Stop(손절) · Impulse→RED(강제). Force Index 청산 조건 폐기. Apgar ②(FI 깊이) 백테스팅 파라미터 · Apgar ⑤(시장환경) 외부 소스 확정 후 정의. 상세: <code>docs/strategy/I_elder_triple_screen.md</code></p>
   </div>
 
   <div class="eval-item">
     <div class="eval-item-hd">
       <span class="eval-title">J. Kangaroo Tails</span>
-      <span class="verdict v-new">🔍 검토 중</span>
+      <span class="verdict v-pass">✅ 명세 확정</span>
     </div>
-    <p class="eval-reason">3봉 패턴 완성(꼬리 봉 + 좁은 3번째 봉) 확인 후 당일 시초가 진입 가능. Elder: "a few days" 보유 기준으로 제시하나, 익일 Bail Out 규칙 적용 시 호환 가능성 있음. 꼬리 봉 판별 기준(range 비율 등)을 수치화해야 자동 스캔 가능. Elder 반전 패턴 중 당일매수-익일매도와 가장 구조적으로 가까운 후보.</p>
+    <p class="eval-reason">독립 전략 확정 — 주봉 Impulse를 배경 필터로 재사용하나 Triple Screen에 종속되지 않음. 진입: 확인 봉 종가 매수. 청산: 익일 시초가 Bail Out. Smash Day와 봉 구조상 상호 배타적이라 비중복 확정, 별도 후보로 병행. 정량 파라미터 5개(WEAVE_DAYS 등)는 백테스팅으로 결정. 상세: <code>docs/strategy/J_kangaroo_tails.md</code></p>
   </div>
 
   <div class="eval-item">
@@ -1204,8 +1207,8 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
   <table>
     <thead><tr><th>후보</th><th>분류</th><th>상태</th><th>핵심 검토 사항</th></tr></thead>
     <tbody>
-      <tr><td>I. Elder Triple Screen</td><td>전략 후보</td><td>🔍 검토 중</td><td>수일 보유 vs. 익일 청산 원칙 충돌 여부. 구성 요소 분리 활용 가능성.</td></tr>
-      <tr><td>J. Kangaroo Tails</td><td>전략 후보</td><td>🔍 검토 중</td><td>3봉 완성 후 당일 진입 가능. 꼬리 판별 기준 수치화 필요. Elder 반전 중 가장 단순.</td></tr>
+      <tr><td>I. Elder Triple Screen</td><td>전략 후보</td><td>✅ 명세 확정</td><td>익일 Bail Out 예외 적용. Apgar ②⑤ 파라미터는 백테스팅·외부 데이터 확정 후 결정.</td></tr>
+      <tr><td>J. Kangaroo Tails</td><td>전략 후보</td><td>✅ 명세 확정</td><td>독립 전략(Triple Screen 비종속), Smash Day와 비중복. 정량 파라미터 5개는 백테스팅 결정.</td></tr>
       <tr><td>K. FB+BD</td><td>전략 후보</td><td>🔍 검토 중</td><td>다이버전스 형성 수주 소요. Williams B와 중복성 검토 필요.</td></tr>
       <tr><td>NH-NL Index</td><td>매크로 필터</td><td>🔍 검토 중</td><td>별도 파이프라인 필요. Elder 강추 지표.</td></tr>
       <tr><td>Stocks above 50-Day MA</td><td>매크로 필터</td><td>🔍 검토 중</td><td>기존 데이터로 즉시 계산 가능. 구현 난이도 낮음.</td></tr>
