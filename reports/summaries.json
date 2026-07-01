@@ -1,0 +1,78 @@
+{
+  "reports/연구분석/260330_qpe_jacobian_correction_report.html": {
+    "hash": "9a55d91eea0a47ca850a149dfaa40000ff28382a",
+    "summary": "Hidex LSC 측정에서 샘플과 블랭크의 퀜칭(QPE) 차이로 발생하는 에너지 축 불일치를 보정하는 Jacobian 기반 알고리즘을 제안한 보고서다. QPE와 고에너지 피크 위치의 강한 상관관계(R²=0.94)를 실험적으로 검증하고, 에너지 비율 산출 → 역매핑 → Jacobian 밀도 보정의 3단계 절차를 제시한다."
+  },
+  "reports/연구분석/260330_rep01_rep04_combined_analysis.html": {
+    "hash": "d9ef16af0c57d53b7207ff96968f0308d0693891",
+    "summary": "UGAB_jeongsoo_exp01 실험의 4회 반복 측정(Rep01~Rep04) 데이터를 바이알별로 종합 비교한 분석 보고서다. QPE, QPI, TDCR, 총 계수 등 지표의 회차 간 추세와 특정 블랭크 바이알의 화학발광 의심 사례를 정리해 데이터 신뢰도를 평가한다."
+  },
+  "reports/연구분석/260421_adaptive_smoothing_final.html": {
+    "hash": "26f649b2a9003d589e90d13b7c73e96438e562a8",
+    "summary": "QPE 값에 따른 REP별 스펙트럼을 겹쳐 그린 Plotly 인터랙티브 그래프 중심의 보고서로, 원본(Raw)과 적응형 평활화(Adaptive Smoothing) 결과를 토글하며 Pb-210/Po-210 피크와 배경 영역을 시각적으로 비교할 수 있다. 별도의 서술형 본문 없이 시각화 자체가 분석 결과물이다."
+  },
+  "reports/연구분석/260422_empirical_shift_formula_report.html": {
+    "hash": "a9311f4ff0dae9dadaa06c8ff565831d41313152",
+    "summary": "LSC 로그스케일 에너지 축에서 채널 공간 shift와 에너지 공간 회귀를 비교해 경험적 보정식을 도출한 Plotly 다중 패널 그래프 보고서다. 채널별 shift-피크 관계, 잔차와 TDCR/QPE의 관계, Pb-210·Po-210·배경 영역의 보정 전후 회귀 결과를 5개 패널로 시각화한다."
+  },
+  "reports/연구분석/260422_energy_space_shift_report.html": {
+    "hash": "fc7d7bc3b17adc3da24e20277b720a9087fe2ddc",
+    "summary": "채널이 아닌 에너지 공간에서 국소 최댓값 위치와 QPE의 관계를 REP별로 구분해 시각화한 Plotly 그래프 보고서다. Pb-210, Po-210, 배경 영역 각각의 피크 에너지와 QPE 상관관계를 별도 패널로 비교한다."
+  },
+  "reports/연구분석/260506_qpe_ratio_stage1_report.html": {
+    "hash": "4a50c724f6728400410b97f6834deef005398858",
+    "summary": "6M 질산 첨가로 유도한 QPE 변화가 LSC 스펙트럼의 각 채널 영역(Pb/Po 피크, 고에너지 hump, 저채널 오프셋)에 미치는 이동량을 정량 분석한 Step 1 기술 보고서다. 특징점별 이동 민감도와 회귀 결정계수를 표로 제시하며 비선형 보정 모델 수립의 물리적 근거를 마련한다."
+  },
+  "reports/연구분석/260506_qpe_sigmoid_stage3_report.html": {
+    "hash": "14d3221927b45c912cbe00d65d8452a4f6c4eb70",
+    "summary": "Step 2에서 도출한 비선형 이동 함수 g(Ch)를 전체 스펙트럼에 연속 변형장으로 적용했을 때 발생하는 이상 현상(피크 내부 국소 stretch, Jacobian 높이 왜곡)을 진단한 Step 3 보고서다. 현재 형태의 warp·Jacobian 보정은 최종 모델로 부적합하며 재설계가 필요하다는 결론을 담고 있다."
+  },
+  "reports/연구분석/260506_stage1_affine_warp_report.html": {
+    "hash": "bfd8e49db450c6928fb07e896a2618529a9e1a85",
+    "summary": "영역별 소광 민감도 차이를 2차 다항식 기반 연속 함수로 모델링해 QPE 의존 비선형 채널 이동식 g(Ch)를 도출한 Step 2 기술 보고서다. Po-Max 앵커링을 통해 고에너지 끝단을 고정하고 최종 변환식을 제시한다."
+  },
+  "reports/연구분석/260507_qpe_direct_warp_limit_and_fitting_prior_report.html": {
+    "hash": "7f9ebac0ec6293bcdad1c68040e97dac179e07e6",
+    "summary": "Step 1~3 세 보고서를 종합해 QPE 기반 스펙트럼 직접 warp 보정의 한계를 정리한 결론 보고서다. QPE 정보를 스펙트럼 직접 변형이 아닌 성분 피팅의 위치 prior·bounds로 활용하는 방향 전환의 근거를 제시한다."
+  },
+  "reports/연구분석/260620_bi_po_unmixing_v3.html": {
+    "hash": "f502ced56c32e21f2f77f5fc86213bac7edc15bc",
+    "summary": "Bi-210/Po-210 혼합 시료를 대상으로 2-기저 최소제곱 시계열 역산을 수행해 스펙트럼을 분리한 Stage 1 v3 보고서다. 피팅 적합도는 높으나(R²>0.994) 역산된 Bi-210 스펙트럼에서 물리적으로 부적합한 음수 극솟값이 발견되어 분리 결과의 타당성을 정량 평가한다."
+  },
+  "reports/연구분석/260625_bi210_step_a.html": {
+    "hash": "8979d8ec9772d3aec60b0566dc6b0258d02e1bb8",
+    "summary": "2-기저 역산이 물리적으로 불가능한 결과(음수 채널, 다중 피크)를 낸 원인을 단계별로 추적한 Step A 보고서다. 첫 측정의 화학발광 이상치, 블랭크 과대차감 등의 원인을 규명해 블랭크에 의존하지 않는 채널별 분해 방법에 도달하는 과정을 기록한다."
+  },
+  "reports/연구분석/260625_bi210_step_b.html": {
+    "hash": "d8d9174b1022511204a6733990bc4a425dd3b16b",
+    "summary": "시간-상수 배경(블랭크+준상수 Po-210)을 두 시점 스펙트럼의 차분으로 소거하는 방식을 탐색한 Step B 보고서다. 여러 차분쌍을 상대방사능 변화로 정규화해 겹쳐보고, 세 차분이 어긋나는 영역을 통해 Po-210의 영향 범위를 진단한다."
+  },
+  "reports/투자관련/elder_new_trading_for_a_living.html": {
+    "hash": "dd39cdec08fdb5dafbc704267b415df096faec96",
+    "summary": "Alexander Elder의 저서 'The New Trading for a Living'을 직접 검증하며 정리한 독서 노트다. 심리, 고전/전산 차트 분석, 거래량·시간 지표, 거래 시스템, 리스크 관리, 실무 기록까지 11개 파트 전체를 챕터별로 요약하고 원문 인용을 발췌했다."
+  },
+  "reports/투자관련/phase1_strategy_candidates.html": {
+    "hash": "17f95b07567aa339198fa53716668b3fe4071fdf",
+    "summary": "TraderX 프로젝트의 Phase 1 전략 후보 분석 보고서로, Larry Williams와 Alexander Elder의 저서를 근거로 브레이크아웃·반전 패턴·추세추종·Elder 매크로 필터 등 다수의 롱 전용 매수 전략 후보(A~H 및 Elder 전략)를 진입·청산 규칙과 함께 카드 형태로 정리했다."
+  },
+  "reports/투자관련/phase1_strategy_spec_report.html": {
+    "hash": "44e0e66eaffaa7839ec023777e854ae89ea969f1",
+    "summary": "TraderX 프로젝트 Phase 1(전략 명세화)의 연구 및 협의 결과를 정리한 완료 보고서다. Larry Williams 저서 기반 8개 전략 후보 중 6개(A·B·C·D·E·H)를 Phase 3 백테스팅 대상으로 확정하고, Elder 저서 기반 추가 후보 5개를 검토 중인 상태를 기록한다."
+  },
+  "reports/투자관련/strategy_a_final_v1.html": {
+    "hash": "1f49823fdfbac325b0b1e272f6fce4c3b354f507",
+    "summary": "Volatility Breakout 전략 A(시가+3일평균 Range×0.70 돌파, 월·금 TDW, 손절 없음)를 2021~2026년 KOSPI+KOSDAQ 312개 종목으로 백테스트하여 최종 확정한 보고서다. 파라미터 k, Range 산정 방식, TDW, 손절 여부, 최적화 기간에 대한 선택 근거와 성과 요약을 제시한다."
+  },
+  "reports/투자관련/strategy_a_range3_2021_v1.html": {
+    "hash": "fc248ca0d9c366ffbd0433ceb571ae00a0cb70dc",
+    "summary": "전략 A(3일 평균 Range 돌파 + 5% 손절)를 2021.01~2026.06 KOSPI 231개·KOSDAQ 80개 종목 대상으로 백테스트한 결과 보고서다. k값과 TDW(요일) 조합별 기대값을 히트맵으로 비교해 최근 5년 구간의 최적 파라미터를 탐색한다."
+  },
+  "reports/투자관련/strategy_a_range3_v1.html": {
+    "hash": "5842b68c42f5d9d707495d0b3b81cbe1aa52d872",
+    "summary": "전략 A(3일 평균 Range 돌파 + 5% 손절)를 2005.01~2026.06의 장기간 KOSPI 231개·KOSDAQ 80개 종목으로 백테스트한 보고서다. k값과 TDW 조합별 기대값을 히트맵으로 비교하여 장기 데이터에서의 파라미터 안정성을 검토한다."
+  },
+  "reports/투자관련/strategy_a_tdw_comparison_v1.html": {
+    "hash": "12d8e9ad61f0d65a053193cc561d05f3b171e744",
+    "summary": "전략 A(k=0.7 고정)의 요일별(TDW) 성과를 2021~2026년 KOSPI+KOSDAQ 전체 종목, 5% 손절 조건으로 비교 분석한 보고서다. 요일별 거래수, 월평균 수익률, MDD, 양수월 비율 등을 표로 정리해 최적 TDW를 선정하는 근거를 제공한다."
+  }
+}
