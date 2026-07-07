@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전략 B 확정 승인 요청 | TraderX</title>
+<style>
+:root {
+  --surface-1: #fcfcfb;
+  --page-plane: #f9f9f7;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --gridline: #e1e0d9;
+  --border: rgba(11,11,11,0.10);
+  --violet: #4a3aa7;
+  --violet-dark: #2d2266;
+  --blue: #2a78d6;
+  --red: #e34948;
+  --good: #0ca30c;
+  --warning: #fab219;
+  --critical: #d03b3b;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Apple SD Gothic Neo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  background: var(--page-plane);
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+.page { max-width: 980px; margin: 0 auto; padding: 0 0 4rem; }
+
+/* ── Header banner ── */
+.banner { background: var(--violet-dark); color: #fff; padding: 2.2rem 2.4rem 1.8rem; }
+.banner .kicker { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #c9c0ef; margin-bottom: 8px; }
+.banner h1 { font-size: 24px; font-weight: 700; line-height: 1.35; margin-bottom: 10px; }
+.banner .meta { font-size: 12px; color: #ddd7f5; line-height: 1.7; }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; padding: 4px 11px; border-radius: 20px; background: var(--warning); color: #4d3300; margin-top: 12px; }
+
+/* ── Quick nav ── */
+.quicknav { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px 2.4rem; background: var(--surface-1); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 5; }
+.quicknav a { font-size: 11.5px; font-weight: 600; color: var(--text-secondary); text-decoration: none; padding: 5px 11px; border-radius: 14px; background: var(--page-plane); border: 1px solid var(--border); }
+.quicknav a:hover { background: #f1eefb; color: var(--violet-dark); }
+
+.content { padding: 2rem 2.4rem 0; }
+section { margin-bottom: 2.6rem; scroll-margin-top: 56px; }
+
+h2 { font-size: 17px; font-weight: 700; margin-bottom: 1rem; padding-bottom: 8px; border-bottom: 2px solid var(--text-primary); display: flex; align-items: center; gap: 8px; }
+h2 .num { color: var(--violet); }
+h3 { font-size: 13.5px; font-weight: 700; margin-top: 1.3rem; margin-bottom: 0.6rem; }
+h3 .subtag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
+h3 .subtag.naked { background: #eef4fc; color: #1c3d5a; }
+h3 .subtag.hidden { background: #f1eefb; color: var(--violet-dark); }
+h4 { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-top: 1rem; margin-bottom: 0.4rem; }
+p { margin-bottom: 0.85rem; font-size: 13px; color: var(--text-primary); }
+ul, ol { padding-left: 1.4rem; margin-bottom: 0.85rem; }
+li { margin-bottom: 0.35rem; font-size: 13px; }
+code { font-family: "SF Mono", Menlo, monospace; font-size: 12px; background: #f2f1ed; padding: 1px 5px; border-radius: 3px; color: #3a2d78; }
+pre { font-family: "SF Mono", Menlo, monospace; font-size: 12.5px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 1rem; overflow-x: auto; line-height: 1.7; }
+
+/* ── Cards / KPI tiles ── */
+.card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 1.3rem 1.5rem; margin-bottom: 1.1rem; }
+.kpi-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.3rem; }
+.kpi { flex: 1; min-width: 150px; background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+.kpi .label { font-size: 10.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+.kpi .value { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+.kpi .value.good { color: var(--good); }
+.kpi .value.bad { color: var(--critical); }
+.kpi .sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+/* ── Tables ── */
+.tbl-wrap { overflow-x: auto; margin-bottom: 1.1rem; border: 1px solid var(--border); border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+th { text-align: left; padding: 9px 12px; background: #eeece5; color: var(--text-secondary); font-weight: 700; font-size: 11px; letter-spacing: .02em; border-bottom: 1px solid var(--border); }
+td { padding: 8px 12px; border-bottom: 1px solid var(--gridline); color: var(--text-primary); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr.highlight td { background: #f5f3fc; font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ── Bar charts ── */
+.chart-block { margin-bottom: 1.3rem; }
+.chart-title { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px; }
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar-cat { width: 168px; flex-shrink: 0; font-size: 11.5px; color: var(--text-secondary); text-align: right; }
+.bar-track { flex: 1; background: var(--page-plane); border-radius: 3px; height: 20px; position: relative; }
+.bar-fill { height: 20px; border-radius: 0 4px 4px 0; }
+.bar-fill.violet { background: var(--violet); }
+.bar-fill.blue { background: var(--blue); }
+.bar-fill.red { background: var(--red); }
+.bar-val { font-size: 12px; font-weight: 700; color: var(--text-primary); width: 76px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.chart-note { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.legend-row { display: flex; gap: 16px; margin-bottom: 10px; font-size: 11.5px; color: var(--text-secondary); }
+.legend-row .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+
+/* ── Callouts ── */
+.callout { border-radius: 8px; padding: 12px 16px; font-size: 12.5px; line-height: 1.7; margin-bottom: 0.9rem; display: flex; gap: 10px; }
+.callout .icon { font-size: 15px; flex-shrink: 0; line-height: 1.5; }
+.callout .body strong.tag { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; margin-bottom: 3px; }
+.callout.info { background: #f1eefb; }
+.callout.info .body strong.tag { color: var(--violet-dark); }
+.callout.risk { background: #fdeeee; }
+.callout.risk .body strong.tag { color: var(--critical); }
+.callout.warn { background: #fef6e3; }
+.callout.warn .body strong.tag { color: #8a5a00; }
+
+/* ── badges ── */
+.badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 12px; white-space: nowrap; }
+.b-fail { background: #fdeeee; color: var(--critical); }
+.b-hold { background: #fef6e3; color: #8a5a00; }
+.b-pass { background: #e6f7e6; color: var(--good); }
+
+/* ── Approval box ── */
+.approval-box { background: var(--violet-dark); color: #efeafc; border-radius: 12px; padding: 1.8rem 2rem; margin: 1.5rem 0; }
+.approval-box h3 { color: #fff; font-size: 14.5px; margin-top: 0; margin-bottom: 10px; }
+.approval-box .ask { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 12px; line-height: 1.6; }
+.approval-box ul { padding-left: 1.3rem; }
+.approval-box li { font-size: 12.5px; margin-bottom: 7px; color: #e2d9f7; }
+.approval-box li strong { color: #fff; }
+.approval-box h4 { color: #cbb9ee; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; margin-top: 14px; margin-bottom: 6px; }
+
+/* ── Appendix / footer ── */
+.appendix { border-top: 1px solid var(--border); padding-top: 1.2rem; margin-top: 2rem; }
+.appendix .ref-title { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+.appendix .ref-item { font-size: 11.5px; color: var(--text-secondary); margin-bottom: 5px; padding-left: 1.4rem; text-indent: -1.4rem; }
+.footer-note { font-size: 10.5px; color: var(--text-muted); text-align: center; padding: 1.5rem 0 0; }
+
+@media print {
+  .banner, .approval-box, .callout { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .quicknav { position: static; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══════════════ HEADER ══════════════ -->
+<div class="banner">
+  <p class="kicker">TraderX · Stage 2 전략 확정 승인 요청</p>
+  <h1>전략 B — Smash Day Pattern<br>백테스팅 결과 및 파라미터 확정안 (일반형·Hidden형)</h1>
+  <p class="meta">
+    작성일 2026-07-07 · 대상: Stage 3(전략 코드화) 진입 승인<br>
+    기반 문헌: Larry Williams, <em>Long-Term Secrets to Short-Term Trading</em>, Ch.7 (매크로필터: Alexander Elder, <em>The New Trading For a Living</em>, Ch.34-35 — 전략 A와 동일 값 재사용)
+  </p>
+  <span class="pill">⏳ 승인 대기</span>
+</div>
+
+<!-- ══════════════ QUICK NAV ══════════════ -->
+<div class="quicknav">
+  <a href="#summary">요약</a>
+  <a href="#overview">전략 개요</a>
+  <a href="#params">확정 파라미터</a>
+  <a href="#backtest-naked">백테스트 · 일반형</a>
+  <a href="#backtest-hidden">백테스트 · Hidden형</a>
+  <a href="#rejected">기각 대안</a>
+  <a href="#limits">한계·리스크</a>
+  <a href="#approval">승인 요청</a>
+  <a href="#appendix">참고 자료</a>
+</div>
+
+<div class="content">
+
+<!-- ══════════════ 1. SUMMARY ══════════════ -->
+<section id="summary">
+<h2><span class="num">1.</span> 요약</h2>
+<p>전략 B(Smash Day Pattern)는 <strong>대중이 잘못된 방향(하락 돌파)으로 진입했을 때의 즉각 반전을 역이용</strong>하는 전략이다. 설정 조건이 다른 두 유형 — <strong>일반형(Naked Close)</strong>과 <strong>Hidden형</strong> — 을 병행 운용하며, 전략 A와 동일한 매크로 필터·자본배분 방법론을 적용해 아래 최종 운용안을 도출했다.</p>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="label">일반형 · 확정 승률</div><div class="value good">64.06%</div><div class="sub">자본무제한 가정</div></div>
+  <div class="kpi"><div class="label">일반형 · 거래당 기대수익</div><div class="value good">+1.741%</div></div>
+  <div class="kpi"><div class="label">Hidden형 · 확정 승률</div><div class="value good">55.45%</div><div class="sub">자본무제한 가정</div></div>
+  <div class="kpi"><div class="label">Hidden형 · 거래당 기대수익</div><div class="value good">+0.989%</div></div>
+</div>
+
+<p>두 유형 모두 <strong>매크로 필터 → TDW(요일) 재검토 → 자본 제약(N=3) 시뮬레이션</strong> 순으로 검증했다. 마지막 절에서 두 유형 모두 Stage 3(전략 코드화) 진입 승인을 요청한다.</p>
+</section>
+
+<!-- ══════════════ 2. OVERVIEW ══════════════ -->
+<section id="overview">
+<h2><span class="num">2.</span> 전략 개요</h2>
+
+<h3>2.1 의도</h3>
+<p>공매도 세력이 하락 신호에 진입했지만 가격이 즉각 반전하면, 이들의 강제 손절(매수)이 상승의 연료가 된다. 일반형(Naked Close)은 노골적 하락 돌파를, Hidden형은 겉으로는 상승이지만 내막이 약한 설정을 포착한다.</p>
+
+<div class="callout info">
+  <div class="icon">ℹ️</div>
+  <div class="body">
+    <strong class="tag">원서 근거</strong>
+    "대중은 항상 잘못된 방향으로 진입한다. 우리는 그들의 실수로부터 이익을 얻는다." (Williams, p.101)
+  </div>
+</div>
+
+<h3>2.2 진입·청산 규칙 <span class="subtag naked">일반형</span></h3>
+<pre>설정일 조건: 종가 &lt; 전일 저가
+진입일 조건: 고가 ≥ 설정일 고가 → 진입가 = 설정일 고가</pre>
+
+<h3>진입·청산 규칙 <span class="subtag hidden">Hidden형</span></h3>
+<pre>설정일 조건 ① (필수): 종가 &gt; 전일 종가 (상승 종가)
+설정일 조건 ② (필수): 종가 ≤ 당일 저가 + (Range × 25%)
+설정일 조건 ③ (포함): 종가 &lt; 시가
+진입일 조건: 고가 ≥ 설정일 고가 → 진입가 = 설정일 고가</pre>
+<p>조건③ 포함 시 기대값이 +0.887%→+0.995%로 상승 — Williams의 "가장 강한 패턴" 설명(p.102)과 일치해 포함을 확정했다.</p>
+
+<p><strong>청산(공통)</strong>: 익일 시가에 무조건 청산. 1거래일 보유 후 시가 청산이 자연 손절 역할을 하므로 별도 손절은 적용하지 않는다(전략 A와 동일 결론).</p>
+
+<h3>2.3 예시 <span class="subtag hidden">Hidden형</span></h3>
+<p>삼성SDI — 전일(설정일): 시가 399,000원 · 고가 420,000원 · 저가 393,000원 · 종가 398,500원</p>
+<ul>
+  <li>조건① ✅ 전일 종가 398,000원 대비 상승</li>
+  <li>조건② ✅ Range=27,000원, 하단25%=399,750원. 종가 398,500 &lt; 399,750</li>
+  <li>조건③ ✅ 종가 398,500 &lt; 시가 399,000</li>
+</ul>
+<p>→ 세 조건 모두 충족, 다음날 420,000원 돌파 시 진입 → 그 다음날 시가에 무조건 청산</p>
+</section>
+
+<!-- ══════════════ 3. PARAMETERS ══════════════ -->
+<section id="params">
+<h2><span class="num">3.</span> 확정 파라미터</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>파라미터</th><th>일반형 (Naked Close)</th><th>Hidden형 (①②③)</th></tr></thead>
+<tbody>
+<tr><td>TDW(요일 필터, 진입일 기준)</td><td><strong>월요일 · 수요일</strong></td><td><strong>화요일 · 수요일 · 목요일</strong></td></tr>
+<tr><td>기준점</td><td>설정일 고가</td><td>설정일 고가</td></tr>
+<tr><td>손절</td><td>없음</td><td>없음</td></tr>
+<tr><td>설정일 조건 비교 범위</td><td>전일(1일) 저가만</td><td>전일(1일) 종가·저가·시가</td></tr>
+<tr><td>매크로 필터</td><td colspan="2"><strong>Stocks above 50-Day MA ≥ 46.89</strong> 그리고 <strong>NH-NL Index ≥ -0.55</strong> (전략 A와 동일값 재사용)</td></tr>
+<tr><td>자본배분</td><td colspan="2"><strong>전략 A와 동일(옵션A)</strong> — 도달순서 균등배분(3개 이하 동시 트리거 시 각 33.3%, 초과 시 1/n)</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout warn">
+  <div class="icon">⚠️</div>
+  <div class="body"><strong class="tag">TDW 적용 시점 주의</strong>TDW는 "설정일"이 아니라 <strong>"진입일"</strong>에 적용된다. 원서 예시만으로는 모호했으나, 확정 백테스트 수치(Hidden형 501건·승률56.69%)와 정확히 일치하는지 재현 검증한 결과 진입일 기준 해석이 맞았다(설정일 기준으로는 501건이 아닌 433건이 산출되어 불일치).</div>
+</div>
+<div class="callout warn">
+  <div class="icon">⚠️</div>
+  <div class="body"><strong class="tag">자본배분 검증 한계</strong>자본배분은 장중 트리거 시각 데이터가 없어 실시간 도달순서 자체는 백테스트로 검증 불가하다. 전략 A와 마찬가지로 "우선순위 없이 무작위 N=3 선택"을 대리 시뮬레이션(2,000회)해 기대 변동범위를 근사한다. 우선순위 기반 대안(<code>setup_range_pct</code> 등)은 검토했으나 모두 무작위보다 못하거나 검증 불가로 기각/보류되었다(§5).</div>
+</div>
+</section>
+
+<!-- ══════════════ 4. BACKTEST — NAKED ══════════════ -->
+<section id="backtest-naked">
+<h2><span class="num">4.</span> 백테스트 결과 — 일반형 <span class="subtag naked">Naked Close</span></h2>
+
+<h3>4.1 원 백테스트 (요일 전수 탐색, 필터 없음)</h3>
+<p style="font-size:12px;color:var(--text-muted)">검증 조건: 312개 종목 · 2021-01-01~2026-06-29 · 이상치 제거(|수익률|≥30%) · 월요일 단독 기준</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th></th><th class="num">거래수</th><th class="num">승률</th><th class="num">거래당 기대수익</th><th class="num">MDD</th><th class="num">최대 연속 손실</th></tr></thead>
+<tbody>
+<tr class="highlight"><td>월요일 단독(최초 확정)</td><td class="num">5,297건</td><td class="num">52.41%</td><td class="num">+0.583%</td><td class="num">-18.81%</td><td class="num">11회</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>4.2 TDW 재검토 — 월+수 확장</h3>
+<p>무필터 상태에서 월요일(승률59.78%)과 수요일(58.60%)이 이미 대등했고, 매크로필터 적용 후에도 수요일이 준수했다(57.37%, 월요일은 69.12%). <strong>월+수 합산 시 거래일수가 정확히 2배(21일→43일)로 늘면서 품질 저하가 크지 않아</strong> 확장을 확정했다. 화·목·금은 필터 유무와 무관하게 계속 약해(승률 45~57%대) 제외했다.</p>
+
+<h3>4.3 매크로 필터 적용 (월+수, N=1)</h3>
+<p style="font-size:12px;color:var(--text-muted)">유효구간: 2023-09~2026-06</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th></th><th class="num">거래수</th><th class="num">거래일</th><th class="num">일평균 동시종목</th><th class="num">승률</th><th class="num">거래당 기대수익</th><th class="num">MDD</th></tr></thead>
+<tbody>
+<tr><td>무필터(월+수)</td><td class="num">3,974건</td><td class="num">182일</td><td class="num">21.8개</td><td class="num">59.26%</td><td class="num">+1.208%</td><td class="num">-11.20%</td></tr>
+<tr class="highlight"><td>+매크로필터</td><td class="num">882건</td><td class="num">43일</td><td class="num">20.5개</td><td class="num">64.06%</td><td class="num">+1.741%</td><td class="num">-2.33%</td></tr>
+</tbody>
+</table>
+</div>
+<p>매크로필터 임계값은 전략 A에서 채택한 값을 그대로 재사용했다. B에서 독립적으로 10~90% 그리드를 검증한 결과, A의 고정값을 재사용한 결과가 <strong>B 자체 상위 30% 지점과 정확히 일치</strong> — 임계값이 종목·전략과 무관한 순수 시장 지표라는 방법론이 재확인됐다.</p>
+
+<h3>4.4 자본 제약(N=3) 반영 최종 기대치</h3>
+<p>매크로필터 적용 후에도 일평균 동시종목 20.5개는 자본 부담이 크고, 일별 편차도 매우 크다(최소1 · 중앙값14 · 최대166). 무작위 N=3 시뮬레이션(2,000회)으로 근사했다.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>동시 보유 종목수(N)</th><th class="num">승률(평균)</th><th class="num">거래당 기대수익(평균)</th><th class="num">MDD(평균)</th></tr></thead>
+<tbody>
+<tr class="highlight"><td>N=3 (확정 운용 가정)</td><td class="num">55.69% (50.00~61.90%)</td><td class="num">+0.960% (+0.583~+1.352%)</td><td class="num">-4.45% (-6.75~-2.71%)</td></tr>
+<tr><td>N=5</td><td class="num">56.01% (51.72~60.10%)</td><td class="num">+0.967% (+0.691~+1.245%)</td><td class="num">-3.43% (-5.19~-2.21%)</td></tr>
+<tr><td>N=7</td><td class="num">55.69% (52.57~58.82%)</td><td class="num">+0.950% (+0.714~+1.187%)</td><td class="num">-3.01% (-4.34~-2.14%)</td></tr>
+<tr><td>N=9</td><td class="num">55.56% (52.85~58.26%)</td><td class="num">+0.956% (+0.753~+1.173%)</td><td class="num">-2.76% (-3.94~-2.22%)</td></tr>
+<tr><td>전체(무제한)</td><td class="num">64.06%</td><td class="num">+1.741%</td><td class="num">-2.33%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card">
+  <div class="chart-block">
+    <div class="chart-title">일반형 — 단계별 진행: 거래당 기대수익 (%)</div>
+    <div class="bar-row"><div class="bar-cat">무필터(월+수)</div><div class="bar-track"><div class="bar-fill violet" style="width:65%" title="+1.208%"></div></div><div class="bar-val">+1.208%</div></div>
+    <div class="bar-row"><div class="bar-cat">+매크로필터</div><div class="bar-track"><div class="bar-fill violet" style="width:93%" title="+1.741%"></div></div><div class="bar-val">+1.741%</div></div>
+    <div class="bar-row"><div class="bar-cat">N=3 자본제약</div><div class="bar-track"><div class="bar-fill violet" style="width:51%" title="+0.960%"></div></div><div class="bar-val">+0.960%</div></div>
+  </div>
+  <div class="chart-block">
+    <div class="chart-title">일반형 — 단계별 진행: MDD (절대값 %)</div>
+    <div class="bar-row"><div class="bar-cat">무필터(월+수)</div><div class="bar-track"><div class="bar-fill red" style="width:100%" title="-11.20%"></div></div><div class="bar-val">-11.20%</div></div>
+    <div class="bar-row"><div class="bar-cat">+매크로필터</div><div class="bar-track"><div class="bar-fill red" style="width:21%" title="-2.33%"></div></div><div class="bar-val">-2.33%</div></div>
+    <div class="bar-row"><div class="bar-cat">N=3 자본제약</div><div class="bar-track"><div class="bar-fill red" style="width:40%" title="-4.45%"></div></div><div class="bar-val">-4.45%</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ 5. BACKTEST — HIDDEN ══════════════ -->
+<section id="backtest-hidden">
+<h2><span class="num">5.</span> 백테스트 결과 — Hidden형 <span class="subtag hidden">①②③</span></h2>
+
+<h3>5.1 원 백테스트 (요일 전수 탐색, 필터 없음)</h3>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>요일</th><th class="num">거래수</th><th class="num">거래일</th><th class="num">승률</th><th class="num">MDD</th></tr></thead>
+<tbody>
+<tr class="highlight"><td>월(최초 확정)</td><td class="num">501</td><td class="num">150</td><td class="num">56.69%</td><td class="num">-16.56%</td></tr>
+<tr><td>화</td><td class="num">475</td><td class="num">162</td><td class="num">48.00%</td><td class="num">-10.38%</td></tr>
+<tr><td>수</td><td class="num">572</td><td class="num">163</td><td class="num">50.00%</td><td class="num">-19.95%</td></tr>
+<tr><td>목</td><td class="num">492</td><td class="num">152</td><td class="num">55.69%</td><td class="num">-17.90%</td></tr>
+<tr><td>금</td><td class="num">559</td><td class="num">165</td><td class="num">55.64%</td><td class="num">-23.94%</td></tr>
+</tbody>
+</table>
+</div>
+<p>무필터 기준으로는 월·목·금이 강하고(55.6~56.7%) 화·수가 약함(48~50%) — 일반형(월·수가 강함)과 <strong>정반대 패턴</strong>이었다.</p>
+
+<h3>5.2 TDW 재검토 2단계 — 매크로필터 선적용 후 재분해</h3>
+<p>매크로필터(일반형과 동일값)를 먼저 적용하자 그림이 달라졌다. 필터가 이미 "나쁜 날"을 걸러주기 때문에 무필터에서 뚜렷했던 화·수의 약점이 사라졌다:</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>요일</th><th class="num">거래수</th><th class="num">거래일</th><th class="num">승률</th><th class="num">MDD</th></tr></thead>
+<tbody>
+<tr><td>월</td><td class="num">36</td><td class="num">14</td><td class="num">55.56%</td><td class="num">-6.28%</td></tr>
+<tr><td>화</td><td class="num">60</td><td class="num">14</td><td class="num">51.67%</td><td class="num">-2.90%</td></tr>
+<tr><td>수</td><td class="num">58</td><td class="num">17</td><td class="num">56.90%</td><td class="num">-2.74%</td></tr>
+<tr><td>목</td><td class="num">84</td><td class="num">15</td><td class="num">57.14%</td><td class="num">-3.71%</td></tr>
+<tr><td>금</td><td class="num">42</td><td class="num">15</td><td class="num">57.14%</td><td class="num">-5.03%</td></tr>
+</tbody>
+</table>
+</div>
+<p>필터 적용 후 5개 요일 모두 51.7~57.1%로 비슷해져, 무필터 기준 화·수 배제 근거가 약해졌다. 조합 후보 비교 결과:</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>조합</th><th class="num">거래수</th><th class="num">거래일</th><th class="num">승률</th><th class="num">MDD</th></tr></thead>
+<tbody>
+<tr><td>월(단독)</td><td class="num">36</td><td class="num">14</td><td class="num">55.56%</td><td class="num">-6.28%</td></tr>
+<tr><td>목+금</td><td class="num">126</td><td class="num">30</td><td class="num">57.14%</td><td class="num">-6.98%</td></tr>
+<tr class="highlight"><td>화+수+목</td><td class="num">202</td><td class="num">46</td><td class="num">55.45%</td><td class="num">-6.07%</td></tr>
+<tr><td>월+목+금</td><td class="num">162</td><td class="num">44</td><td class="num">56.79%</td><td class="num">-8.69%</td></tr>
+<tr><td>월~금 전체</td><td class="num">280</td><td class="num">75</td><td class="num">55.71%</td><td class="num">-9.55%</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>화+수+목을 확정 채택</strong>: 월요일 단독(36건·14일) 대비 거래수 5.6배(202건), 거래일 3.3배(46일)로 늘면서도 승률은 거의 동일(55.56%→55.45%)하고 <strong>MDD는 전체 조합 중 최선(-6.07%)</strong>이었다. Hidden형의 근본 문제였던 "표본이 너무 얇다"를 매크로필터 적용 후 요일 재검토로 해결한 사례다.</p>
+
+<h3>5.3 확정 조합 최종 백테스트</h3>
+<p style="font-size:12px;color:var(--text-muted)">유효구간: 2025-02-26 ~ 2026-05-07</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>항목</th><th class="num">값</th></tr></thead>
+<tbody>
+<tr><td>거래수</td><td class="num">202건</td></tr>
+<tr><td>거래일</td><td class="num">46일</td></tr>
+<tr><td>승률</td><td class="num">55.45%</td></tr>
+<tr><td>거래당 평균수익 / 평균손실</td><td class="num">+3.230% / -1.799%</td></tr>
+<tr><td>기대값(EV)</td><td class="num">+0.989%</td></tr>
+<tr><td>손익비</td><td class="num">2.235</td></tr>
+<tr><td>MDD</td><td class="num">-6.07%</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>5.4 자본 제약(N=3) 반영 최종 기대치</h3>
+<p>일반형과 동일한 방법론(무작위 N=3, 2,000회)을 적용했다.</p>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>항목</th><th class="num">값(평균, 5~95%ile)</th></tr></thead>
+<tbody>
+<tr><td>거래수</td><td class="num">평균 111.0건</td></tr>
+<tr><td>승률</td><td class="num">49.64% (45.95~53.15%)</td></tr>
+<tr><td>거래당 기대값(EV)</td><td class="num">+0.774% (+0.490~+1.068%)</td></tr>
+<tr><td>MDD</td><td class="num">-6.44% (-8.47~-4.77%)</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout risk">
+  <div class="icon">⚠️</div>
+  <div class="body"><strong class="tag">자본무제한 대비 하락폭 확인</strong>자본무제한 가정(승률55.45%) 대비 자본제약 N=3에서는 승률이 49.64%로 하락한다. 일반형(64.06%→55.69%, -8.4%p)보다 하락폭 자체는 작지만(55.45%→49.64%, -5.8%p), 절대 수준이 50%에 더 근접해 있어 표본이 여전히 얇다는 점(46일)을 실전에서 감안해야 한다.</div>
+</div>
+
+<div class="card">
+  <div class="chart-block">
+    <div class="chart-title">Hidden형 — 단계별 진행: 거래당 기대수익 (%)</div>
+    <div class="bar-row"><div class="bar-cat">화+수+목 확정</div><div class="bar-track"><div class="bar-fill violet" style="width:90%" title="+0.989%"></div></div><div class="bar-val">+0.989%</div></div>
+    <div class="bar-row"><div class="bar-cat">N=3 자본제약</div><div class="bar-track"><div class="bar-fill violet" style="width:70%" title="+0.774%"></div></div><div class="bar-val">+0.774%</div></div>
+  </div>
+  <div class="chart-block">
+    <div class="chart-title">Hidden형 — 단계별 진행: MDD (절대값 %)</div>
+    <div class="bar-row"><div class="bar-cat">화+수+목 확정</div><div class="bar-track"><div class="bar-fill red" style="width:85%" title="-6.07%"></div></div><div class="bar-val">-6.07%</div></div>
+    <div class="bar-row"><div class="bar-cat">N=3 자본제약</div><div class="bar-track"><div class="bar-fill red" style="width:90%" title="-6.44%"></div></div><div class="bar-val">-6.44%</div></div>
+  </div>
+</div>
+</section>
+
+<!-- ══════════════ 6. REJECTED ══════════════ -->
+<section id="rejected">
+<h2><span class="num">6.</span> 검토했으나 채택하지 않은 대안</h2>
+<div class="tbl-wrap">
+<table>
+<thead><tr><th>검토 항목</th><th>대상</th><th>결과</th><th>사유</th></tr></thead>
+<tbody>
+<tr><td>설정일 조건 강화 (최근 N일 저가, N=1~8)</td><td>일반형</td><td><span class="badge b-fail">기각</span></td><td>N 늘려도 승률 정체·소폭 하락, MDD는 오히려 악화(N=1: -24.64% vs N=2: -33.41%). 원서 서술은 관찰이지 성과개선 조건이 아니었음</td></tr>
+<tr><td><code>setup_range_pct</code>(설정일 변동폭) 우선순위 신호</td><td>일반형</td><td><span class="badge b-fail">기각</span></td><td>매크로필터 결합 시 최초 OOS 통과처럼 보였으나, 2025~2026 단일 국면에서만 작동하는 패턴으로 판명. 자본제약(N=3) 조합 테스트에서 무작위 선택보다도 성과가 못함(승률 64.06%→52.38%)</td></tr>
+<tr><td>"롱 반쪽 전략" 국면상관 가설</td><td>일반형</td><td><span class="badge b-hold">보류</span></td><td>직전4분기 시장수익률과 상관계수 r=0.746로 정황상 설득력 있으나, 독립 국면이 4~5개뿐이라 정식 검증 불가</td></tr>
+<tr><td>시총 유니버스 제한(전략 A 방식)</td><td>일반형</td><td><span class="badge b-fail">부적합</span></td><td>거래빈도가 비현실적으로 낮아짐(상위2.57% 기준 3주에 1건). 병목은 유니버스가 아니라 매크로필터 자체 — 유니버스 제한으로 해결 안 됨</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ══════════════ 7. LIMITS ══════════════ -->
+<section id="limits">
+<h2><span class="num">7.</span> 알려진 한계 및 리스크</h2>
+
+<div class="callout risk">
+  <div class="icon">⚠️</div>
+  <div class="body"><strong class="tag">리스크 1 · 검증 구간이 매우 짧음</strong>매크로필터+TDW 결합으로 유효 구간이 전략 A보다 더 좁혀졌다(일반형 2025-01~2026-05 약 1.3년, Hidden형 2025-02~2026-05 약 1.25년).</div>
+</div>
+<div class="callout risk">
+  <div class="icon">⚠️</div>
+  <div class="body"><strong class="tag">리스크 2 · 거래 빈도 자체가 낮음</strong>일반형 최적 조건에서도 주당 거래일이 0.62일(약 1.6주에 하루)에 불과하다. 단기매매 전략치고 기회가 제한적이며, 유니버스를 넓혀도 병목(매크로필터)이 해소되지 않는다.</div>
+</div>
+<div class="callout risk">
+  <div class="icon">⚠️</div>
+  <div class="body"><strong class="tag">리스크 3 · Hidden형 표본이 작음</strong>202건/46일 기준으로 확정했고, 자본제약(N=3) 적용 시 승률이 55.45%→49.64%로 하락해 50%에 근접한다. 표본 부족으로 인한 변동성을 실전에서 유의해야 한다.</div>
+</div>
+<div class="callout risk">
+  <div class="icon">⚠️</div>
+  <div class="body"><strong class="tag">리스크 4 · 국면 의존성 가능성</strong>기각된 <code>setup_range_pct</code> 신호가 "2025~2026 국면에서만 작동"하는 패턴으로 드러난 점, 그리고 "롱 전용 반쪽 전략" 가설(직전4분기 수익률과 r=0.746)은 이 전략이 상승장에 편향되어 있을 가능성을 시사한다. 통계적으로 확정할 수는 없으나 실전 운용 중 지속 모니터링이 필요하다.</div>
+</div>
+<div class="callout risk">
+  <div class="icon">⚠️</div>
+  <div class="body"><strong class="tag">리스크 5 · 자본배분 미검증</strong>전략 A와 동일하게, 도달순서 균등배분은 장중 틱데이터가 없어 백테스트로 직접 검증되지 않았다.</div>
+</div>
+</section>
+
+<!-- ══════════════ 8. APPROVAL ══════════════ -->
+<section id="approval">
+<h2><span class="num">8.</span> 승인 요청</h2>
+<div class="approval-box">
+  <h3>승인 요청 사항</h3>
+  <p class="ask">전략 B(Smash Day Pattern) — 일반형과 Hidden형 모두 — 를 아래 확정 파라미터로 Stage 3(전략 코드화) 대상에 포함할 것을 요청합니다.</p>
+
+  <h4>일반형 (Naked Close)</h4>
+  <ul>
+    <li>TDW=<strong>월·수</strong>(진입일 기준), 매크로필터=전략 A와 동일값, 자본배분=옵션A</li>
+    <li>기대 성과(N=3 기준): 승률 약 <strong>55.69%</strong>, 거래당 기대수익 약 <strong>+0.960%</strong>, MDD 약 <strong>-4.45%</strong></li>
+  </ul>
+
+  <h4>Hidden형 (①②③)</h4>
+  <ul>
+    <li>TDW=<strong>화·수·목</strong>(진입일 기준), 매크로필터·자본배분=일반형과 동일</li>
+    <li>기대 성과(N=3 기준): 승률 약 <strong>49.64%</strong>, 거래당 기대수익 약 <strong>+0.774%</strong>, MDD 약 <strong>-6.44%</strong></li>
+  </ul>
+
+  <h4>공통 전제</h4>
+  <ul>
+    <li>청산: 익일 시가 무조건 청산, 손절 없음</li>
+    <li>자본배분(옵션A)은 <strong>미검증 가정</strong> — Stage 4.5 모의투자 단계에서 실시간 데이터로 우선 검증</li>
+    <li>Hidden형은 표본이 상대적으로 작아(46거래일) 초기 운용 시 보수적 접근 권고</li>
+  </ul>
+</div>
+</section>
+
+<!-- ══════════════ APPENDIX ══════════════ -->
+<section id="appendix" class="appendix">
+<p class="ref-title">참고 자료</p>
+<p class="ref-item">전략 명세 원문: <code>docs/strategy/B_smash_day.md</code> (v3.4, 2026-07-07)</p>
+<p class="ref-item">데이터: Naver Finance siseJson API, <code>data/market.duckdb</code> (KRX 시총 1조원 이상 312개 종목, 2005-01-03~2026-06-29)</p>
+<p class="ref-item">트레이드 단위 백테스트 재구성: <code>scripts/explore/backtest_b.py</code> (<code>bt_b_naked_trades</code> / <code>bt_b_hidden_trades</code>)</p>
+<p class="ref-item">탐색 스크립트: <code>scripts/explore/filter_b_hidden_review.py</code>, <code>filter_b_setup_range_oos.py</code>, <code>filter_b_setup_range_standalone.py</code>, <code>filter_b_marcap_grid.py</code></p>
+<p class="ref-item">무작위 N종목 시뮬레이션 상세: <code>docs/strategy/B_smash_day.md</code> 부록 절</p>
+<p class="ref-item">의사결정 배경: <code>PLAN.md</code> 확정된 결정사항(2026-07-07)</p>
+</section>
+
+<p class="footer-note">TraderX Project — 전략 B 확정 승인 요청서 · 작성 2026-07-07</p>
+
+</div>
+</div>
+</body>
+</html>

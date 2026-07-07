@@ -724,12 +724,12 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
 <!-- ──────────────── ELDER CANDIDATES ──────────────── -->
 <div class="phase-div">
   <div class="phase-div-line"></div>
-  <div class="phase-div-label">Elder 후보 — Stage 1 재개 (2026-06-30) — 검토 중</div>
+  <div class="phase-div-label">Elder 후보 — Stage 1 재개 (2026-06-30) — I·J·K 명세 확정</div>
   <div class="phase-div-line"></div>
 </div>
 
 <p style="font-size:13px;color:#555;margin:0 0 2rem;line-height:1.7">
-  출처: Alexander Elder, <em>The New Trading For a Living</em> (2014). 아래 5개 후보는 사용자 검토 중이며, 전략 확정 또는 제외는 피드백 후 결정한다.
+  출처: Alexander Elder, <em>The New Trading For a Living</em> (2014). 전략 후보 I·J·K는 명세 확정(2026-07-01). 매크로 필터 2개는 검토 중.
 </p>
 
 <!-- ──────────────── Elder 전략 후보 ──────────────── -->
@@ -858,7 +858,7 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
       <ul class="prec">
         <li><strong>독립 전략</strong>: Strategy I(Triple Screen)에 종속되지 않는다. 익일 Bail Out이라는 독자적 청산 규칙이 그 근거 — 종속 신호였다면 Triple Screen의 3조건 청산을 물려받았을 것.</li>
         <li><strong>Smash Day(전략 B)와 비중복</strong>: Hidden형 설정 봉은 종가가 range 하단 25% 이내, 캥거루 꼬리는 종가가 상단 근처 — 같은 봉이 둘 다 만족 불가. 필터 병합 대신 별도 후보로 병행.</li>
-        <li><strong>진입 타이밍</strong>: Elder의 "3번째 봉 형성 중 종가 직전 매수"는 장 종료 무렵 판단이므로 확인 봉 종가 매수로 근사. T+1 지연 불필요.</li>
+        <li><strong>진입 타이밍</strong>: Elder의 "3번째 봉 형성 중 종가 직전 매수"는 장 종료 무렵 판단이므로 확인 봉 종가 매수로 근사. T+1 지연 불필요. <strong>단, 이 "종가 매수"는 백테스팅 편의상 근사이며, 실전 운용에서는 종가 임박 시점의 장중 판단으로 진입한다</strong> (봉 마감을 기다리지 않음).</li>
         <li><strong>정량 파라미터 5개</strong>(WEAVE_DAYS, WEAVE_RANGE_PCT, TAIL_RANGE_MULT, CONFIRM_RANGE_PCT, CONFIRM_TOP_PCT): 지금 고정하지 않고 백테스팅으로 결정 (Strategy A의 k값 탐색과 동일 방식론).</li>
       </ul>
     </div>
@@ -872,51 +872,57 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
       <span class="badge be">Elder 반전</span>
       <p class="c-title">K. False Breakout + Divergence (FB+BD)</p>
       <p class="c-chap">Chapter 18 · 55</p>
-      <p class="c-sum">Elder 자신의 주력 전략 #1. 거짓 하락돌파(지지선 이탈 후 즉각 복귀)와 강세 다이버전스(MACD-H 얕아짐)가 동시에 발생하는 이중 확인 반전 신호.</p>
+      <p class="c-sum">Elder 자신의 Trade Journal 주력 전략 1번("01 FB+BD"). 거짓 하락돌파(지지선 이탈 후 즉각 복귀)와 강세 다이버전스(MACD-H 얕아짐)가 동시에 발생하는 이중 확인 반전 신호. A-B-C 3단계 구조로 정식화.</p>
     </div>
     <span class="chev">⌄</span>
   </div>
   <div class="detail">
     <div class="d-sec">
-      <div class="d-sec-title">시장 이야기</div>
-      <p class="story">LG에너지솔루션이 수개월간 하락 중. 저점 A에서 MACD-H = −200. 이후 반등, MACD-H가 0선 위로 상승 ("곰의 등을 부러뜨린다"). 이후 재하락, 저점 B는 저점 A보다 낮은 신저가. 그러나 MACD-H는 −120으로 이전 저점(−200)보다 얕다 (강세 다이버전스). 동시에, 저점 B에서 지지선 이하로 잠시 이탈했다가 당일 종가에서 지지선 위로 회복 (거짓 하락돌파). 두 신호가 겹쳤다 — Elder는 이 봉이 마감하기 전에 매수 진입한다.</p>
+      <div class="d-sec-title">시장 이야기 (원서 실제 사례, SLB Fig 55.3 기반)</div>
+      <p class="story">슐럼버거(SLB)가 하락 추세 중 저점 A를 형성 — 이 구간 MACD-H는 0선을 넘지 못해 "단일 바닥"으로 간주된다. 이후 지점 B에서 MACD-H가 0선 위로 반등("곰의 등을 부러뜨린다") + 주봉 Impulse가 Red에서 Blue로 전환 — 매수 금지가 해제된다. 이후 지점 C에서 가격은 A보다 낮은 신저가를 기록하지만 MACD-H는 A보다 얕은 저점 — 강세 다이버전스 성립. C 구간에서 Red 이후 첫 Blue 일봉이 나타나며 MACD-H가 반등하고 종가가 A의 저가 위로 회복 — 거짓 하락돌파 확인. Elder는 이 봉이 마감하기 전에 매수해 5거래일 보유 후 채널 상단 부근에서 분할 매도했다.</p>
     </div>
     <div class="d-sec">
-      <div class="d-sec-title">2가지 동시 조건</div>
+      <div class="d-sec-title">A-B-C 3단계 구조 <small style="font-size:10px;font-weight:400;color:#2e7d32">✅ 확정 (2026-07-01)</small></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">
         <div style="flex:1;min-width:140px;border:1px solid #e0e0db;border-radius:6px;padding:10px;background:#f9f9f7">
-          <div style="font-size:10px;font-weight:600;color:#D85A30;margin-bottom:5px">조건 A: 거짓 하락돌파</div>
-          <div style="font-size:11px;color:#333;line-height:1.6">지지선(이전 저점) 이하 이탈 후 당일 내 지지선 위로 복귀하며 종가 마감. 공매도 세력을 함정에 빠뜨린 역방향 움직임.</div>
+          <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:5px">A: 기준 저점</div>
+          <div style="font-size:11px;color:#333;line-height:1.6">로컬 저점. 구간 내 MACD-H가 0선을 넘지 않아야 "단일 바닥"으로 인정</div>
         </div>
         <div style="flex:1;min-width:140px;border:1px solid #e0e0db;border-radius:6px;padding:10px;background:#f9f9f7">
-          <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:5px">조건 B: 강세 다이버전스</div>
-          <div style="font-size:11px;color:#333;line-height:1.6">가격은 이전 저점보다 낮은 새 저점. MACD-H는 이전 저점보다 얕은 저점(0에 가까운). 하락 모멘텀 소진 신호.</div>
+          <div style="font-size:10px;font-weight:600;color:#185FA5;margin-bottom:5px">B: 리셋</div>
+          <div style="font-size:11px;color:#333;line-height:1.6">MACD-H가 0선 위로 반등 + 주봉 Impulse Red→Blue 전환. 새 다이버전스 측정 시작</div>
+        </div>
+        <div style="flex:1;min-width:140px;border:1px solid #e0e0db;border-radius:6px;padding:10px;background:#f9f9f7">
+          <div style="font-size:10px;font-weight:600;color:#D85A30;margin-bottom:5px">C: 다이버전스 신저점</div>
+          <div style="font-size:11px;color:#333;line-height:1.6">가격은 A보다 낮은 신저점, MACD-H는 A보다 얕은 저점 — 다이버전스 성립</div>
         </div>
       </div>
     </div>
     <div class="d-sec">
       <div class="d-sec-title">진입 단계</div>
       <ul class="steps">
-        <li><span class="step-n">1</span><span class="step-body">배경: 하락 추세 또는 조정. MACD-H가 한 차례 0선 위로 올라온 이력 확인("곰의 등을 부러뜨린" 신호)</span></li>
-        <li><span class="step-n">2</span><span class="step-body">이전 저점보다 낮은 새 저점 형성 — 동시에 MACD-H는 이전 저점보다 얕음 (강세 다이버전스 성립)</span></li>
-        <li><span class="step-n">3</span><span class="step-body">해당 봉이 지지선 이하 이탈 후 지지선 위로 당일 회복 → 거짓 하락돌파 확인</span></li>
-        <li><span class="step-n">4</span><span class="step-body">두 조건(A + B) 동시 충족 시 매수 진입 (당일 장중 또는 다음 날 시초가)</span></li>
+        <li><span class="step-n">1</span><span class="step-body">배경 조건: 주봉 Impulse가 최근 Red였다가 Blue/Green 전환된 이력 확인</span></li>
+        <li><span class="step-n">2</span><span class="step-body">C 구간 내 "Red 이후 첫 Blue 일봉" + MACD-H 저점 대비 반등 + 종가가 A의 저가 위로 회복(거짓 하락돌파 확정)</span></li>
+        <li><span class="step-n">3</span><span class="step-body">A-trade 필터: (Upper Channel − 진입가) / Channel_height ≥ 30% 확인 (Apgar 미적용, Elder A-trade 기준만 재사용)</span></li>
+        <li><span class="step-n">4</span><span class="step-body">진입: 트리거 봉 종가 매수 — <strong>단, 이는 백테스팅 근사이며 실전은 종가 임박 시점의 장중 판단</strong></span></li>
       </ul>
     </div>
     <div class="d-sec">
-      <div class="d-row"><span class="d-lbl">이익실현</span><span class="d-val">채널 상한선 또는 가치 구간(두 EMA 사이) 도달</span></div>
-      <div class="d-row"><span class="d-lbl">손절</span><span class="d-val">거짓 하락돌파 봉의 저점 이하</span></div>
+      <div class="d-row"><span class="d-lbl">청산</span><span class="d-val">Strategy I과 동일 3조건 — 목표가(Upper Channel) / 손절(SafeZone Stop) / 강제청산(주봉 Impulse→RED)</span></div>
+      <div class="d-row"><span class="d-lbl">청산 원칙</span><span class="d-val">익일 Bail Out 예외 적용 (다수일 보유 전제)</span></div>
     </div>
     <div class="d-sec">
       <div class="d-sec-title">이익의 원천</div>
-      <div class="edge">거짓 돌파에 진입한 공매도 세력의 강제 손절(매수 청산)이 상승 연료가 된다. 다이버전스는 하락 모멘텀이 소진됐음을 독립적으로 확인한다. Williams Smash Day와 개념적으로 유사하지만, 다이버전스 조건이 추가 필터 역할을 해 신뢰도가 높아지는 대신 발생 빈도는 낮아진다.</div>
+      <div class="edge">거짓 돌파에 진입한 공매도 세력의 강제 손절(매수 청산)이 상승 연료가 된다. 다이버전스는 하락 모멘텀이 소진됐음을 독립적으로 확인한다.</div>
     </div>
     <div class="d-sec">
-      <div class="d-sec-title">검토 필요 사항</div>
+      <div class="d-sec-title">확정된 결정 사항 <small style="font-size:10px;font-weight:400;color:#888">(2026-07-01)</small></div>
       <ul class="prec">
-        <li><strong>Williams B(Smash Day)와의 차이</strong>: Smash Day = 패턴 완성 즉시 진입. FB+BD = 다이버전스 확인에 수주 소요 → 발생 빈도 훨씬 낮음.</li>
-        <li><strong>다이버전스 형성 기간</strong>: 최소 2개 저점 비교 필요 → 수주~수개월 패턴 형성 기간. 단기 자동 스캔에 제약.</li>
-        <li><strong>당일매수-익일매도 호환성</strong>: 거짓돌파 확인 당일 진입 가능. 이익실현 목표(채널 상한)까지 수일이 필요할 수 있어 익일 청산 원칙과 충돌 여부 검토 필요.</li>
+        <li><strong>Williams B(Smash Day)와의 관계 재정정</strong>: 기존에 "개념적으로 유사"하다고 봤던 판단은 폐기. 원서 재검토 결과 Strategy I(Triple Screen)과 동일 뼈대(주봉 Impulse 게이팅 + EMA 채널 목표가 + 수일 보유)를 공유함이 확인됨.</li>
+        <li><strong>청산 방식</strong>: Strategy I과 동일한 3조건 청산 채택. signal_events/signal_tracking/signal_outcomes 추적 테이블도 그대로 재사용.</li>
+        <li><strong>진입 타이밍</strong>: Elder 원문("봉 마감을 기다리지 않고 매수")에 따라 실전은 장중 판단, 백테스팅에서만 트리거 봉 종가로 근사.</li>
+        <li><strong>Strategy I과의 신호 중복</strong>: 같은 종목에서 두 전략이 동시에 신호를 낼 경우 처리 방식은 미결 — Stage 2 착수 전 결정.</li>
+        <li><strong>정량 파라미터</strong>: SWING_LOOKBACK, MAX_AC_DAYS, MIN_MACDH_GAP, 손절 배치 방식 — 전부 백테스팅으로 결정.</li>
       </ul>
     </div>
   </div>
@@ -1132,12 +1138,12 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
 <!-- Elder 평가 -->
 <div class="phase-div" style="margin-top:2rem">
   <div class="phase-div-line"></div>
-  <div class="phase-div-label">Elder 후보 — 검토 현황 (I: 명세 확정 · J/K: 검토 중)</div>
+  <div class="phase-div-label">Elder 후보 — 검토 현황 (I·J·K 명세 확정)</div>
   <div class="phase-div-line"></div>
 </div>
 
 <p class="eval-note">
-  J·K·필터 후보는 사용자 검토 중. I는 명세 확정 완료 (2026-07-01).
+  전략 후보 I·J·K는 명세 확정 완료 (2026-07-01). 매크로 필터 2개는 검토 중.
 </p>
 
 <div class="eval-grid">
@@ -1161,9 +1167,9 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
   <div class="eval-item">
     <div class="eval-item-hd">
       <span class="eval-title">K. False Breakout + Divergence (FB+BD)</span>
-      <span class="verdict v-new">🔍 검토 중</span>
+      <span class="verdict v-pass">✅ 명세 확정</span>
     </div>
-    <p class="eval-reason">Elder 주력 전략 #1. 거짓 하락돌파 당일 진입은 가능하나, <strong>다이버전스 형성에 수주~수개월 소요</strong>. 패턴 완성 후 당일 매수는 가능해도 이익실현 목표(채널 상한)까지 수일이 필요할 수 있어 익일 청산 원칙과의 충돌 여부 확인 필요. Williams B(Smash Day)와 겹치는 구조 — 중복성 검토 필요.</p>
+    <p class="eval-reason">원서 실제 사례(SLB) 기반으로 A-B-C 다이버전스 구조 정식화. Williams B(Smash Day)와 유사하다는 기존 판단은 폐기 — 실제로는 Strategy I(Triple Screen)과 동일 뼈대(주봉 Impulse + EMA 채널 + 수일 보유) 공유. 청산은 I과 동일한 3조건(목표가/손절/Impulse RED), 익일 Bail Out 예외 적용. Apgar 대신 Elder A-trade 기준(채널 30%)만 재사용. 진입은 트리거 봉 종가로 근사(백테스팅), 실전은 장중 판단. 상세: <code>docs/strategy/K_false_breakout_divergence.md</code></p>
   </div>
 
   <div class="eval-item">
@@ -1209,7 +1215,7 @@ td:first-child { font-weight: 500; color: #1a1a1a; white-space: nowrap; }
     <tbody>
       <tr><td>I. Elder Triple Screen</td><td>전략 후보</td><td>✅ 명세 확정</td><td>익일 Bail Out 예외 적용. Apgar ②⑤ 파라미터는 백테스팅·외부 데이터 확정 후 결정.</td></tr>
       <tr><td>J. Kangaroo Tails</td><td>전략 후보</td><td>✅ 명세 확정</td><td>독립 전략(Triple Screen 비종속), Smash Day와 비중복. 정량 파라미터 5개는 백테스팅 결정.</td></tr>
-      <tr><td>K. FB+BD</td><td>전략 후보</td><td>🔍 검토 중</td><td>다이버전스 형성 수주 소요. Williams B와 중복성 검토 필요.</td></tr>
+      <tr><td>K. FB+BD</td><td>전략 후보</td><td>✅ 명세 확정</td><td>Strategy I과 동일 구조(주봉 Impulse + 채널). A-B-C 다이버전스 구조 정식화. 청산은 I과 동일 3조건.</td></tr>
       <tr><td>NH-NL Index</td><td>매크로 필터</td><td>🔍 검토 중</td><td>별도 파이프라인 필요. Elder 강추 지표.</td></tr>
       <tr><td>Stocks above 50-Day MA</td><td>매크로 필터</td><td>🔍 검토 중</td><td>기존 데이터로 즉시 계산 가능. 구현 난이도 낮음.</td></tr>
     </tbody>
