@@ -81,28 +81,34 @@
       "name": "투자관련",
       "files": [
         {
-          "name": "전략 B 확정 승인 요청 | TraderX",
-          "path": "reports/투자관련/strategy_b_confirmation_report.html",
-          "date": "2026-07-07T10:08:46.842198+00:00",
-          "summary": "전략 B(Smash Day Pattern)의 Stage 3(코드화) 진입을 요청하는 확정 승인 보고서다. 하락 돌파 후 즉각 반전을 노리는 일반형(Naked Close)과 Hidden형 두 유형을 병행 운용하며, 전략 A와 동일한 매크로 필터·자본배분 방법론을 적용해 일반형 승률 64.06%(기대수익 +1.741%), Hidden형 승률 55.45%(기대수익 +0.989%)를 확정치로 제시한다."
-        },
-        {
-          "name": "전략 A 확정 승인 요청 | TraderX",
-          "path": "reports/투자관련/strategy_a_confirmation_report.html",
-          "date": "2026-07-07T10:07:54.159363+00:00",
-          "summary": "전략 A(Volatility Breakout)의 Stage 3(코드화) 진입을 요청하는 확정 승인 보고서다. 전일 3일 평균 Range의 k=70% 돌파 시 매수, 익일 시가 무조건 청산 규칙을 2005~2026년 데이터로 검증했고, 시장 국면 필터와 자본 배분(N=3) 제약을 반영한 결과 승률 54.59%, 거래당 기대수익 +0.967%, MDD -3.85%를 확정치로 제시한다."
+          "name": "DeepTrX v1–v5 개발 보고서",
+          "path": "reports/투자관련/model_report_v1_v5.html",
+          "date": "2026-07-15T08:48:01.945806+00:00",
+          "summary": "국내 주식 오버나잇 갭(34일째 종가 매수 → 35일째 시가 매도) 수익률을 예측하는 DeepTrX 모델의 v1~v5 개발 경과를 종합한 보고서다. Conv1D+BiGRU 회귀 모델을 뼈대로 타깃 정의(시장중립화)·입력 피처·손실함수(회귀→랭킹→혼합)를 5차례 개선했으며, 우선주 혼입 문제 발견 및 화이트리스트 보정 과정과 v1 대비 v2~v5의 알파 개선폭, 버전 간 트레이드오프를 다룬다."
         },
         {
           "name": "전략 후보 분석 — Phase 1 | TraderX",
           "path": "reports/투자관련/phase1_strategy_candidates.html",
-          "date": "2026-07-01T15:50:31+09:00",
+          "date": "2026-07-07T19:15:32+09:00",
           "summary": "TraderX 프로젝트의 Phase 1 전략 후보 분석 보고서로, Larry Williams와 Alexander Elder의 저서를 근거로 브레이크아웃·반전 패턴·추세추종·Elder 매크로 필터 등 다수의 롱 전용 매수 전략 후보(A~H 및 Elder 전략)를 진입·청산 규칙과 함께 카드 형태로 정리했다. Elder 후보 I(Triple Screen)·J(Kangaroo Tails)·K(False Breakout+Divergence)는 모두 익일 Bail Out 예외 청산 규칙까지 명세가 확정되었고, 매크로 필터 2개만 검토 중이다."
         },
         {
           "name": "Phase 1 완료 보고서: 전략 명세화 | TraderX",
           "path": "reports/투자관련/phase1_strategy_spec_report.html",
-          "date": "2026-07-01T15:50:31+09:00",
+          "date": "2026-07-07T19:15:32+09:00",
           "summary": "TraderX 프로젝트 Phase 1(전략 명세화)의 연구 및 협의 결과를 정리한 완료 보고서다. Larry Williams 저서 기반 8개 전략 후보 중 6개(A·B·C·D·E·H)를 Phase 3 백테스팅 대상으로 확정했고, Elder 저서 기반 후보 I·J·K도 청산 규칙까지 명세를 확정했으며 매크로 필터 2개만 검토 중이다."
+        },
+        {
+          "name": "전략 A 확정 승인 요청 | TraderX",
+          "path": "reports/투자관련/strategy_a_confirmation_report.html",
+          "date": "2026-07-07T19:15:32+09:00",
+          "summary": "전략 A(Volatility Breakout)의 Stage 3(코드화) 진입을 요청하는 확정 승인 보고서다. 전일 3일 평균 Range의 k=70% 돌파 시 매수, 익일 시가 무조건 청산 규칙을 2005~2026년 데이터로 검증했고, 시장 국면 필터와 자본 배분(N=3) 제약을 반영한 결과 승률 54.59%, 거래당 기대수익 +0.967%, MDD -3.85%를 확정치로 제시한다."
+        },
+        {
+          "name": "전략 B 확정 승인 요청 | TraderX",
+          "path": "reports/투자관련/strategy_b_confirmation_report.html",
+          "date": "2026-07-07T19:15:32+09:00",
+          "summary": "전략 B(Smash Day Pattern)의 Stage 3(코드화) 진입을 요청하는 확정 승인 보고서다. 하락 돌파 후 즉각 반전을 노리는 일반형(Naked Close)과 Hidden형 두 유형을 병행 운용하며, 전략 A와 동일한 매크로 필터·자본배분 방법론을 적용해 일반형 승률 64.06%(기대수익 +1.741%), Hidden형 승률 55.45%(기대수익 +0.989%)를 확정치로 제시한다."
         },
         {
           "name": "독서 노트 — The New Trading for a Living (Elder, 2014)",

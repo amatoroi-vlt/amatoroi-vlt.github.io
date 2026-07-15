@@ -59,6 +59,10 @@
     "hash": "d813704f2201861d9a4cb545e774403f6df0f572",
     "summary": "TraderX 프로젝트 Phase 1(전략 명세화)의 연구 및 협의 결과를 정리한 완료 보고서다. Larry Williams 저서 기반 8개 전략 후보 중 6개(A·B·C·D·E·H)를 Phase 3 백테스팅 대상으로 확정했고, Elder 저서 기반 후보 I·J·K도 청산 규칙까지 명세를 확정했으며 매크로 필터 2개만 검토 중이다."
   },
+  "reports/투자관련/model_report_v1_v5.html": {
+    "hash": "ade10c8dcade953478d40f38d04396a472b64aba",
+    "summary": "국내 주식 오버나잇 갭(34일째 종가 매수 → 35일째 시가 매도) 수익률을 예측하는 DeepTrX 모델의 v1~v5 개발 경과를 종합한 보고서다. Conv1D+BiGRU 회귀 모델을 뼈대로 타깃 정의(시장중립화)·입력 피처·손실함수(회귀→랭킹→혼합)를 5차례 개선했으며, 우선주 혼입 문제 발견 및 화이트리스트 보정 과정과 v1 대비 v2~v5의 알파 개선폭, 버전 간 트레이드오프를 다룬다."
+  },
   "reports/투자관련/strategy_a_confirmation_report.html": {
     "hash": "a67e9a7ad718c27d9b477ab62ec446b44f87cf8d",
     "summary": "전략 A(Volatility Breakout)의 Stage 3(코드화) 진입을 요청하는 확정 승인 보고서다. 전일 3일 평균 Range의 k=70% 돌파 시 매수, 익일 시가 무조건 청산 규칙을 2005~2026년 데이터로 검증했고, 시장 국면 필터와 자본 배분(N=3) 제약을 반영한 결과 승률 54.59%, 거래당 기대수익 +0.967%, MDD -3.85%를 확정치로 제시한다."
