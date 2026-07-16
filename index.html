@@ -53,6 +53,22 @@
       font-style: italic;
     }
 
+    #site-stats {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid #21262d;
+      display: flex;
+      gap: 12px;
+      font-size: 0.65rem;
+      color: #5c7a8a;
+      letter-spacing: 0.02em;
+    }
+
+    #site-stats .stat-value {
+      color: #8b949e;
+      font-weight: 600;
+    }
+
     #nav {
       padding: 12px 12px;
       flex: 1;
@@ -292,6 +308,10 @@
       햇빛이여, 데이지여, 버터 멜로우여,<br>
       이 멍청한 인간이 기억하게 해라.
     </div>
+    <div id="site-stats" title="이 브라우저 기준 조회수 (아직 전체 방문자 집계 서비스는 미연결)">
+      <span>오늘 <span class="stat-value" id="stat-daily">-</span></span>
+      <span>전체 <span class="stat-value" id="stat-total">-</span></span>
+    </div>
   </div>
   <div id="nav"></div>
 </div>
@@ -430,6 +450,22 @@
     .catch(() => {
       nav.innerHTML = '<div style="padding:12px;font-size:0.72rem;color:#484f58">목록을 불러올 수 없습니다</div>';
     });
+
+  (function trackVisit() {
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' });
+    const dailyKey = `pensieve-visits-${today}`;
+    const totalKey = 'pensieve-visits-total';
+    const dailyEl = document.getElementById('stat-daily');
+    const totalEl = document.getElementById('stat-total');
+
+    const daily = parseInt(localStorage.getItem(dailyKey) || '0', 10) + 1;
+    const total = parseInt(localStorage.getItem(totalKey) || '0', 10) + 1;
+    localStorage.setItem(dailyKey, daily);
+    localStorage.setItem(totalKey, total);
+
+    dailyEl.textContent = daily;
+    totalEl.textContent = total;
+  })();
 </script>
 
 </body>
