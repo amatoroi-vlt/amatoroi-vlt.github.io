@@ -29,14 +29,25 @@ def extract_title(filepath):
     return None
 
 def get_last_modified(filepath):
+    # Pure renames (R100, no content change) must not count as a "modification" —
+    # otherwise mass folder renames make every file's date collapse to the rename commit.
     try:
         result = subprocess.run(
-            ['git', 'log', '-1', '--format=%cI', '--', filepath],
+            ['git', 'log', '--follow', '--name-status', '--format=COMMIT\t%H\t%cI', '--', filepath],
             capture_output=True, text=True, timeout=5
         )
-        date_str = result.stdout.strip()
-        if date_str:
-            return date_str
+        commit_date = None
+        for line in result.stdout.splitlines():
+            if line.startswith('COMMIT\t'):
+                commit_date = line.split('\t')[2]
+            elif line.strip():
+                status = line.split('\t')[0]
+                if status.startswith('R') and status[1:] == '100':
+                    continue
+                if commit_date:
+                    return commit_date
+        if commit_date:
+            return commit_date
     except Exception:
         pass
     try:
