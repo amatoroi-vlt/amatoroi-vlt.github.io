@@ -23,7 +23,11 @@ REPO = "/Users/jeongsookang/Documents/dev/GitHub_blog"
 DEST_REL = "reports/Overwatch/live_report.html"
 PUBLISH_PATHS = [DEST_REL, "manifest.json"]
 
-GIT = "/usr/bin/git"
+# 반드시 homebrew git이어야 한다. keychain 접근 권한(ACL)은 바이너리 경로
+# 단위로 붙는데, 대화형 푸시에서 승인 이력이 쌓인 것은 homebrew git이 쓰는
+# helper다. /usr/bin/git(Apple CLT)은 다른 경로의 helper를 호출하므로 승인이
+# 없어 프롬프트를 띄우려 하고, UI가 없는 launchd에서는 그대로 취소된다(-128).
+GIT = "/opt/homebrew/bin/git"
 
 
 def log(msg):
