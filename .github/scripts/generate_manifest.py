@@ -79,7 +79,12 @@ for group in sorted(os.listdir(reports_dir)):
         date = get_last_modified(filepath)
         cached = summaries.get(path)
         h = content_hash(filepath)
-        summary = cached['summary'] if cached and cached.get('hash') == h else ''
+        # volatile: 내용이 주기적으로 갱신되지만(라이브 리포트 등) 요약은 그대로 유효한 파일.
+        # 해시가 달라져도 캐시된 요약을 유지한다 — 그러지 않으면 자동 갱신 때마다 요약이 사라진다.
+        if cached and (cached.get('hash') == h or cached.get('volatile')):
+            summary = cached['summary']
+        else:
+            summary = ''
         if not summary:
             missing_summaries.append(path)
         files.append({'name': title, 'path': path, 'date': date, 'summary': summary})
