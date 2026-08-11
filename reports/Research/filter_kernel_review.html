@@ -1,0 +1,185 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<title>재검토 — 필터 효과는 Po 에만 국한되지 않는다</title>
+<style>
+ body{font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  max-width:1120px;margin:0 auto;padding:30px 24px;color:#1a1a1a;line-height:1.68}
+ h1{font-size:1.6rem;margin:0 0 6px} h2{font-size:1.15rem;margin:34px 0 10px;
+  border-bottom:2px solid #e3e3e3;padding-bottom:5px}
+ h3{font-size:1.0rem;margin:22px 0 6px;color:#444}
+ .sub{color:#666;margin:0 0 4px;font-size:.9rem}
+ table{border-collapse:collapse;margin:12px 0;font-size:.87rem}
+ th,td{border:1px solid #ddd;padding:5px 11px;text-align:right}
+ th{background:#f5f6f8;font-weight:600} td:first-child,th:first-child{text-align:left}
+ code{background:#f2f3f5;padding:1px 5px;border-radius:3px;font-size:.88em}
+ .eq{background:#f8f9fb;border-left:3px solid #bcc6d6;padding:11px 17px;margin:12px 0;
+  font-family:ui-monospace,Menlo,monospace;font-size:.86rem;line-height:1.8;overflow-x:auto}
+ .ok{background:#eef7f0;border-left:3px solid #4a9d5f;padding:11px 17px;margin:14px 0;font-size:.9rem}
+ .bad{background:#fdeeee;border-left:3px solid #cc4444;padding:11px 17px;margin:14px 0;font-size:.9rem}
+ .warn{background:#fff8e6;border-left:3px solid #e0a800;padding:11px 17px;margin:14px 0;font-size:.9rem}
+ .step{background:#f7f8fa;border:1px solid #e0e3e8;border-radius:6px;padding:12px 18px;margin:12px 0}
+ .step b{color:#2a5d8f}
+ ul,ol{padding-left:23px} li{margin:4px 0}
+ .tool{font-size:.83rem;color:#777;margin-top:-6px}
+ @media(prefers-color-scheme:dark){
+  body{background:#16181c;color:#e6e6e6} th{background:#24272e} th,td{border-color:#33373f}
+  code{background:#24272e} .eq{background:#1d2027;border-left-color:#4a5163}
+  .ok{background:#1a2b1f;border-left-color:#3d7a4d} .bad{background:#2b1a1a;border-left-color:#aa3939}
+  .warn{background:#2b2618;border-left-color:#b8860b}
+  .step{background:#1c1f25;border-color:#33373f} .step b{color:#7aa8d8}
+  h2{border-bottom-color:#33373f} .sub,.tool{color:#9aa0a8}}
+</style></head><body>
+
+<h1>재검토 — 필터 효과는 Po 에만 국한되지 않는다</h1>
+<p class="sub"><code>filter_kernel.html</code> 의 결론 중 일부를 철회한다.
+연구노트 §8-7.17 · 생성 <code>research/bi210-template/make_review_doc.py</code></p>
+
+<h2>0. 무엇을 뒤집는가</h2>
+<table>
+<tr><th>filter_kernel.html 의 주장</th><th>현재</th></tr>
+<tr><td>손실 커널이 A03 의 Po 를 상대잔차 0.83% 로 재현</td><td><b>유효</b></td></tr>
+<tr><td>같은 커널이 Bi 로 전이되지 않는다 (8.94% → 8.91%)</td><td><b>근거 약함</b></td></tr>
+<tr><td>⇒ 필터 효과는 Po 에 국한된다</td><td><b>철회</b></td></tr>
+<tr><td>⇒ ²¹⁰Po 의 표면 자발 침착이 유력한 기전</td><td><b>철회</b> — 광학 감쇠 쪽</td></tr>
+</table>
+
+<h2>1. 왜 의심했는가</h2>
+<p>"Bi 로 전이되지 않는다"의 근거는 <b>U(ch) 비교</b>였다. U 는 51개 스펙트럼을
+시간의존성으로 분해해 얻은 채널벡터인데, 그 분해는 <b>"형상이 시간에 따라 변하지 않는다"</b>
+를 전제한다.</p>
+<p>그런데 같은 문서가 <b>침착이 시간에 따라 자란다</b>고 주장했다. 침착이 진행 중이면
+A03 의 Po 형상이 시간불변이 아니고, 그러면 분해의 전제가 깨진다. <b>결론이 자기 전제를
+부수는 구조</b>였다.</p>
+
+<h2>2. 적합을 버리고 적률로 간 이유</h2>
+<p>필터 항(φ, g_min)은 적합에서 봉우리의 위치·폭과 계속 축퇴되었다. 세 번 시도해 세 번
+같은 벽에 부딪혔다.</p>
+<table>
+<tr><th>시도</th><th>무엇이 일어났나</th></tr>
+<tr><td>Po 형상 기준 = 같은 배치의 A02</td><td>초기 배치에서 기준이 Bi 에 오염 (002 는 Po 창의 32% 가 Bi)</td></tr>
+<tr><td>완전 파라메트릭</td><td>A02 에서 φ = 0.66–0.70(상한), μ = 580(실측 571.9), w = 13(실측 17.2).
+"좁은 코어 + 큰 꼬리" 가 "넓은 코어" 를 흉내낸다</td></tr>
+<tr><td>전역 폭 법칙 추가</td><td>w 의 스케일도 자유라 16개가 함께 미끄러짐. 축퇴 유지</td></tr>
+</table>
+<div class="ok"><b>적률은 최적화를 거치지 않는다.</b> 채널별 계수에서 직접 계산하므로
+축퇴가 생길 여지가 없다. 대신 절차를 지켜야 한다.</div>
+
+<h2>3. 절차 — 순서가 결과를 바꾼다</h2>
+<div class="step"><b>1</b> &nbsp;배치합산 스펙트럼 준비</div>
+<div class="step"><b>2</b> &nbsp;배경 제거 — A01 을 <b>rep 짝지어</b> 뺀다.
+A01 이 3주에 −1.4% 움직이므로 평균으로 빼면 추세에 편향이 들어간다</div>
+<div class="step"><b>3</b> &nbsp;<b>Po 영역 밖에서</b> Bi 를 맞추고 그 외삽을 전 구간에서 뺀다
+&nbsp;<code>ch 150–460 ∪ 660–775</code> 로 적합, <code>470–640</code> 은 제외</div>
+<div class="step"><b>4</b> &nbsp;남은 Po 에서 1·2·3차 적률</div>
+<p class="tool">도구: <code>moment_po.py</code></p>
+<div class="bad"><b>3 을 건너뛰면 결과가 완전히 달라진다.</b> Bi 제거 없이 계산했을 때
+A02 의 3차 적률이 −2831 로 나왔는데, 그것은 Po 가 아니라 <b>Bi 연속스펙트럼</b>이 만든
+값이었다. 002 배치는 Po 창 안의 32%, 003 은 16% 가 Bi 다.</div>
+
+<h2>4. A02 는 이상하지 않았다 — 기준선이 0 이 아니다</h2>
+<p>Bi 를 제대로 뺀 뒤 A02 의 왜도가 <b>−0.35 근처로 일정</b>하게 나온다. 0 이 아니다.
+처음엔 이상해 보였으나, 계산해 보면 <b>모델이 예측하는 값</b>이다.</p>
+<div class="eq">
+우리가 쓰는 "광량축 가우시안" 은 <b>선형 광량 L 에서 대칭</b>이고, 채널축은 그 <b>로그</b>다.<br>
+&nbsp;&nbsp;u = 10^(ch/a_L) → 광량으로 되돌림 → 거기서 가우시안 → 야코비안 du/dch<br><br>
+로그는 오목하므로 대칭 분포를 왼쪽으로 기울인다. 전개하면<br>
+&nbsp;&nbsp;<b>왜도 ≈ −3δ</b>,&nbsp;&nbsp; δ = σ_L/L = w / (a_L·log₁₀e)
+</div>
+<table>
+<tr><th>모델 폭 w</th><th>δ</th><th>모델 왜도</th></tr>
+<tr><td>17.0</td><td>0.139</td><td>−0.3546</td></tr>
+<tr><td><b>17.2</b></td><td>0.141</td><td><b>−0.3536</b></td></tr>
+<tr><td>18.0</td><td>0.147</td><td>−0.3476</td></tr>
+</table>
+<div class="ok"><b>실측 A02 (008, Bi 제거 후) = −0.354.</b> 소수점 셋째 자리까지 일치한다.
+§8-7.9 의 "A02 는 광량축 가우시안" 이 왜도로 독립 확인된 셈이다.<br><br>
+따라서 실무 판정 기준이 선다 — <b>측정 왜도가 −3δ 근처면 Po 단독항으로 충분하고,
+유의하게 더 음수이면 감쇠항을 추가</b>한다. 008 기준 단독항 −0.354, 필터 있으면 −0.427.</div>
+
+<h2>5. 필터 효과의 존재 — 적합 없이 24σ</h2>
+<p>로그 광량축에서 순수 소광은 평행이동이다. 광량이 g 배면 세어지는 광전자도 g 배로
+솎이므로 분산이 1/g 배 커진다 — <b>평균 이동 하나로 분산 증가가 예측된다.</b></p>
+<table>
+<tr><th>008</th><th>값</th></tr>
+<tr><td>Δ평균</td><td>−3.564 ch → 순수 소광이면 광량비 0.9713</td></tr>
+<tr><td>그때 예상되는 분산 증가</td><td>+9.41</td></tr>
+<tr><td><b>실제 분산 증가</b></td><td><b>+68.72</b></td></tr>
+<tr><td>초과</td><td><b>+59.31 = 24.4σ</b></td></tr>
+</table>
+<p>전 배치에서 초과가 5.9–29.6σ. 적률 창을 바꿔도(고정 470–640 / 중심 ±4σ / ±3σ)
+초과는 +30 ~ +59 로 유지된다. <b>필터 효과의 존재는 흔들리지 않는다.</b></p>
+<p>두 적률을 연립하면 φ 와 g 가 닫힌 형태로 나온다.</p>
+<div class="eq">(1−φ)/φ = Δ분산_초과 / (Δ평균)²  &nbsp;→&nbsp; φ,&nbsp;&nbsp; δ = Δ평균/φ</div>
+<table>
+<tr><th>방법</th><th>φ</th><th>g</th></tr>
+<tr><td>적률 (008)</td><td>0.176</td><td>0.848</td></tr>
+<tr><td>스트리핑</td><td>0.17–0.21</td><td>0.856–0.882</td></tr>
+<tr><td>두 무리 적합</td><td>0.175</td><td>0.859</td></tr>
+</table>
+<p class="tool">도구: <code>moment_po.py</code>, <code>strip_a02.py</code>, <code>two_group.py</code></p>
+<p>세 방법이 독립인데 같은 자리에 온다. 다만 적률 창에 따라 φ 가 0.176–0.235 로 움직여
+<b>절대값은 ±30% 수준</b>이다.</p>
+
+<h2>6. 뒤집힌 결론 — 필터는 Bi 도 변형시킨다</h2>
+<p>Bi 를 <b>변형 없는 기본형</b>으로 가정해 뺐는데 A03 의 Bi 가 실제로 변형되어 있다면,
+그 차이가 잔재로 남아 Po 의 적률로 들어간다. 검정은 단순하다 —
+<b>왜도차가 Bi 비중을 따라가는가.</b></p>
+<div class="eq">
+왜도차 = −0.0698 + (−0.00934)·(Bi 비중 %) &nbsp;&nbsp;&nbsp; R² = 0.915<br>
+분산차 = +33.84 &nbsp;+ (+3.940)&nbsp;&nbsp;·(Bi 비중 %) &nbsp;&nbsp;&nbsp; R² = 0.967
+</div>
+<table>
+<tr><th>배치</th><th>Bi %</th><th>관측 왜도차</th><th>Po 몫</th><th>Bi 몫</th><th>Bi 몫 비율</th></tr>
+<tr><td>002</td><td>32.1</td><td>−0.343</td><td>−0.070</td><td><b>−0.300</b></td><td><b>88%</b></td></tr>
+<tr><td>003</td><td>16.2</td><td>−0.273</td><td>−0.070</td><td>−0.152</td><td>56%</td></tr>
+<tr><td>005</td><td>6.6</td><td>−0.104</td><td>−0.070</td><td>−0.062</td><td>59%</td></tr>
+<tr><td>008</td><td>1.1</td><td>−0.073</td><td>−0.070</td><td>−0.011</td><td>14%</td></tr>
+</table>
+<div class="bad"><b>Bi → 0 외삽 절편 −0.0698 이 008 실측 −0.0730 과 0.003 차이로 맞는다.</b>
+그리고 002 에서는 관측된 비대칭의 88% 가 Bi 에서 온다.<br><br>
+⇒ <b>필터는 ²¹⁰Bi 도 변형시킨다.</b> 알파 방출체에만 작용하는 자발 침착보다
+<b>핵종을 가리지 않는 광학 감쇠</b>가 유력하다.<br><br>
+⇒ 그리고 §8-7.16 에서 "필터 항이 왜도를 3배 못 만든다" 고 한 것도,
+<b>Bi 를 고정한 채 Po 필터항만 조정한 설정 자체가 잘못</b>이었을 가능성이 크다.</div>
+
+<h2>7. 지금 위치</h2>
+<table>
+<tr><th>항목</th><th>상태</th></tr>
+<tr><td>필터 효과의 존재</td><td><b>확정</b> — 분산 초과 24σ, 적합 없음</td></tr>
+<tr><td>대략적 크기</td><td>φ ≈ 0.18–0.24, g ≈ 0.85–0.90 (창 의존 ±30%)</td></tr>
+<tr><td>손실이 단일값인가</td><td><b>아니다</b> — 3차 적률이 2–3배 초과</td></tr>
+<tr><td>Po 단독항 판정 기준</td><td><b>확정</b> — 왜도 vs −3δ</td></tr>
+<tr><td>Bi 도 변형되는가</td><td><b>그렇다</b> — 왜도차가 Bi 비중에 선형</td></tr>
+<tr><td>정량 모델의 형태</td><td><b>미확정</b> — Bi·Po 를 함께 변형시키는 설정으로 다시 세워야 함</td></tr>
+<tr><td>기전 (침착 vs 광학)</td><td><b>미확정</b> — 필터 제거 후 재계측 또는 필터 단독 계측 필요</td></tr>
+</table>
+
+<h2>8. 이 결론을 만든 도구</h2>
+<table>
+<tr><th>스크립트</th><th>역할</th><th>연구노트</th></tr>
+<tr><td><code>view_batch.py</code></td><td>한 배치 원자료 보기 — 해석 없음</td><td>—</td></tr>
+<tr><td><code>view_008_net.py</code></td><td>008 합산 순스펙트럼 (배경 rep 짝지어 제거)</td><td>—</td></tr>
+<tr><td><code>tail_stability.py</code></td><td>rep 별 꼬리 일관성, rep1 기준 형상 비교</td><td>—</td></tr>
+<tr><td><code>po_decayout.py</code></td><td>008 순수 Po 직접 분석 — 대칭축·꼬리</td><td>§8-7.14</td></tr>
+<tr><td><code>filter_kernel.py</code></td><td>손실 커널 NNLS 추출 <b>(이 문서가 재검토하는 대상)</b></td><td>§8-7.15</td></tr>
+<tr><td><code>strip_a02.py</code></td><td>A03 − c·A02 스트리핑</td><td>§8-7.16</td></tr>
+<tr><td><code>attenuation_model.py</code></td><td>β 스캔 — 통계적 커널 vs 재생성</td><td>§8-7.16</td></tr>
+<tr><td><code>two_group.py</code></td><td>무감쇠 + 평탄 손실 (φ, g_min)</td><td>§8-7.16</td></tr>
+<tr><td><code>collection_spread.py</code></td><td>대칭 집광 분포 — <b>실패 기록</b></td><td>§8-7.13</td></tr>
+<tr><td><code>partial_loss.py</code></td><td>두 점 한쪽 손실 — <b>축퇴 기록</b></td><td>§8-7.13</td></tr>
+<tr><td><code>moment_po.py</code></td><td><b>채택</b> — Bi 제거 후 적률 판정</td><td>§8-7.17</td></tr>
+</table>
+<p class="tool">축퇴로 실패한 적합 시도 셋(<code>apply_filter_form</code>,
+<code>fit_parametric</code>, <code>fit_global</code>)과 절차가 틀렸던
+<code>moment_test</code> 는 삭제했다. 결과와 교훈은 §8-7.17 에 남아 있다.</p>
+
+<h2>9. 다음</h2>
+<ol>
+<li><b>Bi 와 Po 를 함께 변형시키는 필터 모델.</b> 지금까지 Bi 를 고정하고 Po 만 조정했는데
+그 설정이 틀렸다. 고치기 전에는 왜도 부족분의 크기를 논할 수 없다.</li>
+<li><b>기전 확정.</b> 필터를 제거한 뒤 재계측하거나 필터만 따로 계측하면 침착과 광학
+감쇠가 갈린다.</li>
+<li><b>008 완성본.</b> 현재는 계측 중의 부분 자료다(<code>-part</code>). 종료 후 rep 이
+추가된 완성본으로 교체하면 시간 의존성도 다시 볼 수 있다.</li>
+</ol>
+
+</body></html>
