@@ -107,5 +107,9 @@
   "reports/Invest/strategy_b_confirmation_report.html": {
     "hash": "c81e895330b14f7717c3b2ea70d2b3a0f4b32565",
     "summary": "전략 B(Smash Day Pattern)의 Stage 3(코드화) 진입을 요청하는 확정 승인 보고서다. 하락 돌파 후 즉각 반전을 노리는 일반형(Naked Close)과 Hidden형 두 유형을 병행 운용하며, 전략 A와 동일한 매크로 필터·자본배분 방법론을 적용해 일반형 승률 64.06%(기대수익 +1.741%), Hidden형 승률 55.45%(기대수익 +0.989%)를 확정치로 제시한다."
+  },
+  "reports/Research/report-first-principles-chain.html": {
+    "hash": "4362d3671bbdebda2136457601cf5e1ae45e1503",
+    "summary": "LNHB 핵물리 붕괴도식, 3-PMT 포아송 조합론, Bialkali 광음극 단일 광전자 반응(Gamma SER, v=0.20), 선형 광량축 가우시안 야코비안 변환을 결합해 Bi-210의 5.01일 반감기 감쇠와 Po-210 알파 인그로우스를 단일 해석적 모델로 재현한 종합보고서다. 인위적 저채널 절단(Hard Step Cut) 대신 연속 턴온 함수를 적용하고 소광 인자 k로 템플릿을 실시간 재생성해, 2026 A02 무필터 시계열 8개 배치(15개 Run)에서 평균 잔차 1.74%, χ²/dof=0.56의 초정밀 일치를 달성했다."
   }
 }

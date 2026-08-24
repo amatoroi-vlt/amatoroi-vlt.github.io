@@ -47,7 +47,7 @@
         {
           "name": "DeepTrX Live Model Report",
           "path": "reports/Overwatch/live_report.html",
-          "date": "2026-08-21T09:10:03+09:00",
+          "date": "2026-08-24T09:10:06+09:00",
           "summary": "DeepTrX v2·v4·v5 모델의 실거래 라이브 트래킹 대시보드다. 버전별로 거래일수·거래횟수·승률·평균수익률·누적수익률·MDD(롤링 3개월)를 나란히 비교하고, 일별 수익률 추이와 누적수익률·MDD 그래프를 함께 보여준다. 개별 매수·매도 거래 내역(종목, 매수가, 매도가, 수익률, 진입 시가총액)도 일자별로 제공하며, 매 거래일 09:05에 자동 갱신된다."
         }
       ]
@@ -55,6 +55,12 @@
     {
       "name": "Research",
       "files": [
+        {
+          "name": "²¹⁰Bi-²¹⁰Po 액체섬광 스펙트럼의 제1원리 물리 사슬 및 동역학 모델 종합보고서",
+          "path": "reports/Research/report-first-principles-chain.html",
+          "date": "2026-08-24T14:19:17+09:00",
+          "summary": "LNHB 핵물리 붕괴도식, 3-PMT 포아송 조합론, Bialkali 광음극 단일 광전자 반응(Gamma SER, v=0.20), 선형 광량축 가우시안 야코비안 변환을 결합해 Bi-210의 5.01일 반감기 감쇠와 Po-210 알파 인그로우스를 단일 해석적 모델로 재현한 종합보고서다. 인위적 저채널 절단(Hard Step Cut) 대신 연속 턴온 함수를 적용하고 소광 인자 k로 템플릿을 실시간 재생성해, 2026 A02 무필터 시계열 8개 배치(15개 Run)에서 평균 잔차 1.74%, χ²/dof=0.56의 초정밀 일치를 달성했다."
+        },
         {
           "name": "Bi 에도 필터항을 붙이면 001–003 이 설명되는가",
           "path": "reports/Research/bi_filter.html",

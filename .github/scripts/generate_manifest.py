@@ -22,6 +22,12 @@ def extract_title(filepath):
         match = re.search(r'<title[^>]*>(.*?)</title>', content, re.IGNORECASE | re.DOTALL)
         if match:
             title = match.group(1).strip()
+            sup_map = str.maketrans('0123456789+-=()n', '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ')
+            sub_map = str.maketrans('0123456789+-=()aehklmnoprstux', '₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₕₖₗₘₙₒₚᵣₛₜᵤₓ')
+            title = re.sub(r'<sup[^>]*>(.*?)</sup>', lambda m: m.group(1).translate(sup_map), title, flags=re.IGNORECASE)
+            title = re.sub(r'<sub[^>]*>(.*?)</sub>', lambda m: m.group(1).translate(sub_map), title, flags=re.IGNORECASE)
+            title = re.sub(r'<[^>]+>', '', title)
+            title = re.sub(r'\s+', ' ', title).strip()
             if title:
                 return title
     except Exception:
