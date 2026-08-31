@@ -111,5 +111,9 @@
   "reports/Research/report-first-principles-chain.html": {
     "hash": "6d19c1fcae422abc6dbac0e5f21fecada01312fb",
     "summary": "프랑스 국립방사선표준연구소(LNHB) 공인 핵붕괴 데이터(Decay Scheme 및 BetaShape)를 기반으로 Pb-210(내부전환+오제전자 복합 침적), Bi-210(1차 금지 Fermi 베타), Po-210(광량축 가우시안 왜도 알파선)의 물리 스펙트럼 모델을 수립하고, HIDEX 300 SL의 제조사 공인 정수 설계 공식과 PMT 다이노드 전하 증배 턴온 모델을 결합한 3핵종 동시 역산 분해 연구 보고서다. 2024 C02 표준선원에서 Bi-210/Pb-210 방사평형비 0.990(1.0% 오차)을 달성하고, 2026 A02 8개 배치 시계열 피팅에서 평균 잔차 1.96% 및 푸아송 백색 잡음 수렴을 입증했다."
+  },
+  "reports/Research/gemini_report_chain.html": {
+    "hash": "6d19c1fcae422abc6dbac0e5f21fecada01312fb",
+    "summary": "프랑스 국립방사선표준연구소(LNHB) 공인 핵붕괴 데이터(Decay Scheme 및 BetaShape)를 기반으로 Pb-210(내부전환+오제전자 복합 침적), Bi-210(1차 금지 Fermi 베타), Po-210(광량축 가우시안 왜도 알파선)의 물리 스펙트럼 모델을 수립하고, HIDEX 300 SL의 제조사 공인 정수 설계 공식과 PMT 다이노드 전하 증배 턴온 모델을 결합한 3핵종 동시 역산 분해 연구 보고서다. 2024 C02 표준선원에서 Bi-210/Pb-210 방사평형비 0.990(1.0% 오차)을 달성하고, 2026 A02 8개 배치 시계열 피팅에서 평균 잔차 1.96% 및 푸아송 백색 잡음 수렴을 입증했다."
   }
 }
