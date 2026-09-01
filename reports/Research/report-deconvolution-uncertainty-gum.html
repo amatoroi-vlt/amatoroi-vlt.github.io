@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스펙트럼 물리 디컨볼루션(피팅)에 따른 불확도 평가와 GUM(ISO/IEC Guide 98-3) 표준 전파 체계 해설</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  function tryRenderMath() {
+    if (typeof renderMathInElement === "function") {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+          { left: "\\[", right: "\\]", display: true },
+          { left: "\\(", right: "\\)", display: false }
+        ],
+        throwOnError: false
+      });
+    } else {
+      setTimeout(tryRenderMath, 100);
+    }
+  }
+  tryRenderMath();
+});
+</script>
+<style>
+:root {
+  color-scheme: light dark;
+  --ground:      #fdfdfc; --panel:       #f7f8fa; --panel-2:     #eff1f4;
+  --ink:         #1a1d24; --ink-2:       #48505e; --ink-3:       #747d8c;
+  --rule:        #e1e4ea; --rule-2:      #cbcfd8;
+  --accent:      #1f6feb; --bi: #16a34a; --po: #ea580c; --pb: #9333ea;
+  --grid:        rgba(26,29,36,.07); --wide: 1100px;
+  --code-bg:     #1e1e24; --code-ink:    #dcdfe4;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #121316; --panel:       #181a1f; --panel-2:     #20232a;
+    --ink:         #e6edf3; --ink-2:       #9da7b3; --ink-3:       #6e7681;
+    --rule:        #2d3139; --rule-2:      #3d4450;
+    --accent:      #58a6ff; --bi: #3fb950; --po: #f0883e; --pb: #bc8cff;
+    --grid:        rgba(230,237,243,.07);
+    --code-bg:     #0d1117; --code-ink:    #c9d1d9;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font-family: "Noto Serif KR", serif; font-size: 15.5px; line-height: 1.85;
+}
+header.paper-header {
+  padding: 70px 24px 40px; max-width: var(--wide); margin: 0 auto; border-bottom: 2px solid var(--rule);
+}
+.journal-tag {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 16px;
+}
+h1.paper-title {
+  font-family: "Inter", "Noto Serif KR", sans-serif; font-size: clamp(23px, 3.6vw, 32px);
+  font-weight: 700; line-height: 1.35; margin: 0 0 20px; color: var(--ink);
+}
+.author-block {
+  font-family: "Inter", sans-serif; font-size: 13.5px; color: var(--ink-2); margin-bottom: 24px;
+}
+.author-block .affil { color: var(--ink-3); font-size: 12.5px; margin-top: 4px; }
+.abstract-box {
+  background: var(--panel); border: 1px solid var(--rule); border-left: 4px solid var(--accent);
+  padding: 20px 24px; border-radius: 0 6px 6px 0; margin-top: 24px;
+}
+.abstract-box h3 {
+  font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin: 0 0 10px;
+}
+.abstract-box p { font-size: 14.5px; line-height: 1.75; color: var(--ink); margin: 0 0 10px; }
+.keywords { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-3); }
+
+main.paper-body { max-width: var(--wide); margin: 0 auto; padding: 40px 24px 100px; }
+section.paper-sec { padding: 40px 0; border-bottom: 1px solid var(--rule); }
+section.paper-sec:last-of-type { border-bottom: none; }
+h2.sec-heading {
+  font-family: "Inter", sans-serif; font-size: 21px; font-weight: 700;
+  margin: 0 0 20px; color: var(--ink); display: flex; align-items: baseline; gap: 10px;
+}
+h2.sec-heading .sec-num { color: var(--accent); font-family: "IBM Plex Mono"; font-size: 18px; }
+h3.sub-heading {
+  font-family: "Inter", sans-serif; font-size: 17px; font-weight: 600;
+  margin: 28px 0 12px; color: var(--ink);
+}
+h4.subsub-heading {
+  font-family: "Inter", sans-serif; font-size: 15px; font-weight: 600;
+  margin: 20px 0 8px; color: var(--ink-2);
+}
+p { margin-bottom: 16px; text-align: justify; }
+p.lead-p { font-size: 16px; font-weight: 500; color: var(--ink); }
+
+.callout-box {
+  background: var(--panel); border: 1px solid var(--rule); border-left: 3px solid var(--accent);
+  padding: 16px 20px; margin: 24px 0; border-radius: 0 6px 6px 0; font-size: 14.5px;
+}
+.callout-box.theory { border-left-color: var(--pb); }
+.callout-box.highlight { border-left-color: var(--bi); }
+.callout-box.standard { border-left-color: #0284c7; background: #f0f9ff; }
+.callout-box.math-step { border-left-color: #8b5cf6; background: #faf5ff; }
+
+.callout-box .badge {
+  display: inline-block; font-family: "IBM Plex Mono"; font-size: 10.5px; font-weight: 600;
+  color: #fff; background: var(--accent); padding: 2px 7px; border-radius: 3px; margin-bottom: 8px;
+}
+.callout-box.theory .badge { background: var(--pb); }
+.callout-box.highlight .badge { background: var(--bi); }
+.callout-box.standard .badge { background: #0284c7; }
+.callout-box.math-step .badge { background: #8b5cf6; }
+
+.tbl-container {
+  width: 100%; overflow-x: auto; margin: 24px 0; background: var(--panel);
+  border: 1px solid var(--rule); border-radius: 6px;
+}
+table.paper-tbl { width: 100%; border-collapse: collapse; font-family: "IBM Plex Mono", sans-serif; font-size: 12.5px; }
+table.paper-tbl th, table.paper-tbl td { padding: 9px 14px; border-bottom: 1px solid var(--rule); text-align: left; }
+table.paper-tbl thead th { background: var(--panel-2); color: var(--ink-3); font-size: 11px; text-transform: uppercase; }
+table.paper-tbl td.n, table.paper-tbl th.n { text-align: right; }
+table.paper-tbl td.k { font-weight: 600; }
+
+.figure-card {
+  background: var(--panel); border: 1px solid var(--rule); border-radius: 6px;
+  padding: 20px 22px; margin: 28px 0;
+}
+.fig-caption {
+  font-family: "Inter", sans-serif; font-size: 13px; color: var(--ink-2);
+  margin-top: 14px; line-height: 1.6; border-top: 1px solid var(--rule); padding-top: 10px;
+}
+.fig-caption b { color: var(--ink); }
+
+.formula-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  text-align: center;
+}
+
+.step-card {
+  border: 1px solid var(--rule-2);
+  background: var(--panel);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 18px 0;
+}
+.step-title {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+svg { width: 100%; height: auto; display: block; }
+</style>
+</head>
+<body>
+
+<header class="paper-header">
+  <div class="journal-tag">DAT-LSC Metrological Guideline & Statistical Physics Ser. 2026-09</div>
+  <h1 class="paper-title">스펙트럼 물리 디컨볼루션(피팅)에 따른 불확도 평가와 GUM(ISO/IEC Guide 98-3) 표준 전파 체계 해설</h1>
+  <div class="author-block">
+    <strong>DAT-LSC Metrology & Applied Statistics Team</strong><br>
+    <div class="affil">Radiation Detection & Scintillation Spectroscopy Laboratory · Technical Report Ser. 2026-09</div>
+  </div>
+
+  <div class="abstract-box">
+    <h3>Abstract</h3>
+    <p>본 기술 해설서는 액체섬광계측기(LSC)의 연속 에너지 스펙트럼으로부터 $^{210}\text{Pb}$, $^{210}\text{Bi}$, $^{210}\text{Po}$ 3개 핵종의 순수 계수율을 분리해내는 <strong>제1원리 물리 디컨볼루션(Non-linear Spectral Fitting)</strong> 과정에서, 측정 결과의 신뢰도를 수치화하는 <strong>불확도(Measurement Uncertainty)</strong>의 수학적 도출 원리와 <strong>GUM (JCGM 100:2008 / ISO/IEC Guide 98-3:2008)</strong> 및 <strong>ISO 11929:2019</strong> 국제 표준 규격의 적용 조항을 엄밀하게 해설한다. 통계학적 기본 개념(기댓값, 분산, 공분산, 테일러 1차 선형화)부터 시작하여 포아송 우도함수, 가중 카이제곱($\chi^2$) 최소화, 야코비안(Jacobian) 행렬 $\boldsymbol{J}$, 헤시안(Hessian) 곡률 행렬 $\boldsymbol{H}$, 그리고 파라미터 공분산 행렬 $\boldsymbol{V} = \boldsymbol{H}^{-1}$의 완전한 수학적 유도 과정을 논리적 비약 없이 단계별로 증명한다. 아울러 GUM 제5장의 불확도 전파 법칙(Law of Propagation of Uncertainty)에 따라 4대 독립 측정 사슬이 결합되는 과정을 규격서의 구체적인 조항(Clause, Equation, Page)과 함께 명시한다.</p>
+    <div class="keywords"><b>Keywords:</b> GUM (ISO/IEC Guide 98-3:2008), JCGM 100:2008, ISO 11929:2019, Step-by-Step Derivations, Spectral Deconvolution, Hessian Matrix, Covariance Matrix, Law of Propagation of Uncertainty, Pb-210 Metrology</div>
+  </div>
+</header>
+
+<main class="paper-body">
+
+<!-- Section 1. 국제 표준 규격의 정의와 측정불확도의 본질 -->
+<section class="paper-sec" id="sec1">
+  <h2 class="sec-heading"><span class="sec-num">1.</span> 국제 표준 규격의 정의와 측정불확도의 본질 (Foundations of Measurement Uncertainty)</h2>
+  
+  <p class="lead-p">과학적 측정에서 단 하나의 숫자로만 표현된 결과는 계량학적으로 불완전하다. 국제도량형국(BIPM), 국제표준화기구(ISO) 등 7개 국제기구가 공동 제정한 <strong>GUM (JCGM 100:2008 / ISO/IEC Guide 98-3:2008)</strong>에서는 측정 결과를 항상 <strong>최선의 추정값(Best Estimate)</strong>과 그 추정값의 분산 크기를 나타내는 <strong>표준불확도(Standard Uncertainty, $u$)</strong>의 쌍으로 표현하도록 규정한다.</p>
+
+  <div class="callout-box standard">
+    <span class="badge">GUM 2008 CLAUSE 2.2.3 & 3.3.3</span> <strong>표준불확도(Standard Uncertainty)의 국제 표준 정의</strong><br>
+    <em>"측정 결과의 불확도로서 표준편차(Standard Deviation, $\sigma$)로 표현되는 불확도"</em> [GUM Clause 2.2.3, p.3].<br>
+    모든 측정 결과 $y$는 $y \pm u(y)$로 표기되며, 이는 참값 $Y$가 측정값 $y$를 중심으로 표준편차 $u(y)$를 갖는 확률분포를 형성함을 의미한다 [GUM Clause 3.3.3, p.6].
+  </div>
+
+  <h3 class="sub-heading">1.1 불확도 평가의 두 가지 경로: Type A vs Type B</h3>
+  <p>GUM은 불확도를 그 평가 방식에 따라 두 가지로 엄격히 구분한다:</p>
+  <ul>
+    <li><strong>Type A 불확도 평가 [GUM Clause 4.2, p.8]:</strong> 일련의 관측값에 대한 <em>통계적 분석(Statistical Analysis)</em>에 의해 산정된 불확도 (예: 1024 채널 스펙트럼 피팅 잔차의 공분산 역산).</li>
+    <li><strong>Type B 불확도 평가 [GUM Clause 4.3, p.10]:</strong> 통계적 분석 이외의 <em>과학적 판단, 공인 교정성적서, 제조사 규격서</em> 등에 의해 산정된 불확도 (예: 표준선원 인증서 불확도, 전자천칭 분해능).</li>
+  </ul>
+
+  <div class="callout-box theory">
+    <span class="badge">ISO 11929:2019 CLAUSE 5.1</span> <strong>전리방사선 계측에서의 계량학적 접근</strong><br>
+    방사능 측정 분야의 국제표준인 <strong>ISO 11929-1:2019</strong>(전리방사선 검출한계 및 불확도 산정) Clause 5에서는 방사선 계측의 비확정적 포아송 요동(Type A)과 화학 전처리 및 기기 교정 파라미터(Type B)를 GUM 제5장의 불확도 전파 법칙에 따라 합성하도록 강제하고 있다.
+  </div>
+</section>
+
+<!-- Section 2. 기초 수학적 지식의 징검다리 -->
+<section class="paper-sec" id="sec2">
+  <h2 class="sec-heading"><span class="sec-num">2.</span> 기초 수학적 지식의 징검다리: 기댓값, 분산, 테일러 전개 (Mathematical Stepping Stones)</h2>
+
+  <p class="lead-p">본격적인 피팅 수식으로 들어가기 전, 피팅과 불확도 전파의 기초가 되는 3가지 핵심 수학적 정리를 논리적 비약 없이 증명한다.</p>
+
+  <div class="step-card">
+    <div class="step-title">징검다리 1 · 기댓값(Expectation)과 분산(Variance)의 정의</div>
+    <p>확률변수 $X$의 확률밀도함수가 $P(x)$일 때, $X$의 평균(기댓값)과 분산은 다음과 같이 정의된다:</p>
+    $$\text{E}[X] = \mu_X = \sum x P(x) \quad \left(\text{또는 } \int x P(x) dx\right)$$
+    $$\text{Var}(X) = \sigma_X^2 = \text{E}\left[(X - \mu_X)^2\right] = \text{E}[X^2] - (\text{E}[X])^2$$
+    두 확률변수 $X, Y$ 사이의 선형 연관성을 나타내는 <strong>공분산(Covariance)</strong>은 다음과 같이 정의된다:
+    $$\text{Cov}(X, Y) = \sigma_{XY} = \text{E}\left[(X - \mu_X)(Y - \mu_Y)\right] = \text{E}[XY] - \text{E}[X]\text{E}[Y]$$
+    만약 $X$와 $Y$가 상호 독립(Independent)이라면 $\text{E}[XY] = \text{E}[X]\text{E}[Y]$이므로 $\text{Cov}(X, Y) = 0$이 된다.
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">징검다리 2 · 1변수 함수의 테일러 1차 선형화와 오차 전파 증명</div>
+    <p>어떤 출력량 $Y = f(X)$가 있고, 입력 $X$의 참값이 $x_0$, 표준편차가 $\sigma_X$라고 하자. $X$가 $x_0$ 주변에서 미세하게 변할 때($\Delta X = X - x_0$), 1차 테일러 급수(Taylor Series)에 의해 함수는 다음과 같이 직선으로 근사된다:</p>
+    $$f(X) \approx f(x_0) + f'(x_0)(X - x_0)$$
+    이 근사식의 기댓값을 취하면 $\text{E}[f(X)] \approx f(x_0)$이므로, 평균으로부터의 편차는:
+    $$f(X) - \text{E}[f(X)] \approx f'(x_0)(X - x_0)$$
+    양변을 제곱하고 기댓값(분산의 정의)을 취하면:
+    $$\text{Var}(Y) = \text{E}\left[(f(X) - \text{E}[f(X)])^2\right] \approx \text{E}\left[\left(f'(x_0)(X - x_0)\right)^2\right] = [f'(x_0)]^2 \underbrace{\text{E}\left[(X - x_0)^2\right]}_{\text{Var}(X)}$$
+    $$\therefore \sigma_Y^2 = \left(\frac{df}{dx}\right)^2 \sigma_X^2 \implies \sigma_Y = \left|\frac{df}{dx}\right| \sigma_X$$
+    이것이 바로 <strong>도함수의 제곱이 분산에 곱해지는 근본적인 수학적 이유</strong>이다.
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">징검다리 3 · 다변수 함수 $Y = f(X_1, X_2)$의 합성 분산 증명</div>
+    <p>입력량이 2개인 경우 $Y = f(X_1, X_2)$에 대해 다변수 1차 테일러 전개를 수행하면:</p>
+    $$f(X_1, X_2) \approx f(\mu_1, \mu_2) + \frac{\partial f}{\partial x_1}(X_1 - \mu_1) + \frac{\partial f}{\partial x_2}(X_2 - \mu_2)$$
+    편차를 제곱하여 기댓값을 취하면:
+    $$\text{E}\left[(Y - \mu_Y)^2\right] = \text{E}\left[ \left( \frac{\partial f}{\partial x_1}\Delta X_1 + \frac{\partial f}{\partial x_2}\Delta X_2 \right)^2 \right]$$
+    $$= \left(\frac{\partial f}{\partial x_1}\right)^2 \underbrace{\text{E}[\Delta X_1^2]}_{\sigma_1^2} + \left(\frac{\partial f}{\partial x_2}\right)^2 \underbrace{\text{E}[\Delta X_2^2]}_{\sigma_2^2} + 2\left(\frac{\partial f}{\partial x_1}\right)\left(\frac{\partial f}{\partial x_2}\right) \underbrace{\text{E}[\Delta X_1 \Delta X_2]}_{\text{Cov}(X_1, X_2)}$$
+    이로써 <strong>GUM Eq. 13 일반 불확도 전파 공식</strong>이 완전하게 증명된다!
+  </div>
+</section>
+
+<!-- Section 3. 방사선 계측의 포아송 통계 -->
+<section class="paper-sec" id="sec3">
+  <h2 class="sec-heading"><span class="sec-num">3.</span> 방사선 계측의 포아송 통계와 LSC 채널 분산 (Poisson Statistics)</h2>
+
+  <h3 class="sub-heading">3.1 포아송 분포의 분산 유도</h3>
+  <p>방사성 원자핵이 단위 시간당 붕괴할 확률 $\lambda$는 극도로 작고 원자 수 $N$은 극도로 크므로, 계수 $k$는 포아송 분포 $P(k) = \frac{\mu^k e^{-\mu}}{k!}$를 따른다. 이 분포의 평균과 분산은 다음과 같다 [Knoll, 2010]:</p>
+  $$\text{E}[k] = \sum_{k=0}^{\infty} k \frac{\mu^k e^{-\mu}}{k!} = \mu \sum_{k=1}^{\infty} \frac{\mu^{k-1} e^{-\mu}}{(k-1)!} = \mu$$
+  $$\text{Var}(k) = \text{E}[k(k-1)] + \text{E}[k] - (\text{E}[k])^2 = \mu^2 + \mu - \mu^2 = \mu$$
+
+  <h3 class="sub-heading">3.2 LSC 1024 채널의 계수율(CPS) 분산 공식</h3>
+  <p>측정 시간 $t$ 동안 $i$번째 채널에 기록된 총 계수(counts)를 $y_i$라 하면, 실측값 자체가 최선 추정량이므로 $\mu_i \approx y_i$이다. 따라서 <strong>$i$번째 채널 계수율 $r_i = y_i / t$ (단위: CPS)의 분산</strong>은:</p>
+
+  <div class="formula-card">
+    $$\sigma_i^2 = \text{Var}(r_i) = \text{Var}\left(\frac{y_i}{t}\right) = \frac{1}{t^2} \text{Var}(y_i) = \frac{y_i}{t^2} = \frac{r_i}{t} \quad \left(\text{표준편차 } \sigma_i = \frac{\sqrt{y_i}}{t}\right)$$
+  </div>
+
+  <div class="callout-box standard">
+    <span class="badge">ISO 11929-1:2019 CLAUSE 5.2</span> <strong>방사선 계수율 불확도 산정 표준 규격</strong><br>
+    계측 시간 $t$ 동안 누적 계수 $n$이 관측되었을 때, 계수율 $r = n/t$의 표준불확도는 $u(r) = \sqrt{n}/t = \sqrt{r/t}$로 산정한다 [ISO 11929-1:2019, Eq. 3, p.8].
+  </div>
+</section>
+
+<!-- Section 4. 제1원리: 최대우도추정(MLE)과 가중 최소제곱법(WLS) -->
+<section class="paper-sec" id="sec4">
+  <h2 class="sec-heading"><span class="sec-num">4.</span> 제1원리: 최대우도추정(MLE)과 가중 최소제곱법(WLS / $\chi^2$) (Maximum Likelihood Formulation)</h2>
+
+  <h3 class="sub-heading">4.1 1024 채널 독립 우도함수의 구성</h3>
+  <p>우리가 추정하려는 파라미터 벡터를 $\boldsymbol{\theta} = [A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}]^T$라 하고, 모델이 예측하는 $i$번째 채널 계수율을 $f_i(\boldsymbol{\theta})$라 하자. 각 채널의 계측 요동은 독립적인 가우스 분포 $\mathcal{N}(f_i(\boldsymbol{\theta}), \sigma_i^2)$를 따르므로, 1024개 채널 전체의 결합 우도함수는:</p>
+
+  <div class="formula-card">
+    $$\mathcal{L}(\boldsymbol{\theta}) = \prod_{i=1}^{N} \frac{1}{\sqrt{2\pi \sigma_i^2}} \exp\left( -\frac{\left(y_i - f_i(\boldsymbol{\theta})\right)^2}{2\sigma_i^2} \right)$$
+  </div>
+
+  <h3 class="sub-heading">4.2 로그-우도 최대화와 가중 $\chi^2$ 최소화의 동치성</h3>
+  <p>양변에 자연로그를 취하면:</p>
+  $$\ln \mathcal{L}(\boldsymbol{\theta}) = -\frac{N}{2} \ln(2\pi) - \sum_{i=1}^{N} \ln \sigma_i - \frac{1}{2} \underbrace{\sum_{i=1}^{N} \frac{\left(y_i - f_i(\boldsymbol{\theta})\right)^2}{\sigma_i^2}}_{\chi^2(\boldsymbol{\theta})}$$
+
+  <p>우도 $\mathcal{L}$을 최대화하는 것은 <strong>카이제곱 목적함수 $\chi^2(\boldsymbol{\theta})$를 최소화하는 것과 완벽히 동치</strong>이다:</p>
+
+  <div class="formula-card">
+    $$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \chi^2(\boldsymbol{\theta}) = \arg\min_{\boldsymbol{\theta}} \sum_{i=1}^{N} w_i \left(y_i - f_i(\boldsymbol{\theta})\right)^2 \quad \left(\text{여기서 가중치 } w_i = \frac{1}{\sigma_i^2} = \frac{t^2}{y_i}\right)$$
+  </div>
+
+  <div class="callout-box standard">
+    <span class="badge">GUM 2008 CLAUSE 4.2.4 & ANNEX H.2</span> <strong>최소제곱법을 통한 Type A 불확도 평가 표준</strong><br>
+    데이터 포인트마다 불확도가 상이한 물리 스펙트럼 피팅에서는 각 데이터 분산의 역수 $w_i = 1/\sigma_i^2$를 가중치로 사용하는 가중 최소제곱법(WLS)을 적용해야 한다 [GUM 2008, Clause 4.2.4, p.9 및 Annex H.2.3, p.68].
+  </div>
+</section>
+
+<!-- Section 5. 피팅 불확도의 수학적 도출: 헤시안과 공분산 행렬 -->
+<section class="paper-sec" id="sec5">
+  <h2 class="sec-heading"><span class="sec-num">5.</span> 피팅 불확도의 수학적 도출: 헤시안(Hessian)과 공분산 행렬 역산 (Covariance Derivation)</h2>
+
+  <p class="lead-p">이제 <em>"왜 피팅 파라미터의 공분산 행렬이 헤시안 행렬의 역행렬($\boldsymbol{V} = \boldsymbol{H}^{-1}$)이 되는가?"</em>를 선형대수학과 통계학의 기초 정의로부터 빈틈없이 증명한다.</p>
+
+  <h3 class="sub-heading">5.1 야코비안(Jacobian) 행렬 $\boldsymbol{J}$와 최소제곱 해의 정규방정식</h3>
+  <p>$N$개 채널 모델 벡터 $\boldsymbol{f}(\boldsymbol{\theta})$의 파라미터 $\boldsymbol{\theta}$에 대한 $N \times P$ 편미분 행렬을 <strong>야코비안(Jacobian, $\boldsymbol{J}$)</strong>이라 하자:</p>
+  $$J_{ik} = \frac{\partial f_i}{\partial \theta_k} \quad (i = 1, \dots, N; \quad k = 1, \dots, P)$$
+
+  <p>행렬 표기법으로 가중 대각 행렬을 $\boldsymbol{W} = \text{diag}(1/\sigma_1^2, \dots, 1/\sigma_N^2) = \boldsymbol{V}_y^{-1}$이라 하면, $\chi^2$ 함수는:</p>
+  $$\chi^2(\boldsymbol{\theta}) = (\boldsymbol{y} - \boldsymbol{f}(\boldsymbol{\theta}))^T \boldsymbol{W} (\boldsymbol{y} - \boldsymbol{f}(\boldsymbol{\theta}))$$
+
+  <p>최솟값 조건은 1차 미분(Gradient)이 $\boldsymbol{0}$이 되는 것이다:</p>
+  $$\nabla_{\boldsymbol{\theta}} \chi^2 = -2 \boldsymbol{J}^T \boldsymbol{W} (\boldsymbol{y} - \boldsymbol{f}(\boldsymbol{\theta})) = \boldsymbol{0}$$
+
+  <h3 class="sub-heading">5.2 공분산 행렬의 엄밀한 유도 (Proof of $\boldsymbol{V} = (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1}$)</h3>
+  
+  <div class="callout-box math-step">
+    <span class="badge">STEP-BY-STEP PROOF</span> <strong>파라미터 추정량 오차의 공분산 전개</strong><br>
+    최적해 $\hat{\boldsymbol{\theta}}$ 근방에서 모델을 1차 테일러 근사 $\boldsymbol{f}(\hat{\boldsymbol{\theta}}) \approx \boldsymbol{f}(\boldsymbol{\theta}_0) + \boldsymbol{J} (\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0)$로 전개하여 정규방정식에 대입하면:
+    $$\boldsymbol{J}^T \boldsymbol{W} \left( \boldsymbol{y} - \boldsymbol{f}(\boldsymbol{\theta}_0) - \boldsymbol{J}(\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) \right) = \boldsymbol{0}$$
+    $$\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J} (\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) = \boldsymbol{J}^T \boldsymbol{W} (\boldsymbol{y} - \boldsymbol{f}(\boldsymbol{\theta}_0))$$
+    $$\therefore (\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0) = \underbrace{(\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1} \boldsymbol{J}^T \boldsymbol{W}}_{\boldsymbol{M}} (\boldsymbol{y} - \boldsymbol{f}(\boldsymbol{\theta}_0))$$
+    여기서 $(\boldsymbol{y} - \boldsymbol{f}(\boldsymbol{\theta}_0)) = \Delta \boldsymbol{y}$는 측정 데이터의 잔차 요동 벡터이며, 그 공분산은 정의상 $\text{E}[\Delta \boldsymbol{y} \Delta \boldsymbol{y}^T] = \boldsymbol{V}_y = \boldsymbol{W}^{-1}$이다.<br>
+    이제 파라미터 추정 오차의 공분산 행렬 $\text{Cov}(\hat{\boldsymbol{\theta}}) = \text{E}[(\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0)(\hat{\boldsymbol{\theta}} - \boldsymbol{\theta}_0)^T]$를 계산한다:
+    $$\text{Cov}(\hat{\boldsymbol{\theta}}) = \boldsymbol{M} \text{E}[\Delta \boldsymbol{y} \Delta \boldsymbol{y}^T] \boldsymbol{M}^T = \boldsymbol{M} \boldsymbol{W}^{-1} \boldsymbol{M}^T$$
+    $$= \left[ (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1} \boldsymbol{J}^T \boldsymbol{W} \right] \boldsymbol{W}^{-1} \left[ \boldsymbol{W} \boldsymbol{J} (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1} \right]$$
+    $$= (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1} \boldsymbol{J}^T \underbrace{(\boldsymbol{W} \boldsymbol{W}^{-1} \boldsymbol{W})}_{=\boldsymbol{W}} \boldsymbol{J} (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1}$$
+    $$= (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1} \underbrace{(\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J}) (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1}}_{=\boldsymbol{I}} = (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1}$$
+  </div>
+
+  <h3 class="sub-heading">5.3 헤시안 행렬 $\boldsymbol{H}$와의 관계</h3>
+  <p>목적함수 $\chi^2$의 2차 편미분 행렬인 <strong>헤시안(Hessian Matrix, $\boldsymbol{H}$)</strong>을 계산하면:</p>
+  $$H_{jk} = \frac{1}{2} \frac{\partial^2 \chi^2}{\partial \theta_j \partial \theta_k} = \sum_{i=1}^N w_i \left( \frac{\partial f_i}{\partial \theta_j} \frac{\partial f_i}{\partial \theta_k} - (y_i - f_i) \frac{\partial^2 f_i}{\partial \theta_j \partial \theta_k} \right)$$
+  <p>최적해에서는 잔차 $(y_i - f_i)$의 기댓값이 $0$이므로 뒤쪽 2차항이 소거되어 $\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J}$가 된다. 따라서 <strong>파라미터 공분산 행렬은 헤시안의 역행렬과 정확히 일치</strong>한다:</p>
+
+  <div class="formula-card">
+    $$\boldsymbol{V}_{\boldsymbol{\theta}} = \text{Cov}(\hat{\boldsymbol{\theta}}) = \boldsymbol{H}^{-1} = (\boldsymbol{J}^T \boldsymbol{W} \boldsymbol{J})^{-1} = \begin{bmatrix}
+      \sigma^2(A_{\text{Pb}}) & \text{Cov}(A_{\text{Pb}}, A_{\text{Bi}}) & \text{Cov}(A_{\text{Pb}}, A_{\text{Po}}) \\
+      \text{Cov}(A_{\text{Bi}}, A_{\text{Pb}}) & \sigma^2(A_{\text{Bi}}) & \text{Cov}(A_{\text{Bi}}, A_{\text{Po}}) \\
+      \text{Cov}(A_{\text{Po}}, A_{\text{Pb}}) & \text{Cov}(A_{\text{Po}}, A_{\text{Bi}}) & \sigma^2(A_{\text{Po}})
+    \end{bmatrix}$$
+  </div>
+
+  <div class="callout-box standard">
+    <span class="badge">ISO 11929-2:2019 CLAUSE 6.3</span> <strong>다중채널 디컨볼루션 공분산 표준 명시</strong><br>
+    <em>"스펙트럼 디컨볼루션 피팅에 의한 핵종별 순수 계수율 벡터 $\hat{\boldsymbol{a}}$의 공분산 행렬 $\tilde{\boldsymbol{u}}^2(\hat{\boldsymbol{a}})$는 설계 행렬 $\boldsymbol{A}$와 채널 분산 대각 행렬 $\boldsymbol{V}_y$에 대해 $(\boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A})^{-1}$로 결정된다."</em> [ISO 11929-2:2019, Clause 6.3, Eq. 18, p.14].
+  </div>
+</section>
+
+<!-- Section 6. GUM 제5장: 합성 표준불확도의 법칙 -->
+<section class="paper-sec" id="sec6">
+  <h2 class="sec-heading"><span class="sec-num">6.</span> GUM(ISO/IEC Guide 98-3) 제5장: 합성 불확도 전파 공식 (Law of Propagation of Uncertainty)</h2>
+
+  <h3 class="sub-heading">6.1 GUM 제5장 공식 조항 및 일반 공식</h3>
+  <p>측정 모델 함수 $Y = f(X_1, X_2, \dots, X_N)$에 대해, GUM Clause 5.1 및 5.2는 다음의 공식을 규정한다:</p>
+
+  <div class="callout-box standard">
+    <span class="badge">GUM 2008 CLAUSE 5.1.2 & 5.2.2</span> <strong>불확도 전파의 법칙 (Law of Propagation of Uncertainty)</strong><br>
+    • <strong>상호 독립인 경우 [GUM Clause 5.1.2, Eq. 10, p.19]:</strong>
+    $$u_c^2(y) = \sum_{i=1}^{N} c_i^2 u^2(x_i) = \sum_{i=1}^{N} \left(\frac{\partial f}{\partial x_i}\right)^2 u^2(x_i)$$
+    • <strong>상관관계(공분산)가 존재하는 경우 [GUM Clause 5.2.2, Eq. 13, p.21]:</strong>
+    $$u_c^2(y) = \sum_{i=1}^{N} \left(\frac{\partial f}{\partial x_i}\right)^2 u^2(x_i) + 2 \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \left(\frac{\partial f}{\partial x_i}\right)\left(\frac{\partial f}{\partial x_j}\right) u(x_i, x_j)$$
+  </div>
+
+  <h3 class="sub-heading">6.2 곱셈·나눗셈 모델의 상대 불확도 직교 합성 증명</h3>
+  <p>측정 방정식이 $Y = \frac{X_1 \cdot X_2}{X_3 \cdot X_4}$ 형태일 때, 각 입력량에 대한 편도함수(감도계수 $c_i$)를 계산하면:</p>
+  $$\frac{\partial Y}{\partial X_1} = \frac{Y}{X_1}, \quad \frac{\partial Y}{\partial X_2} = \frac{Y}{X_2}, \quad \frac{\partial Y}{\partial X_3} = -\frac{Y}{X_3}, \quad \frac{\partial Y}{\partial X_4} = -\frac{Y}{X_4}$$
+
+  <p>이를 GUM Eq. 10에 대입하고 양변을 $Y^2$으로 나누면 [GUM Clause 5.1.6, Eq. 11, p.20]:</p>
+
+  <div class="formula-card">
+    $$\left(\frac{u_c(Y)}{Y}\right)^2 = \left(\frac{u(X_1)}{X_1}\right)^2 + \left(\frac{u(X_2)}{X_2}\right)^2 + \left(\frac{u(X_3)}{X_3}\right)^2 + \left(\frac{u(X_4)}{X_4}\right)^2$$
+  </div>
+</section>
+
+<!-- Section 7. 최종 ²¹⁰Pb 방사능 농도의 완전한 계량학적 사슬 -->
+<section class="paper-sec" id="sec7">
+  <h2 class="sec-heading"><span class="sec-num">7.</span> 최종 ²¹⁰Pb 농도 및 합성 불확도의 완전한 계량학적 사슬 (Complete Pb-210 Metrological Chain)</h2>
+
+  <h3 class="sub-heading">7.1 최종 방사능 농도 측정 방정식</h3>
+  <p>시료의 방사능 농도($\text{Conc}$, 단위: $\text{Bq/kg}$)는 4대 독립 물리 측정 사슬로 정의된다:</p>
+
+  <div class="formula-card">
+    $$\text{Conc} = \frac{A_{\text{Pb, sample}} \cdot e^{-\lambda \Delta t}}{\varepsilon \cdot Y_{\text{Pb}} \cdot M_{\text{sample}}}$$
+  </div>
+
+  <h3 class="sub-heading">7.2 4대 불확도 요인의 세부 성분과 GUM 표준 분류</h3>
+
+  <div class="tbl-container">
+    <table class="paper-tbl">
+      <thead>
+        <tr>
+          <th>불확도 요인</th>
+          <th>변수 기호</th>
+          <th>GUM 분류</th>
+          <th>도출 수식 및 출처</th>
+          <th>표준 근거 조항</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">① 계측/피팅 오차</td>
+          <td>\(\frac{\sigma(A_{\text{Pb}})}{A_{\text{Pb}}}\)</td>
+          <td><strong>Type A</strong></td>
+          <td>헤시안 역행렬 공분산 \(\sqrt{V_{11}} / A_{\text{Pb}}\)</td>
+          <td>GUM 4.2.4 & ISO 11929-2 Cl. 6.3</td>
+        </tr>
+        <tr>
+          <td class="k">② 표준선원 효율 오차</td>
+          <td>\(\frac{\sigma(\varepsilon)}{\varepsilon}\)</td>
+          <td><strong>Type B + A</strong></td>
+          <td>\(\sqrt{ (\sigma_C/C_{\text{std}})^2 + (\sigma_M/M_{\text{std}})^2 + (\sigma(A_{\text{std}})/A_{\text{std}})^2 }\)</td>
+          <td>GUM 4.3.7 (교정성적서) & 5.1.6</td>
+        </tr>
+        <tr>
+          <td class="k">③ 화학 회수율 오차</td>
+          <td>\(\frac{\sigma(Y)}{Y}\)</td>
+          <td><strong>Type B</strong></td>
+          <td>\(\sqrt{ (\sigma_{\text{ppt}}/m_{\text{ppt}})^2 + (\sigma_{\text{carr}}/m_{\text{carr}})^2 + (\sigma_{\text{c\_conc}}/C_{\text{carr}})^2 }\)</td>
+          <td>GUM 5.1.6 (상대제곱합)</td>
+        </tr>
+        <tr>
+          <td class="k">④ 시료 질량 오차</td>
+          <td>\(\frac{\sigma(M)}{M}\)</td>
+          <td><strong>Type B</strong></td>
+          <td>\(\sigma_{\text{sample}} / M_{\text{sample}}\) (전자천칭 교정분산)</td>
+          <td>GUM 4.3.8 (직사각형/정규분포)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub-heading">7.3 최종 GUM 마스터 합성 공식</h3>
+  <p>GUM Clause 5.1.6에 따라 모든 성분을 직교 합성한 최종 마스터 공식은 다음과 같다:</p>
+
+  <div class="formula-card" style="padding: 26px 16px; background: #fffdf8; border: 2px solid #cbd5e1;">
+    <div style="font-size: 16.5px; line-height: 2.2;">
+      $$u_c(\text{Conc}) = \text{Conc} \times \sqrt{ 
+        \underbrace{\left(\frac{\sigma(A_{\text{Pb}})}{A_{\text{Pb}}}\right)^2}_{\text{① 계측/피팅 오차 (Type A)}} + 
+        \underbrace{\left(\frac{\sigma_{\text{std\_src}}}{C_{\text{std}}}\right)^2 + \left(\frac{\sigma_{\text{std\_mass}}}{M_{\text{std}}}\right)^2}_{\text{② 표준선원 효율 오차 (Type B+A)}} + 
+        \underbrace{\left(\frac{\sigma_{\text{ppt}}}{m_{\text{ppt}}}\right)^2 + \left(\frac{\sigma_{\text{carrier}}}{m_{\text{carrier}}}\right)^2 + \left(\frac{\sigma_{\text{c\_conc}}}{C_{\text{carrier}}}\right)^2}_{\text{③ 화학 회수율 오차 (Type B)}} + 
+        \underbrace{\left(\frac{\sigma_{\text{sample}}}{M_{\text{sample}}}\right)^2}_{\text{④ 시료 질량 오차 (Type B)}} 
+      }$$
+    </div>
+  </div>
+</section>
+
+<!-- Section 8. 결론 및 표준 규격 총괄 -->
+<section class="paper-sec" id="sec8">
+  <h2 class="sec-heading"><span class="sec-num">8.</span> 결론 및 국제 표준 규격 조항 총괄 (Summary & Normative References)</h2>
+
+  <div class="callout-box highlight">
+    <span class="badge">NORMATIVE SUMMARY</span> <strong>국제 표준 규격 조항 대조 총괄표</strong><br>
+    <div class="tbl-container" style="margin-top: 10px;">
+      <table class="paper-tbl">
+        <thead>
+          <tr>
+            <th>해당 이론 및 공식</th>
+            <th>GUM 2008 (ISO/IEC Guide 98-3)</th>
+            <th>ISO 11929:2019</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="k">포아송 계수율 불확도 (\(\sigma = \sqrt{n}/t\))</td>
+            <td>Clause 4.2.2 (Type A 표본분산)</td>
+            <td><strong>ISO 11929-1 Clause 5.2, Eq. (3)</strong></td>
+          </tr>
+          <tr>
+            <td class="k">가중 최소제곱법 카이제곱 (\(\chi^2\)) 피팅</td>
+            <td><strong>Clause 4.2.4 & Annex H.2, Eq. (H.13)</strong></td>
+            <td>ISO 11929-2 Clause 6.2</td>
+          </tr>
+          <tr>
+            <td class="k">공분산 행렬 역산 (\(\boldsymbol{V} = \boldsymbol{H}^{-1}\))</td>
+            <td><strong>Clause 4.2.4 & Annex H.2.3, Table H.2</strong></td>
+            <td><strong>ISO 11929-2 Clause 6.3, Eq. (18)</strong></td>
+          </tr>
+          <tr>
+            <td class="k">불확도 전파의 법칙 (일반식)</td>
+            <td><strong>Clause 5.1.2, Eq. (10) & Clause 5.2.2, Eq. (13)</strong></td>
+            <td>ISO 11929-1 Clause 5.1</td>
+          </tr>
+          <tr>
+            <td class="k">상대 불확도 직교 합성 (\(\sum (u/x)^2\))</td>
+            <td><strong>Clause 5.1.6, Eq. (11) & Eq. (12)</strong></td>
+            <td>ISO 11929-1 Clause 5.3, Eq. (6)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3 class="sub-heading">공식 규격서 및 참고 문헌 (Normative References)</h3>
+  <ul style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; line-height:1.7; color:var(--ink-2);">
+    <li>[1] <strong>JCGM 100:2008 / ISO/IEC Guide 98-3:2008</strong>, <em>"Evaluation of measurement data — Guide to the expression of uncertainty in measurement (GUM)"</em>, Joint Committee for Guides in Metrology (JCGM/WG 1), 2008. (Clauses 2.2, 3.3, 4.2, 4.3, 5.1, 5.2, Annex H).</li>
+    <li>[2] <strong>ISO 11929-1:2019</strong>, <em>"Determination of the characteristic limits for measurements of ionizing radiation — Part 1: Elementary applications"</em>, International Organization for Standardization, Geneva, Switzerland (Clauses 5, 6, 7).</li>
+    <li>[3] <strong>ISO 11929-2:2019</strong>, <em>"Determination of the characteristic limits for measurements of ionizing radiation — Part 2: Advanced applications (Unfolding & Deconvolution)"</em>, International Organization for Standardization, Geneva, Switzerland (Clauses 6.2, 6.3).</li>
+    <li>[4] Glenn F. Knoll, <em>"Radiation Detection and Measurement"</em>, 4th Edition, John Wiley & Sons, 2010 (Chapter 3: Counting Statistics and Error Prediction, pp. 65–104).</li>
+    <li>[5] Philip R. Bevington and D. Keith Robinson, <em>"Data Reduction and Error Analysis for the Physical Sciences"</em>, 3rd Edition, McGraw-Hill, 2003 (Chapter 6 & 8: Least-Squares Fit, Error Matrix and Covariance, pp. 142–167).</li>
+  </ul>
+</section>
+
+</main>
+
+</body>
+</html>

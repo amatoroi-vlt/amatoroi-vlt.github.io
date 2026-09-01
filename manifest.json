@@ -47,7 +47,7 @@
         {
           "name": "DeepTrX Live Model Report",
           "path": "reports/Overwatch/live_report.html",
-          "date": "2026-08-31T09:10:06+09:00",
+          "date": "2026-09-01T09:10:07+09:00",
           "summary": "DeepTrX v2·v4·v5 모델의 실거래 라이브 트래킹 대시보드다. 버전별로 거래일수·거래횟수·승률·평균수익률·누적수익률·MDD(롤링 3개월)를 나란히 비교하고, 일별 수익률 추이와 누적수익률·MDD 그래프를 함께 보여준다. 개별 매수·매도 거래 내역(종목, 매수가, 매도가, 수익률, 진입 시가총액)도 일자별로 제공하며, 매 거래일 09:05에 자동 갱신된다."
         }
       ]
@@ -55,6 +55,12 @@
     {
       "name": "Research",
       "files": [
+        {
+          "name": "스펙트럼 물리 디컨볼루션(피팅)에 따른 불확도 평가와 GUM(ISO/IEC Guide 98-3) 표준 전파 체계 해설",
+          "path": "reports/Research/report-deconvolution-uncertainty-gum.html",
+          "date": "2026-09-01T04:14:29.647676+00:00",
+          "summary": "LSC 연속 스펙트럼에서 Pb-210·Bi-210·Po-210 3개 핵종을 분리하는 비선형 물리 디컨볼루션 과정의 측정불확도(Measurement Uncertainty) 도출 원리와 GUM(ISO/IEC Guide 98-3) 및 ISO 11929:2019 국제 표준 규격 적용 체계를 해설한 가이드 문서다. 포아송 가중 χ² 최소화, 야코비안·헤시안 곡률 행렬 및 파라미터 공분산 행렬 역산 과정을 단계별로 증명하고, 피팅 불확도(Type A)와 4대 독립 측정 사슬(표준선원·기기효율·화학회수율·검량선)의 불확도 전파 법칙 결합 과정을 구체적인 규격 조항과 함께 명시한다."
+        },
         {
           "name": "²¹⁰Pb-²¹⁰Bi-²¹⁰Po 액체섬광 스펙트럼의 LNHB 붕괴 데이터 기반 물리 모델링, 비선형 하드웨어 매핑 및 3핵종 동시 분해 연구",
           "path": "reports/Research/report-first-principles-chain.html",
