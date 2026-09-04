@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAT-LSC ²¹⁰Pb 방사능 분석 및 불확도 평가 실무 지침서 (Practical Uncertainty Guide)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  function tryRenderMath() {
+    if (typeof renderMathInElement === "function") {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+          { left: "\\[", right: "\\]", display: true },
+          { left: "\\(", right: "\\)", display: false }
+        ],
+        throwOnError: false
+      });
+    } else {
+      setTimeout(tryRenderMath, 100);
+    }
+  }
+  tryRenderMath();
+});
+</script>
+<style>
+:root {
+  color-scheme: light dark;
+  --ground:      #fdfdfc; --panel:       #f8f9fa; --panel-2:     #f1f3f5;
+  --ink:         #1a1d24; --ink-2:       #495057; --ink-3:       #868e96;
+  --rule:        #e9ecef; --rule-2:      #dee2e6;
+  --accent:      #1f6feb; --accent-bg:   #e7f5ff;
+  --pb:          #9333ea; --bi:          #16a34a; --po:          #ea580c;
+  --wide:        1120px;
+  --code-bg:     #1e1e24; --code-ink:    #dcdfe4;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #121316; --panel:       #1a1d24; --panel-2:     #222630;
+    --ink:         #e6edf3; --ink-2:       #adb5bd; --ink-3:       #6c757d;
+    --rule:        #2d3139; --rule-2:      #3d4450;
+    --accent:      #58a6ff; --accent-bg:   #182635;
+    --pb:          #bc8cff; --bi:          #3fb950; --po:          #f0883e;
+    --code-bg:     #0d1117; --code-ink:    #c9d1d9;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font-family: "Noto Serif KR", serif; font-size: 15.5px; line-height: 1.85;
+}
+header.paper-header {
+  padding: 60px 24px 36px; max-width: var(--wide); margin: 0 auto; border-bottom: 2px solid var(--rule-2);
+}
+.journal-tag {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 14px;
+}
+h1.paper-title {
+  font-family: "Inter", "Noto Serif KR", sans-serif; font-size: clamp(22px, 3.4vw, 30px);
+  font-weight: 700; line-height: 1.4; margin: 0 0 16px; color: var(--ink);
+}
+.author-block {
+  font-family: "Inter", sans-serif; font-size: 13.5px; color: var(--ink-2); margin-bottom: 20px;
+}
+.author-block .affil { color: var(--ink-3); font-size: 12px; margin-top: 4px; }
+.abstract-box {
+  background: var(--panel); border: 1px solid var(--rule-2); border-left: 4px solid var(--accent);
+  padding: 18px 22px; border-radius: 0 6px 6px 0; margin-top: 20px;
+}
+.abstract-box h3 {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin: 0 0 8px;
+}
+.abstract-box p { font-size: 14.5px; line-height: 1.75; color: var(--ink); margin: 0; }
+
+main.paper-body { max-width: var(--wide); margin: 0 auto; padding: 36px 24px 100px; }
+section.paper-sec { padding: 36px 0; border-bottom: 1px solid var(--rule); }
+section.paper-sec:last-of-type { border-bottom: none; }
+h2.sec-heading {
+  font-family: "Inter", sans-serif; font-size: 20px; font-weight: 700;
+  margin: 0 0 18px; color: var(--ink); display: flex; align-items: baseline; gap: 10px;
+}
+h2.sec-heading .sec-num { color: var(--accent); font-family: "IBM Plex Mono"; font-size: 17px; }
+h3.sub-heading {
+  font-family: "Inter", sans-serif; font-size: 16.5px; font-weight: 600;
+  margin: 26px 0 12px; color: var(--ink);
+}
+p { margin-bottom: 14px; text-align: justify; }
+p.lead-p { font-size: 15.5px; font-weight: 500; color: var(--ink); }
+
+.callout-box {
+  background: var(--panel); border: 1px solid var(--rule); border-left: 4px solid var(--accent);
+  padding: 16px 20px; margin: 20px 0; border-radius: 0 6px 6px 0; font-size: 14.5px;
+}
+.callout-box.supplement { border-left-color: #8b5cf6; background: #faf5ff; }
+.callout-box.standard { border-left-color: #0284c7; background: #f0f9ff; }
+.callout-box.highlight { border-left-color: #16a34a; background: #f0fdf4; }
+.callout-box.warn { border-left-color: #ea580c; background: #fffbeb; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .callout-box.supplement { background: #1f182c; }
+  :root:not([data-theme="light"]) .callout-box.standard { background: #122131; }
+  :root:not([data-theme="light"]) .callout-box.highlight { background: #13241b; }
+  :root:not([data-theme="light"]) .callout-box.warn { background: #261f14; }
+}
+
+.callout-box .badge {
+  display: inline-block; font-family: "IBM Plex Mono"; font-size: 11px; font-weight: 600;
+  color: #fff; background: var(--accent); padding: 2px 7px; border-radius: 3px; margin-bottom: 8px;
+}
+.callout-box.supplement .badge { background: #8b5cf6; }
+.callout-box.standard .badge { background: #0284c7; }
+.callout-box.highlight .badge { background: #16a34a; }
+.callout-box.warn .badge { background: #ea580c; }
+
+.tbl-container {
+  width: 100%; overflow-x: auto; margin: 20px 0; background: var(--panel);
+  border: 1px solid var(--rule-2); border-radius: 6px;
+}
+table.paper-tbl { width: 100%; border-collapse: collapse; font-family: "IBM Plex Mono", sans-serif; font-size: 13px; }
+table.paper-tbl th, table.paper-tbl td { padding: 10px 14px; border-bottom: 1px solid var(--rule); text-align: left; }
+table.paper-tbl thead th { background: var(--panel-2); color: var(--ink-2); font-size: 11.5px; text-transform: uppercase; }
+table.paper-tbl td.k { font-weight: 600; }
+
+.formula-card {
+  background: var(--panel); border: 1px solid var(--rule-2); border-radius: 8px;
+  padding: 18px 22px; margin: 20px 0; text-align: center;
+}
+
+.step-box {
+  background: var(--panel); border: 1px solid var(--rule-2); border-radius: 8px;
+  padding: 22px 24px; margin: 24px 0;
+}
+.step-header {
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--rule); padding-bottom: 12px; margin-bottom: 16px;
+}
+.step-tag {
+  font-family: "IBM Plex Mono"; font-size: 12px; font-weight: 700; color: #fff;
+  background: var(--accent); padding: 3px 9px; border-radius: 4px;
+}
+.step-title-text { font-family: "Inter"; font-size: 16px; font-weight: 700; color: var(--ink); }
+
+pre.code-block {
+  background: var(--code-bg); color: var(--code-ink); padding: 16px 18px;
+  border-radius: 6px; font-family: "IBM Plex Mono", monospace; font-size: 12.5px;
+  line-height: 1.6; overflow-x: auto; margin: 16px 0;
+}
+</style>
+</head>
+<body>
+
+<header class="paper-header">
+  <div class="journal-tag">DAT-LSC Practical Metrology Guide · Ser. 2026-09</div>
+  <h1 class="paper-title">DAT-LSC ²¹⁰Pb 방사능 분석 및 불확도 평가 실무 지침서<br><span style="font-size:0.75em; font-weight:500; color:var(--ink-2);">— 1024 채널 스펙트럼 디컨볼루션부터 최종 농도 합성까지의 실무 계산 파이프라인 —</span></h1>
+  <div class="author-block">
+    <strong>DAT-LSC Development & Metrology Team</strong><br>
+    <div class="affil">Radiation Detection & Scintillation Spectroscopy Laboratory</div>
+  </div>
+
+  <div class="abstract-box">
+    <h3>Executive Summary</h3>
+    <p>본 실무 지침서는 <strong>DAT-LSC 분석 엔진</strong>이 실제 원시 데이터(Raw LSC Counts)를 입력받아 1024 채널 제1원리 3핵종 물리 피팅을 수행하고, 최종 시료의 $^{210}\text{Pb}$ 방사능 농도($\text{Bq/kg}$) 및 합성 불확도를 산출하는 <strong>실제 계산 순서(Step 1 ~ Step 6)</strong>를 명쾌하게 해설한다. 각 계산 단계마다 <strong>실무 수식</strong>과 <strong>입력 파라미터</strong>를 정의하고, <em>"왜 단순 포아송 합산 대신 다핵종 공분산 역행렬을 쓰는가?"</em> 및 <em>"피팅 적합도(Birge factor)를 어떻게 반영하는가?"</em>와 같은 <strong>핵심 원리 보충설명(GUM / ISO 11929 규격 근거)</strong>을 덧붙여 구성하였다. 최종적으로 전체 파이프라인을 관통하는 <strong>마스터 합성 수식과 실행 알고리즘(Pseudocode)</strong>을 제시한다.</p>
+  </div>
+</header>
+
+<main class="paper-body">
+
+<!-- Overview Flowchart -->
+<section class="paper-sec" id="sec0">
+  <h2 class="sec-heading"><span class="sec-num">0.</span> DAT-LSC 불확도 평가 전체 파이프라인 개요</h2>
+  
+  <p class="lead-p">DAT-LSC 분석 툴의 불확도 평가는 독립된 4대 측정 사슬(계측/피팅, 효율, 회수율, 질량)을 순차적으로 평가한 뒤, GUM 제5장의 불확도 전파 법칙에 따라 직교 합성하는 체계적인 파이프라인으로 동작한다.</p>
+
+  <div class="formula-card" style="font-family:'IBM Plex Mono', monospace; font-size:13px; text-align:left; line-height:1.9; background:#fffdf8;">
+    <b>[DAT-LSC 불확도 계산 6단계 실무 흐름]</b><br>
+    <b>Step 1. 원시 스펙트럼 전처리</b> ➔ 채널별 포아송 불확도 $\sigma_i = \sqrt{y_i/t_s^2 + b_i/t_b^2}$ 및 가중치 $w_i = 1/\sigma_i^2$ 산출<br>
+    <b>Step 2. 3핵종 물리 디컨볼루션 피팅</b> ➔ 야코비안 $\boldsymbol{J}$, 헤시안 $\boldsymbol{H}=\boldsymbol{J}^T\boldsymbol{J}$, 공분산 $\boldsymbol{V}=\chi^2_\nu \boldsymbol{H}^{-1} \to \sigma(A_{\text{Pb}})$ 도출<br>
+    <b>Step 3. 표준선원 효율($\varepsilon$) 불확도</b> ➔ 인증서($C_{\text{std}}$), 저울($M_{\text{std}}$), 피팅($A_{\text{std}}$) 합성 $\to \frac{\sigma(\varepsilon)}{\varepsilon}$ 도출<br>
+    <b>Step 4. 화학적 납 회수율($Y$) 불확도</b> ➔ 침전물($m_{\text{ppt}}$), 캐리어($m_{\text{ca}}, C_{\text{cc}}$) 저울 오차 합성 $\to \frac{\sigma(Y)}{Y}$ 도출<br>
+    <b>Step 5. 시료 순수 농도($\text{Conc}$) 합성</b> ➔ GUM 마스터 공식에 의한 4대 상대 불확도 직교합 $\to u_c(\text{Conc})$ 산출<br>
+    <b>Step 6. 반감기 감쇄 보정</b> ➔ 채취일/제조일 및 기준일(Ref. date) 지수 보정 $\to u(\text{Conc}_{\text{date}})$ 산출
+  </div>
+</section>
+
+<!-- Step 1 -->
+<section class="paper-sec" id="sec1">
+  <h2 class="sec-heading"><span class="sec-num">1.</span> [Step 1] 원시 스펙트럼 전처리 및 채널별 포아송 불확도 할당</h2>
+  
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">채널별 순단계수율(Net CPS) 및 가중치 계산</span>
+      <span class="step-tag">Type A / ISO 11929-1 Cl. 5.2</span>
+    </div>
+
+    <h3 class="sub-heading">1.1 실무 계산 수식</h3>
+    <p>시료 계측 시간 $t_{\text{sample}}$초 동안 $i$번째 채널에 기록된 총 계수를 $y_i$, 백그라운드(BKG) 계측 시간 $t_{\text{bkg}}$초 동안의 계수를 $b_i$라 할 때, <strong>순수 계수율 $r_{i, \text{net}}$ (CPS) 및 그 표준불확도 $\sigma_i$</strong>는 다음과 같이 계산된다:</p>
+
+    <div class="formula-card">
+      $$r_{i, \text{net}} = \frac{y_i}{t_{\text{sample}}} - \frac{b_i}{t_{\text{bkg}}}$$
+      $$\sigma_i = \sqrt{\text{Var}(r_{i, \text{net}})} = \sqrt{\frac{y_i}{t_{\text{sample}}^2} + \frac{b_i}{t_{\text{bkg}}^2}} \quad \implies \quad w_i = \frac{1}{\sigma_i^2}$$
+    </div>
+
+    <div class="callout-box supplement">
+      <span class="badge">원리 보충설명</span> <strong>포아송 계수율 불확도의 수학적 근거 (ISO 11929-1 Clause 5.2)</strong><br>
+      방사선 붕괴는 독립적인 희박 사건이므로 계수 $y_i$의 분산은 기댓값 자신과 같다 ($\text{Var}(y_i) = y_i$).<br>
+      오차 전파의 법칙에 의해 계수율 $r_i = y_i / t$의 분산은 $\text{Var}(r_i) = \frac{1}{t^2} \text{Var}(y_i) = \frac{y_i}{t^2}$이 되며, BKG와 상호 독립이므로 두 분산이 단순 직교 합산된다.
+    </div>
+  </div>
+</section>
+
+<!-- Step 2 -->
+<section class="paper-sec" id="sec2">
+  <h2 class="sec-heading"><span class="sec-num">2.</span> [Step 2] 제1원리 3핵종 물리 디컨볼루션 피팅 & 공분산 역산</h2>
+
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">비선형 가중 최소제곱 피팅 및 파라미터 불확도 \(\sigma(A_{\text{Pb}})\) 도출</span>
+      <span class="step-tag">Type A / ISO 11929-2 Cl. 6.3</span>
+    </div>
+
+    <h3 class="sub-heading">2.1 피팅 파라미터 및 모델식</h3>
+    <p>DAT-LSC 엔진은 7개의 물리 파라미터 $\boldsymbol{\theta} = [A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}, Q, \sigma_0, \mu_{\text{Po}}, w_{\text{Po}}]^T$를 탐색하며, 합성 모델식은 다음과 같다:</p>
+    $$f_i(\boldsymbol{\theta}) = A_{\text{Pb}} \phi_{i, \text{Pb}}(Q, \sigma_0) + A_{\text{Bi}} \phi_{i, \text{Bi}}(Q, \sigma_0) + A_{\text{Po}} \phi_{i, \text{Po}}(\mu_{\text{Po}}, w_{\text{Po}})$$
+    *(단, 단위 물리 스펙트럼 형상 벡터 $\boldsymbol{\phi}_k$는 전체 1024 채널 합이 정확히 $1.000$으로 정규화된 확률밀도함수이다)*
+
+    <h3 class="sub-heading">2.2 가중 카이제곱 최적화 및 야코비안 행렬</h3>
+    <p>가중 잔차 벡터 $\boldsymbol{R}(\boldsymbol{\theta})$의 $i$번째 원소는 $R_i(\boldsymbol{\theta}) = \frac{f_i(\boldsymbol{\theta}) - r_{i, \text{net}}}{\sigma_i}$ 이며, 최적화 목적함수는 카이제곱 최소화이다:</p>
+    $$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \chi^2(\boldsymbol{\theta}) = \arg\min_{\boldsymbol{\theta}} \sum_{i=1}^{M} R_i(\boldsymbol{\theta})^2$$
+    최적점에서의 야코비안 행렬 $\boldsymbol{J}$ ($M \times 7$)는 $J_{ik} = \frac{\partial R_i}{\partial \theta_k} = \frac{1}{\sigma_i} \frac{\partial f_i}{\partial \theta_k}$ 로 산출된다.
+
+    <h3 class="sub-heading">2.3 파라미터 공분산 행렬 역산 및 보수적 클램핑(Clamping) 보정</h3>
+    <div class="formula-card">
+      $$\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J} \quad (\text{헤시안 곡률 행렬})$$
+      $$\boldsymbol{V}_{\text{actual}} = \max\left(1.0, \chi^2_{\nu}\right) \times \boldsymbol{H}^{-1} = \max\left(1.0, \frac{\chi^2}{M - 7}\right) \left(\boldsymbol{J}^T \boldsymbol{J}\right)^{-1}$$
+      $$\sigma(A_{\text{Pb}}) = \sqrt{V_{\text{actual}, 11}}$$
+    </div>
+
+    <!-- 3단계 보충설명 -->
+    <div class="callout-box supplement">
+      <span class="badge">핵심 보충설명 1</span> <strong>[1단계] 단독 핵종일 때 포아송 \(\sqrt{N}\)으로 완벽 수렴하는 거꾸로 증명</strong><br>
+      만약 간섭이 없는 순수 $^{210}\text{Pb}$ 단독 선원($N$ counts, $y_i = N \phi_i$)이라면:
+      $$\boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A} = \sum_{i=1}^{1024} \phi_i \left(\frac{1}{N\phi_i}\right) \phi_i = \frac{1}{N}\sum \phi_i = \frac{1}{N} \implies \text{Var}(\hat{N}) = \left(\frac{1}{N}\right)^{-1} = N$$
+      $$\therefore \sigma(\hat{N}) = \sqrt{N} \quad (\text{1024개 채널 분산이 포아송 총합 오차로 완벽 수렴!})$$
+    </div>
+
+    <div class="callout-box supplement">
+      <span class="badge">핵심 보충설명 2</span> <strong>[2단계] 다핵종 중첩 시 왜 단순 \(\sqrt{\text{Sum}}\) 대신 공분산 역행렬을 써야 하는가?</strong><br>
+      어떤 채널에 Pb 400개, Bi 600개가 들어왔다면, 그 채널의 실제 물리적 잡음은 $\sqrt{400}=20$이 아니라 <strong>실제 총 계수에 의한 $\sqrt{1000} \approx 31.6$</strong>이다!<br>
+      ISO 공분산 공식은 비대각 원소 $H_{12} = \sum \frac{\phi_{\text{Pb}}\phi_{\text{Bi}}}{\sigma_i^2}$를 통해 겹침 잡음을 반영하여 $\sigma(A_{\text{Pb}}) = \sqrt{\text{Sum}_{\text{Pb}}} \times \sqrt{1 + \frac{\text{Bi 잡음}}{\text{Pb 신호}}}$ 로 정밀하게 산출한다.
+    </div>
+
+    <div class="callout-box supplement">
+      <span class="badge">핵심 보충설명 3</span> <strong>[3단계] 피팅 행위 자체의 불확도 & \(\chi^2_\nu\)가 너무 낮을 때의 위험성</strong><br>
+      1. <strong>파라미터 간섭:</strong> $Q$와 $\sigma_0$가 미세하게 변하면 피크가 움직여 $A_{\text{Pb}}$가 흔들린다 ($5 \times 5$ 전체 야코비안 역산으로 흡수).<br>
+      2. <strong>\(\chi^2_\nu > 1.0\) (모델 불완전성):</strong> 피팅 잔차가 통계 잡음보다 크면, GUM Clause 4.2.4 및 Birge 원리에 따라 공분산 행렬에 $\chi^2_\nu$를 곱해 불확도를 정직하게 확대(Scale-up)한다.<br>
+      3. <strong>\(\chi^2_\nu \ll 1.0\) (1보다 너무 낮을 때의 위험):</strong> 채널 오차 $\sigma_i$ 과대평가, 잡음 과적합(Overfitting), 또는 채널 간 상관관계(스무딩)가 원인일 수 있다. 이때 불확도를 임의로 축소($\chi^2_\nu < 1$)하면 위험하므로, <strong>GUM/PDG 표준에 따라 $\max(1.0, \chi^2_\nu)$로 클램핑하여 순수 포아송 불확도를 하한선으로 방어</strong>한다!
+    </div>
+  </div>
+</section>
+
+<!-- Step 3 -->
+<section class="paper-sec" id="sec3">
+  <h2 class="sec-heading"><span class="sec-num">3.</span> [Step 3] 표준선원 효율(\(\varepsilon\)) 및 표준불확도 평가</h2>
+
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">표준선원 계측을 통한 검출효율 산출</span>
+      <span class="step-tag">Type B + Type A / GUM Cl. 5.1.6</span>
+    </div>
+
+    <h3 class="sub-heading">3.1 실무 계산 수식</h3>
+    <p>공인 표준선원의 인증 방사능 농도 $C_{\text{std}}$ ($\text{Bq/g}$), 분주 질량 $M_{\text{std}}$ ($\text{g}$), 감쇄 보정 계수 $e^{-\lambda \Delta t_{\text{std}}}$, 그리고 피팅으로 도출된 순수 계수율 $A_{\text{std}}$ (CPS)로부터 <strong>검출효율 $\varepsilon$ 및 상대 불확도</strong>는 다음과 같이 계산된다:</p>
+
+    <div class="formula-card">
+      $$\varepsilon = \frac{A_{\text{std}}}{C_{\text{std}} \cdot M_{\text{std}} \cdot e^{-\lambda \Delta t_{\text{std}}}}$$
+      $$\frac{\sigma(\varepsilon)}{\varepsilon} = \sqrt{ \underbrace{\left(\frac{\sigma(A_{\text{std}})}{A_{\text{std}}}\right)^2}_{\text{표준선원 피팅 오차 (Type A)}} + \underbrace{\left(\frac{\sigma(C_{\text{std}})}{C_{\text{std}}}\right)^2}_{\text{인증서 불확도 (Type B)}} + \underbrace{\left(\frac{\sigma(M_{\text{std}})}{M_{\text{std}}}\right)^2}_{\text{전자천칭 불확도 (Type B)}} }$$
+    </div>
+  </div>
+</section>
+
+<!-- Step 4 -->
+<section class="paper-sec" id="sec4">
+  <h2 class="sec-heading"><span class="sec-num">4.</span> [Step 4] 화학적 납 회수율(\(Y_{\text{Pb}}\)) 및 불확도 평가</h2>
+
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">$\text{PbSO}_4$ 침전 질량 기반 화학 회수율 산출</span>
+      <span class="step-tag">Type B / GUM Cl. 5.1.6</span>
+    </div>
+
+    <h3 class="sub-heading">4.1 실무 계산 수식</h3>
+    <p>필터 여과 전/후 질량($f_{\text{before}}, f_{\text{after}}$), 첨가된 납 캐리어 용액 질량 $m_{\text{carr}}$ ($\text{g}$), 캐리어 농도 $C_{\text{carr}}$ ($\text{g-Pb/g-sol}$), 그리고 황산납-납 화학양론비 $K = \frac{207.2}{295.2} \approx 0.7019$로부터 <strong>화학 회수율 $Y_{\text{Pb}}$ 및 불확도</strong>는 다음과 같이 계산된다:</p>
+
+    <div class="formula-card">
+      $$m_{\text{ppt}} = f_{\text{after}} - f_{\text{before}}, \quad \sigma(m_{\text{ppt}}) = \sqrt{\sigma^2(f_{\text{after}}) + \sigma^2(f_{\text{before}})}$$
+      $$Y_{\text{Pb}} = \frac{m_{\text{ppt}} \times K}{m_{\text{carr}} \times C_{\text{carr}}}$$
+      $$\frac{\sigma(Y_{\text{Pb}})}{Y_{\text{Pb}}} = \sqrt{ \left(\frac{\sigma(m_{\text{ppt}})}{m_{\text{ppt}}}\right)^2 + \left(\frac{\sigma(m_{\text{carr}})}{m_{\text{carr}}}\right)^2 + \left(\frac{\sigma(C_{\text{carr}})}{C_{\text{carr}}}\right)^2 }$$
+    </div>
+  </div>
+</section>
+
+<!-- Step 5 -->
+<section class="paper-sec" id="sec5">
+  <h2 class="sec-heading"><span class="sec-num">5.</span> [Step 5] 시료 순수 농도(\(\text{Conc}\)) 및 GUM 마스터 합성 불확도</h2>
+
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">4대 측정 사슬의 GUM 직교 결합 및 최종 합성 불확도</span>
+      <span class="step-tag">GUM Master Formula / Cl. 5.1.2 & 5.1.6</span>
+    </div>
+
+    <h3 class="sub-heading">5.1 측정일 기준 방사능 농도 계산식</h3>
+    <p>시료의 순수 질량 $M_{\text{sample}}$ ($\text{kg}$)에 대해 측정일 기준 방사능 농도 $\text{Conc}_{\text{meas}}$ ($\text{Bq/kg}$)는:</p>
+    $$\text{Conc}_{\text{meas}} = \frac{A_{\text{Pb, sample}}}{\varepsilon \times Y_{\text{Pb}} \times M_{\text{sample}}}$$
+
+    <h3 class="sub-heading">5.2 GUM 마스터 합성 불확도 수식</h3>
+    <div class="formula-card" style="padding: 24px; background: #fffdf8; border: 2px solid #cbd5e1;">
+      <div style="font-size: 16px; line-height: 2.2;">
+        $$u_c(\text{Conc}_{\text{meas}}) = \text{Conc}_{\text{meas}} \times \sqrt{ 
+          \underbrace{\left(\frac{\sigma(A_{\text{Pb}})}{A_{\text{Pb}}}\right)^2}_{\text{① 계측/피팅 오차 (Type A)}} + 
+          \underbrace{\left(\frac{\sigma(\varepsilon)}{\varepsilon}\right)^2}_{\text{② 효율 오차 (Type B+A)}} + 
+          \underbrace{\left(\frac{\sigma(Y_{\text{Pb}})}{Y_{\text{Pb}}}\right)^2}_{\text{③ 회수율 오차 (Type B)}} + 
+          \underbrace{\left(\frac{\sigma(M_{\text{sample}})}{M_{\text{sample}}}\right)^2}_{\text{④ 시료 질량 오차 (Type B)}} 
+        }$$
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Step 6 -->
+<section class="paper-sec" id="sec6">
+  <h2 class="sec-heading"><span class="sec-num">6.</span> [Step 6] 반감기 감쇄 보정 (채취일/제조일 및 기준일 Ref Date)</h2>
+
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">경과 시간(\(\Delta t\))에 따른 물리적 붕괴 역보정</span>
+      <span class="step-tag">Decay Correction / GUM Cl. 5.1.3</span>
+    </div>
+
+    <h3 class="sub-heading">6.1 실무 계산 수식</h3>
+    <p>$^{210}\text{Pb}$ 붕괴상수 $\lambda = \frac{\ln 2}{22.20 \times 365.25} \approx 8.5484 \times 10^{-5}\text{ day}^{-1}$ 에 대해, 계측 시점과 기준 시점 간의 경과 일수 $\Delta t$에 따른 농도 및 불확도 보정식은 다음과 같다:</p>
+
+    <div class="formula-card">
+      $$\text{Conc}_{\text{date}} = \text{Conc}_{\text{meas}} \times e^{+\lambda \Delta t}$$
+      $$u(\text{Conc}_{\text{date}}) = u_c(\text{Conc}_{\text{meas}}) \times e^{+\lambda \Delta t}$$
+    </div>
+    *(시간 측정의 불확도 $\sigma(\Delta t)$는 수십 초 이내로 22.2년 반감기에 비해 $10^{-6}$ 이하이므로 무시됨)*
+  </div>
+</section>
+
+<!-- Section 7. 종합 마스터 알고리즘 -->
+<section class="paper-sec" id="sec7">
+  <h2 class="sec-heading"><span class="sec-num">7.</span> 종합 수식 및 실행 알고리즘 (Comprehensive Algorithm)</h2>
+
+  <h3 class="sub-heading">7.1 4대 입력 요인 및 불확도 예산 총괄표</h3>
+
+  <div class="tbl-container">
+    <table class="paper-tbl">
+      <thead>
+        <tr>
+          <th>불확도 입력 요인 (\(X_i\))</th>
+          <th>변수 기호</th>
+          <th>평가 유형</th>
+          <th>실무 계산 공식 및 출처</th>
+          <th>표준 근거 조항</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">① 피팅 순수 계수율</td>
+          <td>\(A_{\text{Pb}} \pm \sigma(A_{\text{Pb}})\)</td>
+          <td><strong>Type A</strong></td>
+          <td>\(\sigma(A_{\text{Pb}}) = \sqrt{V_{\text{actual}, 11}} = \sqrt{\chi^2_{\nu} (\boldsymbol{J}^T \boldsymbol{J})^{-1}_{11}}\)</td>
+          <td>ISO 11929-2 Cl. 6.3 & GUM 4.2.4</td>
+        </tr>
+        <tr>
+          <td class="k">② 계측기 검출효율</td>
+          <td>\(\varepsilon \pm \sigma(\varepsilon)\)</td>
+          <td><strong>Type B + A</strong></td>
+          <td>\(\varepsilon \sqrt{(\sigma_A/A_{\text{std}})^2 + (\sigma_C/C_{\text{std}})^2 + (\sigma_M/M_{\text{std}})^2}\)</td>
+          <td>GUM Cl. 4.3.7 & 5.1.6</td>
+        </tr>
+        <tr>
+          <td class="k">③ 화학적 납 회수율</td>
+          <td>\(Y_{\text{Pb}} \pm \sigma(Y_{\text{Pb}})\)</td>
+          <td><strong>Type B</strong></td>
+          <td>\(Y_{\text{Pb}} \sqrt{(\sigma_{\text{ppt}}/m_{\text{ppt}})^2 + (\sigma_{\text{ca}}/m_{\text{ca}})^2 + (\sigma_{\text{cc}}/C_{\text{cc}})^2}\)</td>
+          <td>GUM Cl. 5.1.6</td>
+        </tr>
+        <tr>
+          <td class="k">④ 시료 채취 질량</td>
+          <td>\(M_{\text{sample}} \pm \sigma(M)\)</td>
+          <td><strong>Type B</strong></td>
+          <td>\(\sigma(M_{\text{sample}}) = \sigma_{\text{scale}}\) (전자천칭 분해능/교정성적서)</td>
+          <td>GUM Cl. 4.3.8</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub-heading">7.2 DAT-LSC 파이프라인 실행 알고리즘 (Pseudocode)</h3>
+
+  <pre class="code-block">
+<span style="color:#7ee787;">Algorithm:</span> DAT_LSC_Pb210_Uncertainty_Pipeline(SampleData, BkgData, StdData, Settings)
+-----------------------------------------------------------------------------------------
+<span style="color:#79c0ff;">1. [BKG & Sample Net Spectrum]</span>
+   For each channel i in 1..1024:
+       rate_net[i] = sample_counts[i] / t_sample - bkg_counts[i] / t_bkg
+       sigma_net[i] = sqrt(sample_counts[i] / t_sample^2 + bkg_counts[i] / t_bkg^2)
+
+<span style="color:#79c0ff;">2. [Non-linear Levenberg-Marquardt Fit & Covariance Matrix]</span>
+   opt = least_squares(residual_func, x0=[A_pb, A_bi, A_po, Q, sig0, mu, w])
+   J = opt.jac                                       # Weighted residual Jacobian (M x 7)
+   chi2_red = sum(((model - rate_net) / sigma_net)^2) / (M - 7)
+   H = J.T @ J                                       # Hessian curvature matrix
+   cov = max(1.0, chi2_red) * inv(H)                 # Clamped covariance matrix (Birge factor)
+   A_pb = opt.x[0]
+   sigma_A_pb = sqrt(cov[0, 0])                      # Final Pb-210 CPS uncertainty
+
+<span style="color:#79c0ff;">3. [Detector Efficiency Uncertainty]</span>
+   eps = A_std / (C_std * M_std * exp(-lambda * dt_std))
+   rel_eps = sqrt((sigma_A_std / A_std)^2 + (sigma_C_std / C_std)^2 + (sigma_M_std / M_std)^2)
+   sigma_eps = eps * rel_eps
+
+<span style="color:#79c0ff;">4. [Chemical Recovery Yield Uncertainty]</span>
+   m_ppt = filter_after - filter_before
+   sigma_ppt = sqrt(sigma_fa^2 + sigma_fb^2)
+   yield_pb = (m_ppt * (207.2 / 295.2)) / (carrier_added * carrier_conc)
+   rel_yield = sqrt((sigma_ppt / m_ppt)^2 + (sigma_ca / carrier_added)^2 + (sigma_cc / carrier_conc)^2)
+   sigma_yield = yield_pb * rel_yield
+
+<span style="color:#79c0ff;">5. [Master Concentration & GUM Uncertainty Propagation]</span>
+   mass_kg = sample_mass_g / 1000.0
+   conc_meas = A_pb / (eps * yield_pb * mass_kg)
+   rel_conc = sqrt((sigma_A_pb / A_pb)^2 + rel_eps^2 + rel_yield^2 + (sigma_mass / sample_mass_g)^2)
+   sigma_conc_meas = conc_meas * rel_conc
+
+<span style="color:#79c0ff;">6. [Decay Correction to Sampling / Reference Date]</span>
+   dt_sampling = (t_end - t_sampling) in days
+   conc_sampling = conc_meas * exp(+lambda * dt_sampling)
+   sigma_conc_sampling = sigma_conc_meas * exp(+lambda * dt_sampling)
+
+<span style="color:#7ee787;">Return:</span> (conc_meas ± sigma_conc_meas, conc_sampling ± sigma_conc_sampling)
+</pre>
+</section>
+
+</main>
+
+</body>
+</html>

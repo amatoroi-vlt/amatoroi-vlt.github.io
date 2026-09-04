@@ -115,5 +115,9 @@
   "reports/Research/report-deconvolution-uncertainty-gum.html": {
     "hash": "833ddd24b093270aa8da6205026067b0c7ab0664",
     "summary": "LSC 연속 스펙트럼에서 Pb-210·Bi-210·Po-210 3개 핵종을 분리하는 비선형 물리 디컨볼루션 과정의 측정불확도(Measurement Uncertainty) 도출 원리와 GUM(ISO/IEC Guide 98-3) 및 ISO 11929:2019 국제 표준 규격 적용 체계를 해설한 가이드 문서다. 포아송 가중 χ² 최소화, 야코비안·헤시안 곡률 행렬 및 파라미터 공분산 행렬 역산 과정을 단계별로 증명하고, 피팅 불확도(Type A)와 4대 독립 측정 사슬(표준선원·기기효율·화학회수율·검량선)의 불확도 전파 법칙 결합 과정을 구체적인 규격 조항과 함께 명시한다."
+  },
+  "reports/Research/report-pb210-uncertainty-practical-guide.html": {
+    "hash": "f671603a93f02dc22ff7144b61cbc155a2b1e6ec",
+    "summary": "DAT-LSC 분석 엔진이 원시 LSC 계수 데이터를 입력받아 1024 채널 3핵종 물리 디컨볼루션을 수행하고, 최종 시료의 Pb-210 방사능 농도(Bq/kg) 및 합성 불확도를 산출하는 Step 1~6 전체 실무 계산 파이프라인 지침서다. 다핵종 공분산 역행렬, Birge factor(카이제곱 적합도 보정), 백그라운드 차감, TDCR 검출효율·화학회수율 전파, 감쇠·인그로우스 보정, 최종 합성 농도 및 확장 불확도 산출의 각 단계별 실무 수식과 실행 알고리즘(Pseudocode)을 정리했다."
   }
 }
