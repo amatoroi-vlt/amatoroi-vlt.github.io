@@ -58,7 +58,7 @@
         {
           "name": "DAT-LSC ²¹⁰Pb 방사능 분석 및 불확도 평가 실무 지침서 (Practical Uncertainty Guide)",
           "path": "reports/Research/report-pb210-uncertainty-practical-guide.html",
-          "date": "2026-09-04T05:41:58.365899+00:00",
+          "date": "2026-09-04T14:42:54+09:00",
           "summary": "DAT-LSC 분석 엔진이 원시 LSC 계수 데이터를 입력받아 1024 채널 3핵종 물리 디컨볼루션을 수행하고, 최종 시료의 Pb-210 방사능 농도(Bq/kg) 및 합성 불확도를 산출하는 Step 1~6 전체 실무 계산 파이프라인 지침서다. 다핵종 공분산 역행렬, Birge factor(카이제곱 적합도 보정), 백그라운드 차감, TDCR 검출효율·화학회수율 전파, 감쇠·인그로우스 보정, 최종 합성 농도 및 확장 불확도 산출의 각 단계별 실무 수식과 실행 알고리즘(Pseudocode)을 정리했다."
         },
         {
