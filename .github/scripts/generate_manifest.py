@@ -80,6 +80,8 @@ for group in sorted(os.listdir(reports_dir)):
         if not f.endswith('.html'):
             continue
         filepath = os.path.join(group_path, f)
+        if not os.path.isfile(filepath):
+            continue
         path = f'reports/{group}/{f}'
         title = extract_title(filepath) or f.replace('.html', '').replace('_', ' ')
         date = get_last_modified(filepath)

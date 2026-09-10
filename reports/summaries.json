@@ -119,5 +119,17 @@
   "reports/Research/report-pb210-uncertainty-practical-guide.html": {
     "hash": "f671603a93f02dc22ff7144b61cbc155a2b1e6ec",
     "summary": "DAT-LSC 분석 엔진이 원시 LSC 계수 데이터를 입력받아 1024 채널 3핵종 물리 디컨볼루션을 수행하고, 최종 시료의 Pb-210 방사능 농도(Bq/kg) 및 합성 불확도를 산출하는 Step 1~6 전체 실무 계산 파이프라인 지침서다. 다핵종 공분산 역행렬, Birge factor(카이제곱 적합도 보정), 백그라운드 차감, TDCR 검출효율·화학회수율 전파, 감쇠·인그로우스 보정, 최종 합성 농도 및 확장 불확도 산출의 각 단계별 실무 수식과 실행 알고리즘(Pseudocode)을 정리했다."
+  },
+  "reports/Invest/alphabet_financial_breakdown.html": {
+    "hash": "0a2716df97806b7cb4fcc44a6061a017ffaee47c",
+    "summary": "Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.80B)과 순이익률(93.7%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
+  },
+  "reports/Invest/uipath_financial_breakdown.html": {
+    "hash": "a6fd6c6c7a8ff191bc556e54f2b0c7cc02fa3366",
+    "summary": "UiPath Inc. (NYSE: PATH) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.3M)과 순이익률(+8.8%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
+  },
+  "reports/Invest/sandisk_financial_breakdown.html": {
+    "hash": "9420ff180b4146ac7545ca657d4494890be05e9d",
+    "summary": "Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.95B)과 순이익률(60.8%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
   }
 }

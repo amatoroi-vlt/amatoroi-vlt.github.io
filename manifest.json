@@ -4,6 +4,24 @@
       "name": "Invest",
       "files": [
         {
+          "name": "Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석",
+          "path": "reports/Invest/sandisk_financial_breakdown.html",
+          "date": "2026-09-10T07:34:33.591535+00:00",
+          "summary": "Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.95B)과 순이익률(60.8%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
+        },
+        {
+          "name": "UiPath Inc. (NYSE: PATH) 최신 실적 및 손익 구조 심층 분석",
+          "path": "reports/Invest/uipath_financial_breakdown.html",
+          "date": "2026-09-10T07:34:33.577790+00:00",
+          "summary": "UiPath Inc. (NYSE: PATH) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.3M)과 순이익률(+8.8%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
+        },
+        {
+          "name": "Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석",
+          "path": "reports/Invest/alphabet_financial_breakdown.html",
+          "date": "2026-09-10T07:34:33.563112+00:00",
+          "summary": "Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.80B)과 순이익률(93.7%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
+        },
+        {
           "name": "DeepTrX v1–v5 개발 보고서",
           "path": "reports/Invest/model_report_v1_v5.html",
           "date": "2026-07-15T17:50:03+09:00",
@@ -47,7 +65,7 @@
         {
           "name": "DeepTrX Live Model Report",
           "path": "reports/Overwatch/live_report.html",
-          "date": "2026-09-09T09:14:00+09:00",
+          "date": "2026-09-10T09:10:03+09:00",
           "summary": "DeepTrX v2·v4·v5 모델의 실거래 라이브 트래킹 대시보드다. 버전별로 거래일수·거래횟수·승률·평균수익률·누적수익률·MDD(롤링 3개월)를 나란히 비교하고, 일별 수익률 추이와 누적수익률·MDD 그래프를 함께 보여준다. 개별 매수·매도 거래 내역(종목, 매수가, 매도가, 수익률, 진입 시가총액)도 일자별로 제공하며, 매 거래일 09:05에 자동 갱신된다."
         }
       ]

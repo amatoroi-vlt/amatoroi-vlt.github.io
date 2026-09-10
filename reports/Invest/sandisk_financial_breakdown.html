@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  color-scheme: light dark;
+  --bg:          #fafaf8;
+  --panel:       #ffffff;
+  --panel-alt:   #f4f5f7;
+  --ink:         #1a1d24;
+  --ink-2:       #48505e;
+  --ink-3:       #747d8c;
+  --rule:        #e1e4ea;
+  --rule-2:      #cbcfd8;
+  --accent:      #1f6feb;
+  --accent-soft: #e7f0fd;
+  --success:     #16a34a;
+  --success-bg:  #f0fdf4;
+  --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  --wide:        1020px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #0f1117;
+    --panel:       #161922;
+    --panel-alt:   #1e222d;
+    --ink:         #e6edf3;
+    --ink-2:       #9da7b3;
+    --ink-3:       #6e7681;
+    --rule:        #2b313c;
+    --rule-2:      #3b4352;
+    --accent:      #58a6ff;
+    --accent-soft: #16263b;
+    --success:     #3fb950;
+    --success-bg:  #13251a;
+    --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Serif KR", Georgia, serif;
+  font-size: 15.5px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 50px 24px 100px;
+}
+header.rep-header {
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
+.tag-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.tag-pill {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+}
+.tag-ticker {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+h1.main-title {
+  font-family: "Inter", "Noto Serif KR", sans-serif;
+  font-size: clamp(23px, 3.8vw, 32px);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.meta-card {
+  background: var(--panel-alt);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  margin: 20px 0 28px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+h2.sec-title {
+  font-family: "Inter", sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 44px 0 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+h3.sub-title {
+  font-family: "Inter", sans-serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 28px 0 14px;
+}
+hr.sep {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 48px 0;
+}
+.infographic-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 24px 0 32px;
+  box-shadow: var(--card-shadow);
+}
+.card-img-wrap {
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  justify-content: center;
+}
+.sankey-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.12s ease;
+}
+.btn-interactive {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-interactive:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.btn-download {
+  background: var(--panel-alt);
+  color: var(--ink-2);
+  border: 1px solid var(--rule-2);
+}
+.btn-download:hover {
+  color: var(--ink);
+  background: var(--rule);
+}
+.tbl-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px 0 28px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: var(--card-shadow);
+}
+table.fin-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "IBM Plex Mono", sans-serif;
+  font-size: 13px;
+}
+table.fin-tbl th, table.fin-tbl td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+table.fin-tbl thead th {
+  background: var(--panel-alt);
+  color: var(--ink-3);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+table.fin-tbl td.n {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+table.fin-tbl tr:last-child td {
+  border-bottom: none;
+}
+table.fin-tbl tr:hover {
+  background: var(--panel-alt);
+}
+.insight-card {
+  display: flex;
+  gap: 16px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--success);
+  border-radius: 0 6px 6px 0;
+  padding: 16px 20px;
+  margin: 14px 0;
+  box-shadow: var(--card-shadow);
+}
+.insight-num {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--success);
+  flex-shrink: 0;
+}
+.insight-content {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+li.list-item {
+  margin: 6px 0 6px 24px;
+  font-size: 14.5px;
+}
+li.sub-item {
+  margin: 4px 0 4px 44px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+p.prose {
+  margin-bottom: 14px;
+  text-align: justify;
+}
+footer.rep-footer {
+  border-top: 1px solid var(--rule);
+  margin-top: 60px;
+  padding-top: 24px;
+  text-align: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="rep-header">
+    <div class="tag-bar">
+      <span class="tag-pill">Earnings Visual Breakdown</span>
+      <span class="tag-ticker">SNDK · Form 10-Q & 10-K SEC EDGAR</span>
+    </div>
+    <h1 class="main-title">Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석</h1>
+  </header>
+
+  <main>
+<div class="meta-card"><div class="meta-desc"><strong>SEC 공식 공시 기반 손익 흐름 인포그래픽 (App Economy Insights 스타일)</strong> <strong>공시 출처</strong>: 미국 증권거래위원회(SEC) 공식 EDGAR 공시 — <strong>Form 10-Q</strong> (Q3 FY2026, 2026년 4월 3일 종료 3개월) & <strong>Form 10-K</strong> (FY2026 연간, 2026년 7월 3일 종료 12개월) (CIK: 0002023554)</div></div>
+<hr class="sep">
+<h2 class="sec-title">1. 최신 분기 실적: Q3 FY2026 (Three Months Ended Apr 3, 2026)</h2>
+
+<div class="infographic-card">
+  <div class="card-img-wrap">
+    <img src="./assets/SNDK/sndk_q3_fy26_income_statement_aei_signature.png" alt="Sandisk Q3 FY26 Income Statement Sankey" loading="lazy" class="sankey-img">
+  </div>
+
+</div>
+<li class="list-item">[인터랙티브 차트 열기 (HTML)](./sndk_q3_fy26_income_statement_aei_signature.html) · [4K 고해상도 이미지 다운로드 (PNG)](./sndk_q3_fy26_income_statement_aei_signature.png)</li>
+<h3 class="sub-title">📊 Q3 FY26 주요 실적 지표 및 엔드마켓(End Market) 구성</h3>
+<div class="tbl-wrap"><table class="fin-tbl">
+  <thead><tr>
+    <th>사업 부문 (End Market)</th>
+    <th>SEC 공시액 ($M)</th>
+    <th>차트 표기 ($B)</th>
+    <th>매출 비중 (%)</th>
+    <th>전년 동기 대비 (YoY)</th>
+    <th>핵심 동향</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Edge</strong></td>
+      <td class="n"><strong>$3,663.0M</strong></td>
+      <td class="n"><strong>$3.66B</strong></td>
+      <td class="n"><strong>61.6%</strong></td>
+      <td class="n"><strong>+295.1%</strong></td>
+      <td>PC, 모바일, 자동차, 온디바이스 AI 플래시 채택 급증</td>
+    </tr>
+    <tr>
+      <td><strong>Datacenter</strong></td>
+      <td class="n"><strong>$1,467.0M</strong></td>
+      <td class="n"><strong>$1.47B</strong></td>
+      <td class="n"><strong>24.7%</strong></td>
+      <td class="n"><strong>+644.7%</strong></td>
+      <td>엔터프라이즈 AI 서버 및 클라우드 고용량 SSD 폭발적 수요</td>
+    </tr>
+    <tr>
+      <td><strong>Consumer</strong></td>
+      <td class="n"><strong>$820.0M</strong></td>
+      <td class="n"><strong>$0.82B</strong></td>
+      <td class="n"><strong>13.8%</strong></td>
+      <td class="n"><strong>+43.6%</strong></td>
+      <td>리테일 SSD, SD 카드 및 외장 스토리지 수요 견고</td>
+    </tr>
+    <tr>
+      <td><strong>총 매출액 (Total Revenue)</strong></td>
+      <td class="n"><strong>$5,950.0M</strong></td>
+      <td class="n"><strong>$5.95B</strong></td>
+      <td class="n"><strong>100.0%</strong></td>
+      <td class="n"><strong>+251.0%</strong></td>
+      <td><strong>분기 매출 약 $60억 달러 도달 (+251% YoY 초고속 성장)</strong></td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 class="sub-title">📈 Q3 FY26 수익성 구조 (Profitability & Margins)</h3>
+<li class="list-item"><strong>매출원가 (Cost of Revenue)</strong>: <strong>$1,288.0M ($1.29B)</strong> (매출 대비 21.6%)</li>
+<li class="list-item"><strong>매출총이익 (Gross Profit)</strong>: <strong>$4,662.0M ($4.66B)</strong> (매출총이익률 <strong>78.4%</strong>)</li>
+<li class="sub-item">고성능 플래시 제품 믹스 개선 및 판가(ASP) 상승으로 원가율이 21.6%로 급감.</li>
+<li class="list-item"><strong>판관비 및 연구개발비 (Operating Expenses)</strong>: <strong>$551.0M ($0.55B)</strong> (매출 대비 9.3%)</li>
+<li class="sub-item"><strong>R&D (연구개발)</strong>: $337.0M ($0.34B) (5.7%) — 차세대 BiCS 3D NAND 및 컨트롤러 R&D</li>
+<li class="sub-item"><strong>SG&A (영업 및 일반관리)</strong>: $161.0M ($0.16B) (2.7%)</li>
+<li class="sub-item"><strong>부채상환손실 및 분사 비용 (Debt & Separation)</strong>: $53.0M ($0.05B) (0.9%)</li>
+<li class="list-item"><strong>영업이익 (Operating Income)</strong>: <strong>$4,111.0M ($4.11B)</strong> (영업이익률 <strong>69.1%</strong>)</li>
+<li class="sub-item">전년 동기 영업손실 -$1,881M에서 <strong>+$4,111M로 극적인 흑자 턴어라운드</strong> 달성.</li>
+<li class="list-item"><strong>영업외손익 (Below-the-line Items)</strong>:</li>
+<li class="sub-item"><strong>이자 및 기타비용 (Net Interest & Other Expense)</strong>: <strong>-$4.0M ($4.0M)</strong> (이자수익 $12M, 이자비용 -$6M, 기타 -$10M)</li>
+<li class="sub-item"><strong>법인세 비용 (Tax Provision)</strong>: <strong>-$492.0M ($0.49B)</strong> (유효세율 12.0%)</li>
+<li class="list-item"><strong>당기순이익 (Net Income)</strong>: <strong>$3,615.0M ($3.62B)</strong> (순이익률 <strong>60.8%</strong>)</li>
+<hr class="sep">
+<h2 class="sec-title">2. 연간 실적: FY2026 (Twelve Months Ended Jul 3, 2026)</h2>
+
+<div class="infographic-card">
+  <div class="card-img-wrap">
+    <img src="./assets/SNDK/sndk_fy26_income_statement_aei_signature.png" alt="Sandisk FY26 Full Year Income Statement Sankey" loading="lazy" class="sankey-img">
+  </div>
+
+</div>
+<li class="list-item">[인터랙티브 차트 열기 (HTML)](./sndk_fy26_income_statement_aei_signature.html) · [4K 고해상도 이미지 다운로드 (PNG)](./sndk_fy26_income_statement_aei_signature.png)</li>
+<h3 class="sub-title">📊 FY2026 연간 주요 실적 지표 및 엔드마켓 구성</h3>
+<div class="tbl-wrap"><table class="fin-tbl">
+  <thead><tr>
+    <th>사업 부문 (End Market)</th>
+    <th>SEC 공시액 ($M)</th>
+    <th>차트 표기 ($B)</th>
+    <th>매출 비중 (%)</th>
+    <th>전년 대비 (YoY)</th>
+    <th>연간 평가</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Edge</strong></td>
+      <td class="n"><strong>$12,160.0M</strong></td>
+      <td class="n"><strong>$12.16B</strong></td>
+      <td class="n"><strong>60.1%</strong></td>
+      <td class="n"><strong>+194.6%</strong></td>
+      <td>스마트폰/PC 온디바이스 AI 탑재율 급증 수혜</td>
+    </tr>
+    <tr>
+      <td><strong>Datacenter</strong></td>
+      <td class="n"><strong>$5,153.0M</strong></td>
+      <td class="n"><strong>$5.15B</strong></td>
+      <td class="n"><strong>25.4%</strong></td>
+      <td class="n"><strong>+436.8%</strong></td>
+      <td>하이퍼스케일러 향 고신뢰성 QLC/TLC 엔터프라이즈 SSD 확대</td>
+    </tr>
+    <tr>
+      <td><strong>Consumer</strong></td>
+      <td class="n"><strong>$2,935.0M</strong></td>
+      <td class="n"><strong>$2.94B</strong></td>
+      <td class="n"><strong>14.5%</strong></td>
+      <td class="n"><strong>+29.4%</strong></td>
+      <td>프리미엄 크리에이터/게이밍 외장형 SSD 판매 호조</td>
+    </tr>
+    <tr>
+      <td><strong>총 매출액 (Total Revenue)</strong></td>
+      <td class="n"><strong>$20,248.0M</strong></td>
+      <td class="n"><strong>$20.25B</strong></td>
+      <td class="n"><strong>100.0%</strong></td>
+      <td class="n"><strong>+175.3%</strong></td>
+      <td><strong>연간 매출 $200억 달러 돌파 (역대 최고 실적)</strong></td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 class="sub-title">📈 FY2026 연간 수익성 구조 (Profitability & Margins)</h3>
+<li class="list-item"><strong>매출원가 (Cost of Revenue)</strong>: <strong>$5,776.0M ($5.78B)</strong> (매출 대비 28.5%)</li>
+<li class="list-item"><strong>매출총이익 (Gross Profit)</strong>: <strong>$14,472.0M ($14.47B)</strong> (매출총이익률 <strong>71.5%</strong>, 전년 30.1% 대비 +41.4%p 급등)</li>
+<li class="list-item"><strong>판관비 및 연구개발비 (Operating Expenses)</strong>: <strong>$2,083.0M ($2.08B)</strong> (매출 대비 10.3%)</li>
+<li class="sub-item"><strong>R&D (연구개발)</strong>: $1,328.0M ($1.33B) (6.6%)</li>
+<li class="sub-item"><strong>SG&A (영업 및 일반관리)</strong>: $676.0M ($0.68B) (3.3%)</li>
+<li class="sub-item"><strong>부채상환손실 및 분사 비용 (Debt & Separation)</strong>: $79.0M ($0.08B) (0.4%)</li>
+<li class="list-item"><strong>영업이익 (Operating Income)</strong>: <strong>$12,389.0M ($12.39B)</strong> (영업이익률 <strong>61.2%</strong>)</li>
+<li class="sub-item">FY2025 영업손실 -$1,377M에서 <strong>+$12,389M로 흑자 전환 및 사상 최대 영업이익</strong> 기록.</li>
+<li class="list-item"><strong>영업외손익 (Below-the-line Items)</strong>:</li>
+<li class="sub-item"><strong>지분증권 평가익 및 순기타수익 (Gain on Equity & Other)</strong>: <strong>+$628.0M (+$0.63B)</strong> (지분증권 평가익 $808M 등)</li>
+<li class="sub-item"><strong>법인세 비용 (Tax Provision)</strong>: <strong>-$1,584.0M ($1.58B)</strong> (유효세율 12.2%)</li>
+<li class="list-item"><strong>당기순이익 (Net Income)</strong>: <strong>$11,433.0M ($11.43B)</strong> (순이익률 <strong>56.5%</strong>)</li>
+<hr class="sep">
+<h2 class="sec-title">3. 핵심 전략 진단 및 투자자 인사이트 (Key Insights)</h2>
+
+<div class="insight-card">
+  <div class="insight-num">01</div>
+  <div class="insight-content"><strong>AI 데이터센터 붐과 낸드 플래시 슈퍼사이클의 최대 수혜</strong>:</div>
+</div>
+
+<li class="list-item">데이터센터(Datacenter) 부문 매출은 FY25 $960M에서 FY26 $5,153M로 <strong>+436.8% 수직 상승</strong>했습니다. AI 클라우드 인프라에서 초고용량 eSSD(Enterprise SSD) 수요가 폭증하면서 가격과 출하량이 동시에 급증하는 슈퍼사이클의 위력을 입증했습니다.</li>
+
+<div class="insight-card">
+  <div class="insight-num">02</div>
+  <div class="insight-content"><strong>압도적인 영업 레버리지 (Operating Leverage)</strong>:</div>
+</div>
+
+<li class="list-item">연간 매출이 +175.3% 급증하는 동안, 연구개발비와 판매관리비는 단 10.3% 비중($2,083M)에 머물러 영업이익률 61.2%라는 경이적인 수익성을 기록했습니다.</li>
+
+<div class="insight-card">
+  <div class="insight-num">03</div>
+  <div class="insight-content"><strong>독립 기업으로서의 성공적 안착</strong>:</div>
+</div>
+
+<li class="list-item">Western Digital(WDC)과의 분사(Separation)에 따른 일회성 비용과 부채 상환 손실을 성공적으로 정리하고 연간 114억 달러가 넘는 순이익을 창출하며 완전한 자립 기반을 확보했습니다.</li>
+  </main>
+
+  <footer class="rep-footer">
+    SEC EDGAR Financial Flowchart & Infographics · Pensieve Investment Analysis Ser.
+  </footer>
+</div>
+
+</body>
+</html>
