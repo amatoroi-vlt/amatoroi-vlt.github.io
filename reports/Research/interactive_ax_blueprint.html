@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Enterprise AX Master Blueprint - Radiation & Trade Domain (with HITL)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --background: #0f172a;
+      --foreground: #f8fafc;
+      --card: #1e293b;
+      --border: #334155;
+      --muted-foreground: #94a3b8;
+      --primary: #3b82f6;
+      --primary-foreground: #ffffff;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --background: #f8fafc;
+        --foreground: #0f172a;
+        --card: #ffffff;
+        --border: #e2e8f0;
+        --muted-foreground: #64748b;
+        --primary: #2563eb;
+        --primary-foreground: #ffffff;
+      }
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--card); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .tab-active { border-bottom: 2px solid var(--primary); color: var(--primary); font-weight: 600; }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen p-6 font-sans">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-8 border-b border-[var(--border)] pb-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">원자력·방사선 안전 & 규제 행정</span>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-600 border border-blue-500/20">에어갭 폐쇄망 (On-Premise)</span>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-600 border border-amber-500/20">HITL 신뢰도 플라이휠 탑재</span>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-[var(--foreground)]">전사 AX 3대 전략과제 마스터 블루프린트 & HITL 감시 체계</h1>
+        <p class="text-[var(--muted-foreground)] text-sm mt-1">
+          수출입 심사 · 방사능 스펙트럼 · 쇼핑몰 탐지 $\times$ <strong>인간 개입(HITL) 신뢰도 측정</strong> & <strong>지속적 피드백 재학습(Continuous Learning)</strong>
+        </p>
+      </div>
+      <div class="text-right hidden md:block">
+        <div class="text-xs text-[var(--muted-foreground)]">핵심 거버넌스</div>
+        <div class="text-sm font-semibold text-amber-500">Human-In-The-Loop Flywheel</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex flex-wrap gap-4 md:gap-6 mt-6 text-sm border-b border-[var(--border)]">
+      <button onclick="switchTab('tab-usecases')" id="btn-usecases" class="pb-3 tab-active transition-colors">🎯 1. 3대 전략과제 & 화면</button>
+      <button onclick="switchTab('tab-hitl')" id="btn-hitl" class="pb-3 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">🔄 2. HITL 신뢰도 감시 & 피드백 재학습</button>
+      <button onclick="switchTab('tab-architecture')" id="btn-architecture" class="pb-3 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">🏛️ 3. 전체 HW & SW 개념도</button>
+      <button onclick="switchTab('tab-pillars')" id="btn-pillars" class="pb-3 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">⚙️ 4. 3대 기술 기둥 (하네스/가드레일/오케스트레이션)</button>
+      <button onclick="switchTab('tab-timeline')" id="btn-timeline" class="pb-3 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">⏱️ 5. 8주 타임라인 & 정량 KPI</button>
+      <button onclick="switchTab('tab-infra')" id="btn-infra" class="pb-3 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">🖥️ 6. 온프레미스 인프라 사이징</button>
+      <button onclick="switchTab('tab-persuasion')" id="btn-persuasion" class="pb-3 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">🤝 7. 이해관계자 설득 매트릭스</button>
+    </nav>
+  </header>
+
+  <main class="max-w-7xl mx-auto space-y-8">
+
+    <!-- TAB 1: 3 STRATEGIC USE CASES DEEP DIVE -->
+    <section id="tab-usecases" class="space-y-6">
+      <div class="bg-[var(--card)] p-5 rounded-xl border border-[var(--border)]">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span>🎯</span>
+          <span>원자력·방사선 안전 AX 3대 전략 아이템 (클릭하여 동작 원리 및 화면 구조 전환)</span>
+        </h2>
+        <p class="text-sm text-[var(--muted-foreground)] mt-1">
+          각 아이템마다 <strong>업무 배경</strong>, <strong>인간의 사고 $\rightarrow$ AI 치환 원리</strong>, <strong>HW/SW 파이프라인</strong>, 그리고 <strong>실제 화면 UI 시뮬레이션</strong>을 확인할 수 있습니다.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+          <button onclick="selectUseCase(1)" id="uc-btn-1" class="p-4 rounded-lg border-2 border-blue-500 bg-blue-500/10 text-left transition-all">
+            <span class="text-xs font-bold text-blue-500 block">과제 1 (민원 행정)</span>
+            <span class="text-sm font-bold block mt-1">수출입신고 심사업무</span>
+            <span class="text-xs text-[var(--muted-foreground)] mt-1 block">외부 전자민원 $\rightarrow$ 내부 자동심사 $\rightarrow$ 대외 알림</span>
+          </button>
+          <button onclick="selectUseCase(2)" id="uc-btn-2" class="p-4 rounded-lg border border-[var(--border)] bg-[var(--background)] text-left hover:border-[var(--foreground)] transition-all">
+            <span class="text-xs font-bold text-emerald-500 block">과제 2 (실험실/현장 과학)</span>
+            <span class="text-sm font-bold block mt-1">방사능 Raw Spectrum 분석</span>
+            <span class="text-xs text-[var(--muted-foreground)] mt-1 block">MCA 원시 스펙트럼 $\rightarrow$ 핵종 식별 & 정량 도출</span>
+          </button>
+          <button onclick="selectUseCase(3)" id="uc-btn-3" class="p-4 rounded-lg border border-[var(--border)] bg-[var(--background)] text-left hover:border-[var(--foreground)] transition-all">
+            <span class="text-xs font-bold text-purple-500 block">과제 3 (온라인 대외 감시)</span>
+            <span class="text-sm font-bold block mt-1">쇼핑몰 방사능제품 탐지</span>
+            <span class="text-xs text-[var(--muted-foreground)] mt-1 block">인간 인지 과정 모사 $\rightarrow$ 다차원 의심도 점수화</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="usecase-detail-container" class="space-y-6"></div>
+    </section>
+
+    <!-- TAB 2: HITL MONITORING & RETRAINING FLYWHEEL (NEW!) -->
+    <section id="tab-hitl" class="space-y-6 hidden">
+      <div class="bg-[var(--card)] p-5 rounded-xl border border-[var(--border)]">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span>🔄</span>
+          <span>Human-In-The-Loop (HITL) 신뢰도 감시 체계 & 피드백 재학습 플라이휠</span>
+        </h2>
+        <p class="text-sm text-[var(--muted-foreground)] mt-1">
+          원자력·방사선 안전 분야에서 AI는 결코 100% 자율 결정자가 될 수 없습니다. <strong>인간 전문가의 심사 승인 과정 자체가 고품질 피드백 데이터로 축적되어 시스템을 스스로 진화시키는 순환 루프(Flywheel)</strong>를 설계합니다.
+        </p>
+      </div>
+
+      <!-- HITL Flywheel Visual Diagram -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6">
+        <h3 class="font-bold text-base mb-4 flex items-center gap-2">
+          <span>🌀</span>
+          <span>자율 진화형 HITL 피드백 플라이휠 4단계 흐름도</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+          <div class="bg-[var(--background)] p-4 rounded-lg border border-blue-500/50">
+            <span class="text-xs font-bold text-blue-500 block mb-1">1단계: 신뢰도 평가 & 라우팅</span>
+            <div class="text-sm font-bold">AI 신뢰도 스코어 산출</div>
+            <p class="text-[11px] text-[var(--muted-foreground)] mt-2">
+              신뢰도 $\ge$ 95%: 자동 추천<br>
+              신뢰도 &lt; 95%: <strong>심사관 정밀검토 큐 이관</strong>
+            </p>
+          </div>
+          <div class="bg-[var(--background)] p-4 rounded-lg border border-emerald-500/50">
+            <span class="text-xs font-bold text-emerald-500 block mb-1">2단계: 인간 심사관 개입</span>
+            <div class="text-sm font-bold">Human-In-The-Loop 승인/수정</div>
+            <p class="text-[11px] text-[var(--muted-foreground)] mt-2">
+              심사관이 AI 초안을 승인하거나, <strong>틀린 부분(핵종, 조항, 수치)을 수정</strong>하여 최종 결재.
+            </p>
+          </div>
+          <div class="bg-[var(--background)] p-4 rounded-lg border border-amber-500/50">
+            <span class="text-xs font-bold text-amber-500 block mb-1">3단계: Diff 차이 분석 & 로깅</span>
+            <div class="text-sm font-bold">인간 vs AI 수정 내역 추출</div>
+            <p class="text-[11px] text-[var(--muted-foreground)] mt-2">
+              인간이 수정한 텍스트/판정 차이(Diff)를 <strong>'고품질 지도학습 데이터'</strong>로 자동 변환 저장.
+            </p>
+          </div>
+          <div class="bg-[var(--background)] p-4 rounded-lg border border-purple-500/50">
+            <span class="text-xs font-bold text-purple-500 block mb-1">4단계: 폐쇄망 자가 재학습</span>
+            <div class="text-sm font-bold">규칙 보강 & LoRA 미세조정</div>
+            <p class="text-[11px] text-[var(--muted-foreground)] mt-2">
+              단기: 가드레일/프롬프트 즉시 갱신<br>
+              중장기: <strong>월간 온프렘 LoRA 재학습</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deep Dive Grid: Reliability Monitoring & Drift Detection -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Box 1: Monitoring & Drift -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-500/10 text-blue-500">신뢰도 감시</span>
+            <h3 class="text-base font-bold">실시간 신뢰도 지표 및 데이터 드리프트(Drift) 감지</h3>
+          </div>
+          <ul class="text-xs space-y-2 text-[var(--muted-foreground)]">
+            <li>
+              <strong class="text-[var(--foreground)]">인간 개입률 (Human Override Rate, HOR):</strong>
+              <p class="mt-0.5">AI 초안 대비 심사관이 손을 댄 비율. 초기 25% $\rightarrow$ 시스템 성숙 시 <strong>3% 이하</strong>로 감소해야 정상 작동.</p>
+            </li>
+            <li>
+              <strong class="text-[var(--foreground)]">데이터 드리프트(Drift) 자동 경보:</strong>
+              <p class="mt-0.5">신규 방사성 핵종 등장, 법령 조항 개정, 새로운 쇼핑몰 은어 등장 시 AI의 신뢰도 점수가 급락하면 시스템이 이를 감지하여 <strong>"도메인 지식 갱신 필요"</strong> 경보 발령.</p>
+            </li>
+            <li>
+              <strong class="text-[var(--foreground)]">불일치 사유 3대 분류:</strong>
+              <p class="mt-0.5">① 법령 해석 차이(지침서 보강 대상) / ② 원본 서류 OCR 오인식(비전 모델 개선 대상) / ③ 계산 오차(수리 가드레일 보강 대상).</p>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Box 2: 3-Tier Retraining Strategy -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-500/10 text-purple-500">지속적 학습</span>
+            <h3 class="text-base font-bold">사내 폐쇄망을 위한 3단계(Tier) 재학습 전략</h3>
+          </div>
+          <div class="space-y-2.5 text-xs">
+            <div class="p-2.5 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-emerald-500 flex justify-between">
+                <span>Tier 1: 인라인 즉시 보정 (Zero Cost, 즉각 반영)</span>
+                <span class="text-[10px]">소요: 1분</span>
+              </div>
+              <p class="text-[11px] text-[var(--muted-foreground)] mt-1">심사관이 남긴 피드백 코멘트를 전역 규칙(Rules)이나 RAG 벡터DB에 즉시 반영하여 동일한 오류 재발 방지.</p>
+            </div>
+            <div class="p-2.5 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-blue-500 flex justify-between">
+                <span>Tier 2: Few-Shot 골든셋 자동 증강</span>
+                <span class="text-[10px]">소요: 주간 단위</span>
+              </div>
+              <p class="text-[11px] text-[var(--muted-foreground)] mt-1">인간 심사관이 최종 승인한 고난도 엣지 케이스를 에이전트의 프롬프트 예시(Few-shot examples)로 자동 편입.</p>
+            </div>
+            <div class="p-2.5 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-purple-500 flex justify-between">
+                <span>Tier 3: 사내 온프렘 LoRA 파인튜닝 (Periodic Fine-tuning)</span>
+                <span class="text-[10px]">소요: 월간 단위</span>
+              </div>
+              <p class="text-[11px] text-[var(--muted-foreground)] mt-1">사내 GPU(RTX 4090 또는 L40S)에서 심사관 피드백 데이터 500~1,000건을 모아 야간 배치로 경량 LoRA 어댑터 가중치 업데이트 (비용 0원, 보안 유지).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HITL UI Mockup: Human Review Interface with Feedback Loop -->
+      <div class="bg-[var(--card)] border border-amber-500/30 rounded-xl p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-[var(--border)] pb-2">
+          <h3 class="font-bold text-sm text-amber-500 flex items-center gap-2">
+            <span>🖥️</span>
+            <span>심사관 실제 작업 화면 내 '인라인 피드백 & 재학습 태깅' 인터랙션</span>
+          </h3>
+          <span class="text-xs px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 font-bold">Human Feedback Collection Active</span>
+        </div>
+        <div class="bg-[var(--background)] p-4 rounded-lg border border-[var(--border)] text-xs space-y-3">
+          <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-[var(--border)] pb-2">
+            <div>
+              <span class="font-bold">심사 건: [수입신고 2026-09-041] 감마선 조사장비 (Co-60 100TBq)</span>
+              <span class="text-[11px] text-[var(--muted-foreground)] block">AI 판정: 보완 요구 (비파괴검사 면허 누락 의심)</span>
+            </div>
+            <span class="text-xs px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 font-bold">AI 신뢰도: 84.5% (심사관 확인 필요)</span>
+          </div>
+          <div class="p-3 bg-[var(--card)] rounded border border-[var(--border)] text-[11px] space-y-2">
+            <div class="text-[var(--foreground)]">
+              <strong>심사관 수정 액션:</strong> "본 건은 비파괴검사용이 아니라 <em>'연구용 조사시설'</em>이므로 원자력안전법 시행규칙 제42조 특례가 적용되어 해당 면허 제출 면제 대상임. <strong>[정상 수리로 변경 승인]</strong>"
+            </div>
+            <div class="flex items-center gap-2 pt-1">
+              <span class="text-[10px] text-amber-500 font-bold">🔄 피드백 태그:</span>
+              <span class="px-2 py-0.5 bg-[var(--background)] border border-[var(--border)] rounded text-[10px]">#시행규칙_제42조_특례</span>
+              <span class="px-2 py-0.5 bg-[var(--background)] border border-[var(--border)] rounded text-[10px]">#연구용조사시설_면허면제</span>
+              <span class="text-[10px] text-emerald-600 ml-auto font-mono">✅ 다음 버전 재학습 데이터셋 자동 등록 완료</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: HW & SW TOTAL ARCHITECTURE CONCEPT MAP -->
+    <section id="tab-architecture" class="space-y-6 hidden">
+      <div class="bg-[var(--card)] p-5 rounded-xl border border-[var(--border)]">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span>🏛️</span>
+          <span>온프레미스 에어갭(Air-Gapped) 통합 HW & SW 계층 아키텍처</span>
+        </h2>
+        <p class="text-sm text-[var(--muted-foreground)] mt-1">
+          사내 폐쇄망 환경에서 3개 전략 과제와 HITL 피드백 루프가 물리적 하드웨어 및 소프트웨어 계층을 어떻게 공유하고 격리되는지 나타낸 전체 구성도입니다.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Layer 1 -->
+        <div class="border border-blue-500/30 bg-blue-500/5 p-4 rounded-xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-blue-500 uppercase tracking-wider">[Layer 1] 사용자 접점 & 외부 경계 (DMZ / 사내망)</span>
+            <span class="text-xs text-[var(--muted-foreground)]">대민 포털, 연구원 워크스테이션, HITL 심사관 대시보드</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-blue-500 mb-1">과제 1 접점</div>
+              <div>대민 전자민원 포털 & 내부 심사관 포털 웹 UI (HITL 승인 창구)</div>
+            </div>
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-emerald-500 mb-1">과제 2 접점</div>
+              <div>연구원 분석 워크스테이션 / 스펙트럼 파일 드롭존</div>
+            </div>
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-purple-500 mb-1">과제 3 접점</div>
+              <div>쇼핑몰 크롤링 데이터 수집기 & 단속관 전용 점수판정 대시보드</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Layer 2 -->
+        <div class="border border-purple-500/30 bg-purple-500/5 p-4 rounded-xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-purple-500 uppercase tracking-wider">[Layer 2] 제어 & 지휘 계층 (오케스트레이션, 가드레일, HITL 라우터)</span>
+            <span class="text-xs text-[var(--muted-foreground)]">일반 x86 CPU 서버 (FastAPI + LangGraph)</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)] space-y-1">
+              <div class="font-bold text-purple-500">심사 워크플로우 엔진</div>
+              <p class="text-[var(--muted-foreground)]">서류 분해 $\rightarrow$ HS코드/법적요건 룰체크 $\rightarrow$ 심사의견서 자동 초안</p>
+              <div class="text-[10px] text-amber-500 font-mono">HITL: 신뢰도 &lt; 95% 시 심사관 큐 라우팅</div>
+            </div>
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)] space-y-1">
+              <div class="font-bold text-purple-500">스펙트럼 분석 오케스트레이터</div>
+              <p class="text-[var(--muted-foreground)]">에너지 캘리브레이션 $\rightarrow$ ROI 피크검출 $\rightarrow$ 동위원소 라이브러리 대조</p>
+              <div class="text-[10px] text-emerald-600 font-mono">가드레일: FWHM 및 배경방사능 보정 공식 강제</div>
+            </div>
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)] space-y-1">
+              <div class="font-bold text-purple-500">쇼핑몰 다차원 스코어러</div>
+              <p class="text-[var(--muted-foreground)]">광고 문구 NLP + 원료 사전 매칭 + 이미지 OCR 합성 점수화</p>
+              <div class="text-[10px] text-purple-600 font-mono">HITL: 단속관 채점 피드백을 가중치 튜닝에 반영</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Layer 3 -->
+        <div class="border border-emerald-500/30 bg-emerald-500/5 p-4 rounded-xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-emerald-500 uppercase tracking-wider">[Layer 3] 사내 폐쇄망 AI 두뇌 & LoRA 학습 엔진 (On-Prem GPU)</span>
+            <span class="text-xs text-[var(--muted-foreground)]">vLLM 클러스터 (인터넷 차단, 100% 에어갭)</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-emerald-500 mb-1">LLM 서빙 (추론 엔진)</div>
+              <p class="text-[var(--muted-foreground)]">Qwen 2.5 32B/72B (AWQ 4-bit) / Llama 3.3 70B</p>
+              <div class="text-[10px] text-[var(--foreground)] mt-1">심사 초안 작성, 법령 조항 매칭, 비정형 상품 설명 해석</div>
+            </div>
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-amber-500 mb-1">LoRA 피드백 미세조정기 (학습 엔진)</div>
+              <p class="text-[var(--muted-foreground)]">HuggingFace PEFT / Unsloth (사내 오프라인 트레이닝)</p>
+              <div class="text-[10px] text-[var(--foreground)] mt-1">심사관 수정 이력(Diff)을 주간/월간 단위로 미세조정하여 모델에 흡수</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Layer 4 -->
+        <div class="border border-amber-500/30 bg-amber-500/5 p-4 rounded-xl">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-amber-500 uppercase tracking-wider">[Layer 4] 데이터 스토리지 & 피드백 저장소 (하네스 계층)</span>
+            <span class="text-xs text-[var(--muted-foreground)]">원장 DB (읽기 전용) + 피드백 로그 DB</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-amber-500 mb-1">민원/스펙트럼 저장소</div>
+              <p class="text-[var(--muted-foreground)]">신고서 원본, HPGe .SPE 파일, 공인 핵종 라이브러리</p>
+            </div>
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-emerald-500 mb-1">HITL 피드백 데이터셋 DB</div>
+              <p class="text-[var(--muted-foreground)]">인간 심사관이 수정한 Diff 이력, 전문가 코멘트, 골든 데이터셋</p>
+            </div>
+            <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)]">
+              <div class="font-bold text-purple-500 mb-1">사내 규정 벡터 저장소 (RAG)</div>
+              <p class="text-[var(--muted-foreground)]">원자력안전법령, 위임고시, 최신 유권해석 질의회신집</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: 3 PILLARS DEEP DIVE -->
+    <section id="tab-pillars" class="space-y-6 hidden">
+      <div class="bg-[var(--card)] p-5 rounded-xl border border-[var(--border)]">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span>⚙️</span>
+          <span>자율형 에이전트를 성립시키는 3대 기술 기둥 (클릭하여 심층 분해)</span>
+        </h2>
+        <p class="text-sm text-[var(--muted-foreground)] mt-1">
+          하네스, 가드레일, 오케스트레이션의 세부 원리를 클릭하여 확인하세요.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div onclick="openPillarDetail('harness')" class="cursor-pointer bg-[var(--card)] border border-[var(--border)] hover:border-blue-500 rounded-xl p-5 shadow-sm hover:shadow-md transition-all group">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-blue-500 uppercase tracking-wider">Foundation</span>
+            <span class="text-lg group-hover:translate-x-1 transition-transform">➡️</span>
+          </div>
+          <h3 class="text-lg font-bold text-[var(--foreground)] mb-2">하네스 엔지니어링 (Harness)</h3>
+          <p class="text-sm text-[var(--muted-foreground)] mb-4">
+            AI 두뇌(LLM)를 감싸서 내부 시스템(DB, 스펙트럼 파일, PDF)과 규격화된 방식으로 안전하게 연결하는 물리적 인터페이스 틀.
+          </p>
+          <div class="mt-4 text-xs text-blue-500 font-medium flex items-center gap-1">상세 구조 및 온프렘 연계 보기 &rarr;</div>
+        </div>
+
+        <div onclick="openPillarDetail('guardrails')" class="cursor-pointer bg-[var(--card)] border border-[var(--border)] hover:border-emerald-500 rounded-xl p-5 shadow-sm hover:shadow-md transition-all group">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-emerald-500 uppercase tracking-wider">Safety & Audit</span>
+            <span class="text-lg group-hover:translate-x-1 transition-transform">➡️</span>
+          </div>
+          <h3 class="text-lg font-bold text-[var(--foreground)] mb-2">가드레일 (Guardrails)</h3>
+          <p class="text-sm text-[var(--muted-foreground)] mb-4">
+            AI의 모든 입출력과 도구 호출 전후에 개입하여, 환각(Hallucination), 규정 누락, 물리법칙 위배를 강제 차단하는 안전 필터.
+          </p>
+          <div class="mt-4 text-xs text-emerald-500 font-medium flex items-center gap-1">물리/법적 검증 메커니즘 보기 &rarr;</div>
+        </div>
+
+        <div onclick="openPillarDetail('orchestration')" class="cursor-pointer bg-[var(--card)] border border-[var(--border)] hover:border-purple-500 rounded-xl p-5 shadow-sm hover:shadow-md transition-all group">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold text-purple-500 uppercase tracking-wider">Intelligence & Flow</span>
+            <span class="text-lg group-hover:translate-x-1 transition-transform">➡️</span>
+          </div>
+          <h3 class="text-lg font-bold text-[var(--foreground)] mb-2">오케스트레이션 (Orchestration)</h3>
+          <p class="text-sm text-[var(--muted-foreground)] mb-4">
+            사용자의 단일 요청을 서류분석, 물리연산, 법령대조, HITL 피드백 루프까지 유기적으로 조율하는 총괄 지휘자.
+          </p>
+          <div class="mt-4 text-xs text-purple-500 font-medium flex items-center gap-1">상태 머신 및 라우팅 로직 보기 &rarr;</div>
+        </div>
+      </div>
+
+      <div id="pillar-detail-box" class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm hidden">
+        <div class="flex items-center justify-between pb-4 border-b border-[var(--border)] mb-4">
+          <h3 id="pillar-title" class="text-xl font-bold text-[var(--foreground)]"></h3>
+          <button onclick="closePillarDetail()" class="text-xs bg-[var(--background)] border border-[var(--border)] px-3 py-1 rounded hover:bg-[var(--border)]">닫기 ✕</button>
+        </div>
+        <div id="pillar-content" class="text-sm space-y-4"></div>
+      </div>
+    </section>
+
+    <!-- TAB 5: TIMELINE & QUANTITATIVE KPIS -->
+    <section id="tab-timeline" class="space-y-6 hidden">
+      <div class="bg-[var(--card)] p-5 rounded-xl border border-[var(--border)]">
+        <h2 class="text-lg font-bold">⏱️ 8주 완성 로드맵: 단계별 행위, 산출물, 그리고 '정량 측정 지표'</h2>
+        <p class="text-sm text-[var(--muted-foreground)] mt-1">
+          3대 전략 과제 중 가장 정형화된 과제를 1차 타겟으로 선정하고 HITL 피드백 루프까지 검증하는 8주 타임라인입니다.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button onclick="selectStep(1)" id="step-btn-1" class="p-4 rounded-xl border-2 border-blue-500 bg-blue-500/10 text-left transition-all">
+          <span class="text-xs font-bold text-blue-500 block">PHASE 1 (1~2주)</span>
+          <span class="text-sm font-bold block mt-1">업무 선정 & SOP 계량화</span>
+        </button>
+        <button onclick="selectStep(2)" id="step-btn-2" class="p-4 rounded-xl border border-[var(--border)] bg-[var(--card)] text-left hover:border-[var(--foreground)] transition-all">
+          <span class="text-xs font-bold text-[var(--muted-foreground)] block">PHASE 2 (3~4주)</span>
+          <span class="text-sm font-bold block mt-1">지침서 & 하네스 구축</span>
+        </button>
+        <button onclick="selectStep(3)" id="step-btn-3" class="p-4 rounded-xl border border-[var(--border)] bg-[var(--card)] text-left hover:border-[var(--foreground)] transition-all">
+          <span class="text-xs font-bold text-[var(--muted-foreground)] block">PHASE 3 (5~6주)</span>
+          <span class="text-sm font-bold block mt-1">HITL 현장 실전 검증</span>
+        </button>
+        <button onclick="selectStep(4)" id="step-btn-4" class="p-4 rounded-xl border border-[var(--border)] bg-[var(--card)] text-left hover:border-[var(--foreground)] transition-all">
+          <span class="text-xs font-bold text-[var(--muted-foreground)] block">PHASE 4 (7~8주)</span>
+          <span class="text-sm font-bold block mt-1">플랫폼화 & 재학습 가동</span>
+        </button>
+      </div>
+
+      <div id="step-display" class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 space-y-6"></div>
+    </section>
+
+    <!-- TAB 6: ON-PREMISE INFRASTRUCTURE SIZING -->
+    <section id="tab-infra" class="space-y-6 hidden">
+      <div class="bg-[var(--card)] p-5 rounded-xl border border-[var(--border)]">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span>🖥️</span>
+          <span>원자력·방사선 도메인 온프레미스(On-Premise) 하드웨어 사이징 가이드</span>
+        </h2>
+        <p class="text-sm text-[var(--muted-foreground)] mt-1">
+          추론(vLLM)뿐만 아니라, <strong>HITL 사내 LoRA 미세조정(Fine-Tuning)까지 고려한</strong> 사내 서버 사양표입니다.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-amber-500/10 text-amber-500">Tier 1: 파일럿 실증형</span>
+            <span class="text-xs text-[var(--muted-foreground)]">단일 과제 + 추론 중심</span>
+          </div>
+          <h3 class="text-lg font-bold">연구용 워크스테이션</h3>
+          <ul class="text-xs space-y-2 text-[var(--muted-foreground)]">
+            <li><strong>GPU:</strong> RTX 4090 24GB $\times$ 1~2장</li>
+            <li><strong>추론 모델:</strong> Qwen 2.5 14B / Llama 3.1 8B (AWQ)</li>
+            <li><strong>재학습 지원:</strong> QLoRA 경량 어댑터 야간 훈련 가능</li>
+            <li><strong>CPU / RAM:</strong> AMD Ryzen 9 / 128GB RAM</li>
+          </ul>
+          <div class="p-3 bg-[var(--background)] rounded-lg text-xs font-mono">예산: 약 800만 ~ 1,300만 원</div>
+        </div>
+
+        <div class="bg-[var(--card)] border-2 border-blue-500 rounded-xl p-5 space-y-4 relative">
+          <div class="absolute -top-3 right-4 px-2 py-0.5 rounded bg-blue-500 text-white text-[10px] font-bold uppercase">부서 표준 권장안</div>
+          <div class="flex justify-between items-center">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-500/10 text-blue-500">Tier 2: 3대 과제 통합 + HITL 재학습</span>
+            <span class="text-xs text-[var(--muted-foreground)]">정식 업무망 도입</span>
+          </div>
+          <h3 class="text-lg font-bold">GPU 랙 서버 (2U)</h3>
+          <ul class="text-xs space-y-2 text-[var(--muted-foreground)]">
+            <li><strong>GPU:</strong> NVIDIA L40S 48GB $\times$ 2장 (또는 A100 80GB $\times$ 1장)</li>
+            <li><strong>추론 모델:</strong> Qwen 2.5 32B/72B (AWQ 4-bit)</li>
+            <li><strong>재학습 지원:</strong> GPU 1장은 상시 추론 서빙, GPU 1장은 배치 LoRA 재학습 분리 운용</li>
+            <li><strong>동시 처리력:</strong> 15~30명 동시 심사 및 분석 쿼리 처리</li>
+          </ul>
+          <div class="p-3 bg-[var(--background)] rounded-lg text-xs font-mono">예산: 약 3,800만 ~ 5,500만 원</div>
+        </div>
+
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-500/10 text-purple-500">Tier 3: 무중단 엔터프라이즈</span>
+            <span class="text-xs text-[var(--muted-foreground)]">전사 통합 플랫폼</span>
+          </div>
+          <h3 class="text-lg font-bold">H100/H200 고성능 클러스터</h3>
+          <ul class="text-xs space-y-2 text-[var(--muted-foreground)]">
+            <li><strong>GPU:</strong> H100 80GB SXM $\times$ 2~4장</li>
+            <li><strong>추천 모델:</strong> DeepSeek-R1 Full / Llama 3.3 70B FP8 원본</li>
+            <li><strong>특징:</strong> 실시간 대용량 쇼핑몰 크롤링 데이터 스트리밍 채점 + 대민 민원 동시 접수 + 실시간 파인튜닝 파이프라인</li>
+          </ul>
+          <div class="p-3 bg-[var(--background)] rounded-lg text-xs font-mono">예산: 엔터프라이즈 규모</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: PERSUASION MATRIX -->
+    <section id="tab-persuasion" class="space-y-6 hidden">
+      <div class="bg-[var(--card)] p-5 rounded-xl border border-[var(--border)]">
+        <h2 class="text-lg font-bold">🤝 3대 이해관계자별 설득 논리 & 반론 대응 (HITL 중심)</h2>
+        <p class="text-sm text-[var(--muted-foreground)] mt-1">
+          "HITL이 도입되면 내 업무가 어떻게 보호되고 더 편해지는가?"를 중점적으로 설명합니다.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-amber-500/10 text-amber-600">현업 심사관 & 연구원</span>
+            <h3 class="font-bold text-base">"AI가 맘대로 승인해서 사고 치면 그 책임은 누가 집니까?"</h3>
+          </div>
+          <div class="text-xs bg-[var(--background)] p-4 rounded-lg space-y-2 text-[var(--foreground)]">
+            <p><strong>명쾌한 답변:</strong> "AI는 최종 승인 버튼이 아예 없습니다. <strong>모든 결정권은 심사관에게 있는 HITL(Human-In-The-Loop) 구조</strong>입니다. AI는 수백 페이지 서류를 대조하고 법적 결격사유를 1차로 체크하여 <strong>'심사의견서 초안'</strong>을 써주는 비서입니다. 심사관의 수정 행위 자체가 AI를 더 똑똑하게 훈련시키는 피드백으로 작동합니다."</p>
+          </div>
+        </div>
+
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-500/10 text-blue-600">보안 & 규제 감사팀</span>
+            <h3 class="font-bold text-base">"AI가 학습하면서 외부로 데이터가 유출되거나 오염(Poisoning)되지 않나요?"</h3>
+          </div>
+          <div class="text-xs bg-[var(--background)] p-4 rounded-lg space-y-2 text-[var(--foreground)]">
+            <p><strong>명쾌한 답변:</strong> "100% 사내 에어갭 폐쇄망 내에서만 LoRA 재학습이 수행됩니다. 인터넷과의 연결선 자체가 물리적으로 없으며, <strong>'인증된 전문 심사관이 최종 결재한 데이터'만 재학습 데이터셋으로 편입</strong>되므로 데이터 오염 위험이 0%입니다."</p>
+          </div>
+        </div>
+
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2 py-0.5 rounded text-xs font-bold bg-purple-500/10 text-purple-600">기관장 & C-Level</span>
+            <h3 class="font-bold text-base">"한 번 구축해두면 유지보수 비용이 계속 눈덩이처럼 불어나지 않습니까?"</h3>
+          </div>
+          <div class="text-xs bg-[var(--background)] p-4 rounded-lg space-y-2 text-[var(--foreground)]">
+            <p><strong>명쾌한 답변:</strong> "외부 컨설팅이나 추가 외주 개발 없이, <strong>사내 심사관들의 일상 업무 과정에서 나오는 피드백 데이터가 스스로 모델을 재학습시키는 자가 발전(Flywheel) 구조</strong>입니다. 쓰면 쓸수록 정확도가 95% $\rightarrow$ 99%로 올라가 장기 운영비용이 오히려 급감합니다."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Tab switching
+    function switchTab(tabId) {
+      const tabs = ['tab-usecases', 'tab-hitl', 'tab-architecture', 'tab-pillars', 'tab-timeline', 'tab-infra', 'tab-persuasion'];
+      const btns = ['btn-usecases', 'btn-hitl', 'btn-architecture', 'btn-pillars', 'btn-timeline', 'btn-infra', 'btn-persuasion'];
+
+      tabs.forEach(t => document.getElementById(t).classList.add('hidden'));
+      btns.forEach(b => {
+        document.getElementById(b).classList.remove('tab-active');
+        document.getElementById(b).classList.add('text-[var(--muted-foreground)]');
+      });
+
+      document.getElementById(tabId).classList.remove('hidden');
+      const activeBtn = document.getElementById('btn-' + tabId.replace('tab-', ''));
+      activeBtn.classList.add('tab-active');
+      activeBtn.classList.remove('text-[var(--muted-foreground)]');
+    }
+
+    // Use Case Data Store (Preserved & Enhanced)
+    const useCaseData = {
+      1: {
+        title: "과제 1. 수출입신고 심사업무 자동화 시스템 (민원 행정 AX)",
+        badge: "외부 민원 접수 $\rightarrow$ 사내 자동 심사 $\rightarrow$ HITL 최종 승인 $\rightarrow$ 대외 알림",
+        summary: "외부 수입/수출 기업이 전자민원 포털을 통해 방사성물질/장비 수출입신고서를 접수하면, 내부 AI 에이전트가 서류를 파싱하여 법령 및 결격사유를 1차 대조하고 심사 의견서를 자동 생성한 뒤, 전문 심사관의 HITL 검토를 거쳐 외부로 통보하는 루프.",
+        mechanics: [
+          { step: "1. 민원 접수 & 하네스 격리 수집", desc: "외부 포털에서 신청서(XML/JSON)와 첨부파일(PDF, 시험성적서)이 망연계를 통해 사내 격리 디렉토리 <code>tmp/trade_inbound/</code>로 안전하게 이관됨." },
+          { step: "2. 문서 파싱 & 다중 가드레일 대조", desc: "OCR 및 텍스트 추출 모듈이 방사능 농도, 수량, 핵종 명칭을 추출. <strong>[가드레일 1: 원자력안전법 제20조 인허가 한도 초과 여부]</strong> 및 <strong>[가드레일 2: 수입국 규제 물질 대조]</strong>를 파이썬 룰 엔진으로 즉각 검증." },
+          { step: "3. 심사의견서 자동 작성 & 신뢰도 산출", desc: "적합 판정 시 '수리 통보서 초안' 자동 작성, 신뢰도 점수가 95% 미만인 모호한 케이스는 '심사관 집중 검토 플래그' 자동 부착." },
+          { step: "4. HITL 최종 승인 & 피드백 로깅", desc: "심사관이 수정하거나 승인한 최종 결과는 '재학습 골든 데이터셋'으로 자동 저장된 후 대외 알림 발송." }
+        ],
+        screenSim: `
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-4">
+            <div class="flex items-center justify-between border-b border-[var(--border)] pb-2 text-xs">
+              <span class="font-bold text-blue-500">🖥️ [심사관 실제 작업 화면: HITL 연동]</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500 font-bold">AI 1차 심사 완료 (신뢰도: 99.2%)</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)] space-y-2">
+                <div class="font-bold text-[var(--foreground)] border-b border-[var(--border)] pb-1">📄 수입신고서 원본 (PDF 파싱 내역)</div>
+                <div class="space-y-1 text-[var(--muted-foreground)] font-mono text-[11px]">
+                  <div>- 신청기업: (주)한국원자력의료장비</div>
+                  <div>- 신고 품목: 비파괴검사용 감마선원 (Ir-192)</div>
+                  <div>- 방사능량: <strong>1.85 TBq (50 Ci)</strong> <span class="text-emerald-500">[허가범위 내]</span></div>
+                  <div>- 밀봉선원 형식승인번호: 2024-KOR-S04 <span class="text-emerald-500">[유효]</span></div>
+                </div>
+              </div>
+              <div class="bg-[var(--card)] p-3 rounded-lg border border-blue-500/40 space-y-2">
+                <div class="font-bold text-blue-500 border-b border-[var(--border)] pb-1">🤖 AI 심사 의견서 (심사관 결재 대기중)</div>
+                <div class="space-y-1.5 text-[11px] text-[var(--foreground)]">
+                  <div class="p-1.5 bg-emerald-500/10 rounded text-emerald-600">✅ <strong>원자력안전법 제20조:</strong> 수입 기준 100% 충족 확인</div>
+                  <div class="p-1.5 bg-blue-500/10 rounded text-blue-600">ℹ️ <strong>운반용기 기술기준:</strong> Type B(U) 유효기간 확인 완료</div>
+                  <div class="text-[var(--muted-foreground)]">종합 의견: 수입신고 수리 조건 만족. [수리 통보서] 발급 권고.</div>
+                </div>
+                <div class="pt-2 flex gap-2">
+                  <button class="flex-1 py-1.5 bg-blue-500 text-white rounded text-xs font-bold hover:bg-blue-600">원클릭 수리 승인 (HITL 승인)</button>
+                  <button class="px-3 py-1.5 bg-[var(--background)] border border-[var(--border)] rounded text-xs">의견 수정 후 피드백</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      2: {
+        title: "과제 2. 방사능 원시 스펙트럼(Raw Spectrum) 자동 정량 분석 시스템",
+        badge: "계측기 .SPE/.CNF 수집 $\rightarrow$ 물리 피크 피팅 $\rightarrow$ 핵종 식별 & 정량 $\rightarrow$ 연구원 검증",
+        summary: "HPGe 또는 NaI(Tl) 감마선 분광 장치에서 생성된 수천 채널의 원시 데이터를 읽어, 에너지 교정, 백그라운드 제거, 가우시안 피크 피팅을 거쳐 핵종(Cs-137, I-131, Co-60 등)의 방사능 농도(Bq/kg)를 오차율 포함 정량 도출.",
+        mechanics: [
+          { step: "1. Raw Data 인제스천 (하네스)", desc: "계측기 전용 파일(.spe, .cnf)을 파싱하여 채널별 카운트 배열로 정규화." },
+          { step: "2. 수리·물리 결정론적 연산 (가드레일)", desc: "SciPy/PyMca 물리 계산 엔진이 롤링 볼 백그라운드를 차감하고 가우시안 다중 피크를 수학적으로 피팅." },
+          { step: "3. 핵종 라이브러리 대조 & 농도 계산", desc: "검출된 감마선 에너지(keV)와 FWHM을 동위원소 라이브러리와 대조하여 최종 방사능(Bq) 및 MDA 도출." },
+          { step: "4. HITL 연구원 교차 승인", desc: "미식별 피크나 FWHM 이상치 발생 시 연구원에게 알림 $\rightarrow$ 연구원 승인 시 공식 성적서 발급." }
+        ],
+        screenSim: `
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-4">
+            <div class="flex items-center justify-between border-b border-[var(--border)] pb-2 text-xs">
+              <span class="font-bold text-emerald-500">🖥️ [스펙트럼 분석 자동화 뷰어: HITL 교차 검증]</span>
+              <span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 font-bold">계측 파일: Sample_20260911_HPGe.spe</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div class="md:col-span-2 bg-[var(--card)] p-3 rounded-lg border border-[var(--border)] space-y-2">
+                <div class="font-bold text-[var(--foreground)] flex justify-between">
+                  <span>📈 감마선 에너지 스펙트럼 (피크 감지 뷰)</span>
+                  <span class="text-[11px] text-[var(--muted-foreground)]">측정시간: 3,600 sec</span>
+                </div>
+                <div class="h-32 bg-[var(--background)] border border-[var(--border)] rounded p-2 flex items-end justify-between gap-1 text-[9px] font-mono text-[var(--muted-foreground)]">
+                  <div class="w-1/12 h-10 bg-slate-400 rounded-t text-center">Noise</div>
+                  <div class="w-1/12 h-4 bg-slate-400 rounded-t"></div>
+                  <div class="w-1/12 h-28 bg-emerald-500 rounded-t text-center text-white font-bold">661.7<br>Cs-137</div>
+                  <div class="w-1/12 h-6 bg-slate-400 rounded-t"></div>
+                  <div class="w-1/12 h-20 bg-blue-500 rounded-t text-center text-white font-bold">1173<br>Co-60</div>
+                  <div class="w-1/12 h-16 bg-blue-500 rounded-t text-center text-white font-bold">1332<br>Co-60</div>
+                  <div class="w-1/12 h-8 bg-slate-400 rounded-t"></div>
+                  <div class="w-1/12 h-32 bg-purple-500 rounded-t text-center text-white font-bold">1460<br>K-40</div>
+                </div>
+                <div class="text-[10px] text-[var(--muted-foreground)]">※ Python 가우시안 피팅 알고리즘에 의해 유의미한 ROI 피크 4개 검출 완료</div>
+              </div>
+              <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)] space-y-2">
+                <div class="font-bold text-emerald-500 border-b border-[var(--border)] pb-1">📊 정량 결과표 (MDA 검증 완료)</div>
+                <div class="space-y-1 text-[11px] font-mono">
+                  <div class="flex justify-between border-b border-[var(--border)] pb-0.5"><span>핵종</span><span>농도 (Bq/kg)</span></div>
+                  <div class="flex justify-between text-emerald-600 font-bold"><span>Cs-137</span><span>14.2 ± 1.1</span></div>
+                  <div class="flex justify-between text-blue-600 font-bold"><span>Co-60</span><span>8.5 ± 0.9</span></div>
+                  <div class="flex justify-between text-purple-600 font-bold"><span>K-40 (천연)</span><span>312.0 ± 15.4</span></div>
+                </div>
+                <div class="p-2 bg-emerald-500/10 rounded text-[10px] text-emerald-600 mt-2">
+                  판정: 기준치(100 Bq/kg) 대비 <strong>적합 (안전)</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      3: {
+        title: "과제 3. 인터넷 쇼핑플랫폼 내 방사능 함유 제품 탐지 시스템",
+        badge: "인간 의심 인지 $\rightarrow$ 3단계 다차원 점수화 $\rightarrow$ 단속관 HITL 승인 $\rightarrow$ 공문 발송",
+        summary: "인간 심사관이 '음이온 팔찌', '토르말린 매트', '모나자이트 함유' 등의 홍보 문구를 보고 의심하는 인지 과정을 3대 축 점수 모델로 기계화하고, 단속관이 최종 확인 후 오픈마켓에 차단 공문을 보내는 시스템.",
+        mechanics: [
+          { step: "1. 쇼핑몰 크롤링 & 데이터 표준화", desc: "오픈마켓에서 상품명, 상세페이지 텍스트, 이미지 URL 수집." },
+          { step: "2. 다차원 인지 스코어링", desc: "[원료 위험도(35%)] + [효능 허위광고 문맥(35%)] + [신체 밀착 카테고리(30%)] 가중 합산." },
+          { step: "3. HITL 단속관 검증 큐", desc: "85점 이상 고위험 상품에 대해 단속관이 현장 캡처를 확인하고 판매중단 공문 승인." },
+          { step: "4. 단속 피드백 재학습", desc: "오탐(False Positive) 상품이 있을 경우 단속관이 즉시 예외 사유 태깅 $\rightarrow$ 스코어러 가중치 자동 보정." }
+        ],
+        screenSim: `
+          <div class="bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 space-y-4">
+            <div class="flex items-center justify-between border-b border-[var(--border)] pb-2 text-xs">
+              <span class="font-bold text-purple-500">🖥️ [쇼핑몰 단속 대시보드: HITL 액션]</span>
+              <span class="px-2 py-0.5 rounded bg-red-500/10 text-red-500 font-bold">🚨 위험 등급 상품 적발 (위험도: 94점)</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div class="bg-[var(--card)] p-3 rounded-lg border border-[var(--border)] space-y-2">
+                <div class="font-bold text-[var(--foreground)] border-b border-[var(--border)] pb-1">🛍️ 탐지된 상품 정보</div>
+                <div class="space-y-1 text-[11px] text-[var(--muted-foreground)]">
+                  <div>- 쇼핑몰: OOO 오픈마켓 (해외직구)</div>
+                  <div>- 상품명: <strong>천연 광석 게르마늄 음이온 건강 매트</strong></div>
+                  <div>- 카테고리: 침구/매트 (신체 장시간 밀착형)</div>
+                </div>
+              </div>
+              <div class="md:col-span-2 bg-[var(--card)] p-3 rounded-lg border border-red-500/40 space-y-2">
+                <div class="font-bold text-red-500 border-b border-[var(--border)] pb-1">🧠 인간 인지 모사: AI 위험도 심층 점수표</div>
+                <div class="grid grid-cols-3 gap-2 text-[11px]">
+                  <div class="p-2 bg-[var(--background)] rounded border border-[var(--border)]">
+                    <span class="text-[var(--muted-foreground)] block">원료 의심 (35%)</span>
+                    <span class="text-sm font-bold text-red-500">95점</span>
+                  </div>
+                  <div class="p-2 bg-[var(--background)] rounded border border-[var(--border)]">
+                    <span class="text-[var(--muted-foreground)] block">허위광고 (35%)</span>
+                    <span class="text-sm font-bold text-red-500">92점</span>
+                  </div>
+                  <div class="p-2 bg-[var(--background)] rounded border border-[var(--border)]">
+                    <span class="text-[var(--muted-foreground)] block">신체밀착 (30%)</span>
+                    <span class="text-sm font-bold text-red-500">95점</span>
+                  </div>
+                </div>
+                <div class="p-2 bg-red-500/10 rounded text-[11px] text-red-600 flex justify-between items-center mt-2">
+                  <span><strong>종합:</strong> 생활방사선법 제15조 위반 확률 94%</span>
+                  <button class="px-2.5 py-1 bg-red-500 text-white rounded text-[10px] font-bold">HITL: 차단 공문 발송 승인</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      }
+    };
+
+    function selectUseCase(ucNum) {
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById('uc-btn-' + i);
+        if (i === ucNum) {
+          btn.className = "p-4 rounded-lg border-2 border-blue-500 bg-blue-500/10 text-left transition-all";
+        } else {
+          btn.className = "p-4 rounded-lg border border-[var(--border)] bg-[var(--background)] text-left hover:border-[var(--foreground)] transition-all";
+        }
+      }
+
+      const data = useCaseData[ucNum];
+      const container = document.getElementById('usecase-detail-container');
+
+      let mechanicsHtml = data.mechanics.map(m => `
+        <div class="p-3 bg-[var(--card)] rounded-lg border border-[var(--border)]">
+          <div class="font-bold text-xs text-blue-500 mb-1">${m.step}</div>
+          <div class="text-xs text-[var(--foreground)] leading-relaxed">${m.desc}</div>
+        </div>
+      `).join('');
+
+      container.innerHTML = `
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 space-y-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
+            <div>
+              <h3 class="text-xl font-bold text-[var(--foreground)]">${data.title}</h3>
+              <span class="text-xs font-semibold text-blue-500 mt-1 block">${data.badge}</span>
+            </div>
+          </div>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">${data.summary}</p>
+          
+          <h4 class="text-xs font-bold text-emerald-500 uppercase tracking-wider pt-2">⚙️ 소프트웨어 파이프라인 및 단계별 처리 로직</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">${mechanicsHtml}</div>
+
+          <h4 class="text-xs font-bold text-purple-500 uppercase tracking-wider pt-4">🖥️ 화면상에서 눈으로 인식되는 구조 & UI 시뮬레이션</h4>
+          ${data.screenSim}
+        </div>
+      `;
+    }
+
+    selectUseCase(1);
+
+    // Pillar Data
+    const pillarData = {
+      harness: {
+        title: "🛠️ 하네스 엔지니어링 (Harness) - 원자력 도메인 특화",
+        html: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <h4 class="font-bold text-blue-500 mb-2">물리적 연동 규격</h4>
+              <ul class="text-xs text-[var(--muted-foreground)] space-y-1 list-disc list-inside">
+                <li><strong>민원 서류 파서:</strong> XML/PDF를 표준 JSON Schema로 정규화</li>
+                <li><strong>스펙트럼 파서:</strong> .spe, .cnf 바이너리 카운트 배열 추출</li>
+                <li><strong>안전한 tmp/ 격리:</strong> 사내 서버 내 각 과제별 전용 샌드박스에서만 스크립트 실행</li>
+              </ul>
+            </div>
+            <div class="p-4 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <h4 class="font-bold text-blue-500 mb-2">도메인 데이터 보안</h4>
+              <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                모든 DB 접근은 '읽기 전용(SELECT)' 계정만 하네스 도구로 바인딩하여 AI가 민원 원장이나 핵종 마스터 테이블을 임의 변조할 가능성을 100% 원천 봉쇄합니다.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      guardrails: {
+        title: "🛡️ 가드레일 (Guardrails) - 원자력 법령 & 수리물리 검증",
+        html: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <h4 class="font-bold text-emerald-500 mb-2">비즈니스·법령 결정론적 가드레일</h4>
+              <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                원자력안전법, 생활주변방사선안전관리법 상의 <strong>허가 기준 수치, 금지 핵종 리스트</strong>는 LLM에게 물어보지 않고 파이썬 룰 엔진이 코드 레벨에서 대조하여 0.1%의 오차도 허용하지 않습니다.
+              </p>
+            </div>
+            <div class="p-4 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <h4 class="font-bold text-emerald-500 mb-2">물리 법칙 가드레일 (방사능 분석)</h4>
+              <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                감마선 에너지 피크 위치의 표준편차($2\\sigma$), 반치폭(FWHM) 한계 범위, 백그라운드 계수율이 통계적 신뢰도를 벗어나면 결과 출력을 차단하고 '재측정 권고'를 발령합니다.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      orchestration: {
+        title: "🧭 오케스트레이션 (Orchestration) - 멀티 서브에이전트 지휘",
+        html: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <h4 class="font-bold text-purple-500 mb-2">복합 작업 분해</h4>
+              <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                쇼핑몰 모니터링의 경우: [크롤링] $\rightarrow$ [OCR 텍스트 추출] $\rightarrow$ [의심도 점수 계산] $\rightarrow$ [단속관 공문 작성]으로 이어지는 다중 에이전트 파이프라인을 총괄 관리합니다.
+              </p>
+            </div>
+            <div class="p-4 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+              <h4 class="font-bold text-purple-500 mb-2">HITL 자가진화 연결</h4>
+              <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+                인간 심사관의 수정 내역을 즉각 감지하여 피드백 DB에 적재하고, 다음 유사 민원 처리 시 보완된 룰을 우선 적용하도록 동적 라우팅을 수행합니다.
+              </p>
+            </div>
+          </div>
+        `
+      }
+    };
+
+    function openPillarDetail(type) {
+      const box = document.getElementById('pillar-detail-box');
+      const title = document.getElementById('pillar-title');
+      const content = document.getElementById('pillar-content');
+      title.innerHTML = pillarData[type].title;
+      content.innerHTML = pillarData[type].html;
+      box.classList.remove('hidden');
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function closePillarDetail() {
+      document.getElementById('pillar-detail-box').classList.add('hidden');
+    }
+
+    // Step Data
+    const stepData = {
+      1: {
+        title: "PHASE 1 (1~2주 차): 1개 타겟 과제 선정 및 골든셋 30건 구축",
+        actions: [
+          "<strong>3대 과제 중 1순위 선정:</strong> 업무 완결성이 가장 높고 규정이 명확한 <strong>과제 1(수출입신고 심사)</strong> 또는 <strong>과제 2(스펙트럼 분석)</strong>를 PoC 타겟으로 지정",
+          "<strong>과거 심사/분석 케이스 30건 수집:</strong> 과거 적합 판정 20건 + 보완/부적합 판정 10건의 원본 서류/스펙트럼 확보",
+          "<strong>SOP 정량화:</strong> 전문 심사관의 두뇌 판단 기준을 체크리스트로 명문화"
+        ],
+        deliverables: [
+          "📄 <code>radiation_audit_SOP_v1.md</code>",
+          "📂 <code>golden_spectrum_dataset/ (30건)</code>"
+        ],
+        kpis: [
+          { name: "SOP 검증 항목 도출 수", target: "≥ 15개 항목", desc: "법적 기준 및 필수 확인 지표가 모두 포함되었는가" },
+          { name: "골든 데이터셋 확보 건수", target: "30건", desc: "정상 및 예외 사례가 균형 있게 포함되었는가" }
+        ]
+      },
+      2: {
+        title: "PHASE 2 (3~4주 차): On-Prem 서빙 하네스 및 HITL 라우팅 구현",
+        actions: [
+          "<strong>사내 GPU 서버에 vLLM 서빙 세팅:</strong> 외부 인터넷 차단 에어갭 인스턴스 구축",
+          "<strong>결정론적 가드레일 코드 작성:</strong> 원자력법 기준치 및 SciPy 피크 피팅 검증기 작성",
+          "<strong>HITL 라우팅 인터페이스 구축:</strong> 신뢰도 95% 미만 케이스를 심사관 대시보드로 격리하는 큐(Queue) 개발"
+        ],
+        deliverables: [
+          "🤖 <code>vllm_airgapped_service</code> (사내 폐쇄망 LLM API)",
+          "🛡️ <code>radiation_guardrails.py</code> (법령/물리식 자동 검증기)",
+          "🔄 <code>hitl_feedback_collector</code> (인간 수정내역 자동 Diff 저장기)"
+        ],
+        kpis: [
+          { name: "골든셋 1차 자동 통과율", target: "≥ 85%", desc: "30개 과거 사례 중 AI와 전문관의 판단 일치율" },
+          { name: "외부 인터넷 패킷 발생 수", target: "0건", desc: "폐쇄망 보안 감사 완벽 통과" }
+        ]
+      },
+      3: {
+        title: "PHASE 3 (5~6주 차): 현업 심사관 HITL 실전 투입 & 인간 개입률(HOR) 측정",
+        actions: [
+          "<strong>현업 전문관 실전 투입:</strong> 매일 접수되는 실제 민원이나 측정 데이터를 AI 조교에게 동시 처리 지시",
+          "<strong>HOR(Human Override Rate) 측정:</strong> 심사관이 AI 초안을 수정한 비율 추적 및 오류 원인 분류",
+          "<strong>피드백 즉시 반영:</strong> 심사관 코멘트를 기반으로 가드레일 임계치 및 RAG 지침서 미세조정"
+        ],
+        deliverables: [
+          "📊 <code>field_validation_log.xlsx</code> (실제 대조 데이터 50건 분석)",
+          "🏆 <code>certified_radiation_agent_v1</code> (현업 승인 완료 AI 조교)"
+        ],
+        kpis: [
+          { name: "인간 개입률 (HOR)", target: "≤ 10%", desc: "심사관의 수정 없이 원클릭 통과되는 비율 90% 이상" },
+          { name: "업무 처리 시간 단축률", target: "≥ 80%", desc: "건당 4시간 $\rightarrow$ 30분 이내 단축" }
+        ]
+      },
+      4: {
+        title: "PHASE 4 (7~8주 차): 3대 과제 확산 & 폐쇄망 LoRA 자가 재학습 가동",
+        actions: [
+          "<strong>잔여 2개 과제로 플랫폼 확장:</strong> 구축된 온프렘 vLLM 및 가드레일 프레임워크를 과제 2 및 과제 3으로 복제 배포",
+          "<strong>사내 LoRA 파인튜닝 파이프라인 가동:</strong> 축적된 심사관 수정 데이터로 야간 자동 재학습 배치 구동",
+          "<strong>경영진 최종 시연회:</strong> 시간 절감, 규제 사각지대 해소, 지속 발전 모델 입증"
+        ],
+        deliverables: [
+          "🧩 <code>Enterprise_AX_Radiation_Platform</code>",
+          "📑 <code>Executive_ROI_Summary.pdf</code>"
+        ],
+        kpis: [
+          { name: "재학습 후 신뢰도 향상폭", target: "+5% 이상", desc: "초기 버전 대비 LoRA 미세조정 후 정확도 상승분" },
+          { name: "쇼핑몰 위험제품 월 적발 건수", target: "≥ 300건", desc: "수기 모니터링 대비 20배 확대" }
+        ]
+      }
+    };
+
+    function selectStep(stepNum) {
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById('step-btn-' + i);
+        if (i === stepNum) {
+          btn.className = "p-4 rounded-xl border-2 border-blue-500 bg-blue-500/10 text-left transition-all";
+          btn.querySelector('span:first-child').className = "text-xs font-bold text-blue-500 block";
+        } else {
+          btn.className = "p-4 rounded-xl border border-[var(--border)] bg-[var(--card)] text-left hover:border-[var(--foreground)] transition-all";
+          btn.querySelector('span:first-child').className = "text-xs font-bold text-[var(--muted-foreground)] block";
+        }
+      }
+
+      const data = stepData[stepNum];
+      const display = document.getElementById('step-display');
+      
+      let actionsHtml = data.actions.map(a => `<li class="text-xs leading-relaxed text-[var(--foreground)]">${a}</li>`).join('');
+      let delivHtml = data.deliverables.map(d => `<div class="p-2 bg-[var(--background)] rounded border border-[var(--border)] text-xs font-mono">${d}</div>`).join('');
+      let kpisHtml = data.kpis.map(k => `
+        <div class="p-3 bg-[var(--background)] rounded-lg border border-[var(--border)]">
+          <div class="flex justify-between items-center mb-1">
+            <span class="font-bold text-xs">${k.name}</span>
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-500/10 text-blue-500">${k.target}</span>
+          </div>
+          <p class="text-[11px] text-[var(--muted-foreground)]">${k.desc}</p>
+        </div>
+      `).join('');
+
+      display.innerHTML = `
+        <div class="border-b border-[var(--border)] pb-3">
+          <h3 class="text-lg font-bold text-[var(--foreground)]">${data.title}</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-xs font-bold text-blue-500 uppercase tracking-wider mb-3">📍 구체적 수행 행위</h4>
+            <ul class="space-y-2 list-disc list-inside">${actionsHtml}</ul>
+            <h4 class="text-xs font-bold text-emerald-500 uppercase tracking-wider mt-6 mb-3">📦 단계별 실물 산출물</h4>
+            <div class="space-y-2">${delivHtml}</div>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold text-purple-500 uppercase tracking-wider mb-3">🎯 달성 정량 지표 (KPIs)</h4>
+            <div class="space-y-2.5">${kpisHtml}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    selectStep(1);
+  </script>
+</body>
+</html>

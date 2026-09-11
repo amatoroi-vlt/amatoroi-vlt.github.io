@@ -130,6 +130,10 @@
   },
   "reports/Invest/sandisk_financial_breakdown.html": {
     "hash": "9420ff180b4146ac7545ca657d4494890be05e9d",
-    "summary": "Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.95B)과 순이익률(60.8%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
+    "summary": "Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출($5.95B)과 순이익률(60.8%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
+  },
+  "reports/Research/interactive_ax_blueprint.html": {
+    "hash": "46ec432ac520652cfce4746e4cb27af9ddbf14c1",
+    "summary": "원자력·방사선 안전 및 규제 행정 분야의 전사 AX(AI Transformation) 3대 전략 과제(수출입신고 자동심사, 방사능 Raw 스펙트럼 분석, 온라인 쇼핑몰 위험제품 탐지)와 에어갭 온프레미스 인프라 아키텍처, 그리고 인간 개입(HITL) 신뢰도 감시 및 지속적 피드백 재학습 플라이휠을 종합적으로 다룬 인터랙티브 마스터 블루프린트 대시보드다."
   }
 }
