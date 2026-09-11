@@ -4,22 +4,22 @@
       "name": "Invest",
       "files": [
         {
+          "name": "Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석",
+          "path": "reports/Invest/alphabet_financial_breakdown.html",
+          "date": "2026-09-10T16:36:42+09:00",
+          "summary": "Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.80B)과 순이익률(93.7%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
+        },
+        {
           "name": "Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석",
           "path": "reports/Invest/sandisk_financial_breakdown.html",
-          "date": "2026-09-10T07:34:33.591535+00:00",
+          "date": "2026-09-10T16:36:42+09:00",
           "summary": "Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.95B)과 순이익률(60.8%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
         },
         {
           "name": "UiPath Inc. (NYSE: PATH) 최신 실적 및 손익 구조 심층 분석",
           "path": "reports/Invest/uipath_financial_breakdown.html",
-          "date": "2026-09-10T07:34:33.577790+00:00",
+          "date": "2026-09-10T16:36:42+09:00",
           "summary": "UiPath Inc. (NYSE: PATH) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.3M)과 순이익률(+8.8%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
-        },
-        {
-          "name": "Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석",
-          "path": "reports/Invest/alphabet_financial_breakdown.html",
-          "date": "2026-09-10T07:34:33.563112+00:00",
-          "summary": "Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석 보고서다. SEC Form 10-Q 및 10-K 공식 공시 데이터를 기반으로 최신 분기 총매출(.80B)과 순이익률(93.7%) 등 손익 흐름을 Sankey 인포그래픽과 부문별 데이터로 분석했다."
         },
         {
           "name": "DeepTrX v1–v5 개발 보고서",
