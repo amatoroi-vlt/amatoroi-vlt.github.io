@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UiPath Inc. (NYSE: PATH) 실적 심층 분석 리포트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  color-scheme: light dark;
+  --bg:          #fafaf8;
+  --panel:       #ffffff;
+  --panel-alt:   #f4f5f7;
+  --ink:         #1a1d24;
+  --ink-2:       #48505e;
+  --ink-3:       #747d8c;
+  --rule:        #e1e4ea;
+  --rule-2:      #cbcfd8;
+  --accent:      #1f6feb;
+  --accent-soft: #e7f0fd;
+  --accent-tag:  #dbeafe;
+  --accent-tag-fg: #1d4ed8;
+  --success:     #16a34a;
+  --success-bg:  #f0fdf4;
+  --warn:        #ea580c;
+  --warn-bg:     #fffbeb;
+  --danger:      #dc2626;
+  --danger-bg:   #fef2f2;
+  --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  --wide:        960px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #0f1117;
+    --panel:       #161922;
+    --panel-alt:   #1e222d;
+    --ink:         #e6edf3;
+    --ink-2:       #9da7b3;
+    --ink-3:       #6e7681;
+    --rule:        #2b313c;
+    --rule-2:      #3b4352;
+    --accent:      #58a6ff;
+    --accent-soft: #16263b;
+    --accent-tag:  #1e3a8a;
+    --accent-tag-fg: #bfdbfe;
+    --success:     #3fb950;
+    --success-bg:  #13251a;
+    --warn:        #f59e0b;
+    --warn-bg:     #2a1d0c;
+    --danger:      #f87171;
+    --danger-bg:   #2d1515;
+    --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Serif KR", Georgia, serif;
+  font-size: 15.5px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 50px 24px 100px;
+}
+header.rep-header {
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
+.tag-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-bottom: 16px;
+}
+.tag-pill {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.tag-pill.primary {
+  background: var(--accent);
+  color: #fff;
+}
+.tag-pill.badge {
+  background: var(--accent-tag);
+  color: var(--accent-tag-fg);
+  font-weight: 700;
+}
+.tag-pill.warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+@media (prefers-color-scheme: dark) {
+  .tag-pill.warn {
+    background: #451a03;
+    color: #fde68a;
+  }
+}
+.tag-ticker {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+h1.main-title {
+  font-family: "Inter", "Noto Serif KR", sans-serif;
+  font-size: clamp(22px, 3.6vw, 30px);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  margin-bottom: 18px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  background: var(--panel-alt);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.meta-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+h2.sec-title {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 48px 0 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+h3.sub-title {
+  font-family: "Inter", sans-serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 28px 0 12px;
+}
+hr.sep {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 44px 0;
+}
+p {
+  margin-bottom: 14px;
+  text-align: justify;
+}
+.lead-p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+.infographic-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 22px 0 28px;
+  box-shadow: var(--card-shadow);
+}
+.card-img-wrap {
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  justify-content: center;
+}
+.sankey-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.12s ease;
+}
+.btn-interactive {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-interactive:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.btn-download {
+  background: var(--panel-alt);
+  color: var(--ink-2);
+  border: 1px solid var(--rule-2);
+}
+.btn-download:hover {
+  color: var(--ink);
+  background: var(--rule);
+}
+.tbl-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 18px 0 26px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: var(--card-shadow);
+}
+table.fin-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+}
+table.fin-tbl th, table.fin-tbl td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+table.fin-tbl thead th {
+  background: var(--panel-alt);
+  color: var(--ink-3);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+table.fin-tbl td.n {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+table.fin-tbl tr:last-child td {
+  border-bottom: none;
+}
+table.fin-tbl tr:hover {
+  background: var(--panel-alt);
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 22px 0;
+}
+.fact-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 18px 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fact-card .card-badge {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.fact-card.pass {
+  border-left: 3px solid var(--success);
+}
+.fact-card.in-progress {
+  border-left: 3px solid var(--warn);
+}
+.fact-card.risk {
+  border-left: 3px solid var(--danger);
+}
+.fact-card h4 {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.fact-card p {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  margin-bottom: 0;
+}
+.callout-box {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 16px 20px;
+  margin: 20px 0 24px;
+  box-shadow: var(--card-shadow);
+}
+.checklist-card {
+  background: var(--panel-alt);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+.checklist-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.checklist-card li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14.5px;
+  margin-bottom: 12px;
+}
+.checklist-card li:last-child {
+  margin-bottom: 0;
+}
+.chk-box {
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--accent);
+  font-weight: 700;
+}
+footer.rep-footer {
+  border-top: 1px solid var(--rule);
+  margin-top: 60px;
+  padding-top: 24px;
+  text-align: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="rep-header">
+    <div class="tag-bar">
+      <span class="tag-pill primary">SEC EDGAR Financial Deep Dive</span>
+      <span class="tag-pill badge">UiPath Inc. (NYSE: PATH)</span>
+      <span class="tag-pill warn">Portfolio Weight: 36.9%</span>
+      <span class="tag-ticker">Form 10-Q & Form 10-K</span>
+    </div>
+    <h1 class="main-title">UiPath Inc. (NYSE: PATH) 실적 심층 분석 리포트</h1>
+    <div class="meta-grid">
+      <div class="meta-item"><strong>포트폴리오 비중</strong>: 36.9% (핵심 주력 자산)</div>
+      <div class="meta-item"><strong>회계 기준</strong>: US GAAP (1월 31일 결산)</div>
+      <div class="meta-item"><strong>분석 대상</strong>: Q2 FY2027 & FY2026 연간</div>
+      <div class="meta-item"><strong>작성 기준일</strong>: 2026년 9월</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Section 1 -->
+    <section>
+      <h2 class="sec-title">1. Executive Summary</h2>
+      <p class="lead-p">
+        UiPath는 <strong>구독(Subscription) 비즈니스 모델로의 전환과 에이전틱 AI(Agentic Automation) 플랫폼 확장에 힘입어 GAAP 기준 흑자 구조를 확고히 구축</strong>했습니다.
+      </p>
+      <p>
+        최신 <strong>Q2 FY2027</strong>(2026년 7월 31일 종료 분기) 매출은 <strong>$4.10억</strong> (+13.4% YoY), <strong>GAAP 영업이익 $3,160만</strong> (영업이익률 7.7%), <strong>당기순이익 $3,609만</strong> (순이익률 8.8%)을 기록했습니다. 과거 단순 RPA 툴에서 엔드투엔드 AI 오케스트레이션 플랫폼으로 전환하며 구조적 이익 레버리지를 증명하고 있습니다.
+      </p>
+      <p>
+        직전 연간 <strong>FY2026</strong>(2026년 1월 31일 종료 회계연도)에서도 연간 총 매출 <strong>$16.11억</strong> (+12.6% YoY)과 함께 연간 <strong>GAAP 영업이익 $5,680만</strong>을 달성하며 창사 이래 최초의 '연간 GAAP 영업 흑자' 턴어라운드를 성공시켰습니다.
+      </p>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 2 -->
+    <section>
+      <h2 class="sec-title">2. 실적 시각화: App Economy Insights Signature Sankey</h2>
+      
+      <!-- Q2 FY27 Sankey -->
+      <h3 class="sub-title">(1) 최신 분기 실적 플로우 (Q2 FY2027: 2026년 7월 31일 종료 분기)</h3>
+      <div class="infographic-card">
+        <div class="card-img-wrap">
+          <img src="./assets/PATH/path_q2_fy27_sankey.png" alt="UiPath Q2 FY2027 Financial Flow" class="sankey-img" loading="lazy">
+        </div>
+        <div class="card-actions">
+          <a href="./assets/PATH/path_q2_fy27_sankey.html" target="_blank" class="action-btn btn-interactive">📊 Q2 FY2027 인터랙티브 차트 열기 (Plotly HTML)</a>
+          <a href="./assets/PATH/path_q2_fy27_sankey.png" target="_blank" download class="action-btn btn-download">💾 4K 고해상도 이미지 다운로드 (PNG)</a>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="fin-tbl">
+          <thead>
+            <tr>
+              <th>손익 항목 (Income Statement Item)</th>
+              <th class="n">공시 금액 ($M)</th>
+              <th class="n">비중 / 마진율 (%)</th>
+              <th>전년 동기 대비 (YoY) 및 주요 특이사항</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>총 매출액 (Total Revenue)</strong></td>
+              <td class="n" style="color:var(--accent); font-weight:700;"><strong>$410.26M</strong></td>
+              <td class="n"><strong>100.0%</strong></td>
+              <td><strong>+13.4% YoY 성장</strong></td>
+            </tr>
+            <tr>
+              <td>— Subscription Services</td>
+              <td class="n">$255.46M</td>
+              <td class="n">62.3%</td>
+              <td style="color:var(--success); font-weight:600;">+16.5% YoY (클라우드 SaaS 고성장 견인)</td>
+            </tr>
+            <tr>
+              <td>— Licenses</td>
+              <td class="n">$138.80M</td>
+              <td class="n">33.8%</td>
+              <td>+8.5% YoY (온프레미스 기간제 라이선스)</td>
+            </tr>
+            <tr>
+              <td>— Professional Services & Other</td>
+              <td class="n">$16.00M</td>
+              <td class="n">3.9%</td>
+              <td>+10.0% YoY</td>
+            </tr>
+            <tr>
+              <td><strong>매출원가 (COGS)</strong></td>
+              <td class="n">$80.59M</td>
+              <td class="n">19.6%</td>
+              <td>원가율 19.6%로 안정적 방어</td>
+            </tr>
+            <tr style="font-weight:600;">
+              <td><strong>매출총이익 (Gross Profit)</strong></td>
+              <td class="n">$329.67M</td>
+              <td class="n" style="color:var(--accent);"><strong>80.4%</strong></td>
+              <td>GPM 80.4%의 초고마진 구조 유지</td>
+            </tr>
+            <tr>
+              <td><strong>영업비용 (OPEX)</strong></td>
+              <td class="n">$298.07M</td>
+              <td class="n">72.6%</td>
+              <td>S&M $164.61M (40.1%), R&D $83.39M (20.3%), G&A $50.07M (12.2%)</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>영업이익 (Operating Income)</strong></td>
+              <td class="n" style="color:var(--success);"><strong>+$31.60M</strong></td>
+              <td class="n" style="color:var(--success);"><strong>7.7%</strong></td>
+              <td><strong>전년 동기 적자(-$2,019만)에서 완전한 GAAP 흑자 전환</strong></td>
+            </tr>
+            <tr>
+              <td>영업외 손익 (순이자 및 기타)</td>
+              <td class="n">+$21.25M</td>
+              <td class="n">—</td>
+              <td>$17억 이상 순현금 기반 분기 이자수익 버퍼</td>
+            </tr>
+            <tr>
+              <td>법인세비용 (Tax Provision)</td>
+              <td class="n">-$16.77M</td>
+              <td class="n">유효세율 31.7%</td>
+              <td>실효 법인세 충당금</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>당기순이익 (Net Income)</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>+$36.09M</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>8.8%</strong></td>
+              <td><strong>분기 순이익률 +8.8% 달성</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FY26 Sankey -->
+      <h3 class="sub-title" style="margin-top:36px;">(2) 직전 연간 실적 플로우 (FY2026: 2026년 1월 31일 종료 회계연도)</h3>
+      <div class="infographic-card">
+        <div class="card-img-wrap">
+          <img src="./assets/PATH/path_fy2026_sankey.png" alt="UiPath FY2026 Financial Flow" class="sankey-img" loading="lazy">
+        </div>
+        <div class="card-actions">
+          <a href="./assets/PATH/path_fy2026_sankey.html" target="_blank" class="action-btn btn-interactive">📊 FY2026 인터랙티브 차트 열기 (Plotly HTML)</a>
+          <a href="./assets/PATH/path_fy2026_sankey.png" target="_blank" download class="action-btn btn-download">💾 4K 고해상도 이미지 다운로드 (PNG)</a>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="fin-tbl">
+          <thead>
+            <tr>
+              <th>손익 항목 (Income Statement Item)</th>
+              <th class="n">FY2026 연간 ($M)</th>
+              <th class="n">비중 / 마진율 (%)</th>
+              <th>연간 특이사항</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>총 매출액 (Total Revenue)</strong></td>
+              <td class="n" style="color:var(--accent); font-weight:700;"><strong>$1,610.60M</strong></td>
+              <td class="n"><strong>100.0%</strong></td>
+              <td><strong>연간 +12.6% YoY 성장</strong></td>
+            </tr>
+            <tr>
+              <td>— Subscription Services</td>
+              <td class="n">$954.50M</td>
+              <td class="n">59.3%</td>
+              <td>+14.0% YoY (연간 구독 매출 중심 재편)</td>
+            </tr>
+            <tr>
+              <td>— Licenses</td>
+              <td class="n">$606.40M</td>
+              <td class="n">37.6%</td>
+              <td>+11.0% YoY</td>
+            </tr>
+            <tr>
+              <td>— Professional Services & Other</td>
+              <td class="n">$49.70M</td>
+              <td class="n">3.1%</td>
+              <td>+5.0% YoY</td>
+            </tr>
+            <tr style="font-weight:600;">
+              <td><strong>매출총이익 (Gross Profit)</strong></td>
+              <td class="n">$1,339.60M</td>
+              <td class="n"><strong>83.2%</strong></td>
+              <td>연간 GPM 83.2% 달성</td>
+            </tr>
+            <tr>
+              <td><strong>영업비용 (OPEX)</strong></td>
+              <td class="n">$1,282.80M</td>
+              <td class="n">79.6%</td>
+              <td>S&M $683.30M, R&D $385.20M, G&A $214.30M</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>영업이익 (Operating Income)</strong></td>
+              <td class="n" style="color:var(--success);"><strong>+$56.80M</strong></td>
+              <td class="n" style="color:var(--success);"><strong>3.5%</strong></td>
+              <td><strong>창사 최초 '연간 GAAP 영업이익 흑자' 전환 달성</strong></td>
+            </tr>
+            <tr>
+              <td>영업외 손익 및 세제 혜택</td>
+              <td class="n">+$225.60M</td>
+              <td class="n">—</td>
+              <td>순이자 +$43.90M, 세제 혜택(Tax Benefit) +$181.70M 반영</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>당기순이익 (Net Income)</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>+$282.40M</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>17.5%</strong></td>
+              <td>연간 순이익률 17.5% (일회성 세제혜택 포함)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 3 -->
+    <section>
+      <h2 class="sec-title">3. 사업 모델 및 마진 구조 심층 분석</h2>
+      
+      <div class="callout-box">
+        <h4 style="color:var(--ink); font-size:15px; margin-bottom:6px;">① 구독 매출(Subscription) 중심의 매출 믹스 개선</h4>
+        <p>
+          Subscription Services 비중이 연간 59.3%에서 Q2 FY27 62.3%로 상승하며 예측 가능한 고마진 반복 매출(ARR) 기반이 공고화되었습니다. 일회성 온프레미스 라이선스 판매 의존도를 낮추고 클라우드 및 하이브리드 구독 계약으로 전환됨에 따라 고객 락인 효과가 강화되었습니다.
+        </p>
+        <h4 style="color:var(--ink); font-size:15px; margin:16px 0 6px;">② 판관비(S&M) 통제와 영업 레버리지의 발현</h4>
+        <p>
+          과거 매출의 50~60%를 상회하던 S&M 비용이 40% 수준으로 통제되면서 고정비 레버리지가 발생했습니다. FY26 연간 영업마진 3.5%에서 Q2 FY27 7.7%로 분기 OPM이 점진적으로 확장되고 있어, FY27 연간 OPM 8~10% 달성 가시성이 높아졌습니다.
+        </p>
+        <h4 style="color:var(--ink); font-size:15px; margin:16px 0 6px;">③ 순현금 포지션과 이자수익 버퍼</h4>
+        <p style="margin-bottom:0;">
+          부채가 거의 없는 순현금 상태($17억 이상)를 유지하고 있어, 분기당 $2,000만 이상의 순이자수익을 창출하며 순이익 방어막 역할을 톡톡히 하고 있습니다.
+        </p>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 4 -->
+    <section>
+      <h2 class="sec-title">4. Atlas의 냉철한 퀀트 & 리스크 평가 (Devil's Advocate)</h2>
+      
+      <h3 class="sub-title">💡 포트폴리오 핵심 가설 검증</h3>
+      <div class="card-grid">
+        <div class="fact-card pass">
+          <span class="card-badge" style="color:var(--success);">가설 1 · GAAP 흑자 안착 [PASS]</span>
+          <h4>흑자 기조 안착</h4>
+          <p>FY26 연간 흑자에 이어 2분기 연속 분기 GAAP 영업흑자를 지속하며 펀더멘털 신뢰도를 회복했습니다.</p>
+        </div>
+        <div class="fact-card in-progress">
+          <span class="card-badge" style="color:var(--warn);">가설 2 · Agentic AI 확장 [진행 중]</span>
+          <h4>탑라인 성장률 검증</h4>
+          <p>생성형 AI 에이전트 오케스트레이션 수요는 확인되나, 아직 20%+ 이상의 폭발적 가속으로는 이어지지 못했습니다.</p>
+        </div>
+        <div class="fact-card pass">
+          <span class="card-badge" style="color:var(--success);">가설 3 · 비용 구조 다이어트 [PASS]</span>
+          <h4>고정비 통제 성공</h4>
+          <p>주식기준보상(SBC) 안정화 및 S&M 비중 축소(40% 수준)를 통해 체질 개선에 성공했습니다.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-title" style="margin-top:32px;">⚠️ 간과된 리스크와 최악의 시나리오</h3>
+      <div class="card-grid">
+        <div class="fact-card risk">
+          <span class="card-badge" style="color:var(--danger);">Risk 01 · 빅테크 번들링 위협</span>
+          <h4>MS Copilot / Power Automate</h4>
+          <p>마이크로소프트의 번들 공급 강화로 SMB 시장 경쟁이 심화될 수 있어, 포춘 500대 복합 레거시 연동 시장 수성이 필수적입니다.</p>
+        </div>
+        <div class="fact-card risk">
+          <span class="card-badge" style="color:var(--danger);">Risk 02 · 밸류에이션 멀티플 한계</span>
+          <h4>10%대 초반 성장률 고착화</h4>
+          <p>고성장 SaaS 멀티플(EV/Sales) 재부여는 어려우며, OPM 확장을 통한 이익 기반 밸류에이션(P/E) 방어가 핵심입니다.</p>
+        </div>
+        <div class="fact-card risk">
+          <span class="card-badge" style="color:var(--danger);">Risk 03 · 일회성 세제혜택 착시</span>
+          <h4>FY26 순이익 Tax Benefit</h4>
+          <p>FY26 연간 순이익($282.4M)에는 $1.82억의 세제 혜택이 포함되어 있어, 실제 영업이익($56.8M) 기준으로 엄정히 평가해야 합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 5 -->
+    <section>
+      <h2 class="sec-title">5. 향후 모니터링 체크리스트</h2>
+      <div class="checklist-card">
+        <ul>
+          <li>
+            <span class="chk-box">[ ]</span>
+            <span><strong>ARR 성장률 및 Dollar-Based Net Retention Rate (NRR)</strong>: NRR 115% 이상 반등 여부.</span>
+          </li>
+          <li>
+            <span class="chk-box">[ ]</span>
+            <span><strong>연간 GAAP 영업이익률</strong>: FY27 연간 OPM 8% 이상 달성 여부.</span>
+          </li>
+          <li>
+            <span class="chk-box">[ ]</span>
+            <span><strong>Agentic AI 도입 고객 수</strong>: Autopilot 및 AI 에이전트 유료 전환 대형 고객 수 추이.</span>
+          </li>
+          <li>
+            <span class="chk-box">[ ]</span>
+            <span><strong>주식기준보상(SBC) 희석률</strong>: 연간 희석률 3% 이하 통제 여부.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rep-footer">
+    UiPath Inc. Financial Deep Dive & Sankey Flowchart · Pensieve Investment Analysis Ser.
+  </footer>
+</div>
+
+</body>
+</html>
