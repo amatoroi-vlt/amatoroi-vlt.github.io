@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TypeSafe AI 'Jev' 모델 패러다임과 UiPath(PATH) 비즈니스 모델 비교 검증 리포트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  color-scheme: light dark;
+  --bg:          #fafaf8;
+  --panel:       #ffffff;
+  --panel-alt:   #f4f5f7;
+  --ink:         #1a1d24;
+  --ink-2:       #48505e;
+  --ink-3:       #747d8c;
+  --rule:        #e1e4ea;
+  --rule-2:      #cbcfd8;
+  --accent:      #1f6feb;
+  --accent-soft: #e7f0fd;
+  --accent-tag:  #dbeafe;
+  --accent-tag-fg: #1d4ed8;
+  --success:     #16a34a;
+  --success-bg:  #f0fdf4;
+  --warn:        #ea580c;
+  --warn-bg:     #fffbeb;
+  --danger:      #dc2626;
+  --danger-bg:   #fef2f2;
+  --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  --wide:        920px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #0f1117;
+    --panel:       #161922;
+    --panel-alt:   #1e222d;
+    --ink:         #e6edf3;
+    --ink-2:       #9da7b3;
+    --ink-3:       #6e7681;
+    --rule:        #2b313c;
+    --rule-2:      #3b4352;
+    --accent:      #58a6ff;
+    --accent-soft: #16263b;
+    --accent-tag:  #1e3a8a;
+    --accent-tag-fg: #bfdbfe;
+    --success:     #3fb950;
+    --success-bg:  #13251a;
+    --warn:        #f59e0b;
+    --warn-bg:     #2a1d0c;
+    --danger:      #f87171;
+    --danger-bg:   #2d1515;
+    --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Serif KR", Georgia, serif;
+  font-size: 15.5px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 50px 24px 100px;
+}
+header.rep-header {
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
+.tag-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-bottom: 16px;
+}
+.tag-pill {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.tag-pill.primary {
+  background: var(--accent);
+  color: #fff;
+}
+.tag-pill.badge {
+  background: var(--accent-tag);
+  color: var(--accent-tag-fg);
+  font-weight: 700;
+}
+.tag-pill.warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+@media (prefers-color-scheme: dark) {
+  .tag-pill.warn {
+    background: #451a03;
+    color: #fde68a;
+  }
+}
+.tag-ticker {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+h1.main-title {
+  font-family: "Inter", "Noto Serif KR", sans-serif;
+  font-size: clamp(22px, 3.6vw, 30px);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  margin-bottom: 18px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  background: var(--panel-alt);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.meta-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+h2.sec-title {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 48px 0 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+h3.sub-title {
+  font-family: "Inter", sans-serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 30px 0 12px;
+}
+h4.mini-title {
+  font-family: "Inter", sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin: 20px 0 8px;
+}
+hr.sep {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 44px 0;
+}
+p {
+  margin-bottom: 14px;
+  text-align: justify;
+}
+ul, ol {
+  margin: 10px 0 16px;
+  padding-left: 24px;
+}
+li {
+  margin: 6px 0;
+}
+.lead-p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+.callout-box {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 16px 20px;
+  margin: 20px 0 26px;
+  box-shadow: var(--card-shadow);
+}
+.callout-box.highlight {
+  border-left-color: var(--success);
+  background: var(--success-bg);
+}
+.callout-box.threat {
+  border-left-color: var(--danger);
+  background: var(--danger-bg);
+}
+.callout-box.warn {
+  border-left-color: var(--warn);
+  background: var(--warn-bg);
+}
+.tbl-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px 0 28px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: var(--card-shadow);
+}
+table.fin-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+}
+table.fin-tbl th, table.fin-tbl td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+table.fin-tbl thead th {
+  background: var(--panel-alt);
+  color: var(--ink-3);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+table.fin-tbl td.n {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+table.fin-tbl tr:last-child td {
+  border-bottom: none;
+}
+table.fin-tbl tr:hover {
+  background: var(--panel-alt);
+}
+pre.diagram-box {
+  background: var(--panel-alt);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 18px 20px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 22px 0 28px;
+  color: var(--ink);
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 22px 0;
+}
+.fact-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 18px 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fact-card .card-badge {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.fact-card h4 {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.fact-card p {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  margin-bottom: 0;
+}
+.trigger-box {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 18px 22px;
+  margin: 16px 0;
+  box-shadow: var(--card-shadow);
+}
+.trigger-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.trigger-num {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--accent);
+  color: #fff;
+}
+.trigger-title {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.trigger-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin-bottom: 0;
+}
+footer.rep-footer {
+  border-top: 1px solid var(--rule);
+  margin-top: 60px;
+  padding-top: 24px;
+  text-align: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="rep-header">
+    <div class="tag-bar">
+      <span class="tag-pill primary">Quant & Fundamental Technical Sparring</span>
+      <span class="tag-pill badge">Target: UiPath Inc. (NYSE: PATH)</span>
+      <span class="tag-pill warn">Portfolio Weight: 36.9%</span>
+      <span class="tag-ticker">SEC Form 10-K & Q2 FY2027 10-Q</span>
+    </div>
+    <h1 class="main-title">TypeSafe AI 'Jev' 모델 패러다임과 UiPath(PATH) 비즈니스 모델 비교 검증 리포트</h1>
+    <div class="meta-grid">
+      <div class="meta-item"><strong>문서 분류</strong>: 퀀트 & 펀더멘털 테크니컬 스파링</div>
+      <div class="meta-item"><strong>대상 기업</strong>: UiPath Inc. (NYSE: PATH)</div>
+      <div class="meta-item"><strong>포트폴리오 비중</strong>: 36.9% (핵심 주력 자산)</div>
+      <div class="meta-item"><strong>작성 기준일</strong>: 2026년 9월</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Section 1 -->
+    <section>
+      <h2 class="sec-title">1. 서론: 기술적 전환점과 분석의 목적</h2>
+      <p class="lead-p">
+        최근 AI 엔지니어링 생태계에서 가장 주목받는 흐름 중 하나는 <strong>TypeSafe AI가 2026년 9월 15일 공개한 'Jev' 모델로 대표되는 "System One 타입 의사결정(Typed Decisions)" 패러다임</strong>입니다.
+      </p>
+      <p>
+        기존의 엔터프라이즈 자동화 시장을 지배해 온 UiPath가 포트폴리오의 <strong>36.9%</strong>라는 압도적 비중을 차지하고 있는 상황에서, 본 리포트는:
+      </p>
+      <ol>
+        <li><strong>Jev 모델의 공학적 본질</strong>을 정확히 해부하고,</li>
+        <li>UiPath 공식 10-K/10-Q에 공시된 <strong>매출 구성 요소의 양적·질적 성장 지표(Licenses vs Subscription, ARR, NRR, COGS)</strong>를 정밀 대조하며,</li>
+        <li>이 새로운 개발 방향이 UiPath의 실제 이익발생원에 미치는 <strong>구조적 위협과 기회 요인</strong>을 냉정하게 판별하는 것을 목적으로 합니다.</li>
+      </ol>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 2 -->
+    <section>
+      <h2 class="sec-title">2. TypeSafe AI 'Jev' 모델의 본질과 개발 패러다임의 혁명</h2>
+      
+      <h3 class="sub-title">(1) Jev의 공학적 아키텍처: '생성(Generation)'에서 '결정(Decision)'으로</h3>
+      <ul>
+        <li>
+          <strong>System One 의사결정 모델:</strong>
+          <ul>
+            <li>기존 LLM(GPT-4o, Claude 3.5 Sonnet 등)은 문맥을 받아 자연어 텍스트를 줄글로 생성하는 <strong>'System Two' 형태의 생성 모델</strong>입니다.</li>
+            <li>반면 Jev는 텍스트를 길게 쓰는 모델이 아니라, 현재 상태(화면 UI 트리, JSON 페이로드, ERP 로그, 사용자 텍스트)를 입력받아 개발자가 사전 정의한 <strong>엄격한 스키마의 '타입화된 질문(Typed Questions)'에 대해 즉각적인 정형 데이터(Enum 선택, Yes/No, 위험도 점수, 라우팅 타겟)</strong>를 반환합니다.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>RLCD (Reinforcement Learning for Calibrated Decisions):</strong>
+          <ul>
+            <li>사람이 읽기 좋은 텍스트를 만드는 대신, <strong>"확률적 보정(Calibration)"과 "결정의 일관성"</strong>에 극도로 최적화된 강화학습을 거쳤습니다.</li>
+            <li>LLM 프롬프트 엔지니어링의 최대 골칫거리였던 <strong>환각(Hallucination), 비결정론적 출력 편차, JSON 파싱 오류를 원천 차단</strong>합니다.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>초저지연(Latency)과 극단적 비용 절감:</strong>
+          <ul>
+            <li>기존에는 에이전트 루프에서 "다음에 A 툴을 쓸까 B 툴을 쓸까?"를 판단하기 위해 수천 토큰을 LLM에 보내 수 초를 기다리고 비용을 지불해야 했습니다.</li>
+            <li>Jev는 이를 수 밀리초(ms) 단위의 가벼운 결정 레이어로 처리하여, 에이전트 소프트웨어 개발의 단가와 복잡도를 획기적으로 낮춥니다.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3 class="sub-title">(2) 개발 방향의 변화 (The Jev Paradigm Shift)</h3>
+      <div class="callout-box">
+        <p><strong>과거:</strong> "거대한 비즈니스 룰 엔진" 또는 "무거운 LLM 프롬프트 파이프라인"으로 조건 분기(If-Else) 처리.</p>
+        <p style="margin-bottom:0;"><strong>현재/미래:</strong> 비즈니스 로직 코드 내부에 Jev 같은 <strong>"초소형·초고속 타입 추론기(System One Decider)"를 마이크로서비스로 직접 임베딩</strong>하여 자율 소프트웨어를 구축.</p>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 3 -->
+    <section>
+      <h2 class="sec-title">3. UiPath 매출 구성 요소의 양적·질적 성장 및 비중 분석 (10-K / 10-Q 팩트)</h2>
+      <p>
+        UiPath의 공식 공시(Form 10-K Note 2 및 Q2 FY2027 10-Q)를 통해 확인된 매출 믹스와 이익발생원의 실체는 다음과 같습니다.
+      </p>
+
+      <h3 class="sub-title">(1) 양적 성장 지표 (Quantitative Shift)</h3>
+      
+      <h4 class="mini-title">① 매출 믹스의 시계열 추이 (단위: $M, %)</h4>
+      <div class="tbl-wrap">
+        <table class="fin-tbl">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th class="n">FY2024 (연간)</th>
+              <th class="n">FY2025 (연간)</th>
+              <th class="n">FY2026 (연간)</th>
+              <th class="n">Q2 FY2027 (최신 분기)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Subscription services</strong></td>
+              <td class="n">$690.7M (52.8%)</td>
+              <td class="n">$801.9M (56.1%)</td>
+              <td class="n">$954.5M (59.3%)</td>
+              <td class="n" style="color:var(--accent); font-weight:700;">$266.1M (64.9%)</td>
+            </tr>
+            <tr>
+              <td><strong>Licenses</strong></td>
+              <td class="n">$582.4M (44.5%)</td>
+              <td class="n">$587.2M (41.1%)</td>
+              <td class="n">$606.4M (37.6%)</td>
+              <td class="n">$123.8M (30.2%)</td>
+            </tr>
+            <tr>
+              <td><strong>Professional services</strong></td>
+              <td class="n">$35.0M (2.7%)</td>
+              <td class="n">$40.6M (2.8%)</td>
+              <td class="n">$49.7M (3.1%)</td>
+              <td class="n">$20.3M (5.0%)</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>총 매출액 (Total Revenue)</strong></td>
+              <td class="n"><strong>$1,308.1M</strong></td>
+              <td class="n"><strong>$1,429.7M</strong></td>
+              <td class="n"><strong>$1,610.6M</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>$410.3M (+13.4% YoY)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul>
+        <li>
+          <strong>구독(Subscription) 비중의 압도적 확대:</strong>
+          3년 전 52% 수준이던 Subscription 비중이 최신 분기 <strong>64.9%로 수직 상승</strong>하며 완벽한 클라우드 SaaS 체제로 전환되었습니다.
+          반면 전통적 온프레미스 기간제 라이선스(Licenses) 비중은 44.5%에서 <strong>30.2%로 지속 축소</strong>되었습니다.
+        </li>
+      </ul>
+
+      <h4 class="mini-title">② ARR 및 GAAP 영업이익 흑자 안착</h4>
+      <ul>
+        <li>
+          <strong>ARR (Annualized Renewal Run-rate):</strong>
+          Q2 FY2026: $1,723.4M ➔ Q2 FY2027: <strong>$1,937.7M ($1.94B, YoY +12.4%)</strong>. 성장의 72%가 기존 고객의 지출 확대(Expansion), 28%가 신규 고객 유입.
+        </li>
+        <li>
+          <strong>GAAP 영업이익의 드라마틱한 흑자 전환:</strong>
+          Q2 FY2026: <strong>-$2,019만 적자 (OPM -5.6%)</strong> ➔ Q2 FY2027: <strong>+$3,160만 흑자 달성 (OPM +7.7%)</strong>. S&M(-1.0% YoY) 및 R&D 효율화로 고정비 레버리지 시현.
+        </li>
+      </ul>
+
+      <h3 class="sub-title">(2) 질적 변화 분석 (Qualitative Transformation)</h3>
+      <ul>
+        <li>
+          <strong>회계적 인식(ASC 606)의 질적 안정성 확보:</strong>
+          Licenses(인도 시점 일시 인식) 대신 Subscription Services(월별 균등 안분 인식) 비중이 65%에 달해 <strong>일회성 라이선스 판매에서 '극도로 안정적이고 예측 가능한 반복 수익(Recurring Cash Flow)'으로 질적 전환</strong>되었습니다.
+        </li>
+        <li>
+          <strong>과금 체계의 진화 (Automation Units / AI Units):</strong>
+          과거의 봇 대수(Bot Count) 정적 과금에서 Document Understanding, Autopilot, Process Mining 호출량에 연동되는 <strong>소비형 종량제 크레딧(Flex Model)</strong>으로 진화했습니다.
+        </li>
+        <li>
+          <strong>질적 성장의 치명적 약점 — Dollar-Based NRR의 정체:</strong>
+          FY22~FY23 당시 125~130%를 상회하던 NRR이 <strong>최근 108% (Q2 FY26) ➔ 109% (Q2 FY27)로 급격히 압축된 채 횡보</strong>하고 있습니다. 고객 이탈은 낮으나, <strong>기업들이 AI 전환기에 UiPath로의 추가 예산 증액(Expansion)을 관망</strong>하고 있음을 시사합니다.
+        </li>
+      </ul>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 4 -->
+    <section>
+      <h2 class="sec-title">4. Jev AI 개발 방향 vs UiPath 제품군·이익발생원 교차 검증</h2>
+      
+      <pre class="diagram-box">[소프트웨어 자동화 밸류체인 비교]
+
+  [전통적 RPA 방식]
+   입력 데이터 ──▶ UiPath Studio 룰/정규식 ──▶ UiPath 로봇 ──▶ SAP 전표 입력
+
+  [LLM 에이전트 방식 (기존)]
+   입력 데이터 ──▶ 거대 LLM (GPT-4o) ──▶ 비싸고 느린 JSON ──▶ API/스크립트
+
+  [Jev AI 방식 (최신 개발 트렌드)]
+   입력 데이터 ──▶ Jev (초고속 타입 판단기) ──▶ 확정된 Action Type ──▶ ??? (누가 실행하나?)</pre>
+
+      <h3 class="sub-title">(1) 파괴적 위협 요인 (Disruption & Headwinds)</h3>
+      <div class="callout-box threat">
+        <h4 style="color:var(--danger); font-size:15px; margin-bottom:8px;">① UiPath 'Discover' 및 'AI Units'의 가격 결정력 위협</h4>
+        <p>
+          기업 내부 개발자들이 Jev 같은 경량 의사결정 모델을 자체 백엔드에 결합하여 비정형 데이터 분류 및 라우팅을 구현하기 시작하면, UiPath의 비싼 특화 AI 모델(Document Understanding)에 지불하는 크레딧 소비가 둔화될 수 있습니다.
+        </p>
+        <h4 style="color:var(--danger); font-size:15px; margin:14px 0 8px;">② 로우코드 Studio 개발자 라이선스의 매력 감소</h4>
+        <p style="margin-bottom:0;">
+          현업 실무자 타겟의 Studio / StudioX 라이선스는, Jev와 코딩 에이전트의 결합으로 개발자가 직접 경량 에이전트를 조립·배포해 줄 수 있게 됨에 따라 신규 확장 동력이 약화될 수 있습니다.
+        </p>
+      </div>
+
+      <h3 class="sub-title">(2) 구조적 방어벽 및 수혜 요인 (Moat & Opportunities)</h3>
+      <div class="callout-box highlight">
+        <h4 style="color:var(--success); font-size:15.5px; margin-bottom:8px;">① "Decision은 Jev가 내려도, Action과 Audit은 UiPath가 한다"</h4>
+        <p>
+          Jev는 <strong>"의사결정(Decision) 모델"</strong>이지, <strong>"실행 인프라(Execution & Governance)"</strong>가 아닙니다. Jev가 5ms 만에 완벽한 결정을 내려도, 30년 된 온프레미스 SAP/메인프레임 접속, Active Directory/SSO 권한 통제, 실패 시 롤백, SOX 감사를 위한 불변 로그(Audit Trail)는 <strong>UiPath Orchestrator와 Unattended Robot이 독점적인 최종 집행관(Executor) 역할</strong>을 수행합니다.
+        </p>
+        <h4 style="color:var(--success); font-size:15.5px; margin:14px 0 8px;">② Subscription 원가율(COGS) 개선 가능성</h4>
+        <p style="margin-bottom:0;">
+          현재 Subscription Services의 매출원가율은 14.9% 수준입니다. 무거운 LLM 기반 Autopilot 대신 Jev 같은 초경량 모델을 Integration Service에 플러그인할 경우, <strong>추론 원가는 급감하고 처리 속도는 극대화되어 Subscription GPM(현재 85.1%)이 추가 개선</strong>될 수 있습니다.
+        </p>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 5 -->
+    <section>
+      <h2 class="sec-title">5. 종합 평가 및 포트폴리오 관리 제언 (비중 36.9% 운용 기준)</h2>
+      
+      <div class="card-grid">
+        <div class="fact-card">
+          <span class="card-badge">Fact 01 · 양적 체질</span>
+          <h4>클라우드 SaaS 체제 안착</h4>
+          <p>Subscription 비중 65%, ARR $1.94B, GAAP 영업이익 흑자(OPM 7.7%)를 내는 탄탄한 펀더멘털로 진화했습니다.</p>
+        </div>
+        <div class="fact-card">
+          <span class="card-badge" style="color:var(--warn);">Fact 02 · 질적 한계</span>
+          <h4>NRR 109%의 경고</h4>
+          <p>오픈 에이전틱 AI 생태계의 급변 속에서 고객사들이 UiPath로의 전면적인 추가 AI 예산 증액을 신중하게 관망하고 있습니다.</p>
+        </div>
+        <div class="fact-card">
+          <span class="card-badge" style="color:var(--success);">Fact 03 · Jev의 영향</span>
+          <h4>마진 압박 vs 실행 인프라 수혜</h4>
+          <p>상단 AI 크레딧 가격 결정력을 위협하는 동시에, 하단 Orchestrator/로봇 실행 수요를 떠받치는 양날의 검입니다.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-title">⚖️ Atlas의 포트폴리오 트리거 체크리스트</h3>
+      <p>
+        포트폴리오 내 <strong>36.9%</strong>라는 압도적 비중을 감안할 때, 다음 3대 공시 지표를 기준으로 비중 유지/축소를 엄정하게 결정합니다:
+      </p>
+
+      <div class="trigger-box">
+        <div class="trigger-header">
+          <span class="trigger-num">Trigger 1</span>
+          <span class="trigger-title">NRR 110% 붕괴 여부 (비중 축소 신호)</span>
+        </div>
+        <p>
+          차기 분기(Q3 FY27) 공시에서 Dollar-based NRR이 108% 아래로 하향 이탈할 경우: 이는 Jev 같은 자체 개발 에이전트 확산으로 기존 대형 고객의 감축(Contraction)이 시작되었다는 증거이므로, 비중을 20%대로 단계적 축소.
+        </p>
+      </div>
+
+      <div class="trigger-box">
+        <div class="trigger-header">
+          <span class="trigger-num">Trigger 2</span>
+          <span class="trigger-title">Integration Service & Agentic 커넥터 성장률</span>
+        </div>
+        <p>
+          UiPath가 Jev와 같은 외부 System One 의사결정 모델을 Orchestrator의 표준 입력으로 수용하는 <strong>'Agentic Orchestration' 생태계</strong>를 성공적으로 구축하는지 확인.
+        </p>
+      </div>
+
+      <div class="trigger-box">
+        <div class="trigger-header">
+          <span class="trigger-num">Trigger 3</span>
+          <span class="trigger-title">GAAP OPM의 두 자릿수(10%+) 안착</span>
+        </div>
+        <p>
+          외형 탑라인 성장이 12~13%에 머무르더라도, AI 원가 절감과 고정비 통제를 통해 연간 GAAP OPM이 10% 이상으로 레버리징된다면 이익 기반 밸류에이션(P/E)으로 포지션을 방어 가능.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rep-footer">
+    TypeSafe AI Jev Paradigm vs UiPath Technical Sparring Report · Pensieve Investment Analysis Ser.
+  </footer>
+</div>
+
+</body>
+</html>

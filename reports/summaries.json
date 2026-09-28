@@ -135,5 +135,9 @@
   "reports/Research/interactive_ax_blueprint.html": {
     "hash": "46ec432ac520652cfce4746e4cb27af9ddbf14c1",
     "summary": "원자력·방사선 안전 및 규제 행정 분야의 전사 AX(AI Transformation) 3대 전략 과제(수출입신고 자동심사, 방사능 Raw 스펙트럼 분석, 온라인 쇼핑몰 위험제품 탐지)와 에어갭 온프레미스 인프라 아키텍처, 그리고 인간 개입(HITL) 신뢰도 감시 및 지속적 피드백 재학습 플라이휠을 종합적으로 다룬 인터랙티브 마스터 블루프린트 대시보드다."
+  },
+  "reports/Invest/path_jev_ai_impact_analysis.html": {
+    "hash": "f752ffb2077c2bc8140c4c724148305f8bd71f4c",
+    "summary": "TypeSafe AI의 'Jev' System One 타입 의사결정 모델 패러다임과 UiPath(PATH, 포트폴리오 비중 36.9%)의 비즈니스 모델을 SEC 10-K/10-Q 공시 팩트로 정밀 비교 검증한 테크니컬 스파링 리포트다. Subscription 비중 65%, ARR $1.94B, GAAP 영업이익 흑자 안착 등 양적 체질 개선과 NRR 109% 정체라는 질적 한계를 분석하고, 'Decision은 Jev가 내려도 Action과 Audit은 UiPath가 한다'는 구조적 방어벽 및 3대 포트폴리오 운용 트리거를 제시한다."
   }
 }
