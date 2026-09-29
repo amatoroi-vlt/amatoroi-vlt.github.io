@@ -4,16 +4,16 @@
       "name": "Invest",
       "files": [
         {
+          "name": "UiPath Inc. (NYSE: PATH) 실적 심층 분석 리포트",
+          "path": "reports/Invest/path_earnings_deep_dive.html",
+          "date": "2026-09-28T16:03:08+09:00",
+          "summary": "UiPath Inc. (NYSE: PATH, 포트폴리오 비중 36.9%)의 최신 Q2 FY2027(분기 매출 $4.10억, GAAP OPM 7.7%) 및 FY2026 연간(매출 $16.11억, 연간 흑자전환) 실적을 SEC 10-Q/10-K 공시와 App Economy Insights 스타일 Sankey 다이어그램으로 심층 분석한 리포트다. 구독 믹스 개선 및 판관비 통제에 따른 영업 레버리지, 퀀트 가설 검증, MS 번들링 등 핵심 리스크 요인 및 향후 모니터링 체크리스트를 다룬다."
+        },
+        {
           "name": "TypeSafe AI 'Jev' 모델 패러다임과 UiPath(PATH) 비즈니스 모델 비교 검증 리포트",
           "path": "reports/Invest/path_jev_ai_impact_analysis.html",
           "date": "2026-09-28T15:58:27+09:00",
           "summary": "TypeSafe AI의 'Jev' System One 타입 의사결정 모델 패러다임과 UiPath(PATH, 포트폴리오 비중 36.9%)의 비즈니스 모델을 SEC 10-K/10-Q 공시 팩트로 정밀 비교 검증한 테크니컬 스파링 리포트다. Subscription 비중 65%, ARR $1.94B, GAAP 영업이익 흑자 안착 등 양적 체질 개선과 NRR 109% 정체라는 질적 한계를 분석하고, 'Decision은 Jev가 내려도 Action과 Audit은 UiPath가 한다'는 구조적 방어벽 및 3대 포트폴리오 운용 트리거를 제시한다."
-        },
-        {
-          "name": "UiPath Inc. (NYSE: PATH) 실적 심층 분석 리포트",
-          "path": "reports/Invest/path_earnings_deep_dive.html",
-          "date": "2026-09-28T07:01:13.484802+00:00",
-          "summary": "UiPath Inc. (NYSE: PATH, 포트폴리오 비중 36.9%)의 최신 Q2 FY2027(분기 매출 $4.10억, GAAP OPM 7.7%) 및 FY2026 연간(매출 $16.11억, 연간 흑자전환) 실적을 SEC 10-Q/10-K 공시와 App Economy Insights 스타일 Sankey 다이어그램으로 심층 분석한 리포트다. 구독 믹스 개선 및 판관비 통제에 따른 영업 레버리지, 퀀트 가설 검증, MS 번들링 등 핵심 리스크 요인 및 향후 모니터링 체크리스트를 다룬다."
         },
         {
           "name": "Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석",
