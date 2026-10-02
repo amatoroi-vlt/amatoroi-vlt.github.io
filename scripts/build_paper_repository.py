@@ -162,37 +162,46 @@ def collect_paper_data(source_dir: Path):
         else:
             authors_str = str(authors)
 
-        # 요약문 Markdown 읽기
+        # 대상 폴더 생성 (reports/Overwatch/assets/papers/<paper_id>/)
+        paper_dest_dir = ASSETS_DEST_DIR / paper_id
+        paper_dest_dir.mkdir(parents=True, exist_ok=True)
+
+        # 1. 요약문 Markdown 읽기 및 링크 치환
         summary_md = ""
         summary_file = summaries_dir / f"{paper_id}.md"
         if summary_file.exists():
             summary_md = summary_file.read_text(encoding="utf-8")
+            # 상대 경로(../transcribed/..., ../raw/...)를 웹 경로(assets/papers/<id>/...)로 변환
+            summary_md = re.sub(r'\]\(\.\./transcribed/([^\)]+?)\.md\)', r'](assets/papers/\1/\1.md)', summary_md)
+            summary_md = re.sub(r'\]\(\.\./raw/([^\)]+?)\.pdf\)', r'](assets/papers/\1/\1.pdf)', summary_md)
 
-        # 전사본 Markdown 읽기
+        # 2. 전사본 Markdown 읽기 및 원문 파일 복사
         transcribed_md = ""
         transcribed_file = transcribed_dir / f"{paper_id}.md"
         if transcribed_file.exists():
             transcribed_md = transcribed_file.read_text(encoding="utf-8")
+            # 전사본 MD 파일 자체를 assets 폴더로 복사하여 직접 열람 가능하게 함
+            shutil.copy2(transcribed_file, paper_dest_dir / f"{paper_id}.md")
 
-        # 전사본 이미지 복사 및 경로 변환
+        # 3. 전사본 이미지 복사 및 경로 변환
         paper_img_src_dir = images_dir / paper_id
         if paper_img_src_dir.exists():
-            paper_img_dest_dir = ASSETS_DEST_DIR / paper_id
-            paper_img_dest_dir.mkdir(parents=True, exist_ok=True)
             for img_file in paper_img_src_dir.glob("*.png"):
-                shutil.copy2(img_file, paper_img_dest_dir / img_file.name)
-            # 마크다운 내 이미지 링크를 웹 상대 경로(assets/papers/<id>/<name>)로 변환
-            # 원본: ![](images/<id>/<filename>.png) -> ![](assets/papers/<id>/<filename>.png)
+                shutil.copy2(img_file, paper_dest_dir / img_file.name)
+            # 마크다운 내 이미지 링크를 웹 상대 경로로 변환
             transcribed_md = re.sub(
                 r'!\[(.*?)\]\(images/' + re.escape(paper_id) + r'/(.*?)\)',
                 r'![\1](assets/papers/' + paper_id + r'/\2)',
                 transcribed_md
             )
 
-        # PDF 파일 존재 여부
+        # 4. 원본 PDF 복사
         pdf_file = raw_dir / f"{paper_id}.pdf"
         has_pdf = pdf_file.exists()
-        pdf_size_mb = f"{pdf_file.stat().st_size / (1024*1024):.1f} MB" if has_pdf else "N/A"
+        pdf_size_mb = "N/A"
+        if has_pdf:
+            pdf_size_mb = f"{pdf_file.stat().st_size / (1024*1024):.1f} MB"
+            shutil.copy2(pdf_file, paper_dest_dir / f"{paper_id}.pdf")
 
         # 태그 자동 도출
         tags = derive_tags(en_title + " " + ko_title, summary_md + " " + takeaway)
@@ -207,7 +216,6 @@ def collect_paper_data(source_dir: Path):
             "takeaway": takeaway,
             "tags": tags,
             "summary_md": summary_md,
-            "transcribed_md": transcribed_md,
             "has_pdf": has_pdf,
             "pdf_name": f"{paper_id}.pdf",
             "pdf_size": pdf_size_mb,
@@ -635,60 +643,6 @@ def generate_dashboard_html(papers: list) -> str:
       gap: 0.5rem;
     }}
 
-    .detail-tabs-bar {{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2rem;
-      background: var(--bg-panel);
-      border-bottom: 1px solid var(--border-subtle);
-      flex-shrink: 0;
-    }}
-
-    .tabs-nav {{
-      display: flex;
-      gap: 0.5rem;
-    }}
-
-    .tab-btn {{
-      padding: 0.85rem 1.25rem;
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--ink-muted);
-      font-family: var(--font-sans);
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
-    }}
-
-    .tab-btn:hover {{
-      color: var(--ink-base);
-    }}
-
-    .tab-btn.active {{
-      color: var(--accent-primary);
-      border-bottom-color: var(--accent-primary);
-      background: rgba(56, 189, 248, 0.05);
-    }}
-
-    .tab-badge {{
-      font-size: 0.72rem;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 0.1rem 0.45rem;
-      border-radius: 10px;
-    }}
-
-    .actions-group {{
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-    }}
-
     .action-btn {{
       display: inline-flex;
       align-items: center;
@@ -703,22 +657,13 @@ def generate_dashboard_html(papers: list) -> str:
       border: 1px solid var(--border-subtle);
       color: var(--ink-base);
       transition: all 0.15s ease;
+      font-family: var(--font-sans);
     }}
 
     .action-btn:hover {{
       background: var(--bg-card-hover);
       border-color: var(--accent-primary);
       color: var(--accent-primary);
-    }}
-
-    .action-btn.primary {{
-      background: var(--accent-subtle);
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-    }}
-
-    .action-btn.primary:hover {{
-      background: rgba(56, 189, 248, 0.25);
     }}
 
     /* Detail Content Scroll Area */
@@ -728,6 +673,11 @@ def generate_dashboard_html(papers: list) -> str:
       padding: 2.2rem 2.5rem 4rem;
       line-height: 1.75;
       scrollbar-width: thin;
+    }}
+
+    .summary-wrapper {{
+      max-width: 900px;
+      margin: 0 auto;
     }}
 
     .content-pane {{
@@ -858,37 +808,25 @@ def generate_dashboard_html(papers: list) -> str:
       color: var(--ink-base);
     }}
 
-    /* Raw PDF Tab Styling */
-    .pdf-meta-box {{
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
+    .markdown-body a {{
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      transition: all 0.2s ease;
+      display: inline-flex;
       align-items: center;
-      gap: 1.2rem;
-      max-width: 600px;
-      margin: 2rem auto;
+      gap: 0.3rem;
     }}
 
-    .pdf-icon-large {{
-      font-size: 3.5rem;
-      color: #ef4444;
-    }}
-
-    .pdf-details {{
-      text-align: left;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 1rem 1.25rem;
-      border-radius: 8px;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
+    .markdown-body a:hover {{
+      background: rgba(56, 189, 248, 0.22);
+      border-color: var(--accent-primary);
+      color: #7dd3fc;
+      transform: translateY(-1px);
     }}
 
     /* Empty state */
@@ -983,67 +921,29 @@ def generate_dashboard_html(papers: list) -> str:
       
       <!-- Detail Header -->
       <div class="detail-header" id="detailHeader">
-        <div class="detail-top-badges">
-          <span class="badge-year" id="dhYear">2026</span>
-          <span class="badge-journal" id="dhJournal">Journal Name</span>
-        </div>
-        <h2 class="detail-title-ko" id="dhTitleKo">논문 제목 (한글)</h2>
-        <div class="detail-title-en" id="dhTitleEn">Paper Full Title in English</div>
-        <div class="detail-authors" id="dhAuthors">
-          <span>✍️</span> <span id="dhAuthorsText">저자 정보</span>
-        </div>
-      </div>
-
-      <!-- Detail Tabs Bar -->
-      <div class="detail-tabs-bar">
-        <div class="tabs-nav">
-          <button class="tab-btn active" data-tab="summary">
-            💡 심층 구조화 요약 <span class="tab-badge">Tier 2</span>
-          </button>
-          <button class="tab-btn" data-tab="transcribed">
-            📜 원문 전사본 전문 <span class="tab-badge">Full Text</span>
-          </button>
-          <button class="tab-btn" data-tab="raw">
-            📄 원본 PDF 정보
-          </button>
-        </div>
-
-        <div class="actions-group">
-          <button class="action-btn" id="copyCitationBtn" title="인용 복사">
-            📋 인용 정보 복사
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;">
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
+            <div class="detail-top-badges">
+              <span class="badge-year" id="dhYear">2026</span>
+              <span class="badge-journal" id="dhJournal">Journal Name</span>
+            </div>
+            <h2 class="detail-title-ko" id="dhTitleKo">논문 제목 (한글)</h2>
+            <div class="detail-title-en" id="dhTitleEn">Paper Full Title in English</div>
+            <div class="detail-authors" id="dhAuthors">
+              <span>✍️</span> <span id="dhAuthorsText">저자 정보</span>
+            </div>
+          </div>
+          <button class="action-btn" id="copyCitationBtn" title="인용 정보 복사">
+            📋 인용 복사
           </button>
         </div>
       </div>
 
       <!-- Detail Content Body -->
       <div class="detail-body">
-        
-        <!-- Tab 1: Summary -->
-        <div class="content-pane active markdown-body" id="paneSummary">
-          <!-- Rendered Markdown -->
+        <div class="summary-wrapper markdown-body" id="paneSummary">
+          <!-- Rendered Structured Summary -->
         </div>
-
-        <!-- Tab 2: Full Transcribed -->
-        <div class="content-pane markdown-body" id="paneTranscribed">
-          <!-- Rendered Markdown -->
-        </div>
-
-        <!-- Tab 3: Raw PDF Meta -->
-        <div class="content-pane" id="paneRaw">
-          <div class="pdf-meta-box">
-            <div class="pdf-icon-large">📄</div>
-            <h3 style="color: var(--ink-heading); font-size: 1.25rem;">원본 연구 논문 (PDF)</h3>
-            <p style="color: var(--ink-muted); font-size: 0.9rem;">
-              본 논문의 원문 PDF는 연구 저장소의 <code>raw/</code> 디렉토리에 보관되어 있습니다.
-            </p>
-            <div class="pdf-details">
-              <div><b>파일명:</b> <span id="rawPdfName">-</span></div>
-              <div><b>파일크기:</b> <span id="rawPdfSize">-</span></div>
-              <div><b>로컬보관경로:</b> <code>papers/raw/<span id="rawPdfPath">-</span></code></div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </main>
@@ -1067,14 +967,18 @@ def generate_dashboard_html(papers: list) -> str:
     const dhTitleEn = document.getElementById("dhTitleEn");
     const dhAuthorsText = document.getElementById("dhAuthorsText");
     const paneSummary = document.getElementById("paneSummary");
-    const paneTranscribed = document.getElementById("paneTranscribed");
-    const rawPdfName = document.getElementById("rawPdfName");
-    const rawPdfSize = document.getElementById("rawPdfSize");
-    const rawPdfPath = document.getElementById("rawPdfPath");
     const copyCitationBtn = document.getElementById("copyCitationBtn");
 
-    // Initialize Marked & KaTeX
+    // Initialize Marked with target="_blank" links & KaTeX
+    const customRenderer = new marked.Renderer();
+    const defaultLinkRenderer = customRenderer.link.bind(customRenderer);
+    customRenderer.link = (href, title, text) => {{
+      const linkHtml = defaultLinkRenderer(href, title, text);
+      return linkHtml.replace('<a ', '<a target="_blank" rel="noopener noreferrer" ');
+    }};
+
     marked.setOptions({{
+      renderer: customRenderer,
       gfm: true,
       breaks: true
     }});
@@ -1183,33 +1087,10 @@ def generate_dashboard_html(papers: list) -> str:
       dhTitleEn.textContent = paper.en_title;
       dhAuthorsText.textContent = paper.authors || "저자 정보 미기재";
 
-      // 1. 심층 요약 마크다운 렌더링
+      // 심층 요약 마크다운 렌더링 (원문 MD / PDF 링크 포함)
       paneSummary.innerHTML = safeMarkdown(paper.summary_md || "*요약문이 없습니다.*");
       renderMathInElementSafely(paneSummary);
-
-      // 2. 전사본 마크다운 렌더링
-      paneTranscribed.innerHTML = safeMarkdown(paper.transcribed_md || "*전사본이 없습니다.*");
-      renderMathInElementSafely(paneTranscribed);
-
-      // 3. Raw PDF 정보 갱신
-      rawPdfName.textContent = paper.pdf_name;
-      rawPdfSize.textContent = paper.pdf_size;
-      rawPdfPath.textContent = paper.pdf_name;
     }}
-
-    // Tab Switching
-    document.querySelectorAll(".tab-btn").forEach(btn => {{
-      btn.addEventListener("click", () => {{
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".content-pane").forEach(p => p.classList.remove("active"));
-
-        btn.classList.add("active");
-        const tab = btn.dataset.tab;
-        if (tab === "summary") document.getElementById("paneSummary").classList.add("active");
-        else if (tab === "transcribed") document.getElementById("paneTranscribed").classList.add("active");
-        else if (tab === "raw") document.getElementById("paneRaw").classList.add("active");
-      }});
-    }});
 
     // Chips Filter Events
     document.querySelectorAll(".chip").forEach(chip => {{
@@ -1262,7 +1143,6 @@ def generate_dashboard_html(papers: list) -> str:
       renderCardList();
       setTimeout(() => {{
         renderMathInElementSafely(paneSummary);
-        renderMathInElementSafely(paneTranscribed);
       }}, 300);
     }}
 
