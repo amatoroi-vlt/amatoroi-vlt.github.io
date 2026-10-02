@@ -145,7 +145,7 @@
     "summary": "UiPath Inc. (NYSE: PATH, 포트폴리오 비중 36.9%)의 최신 Q2 FY2027(분기 매출 $4.10억, GAAP OPM 7.7%) 및 FY2026 연간(매출 $16.11억, 연간 흑자전환) 실적을 SEC 10-Q/10-K 공시와 App Economy Insights 스타일 Sankey 다이어그램으로 심층 분석한 리포트다. 구독 믹스 개선 및 판관비 통제에 따른 영업 레버리지, 퀀트 가설 검증, MS 번들링 등 핵심 리스크 요인 및 향후 모니터링 체크리스트를 다룬다."
   },
   "reports/Overwatch/paper_repository.html": {
-    "hash": "7b0f29b098eba8c819ed360cb9d19da1716b0e1a",
+    "hash": "3ea9483530ec771bbac32904770412701463ad82",
     "summary": "방사선 계측, NORM 특성평가, HPGe 검출기 효율 교정, 체렌코프 광 계측 등 보관된 연구 논문들을 연도별·주제별로 검색하고 2단계 심층 구조화 요약 및 전사본 전문을 한눈에 탐색할 수 있는 Master-Detail 아카이브 대시보드 리포트다."
   }
 }
