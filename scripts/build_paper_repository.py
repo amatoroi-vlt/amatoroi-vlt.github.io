@@ -414,6 +414,11 @@ def generate_dashboard_html(papers: list) -> str:
       flex-direction: column;
       flex-shrink: 0;
       overflow: hidden;
+      transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }}
+
+    .app-container.master-collapsed .master-pane {{
+      margin-left: -380px;
     }}
 
     .filter-bar {{
@@ -878,6 +883,9 @@ def generate_dashboard_html(papers: list) -> str:
   <!-- Header -->
   <header>
     <div class="brand">
+      <button class="action-btn" id="toggleMasterBtn" title="좌측 목록 접기/펼치기" style="padding: 0.35rem 0.65rem;">
+        <span id="toggleMasterIcon">◀</span> <span id="toggleMasterText">목록 접기</span>
+      </button>
       <span class="brand-badge">RESEARCH ARCHIVE</span>
       <h1 class="brand-title">방사선 계측 &amp; NORM 연구 논문 저장소</h1>
     </div>
@@ -1137,6 +1145,20 @@ def generate_dashboard_html(papers: list) -> str:
         setTimeout(() => copyCitationBtn.textContent = prevText, 2000);
       }});
     }});
+
+    // Toggle Left Master Pane (List Collapse/Expand)
+    const toggleMasterBtn = document.getElementById("toggleMasterBtn");
+    const toggleMasterIcon = document.getElementById("toggleMasterIcon");
+    const toggleMasterText = document.getElementById("toggleMasterText");
+    const appContainer = document.querySelector(".app-container");
+
+    if (toggleMasterBtn) {{
+      toggleMasterBtn.addEventListener("click", () => {{
+        const isCollapsed = appContainer.classList.toggle("master-collapsed");
+        toggleMasterIcon.textContent = isCollapsed ? "▶" : "◀";
+        toggleMasterText.textContent = isCollapsed ? "목록 열기" : "목록 접기";
+      }});
+    }}
 
     // Immediate & Safe Initialization
     function initApp() {{

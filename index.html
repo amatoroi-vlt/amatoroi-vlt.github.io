@@ -24,11 +24,80 @@
       display: flex;
       flex-direction: column;
       overflow-y: auto;
+      flex-shrink: 0;
+      transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    body.sidebar-collapsed #sidebar {
+      margin-left: -240px;
     }
 
     #sidebar-header {
-      padding: 24px 20px 18px;
+      padding: 20px 18px 16px;
       border-bottom: 1px solid #21262d;
+      position: relative;
+    }
+
+    .sidebar-header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sidebar-toggle-btn {
+      background: #161b22;
+      border: 1px solid #30363d;
+      color: #8b949e;
+      border-radius: 6px;
+      padding: 4px 7px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      line-height: 1;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: #21262d;
+      color: #e6edf3;
+      border-color: #58a6ff;
+    }
+
+    /* Floating Expand Button (shown when sidebar is collapsed) */
+    #sidebar-floating-expand-btn {
+      display: none;
+      position: fixed;
+      left: 14px;
+      top: 14px;
+      z-index: 1000;
+      background: rgba(22, 27, 34, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    #sidebar-floating-expand-btn:hover {
+      background: #21262d;
+      border-color: #58a6ff;
+      color: #58a6ff;
+      transform: translateX(2px);
+    }
+
+    body.sidebar-collapsed #sidebar-floating-expand-btn {
+      display: flex;
     }
 
     .site-title {
@@ -300,10 +369,22 @@
 </head>
 <body>
 
+<!-- Floating Expand Button (shown when sidebar is hidden) -->
+<button id="sidebar-floating-expand-btn" title="사이드바 열기 (단축키: [ 또는 Ctrl+B)">
+  <span>📂</span> <span>목록 열기</span>
+</button>
+
 <div id="sidebar">
   <div id="sidebar-header">
-    <div class="site-title">Pensieve</div>
-    <div class="site-subtitle">for amatoroi only</div>
+    <div class="sidebar-header-top">
+      <div>
+        <div class="site-title">Pensieve</div>
+        <div class="site-subtitle">for amatoroi only</div>
+      </div>
+      <button class="sidebar-toggle-btn" id="sidebar-collapse-btn" title="사이드바 접기 (단축키: [ 또는 Ctrl+B)">
+        ◀
+      </button>
+    </div>
     <div class="site-desc">
       햇빛이여, 데이지여, 버터 멜로우여,<br>
       이 멍청한 인간이 기억하게 해라.
@@ -343,7 +424,42 @@
   const allViewCount = document.getElementById('all-view-count');
   const cardGrid = document.getElementById('card-grid');
   const allViewBack = document.getElementById('all-view-back');
+  const collapseBtn = document.getElementById('sidebar-collapse-btn');
+  const floatingExpandBtn = document.getElementById('sidebar-floating-expand-btn');
   let active = null;
+
+  // Sidebar Collapse/Expand Logic
+  function setSidebarCollapsed(collapsed) {
+    if (collapsed) {
+      document.body.classList.add('sidebar-collapsed');
+      localStorage.setItem('pensieve_sidebar_collapsed', 'true');
+    } else {
+      document.body.classList.remove('sidebar-collapsed');
+      localStorage.setItem('pensieve_sidebar_collapsed', 'false');
+    }
+  }
+
+  function toggleSidebar() {
+    const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+    setSidebarCollapsed(!isCollapsed);
+  }
+
+  if (collapseBtn) collapseBtn.addEventListener('click', toggleSidebar);
+  if (floatingExpandBtn) floatingExpandBtn.addEventListener('click', toggleSidebar);
+
+  // Restore saved state
+  if (localStorage.getItem('pensieve_sidebar_collapsed') === 'true') {
+    setSidebarCollapsed(true);
+  }
+
+  // Keyboard shortcut: '[' or Ctrl+B / Cmd+B
+  window.addEventListener('keydown', (e) => {
+    if ((e.key === '[' && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) ||
+        ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b')) {
+      e.preventDefault();
+      toggleSidebar();
+    }
+  });
 
   function formatDate(iso) {
     if (!iso) return '';
