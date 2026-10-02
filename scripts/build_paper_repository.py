@@ -1079,17 +1079,33 @@ def generate_dashboard_html(papers: list) -> str:
       breaks: true
     }});
 
+    function safeMarkdown(text) {{
+      if (!text) return "*내용이 없습니다.*";
+      if (window.marked && typeof marked.parse === "function") {{
+        try {{
+          return marked.parse(text);
+        }} catch (e) {{
+          console.warn("Markdown parsing error:", e);
+        }}
+      }}
+      return "<div style='white-space: pre-wrap;'>" + text.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</div>";
+    }}
+
     function renderMathInElementSafely(elem) {{
-      if (window.renderMathIn погружение || window.renderMathInElement) {{
-        renderMathInElement(elem, {{
-          delimiters: [
-            {{left: "$$", right: "$$", display: true}},
-            {{left: "$", right: "$", display: false}},
-            {{left: "\\\\[", right: "\\\\]", display: true}},
-            {{left: "\\\\(", right: "\\\\)", display: false}}
-          ],
-          throwOnError: false
-        }});
+      if (typeof renderMathInElement === "function") {{
+        try {{
+          renderMathInElement(elem, {{
+            delimiters: [
+              {{left: "$$", right: "$$", display: true}},
+              {{left: "$", right: "$", display: false}},
+              {{left: "\\\\[", right: "\\\\]", display: true}},
+              {{left: "\\\\(", right: "\\\\)", display: false}}
+            ],
+            throwOnError: false
+          }});
+        }} catch (err) {{
+          console.warn("KaTeX render error:", err);
+        }}
       }}
     }}
 
@@ -1168,11 +1184,11 @@ def generate_dashboard_html(papers: list) -> str:
       dhAuthorsText.textContent = paper.authors || "저자 정보 미기재";
 
       // 1. 심층 요약 마크다운 렌더링
-      paneSummary.innerHTML = marked.parse(paper.summary_md || "*요약문이 없습니다.*");
+      paneSummary.innerHTML = safeMarkdown(paper.summary_md || "*요약문이 없습니다.*");
       renderMathInElementSafely(paneSummary);
 
       // 2. 전사본 마크다운 렌더링
-      paneTranscribed.innerHTML = marked.parse(paper.transcribed_md || "*전사본이 없습니다.*");
+      paneTranscribed.innerHTML = safeMarkdown(paper.transcribed_md || "*전사본이 없습니다.*");
       renderMathInElementSafely(paneTranscribed);
 
       // 3. Raw PDF 정보 갱신
@@ -1241,15 +1257,20 @@ def generate_dashboard_html(papers: list) -> str:
       }});
     }});
 
-    // Initial Execution
-    window.addEventListener("DOMContentLoaded", () => {{
+    // Immediate & Safe Initialization
+    function initApp() {{
       renderCardList();
-      // KaTeX 로딩 지연 대응
       setTimeout(() => {{
         renderMathInElementSafely(paneSummary);
         renderMathInElementSafely(paneTranscribed);
-      }}, 500);
-    }});
+      }}, 300);
+    }}
+
+    if (document.readyState === "loading") {{
+      window.addEventListener("DOMContentLoaded", initApp);
+    }} else {{
+      initApp();
+    }}
   </script>
 </body>
 </html>
