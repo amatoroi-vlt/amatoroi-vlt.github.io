@@ -20,8 +20,8 @@ from pathlib import Path
 # 기본 경로 설정
 DEFAULT_SOURCE_DIR = Path("/Users/jeongsookang/Documents/dev/ResearchHelper/papers")
 WORKSPACE_DIR = Path(__file__).resolve().parent.parent
-OUTPUT_HTML_PATH = WORKSPACE_DIR / "reports" / "Research" / "paper_repository.html"
-ASSETS_DEST_DIR = WORKSPACE_DIR / "reports" / "Research" / "assets" / "papers"
+OUTPUT_HTML_PATH = WORKSPACE_DIR / "reports" / "Overwatch" / "paper_repository.html"
+ASSETS_DEST_DIR = WORKSPACE_DIR / "reports" / "Overwatch" / "assets" / "papers"
 SUMMARIES_JSON_PATH = WORKSPACE_DIR / "reports" / "summaries.json"
 MANIFEST_SCRIPT_PATH = WORKSPACE_DIR / ".github" / "scripts" / "generate_manifest.py"
 

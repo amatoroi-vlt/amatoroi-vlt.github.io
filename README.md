@@ -13,11 +13,12 @@ amatoroi-vlt.github.io/
 ├── README.md                      # 프로젝트 가이드 & 운영 매뉴얼
 ├── reports/
 │   ├── summaries.json             # 각 리포트의 SHA1 해시 및 한글 요약문 메타데이터
-│   ├── Research/                  # 방사선 계측, 불확도 평가, 연구 논문 리포트
+│   ├── Overwatch/                 # 모니터링, 통합 대시보드 리포트
 │   │   ├── paper_repository.html  # ⭐ 논문 저장소 Master-Detail 대시보드
+│   │   ├── live_report.html       # 라이브 트레이딩 현황 리포트
 │   │   └── assets/                # 논문 첨부 이미지 및 차트 리소스
-│   ├── Invest/                    # 기업 재무 분석(Sankey), 트레이딩 전략 리포트
-│   └── Overwatch/                 # 데일리 라이브 트레이딩/모니터링 리포트
+│   ├── Research/                  # 방사선 계측, 불확도 평가, 연구 리포트
+│   └── Invest/                    # 기업 재무 분석(Sankey), 트레이딩 전략 리포트
 ├── scripts/
 │   ├── build_paper_repository.py  # 🚀 논문 아카이브 대시보드 빌더 / 동기화 스크립트
 │   ├── publish_financial_report.py# 📊 재무 분석 리포트 발행 스크립트
@@ -29,9 +30,13 @@ amatoroi-vlt.github.io/
 
 ---
 
-## 📑 1. 논문 저장소 대시보드 동기화 가이드
+## 📑 1. 논문 저장소 대시보드 (Overwatch) 운영 가이드
 
-외부 논문 저장소(`ResearchHelper/papers`)에 새로운 논문이 추가되거나 요약문/전사본이 업데이트되었을 때, 아래 단계를 통해 블로그에 즉시 반영할 수 있습니다.
+외부 논문 저장소(`ResearchHelper/papers`)에 새로운 논문이 추가되거나 요약문/전사본이 업데이트되었을 때의 동기화 원칙입니다.
+
+### 🤖 기본 운영 원칙 (Agent-Driven Workflow)
+- **사용자가 말로 지시하면 에이전트(AI)가 실행하는 것이 기본(디폴트)입니다.**
+- 대화창에 `"새 논문 추가되었으니 대시보드 업데이트해줘"` 또는 `"논문 저장소 동기화하고 배포해줘"`라고 말씀해 주시면, 에이전트가 빌드 스크립트 실행, 에셋 복사, 매니페스트 갱신 및 Git 커밋/푸시까지 일괄 자동으로 완결합니다.
 
 ### 📍 원천 논문 저장소 위치
 - 경로: `/Users/jeongsookang/Documents/dev/ResearchHelper/papers/`
@@ -42,8 +47,8 @@ amatoroi-vlt.github.io/
   - `transcribed/`: 원문 전사본 마크다운 및 이미지 (`images/<ID>/*.png`)
   - `raw/`: 원본 PDF 파일 (`<ID>.pdf`)
 
-### ⚡ 동기화 명령어 (원클릭 빌드)
-터미널에서 아래 명령어를 실행하면 외부 저장소의 최신 논문 데이터를 파싱하여 대시보드 HTML, 첨부 이미지, `summaries.json`, `manifest.json`까지 일괄 갱신됩니다:
+### ⚡ 수동 실행 시 명령어 (참고용)
+터미널에서 직접 실행할 경우 아래 명령어를 사용합니다:
 
 ```bash
 # 기본 경로(/Users/jeongsookang/Documents/dev/ResearchHelper/papers)에서 빌드
@@ -53,13 +58,13 @@ amatoroi-vlt.github.io/
 /opt/homebrew/bin/uv run python3 scripts/build_paper_repository.py --source /경로/to/papers
 ```
 
-### 🛠️ 빌드 스크립트가 자동으로 처리하는 작업
+### 🛠️ 빌드 스크립트(`scripts/build_paper_repository.py`) 자동화 내역
 1. `index.json` 및 `INDEX.md`로부터 논문 메타데이터, 게재 학술지, 저자, 핵심 요약 추출
 2. `summaries/*.md`와 `transcribed/*.md` 수집 및 KaTeX 수식/마크다운 렌더링 준비
-3. 논문 첨부 이미지를 `reports/Research/assets/papers/<paper_id>/`로 자동 복사 및 상대 경로 치환
-4. 실시간 검색, 연도/주제 필터, 심층요약/원문전사본 탭 뷰어가 내장된 `reports/Research/paper_repository.html` 생성
+3. 논문 첨부 이미지를 `reports/Overwatch/assets/papers/<paper_id>/`로 자동 복사 및 상대 경로 치환
+4. 실시간 검색, 연도/주제 필터, 심층요약/원문전사본 탭 뷰어가 내장된 `reports/Overwatch/paper_repository.html` 생성
 5. `reports/summaries.json`에 대시보드 요약 및 SHA1 해시 자동 등록
-6. `manifest.json`을 자동 재생성하여 블로그 메인 화면에 즉시 노출
+6. `manifest.json`을 자동 재생성하여 블로그 메인 화면의 `Overwatch` 섹션에 즉시 노출
 
 ---
 
@@ -78,11 +83,9 @@ amatoroi-vlt.github.io/
 
 ## 🚀 3. Git 커밋 및 배포
 
-모든 빌드 및 리포트 등록이 완료되면 Git으로 커밋하고 푸시하여 GitHub Pages에 배포합니다:
-
 ```bash
 git add reports/ manifest.json README.md scripts/
-git commit -m "feat: update paper repository dashboard and manifest"
+git commit -m "feat(overwatch): update paper repository dashboard and manifest"
 git push origin main
 ```
 
