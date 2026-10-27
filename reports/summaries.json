@@ -147,5 +147,9 @@
   "reports/Overwatch/paper_repository.html": {
     "hash": "3ea9483530ec771bbac32904770412701463ad82",
     "summary": "방사선 계측, NORM 특성평가, HPGe 검출기 효율 교정, 체렌코프 광 계측 등 보관된 연구 논문들을 연도별·주제별로 검색하고 2단계 심층 구조화 요약 및 전사본 전문을 한눈에 탐색할 수 있는 Master-Detail 아카이브 대시보드 리포트다."
+  },
+  "reports/Research/pb210_20240822ALL.html": {
+    "hash": "c33a1cb499ae19933dd72a4bc7c8b2ae35e3643e",
+    "summary": "Microwin Hidex 300 SL 계측기 데이터(20240822ALL.csv, 15개 시료)를 바탕으로 2-Window 및 3핵종 물리 피팅 기법을 적용해 Pb-210 농도, 계측 효율, 테일링 현상을 진단·분석한 종합 보고서다."
   }
 }
