@@ -151,5 +151,9 @@
   "reports/Research/pb210_20240822ALL.html": {
     "hash": "c33a1cb499ae19933dd72a4bc7c8b2ae35e3643e",
     "summary": "Microwin Hidex 300 SL 계측기 데이터(20240822ALL.csv, 15개 시료)를 바탕으로 2-Window 및 3핵종 물리 피팅 기법을 적용해 Pb-210 농도, 계측 효율, 테일링 현상을 진단·분석한 종합 보고서다."
+  },
+  "reports/Invest/goog_q3_2026_sankey.html": {
+    "hash": "ac3abec765601fb549917db8fa66810f4e63e446",
+    "summary": "Alphabet(NASDAQ: GOOG)의 2026년 3분기(Q3 2026) GAAP 손익계산서 흐름을 시각화한 Plotly 인터랙티브 Sankey 다이어그램이다. 총매출 $127.6B(+25.0% YoY, Google Search $63.35B·Google Cloud $30.71B 등)에서 매출총이익 $76.16B(마진 59.7%), 영업이익 $40.58B(마진 31.8%), 비영업손실(SpaceX 평가손실 -$8.22B) 및 법인세(-$5.89B) 반영 후 당기순이익 $26.47B(순이익률 20.7%)에 이르는 수익·비용 구조를 한눈에 보여준다."
   }
 }
