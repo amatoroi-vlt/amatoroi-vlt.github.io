@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alphabet Inc. (NASDAQ: GOOG) 실적 심층 분석 리포트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  color-scheme: light dark;
+  --bg:          #fafaf8;
+  --panel:       #ffffff;
+  --panel-alt:   #f4f5f7;
+  --ink:         #1a1d24;
+  --ink-2:       #48505e;
+  --ink-3:       #747d8c;
+  --rule:        #e1e4ea;
+  --rule-2:      #cbcfd8;
+  --accent:      #1f6feb;
+  --accent-soft: #e7f0fd;
+  --accent-tag:  #dbeafe;
+  --accent-tag-fg: #1d4ed8;
+  --success:     #16a34a;
+  --success-bg:  #f0fdf4;
+  --warn:        #ea580c;
+  --warn-bg:     #fffbeb;
+  --danger:      #dc2626;
+  --danger-bg:   #fef2f2;
+  --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  --wide:        960px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #0f1117;
+    --panel:       #161922;
+    --panel-alt:   #1e222d;
+    --ink:         #e6edf3;
+    --ink-2:       #9da7b3;
+    --ink-3:       #6e7681;
+    --rule:        #2b313c;
+    --rule-2:      #3b4352;
+    --accent:      #58a6ff;
+    --accent-soft: #16263b;
+    --accent-tag:  #1e3a8a;
+    --accent-tag-fg: #bfdbfe;
+    --success:     #3fb950;
+    --success-bg:  #13251a;
+    --warn:        #f59e0b;
+    --warn-bg:     #2a1d0c;
+    --danger:      #f87171;
+    --danger-bg:   #2d1515;
+    --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Serif KR", Georgia, serif;
+  font-size: 15.5px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 50px 24px 100px;
+}
+header.rep-header {
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+}
+.tag-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-bottom: 16px;
+}
+.tag-pill {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+.tag-pill.primary {
+  background: var(--accent);
+  color: #fff;
+}
+.tag-pill.badge {
+  background: var(--accent-tag);
+  color: var(--accent-tag-fg);
+  font-weight: 700;
+}
+.tag-pill.warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+@media (prefers-color-scheme: dark) {
+  .tag-pill.warn {
+    background: #451a03;
+    color: #fde68a;
+  }
+}
+.tag-ticker {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+h1.main-title {
+  font-family: "Inter", "Noto Serif KR", sans-serif;
+  font-size: clamp(22px, 3.6vw, 30px);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  margin-bottom: 18px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  background: var(--panel-alt);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 18px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.meta-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+h2.sec-title {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 48px 0 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+h3.sub-title {
+  font-family: "Inter", sans-serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 28px 0 12px;
+}
+hr.sep {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 44px 0;
+}
+p {
+  margin-bottom: 14px;
+  text-align: justify;
+}
+.lead-p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--ink);
+}
+.infographic-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 22px 0 28px;
+  box-shadow: var(--card-shadow);
+}
+.card-img-wrap {
+  border-radius: 6px;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  justify-content: center;
+}
+.sankey-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.12s ease;
+}
+.btn-interactive {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-interactive:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.btn-download {
+  background: var(--panel-alt);
+  color: var(--ink-2);
+  border: 1px solid var(--rule-2);
+}
+.btn-download:hover {
+  color: var(--ink);
+  background: var(--rule);
+}
+.tbl-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 18px 0 26px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: var(--card-shadow);
+}
+table.fin-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+}
+table.fin-tbl th, table.fin-tbl td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+}
+table.fin-tbl thead th {
+  background: var(--panel-alt);
+  color: var(--ink-3);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+table.fin-tbl td.n {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+table.fin-tbl td.c, table.fin-tbl th.c {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+table.fin-tbl tr:last-child td {
+  border-bottom: none;
+}
+table.fin-tbl tr:hover {
+  background: var(--panel-alt);
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 22px 0;
+}
+.fact-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 18px 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fact-card .card-badge {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.fact-card.pass {
+  border-left: 3px solid var(--success);
+}
+.fact-card.in-progress {
+  border-left: 3px solid var(--warn);
+}
+.fact-card.risk {
+  border-left: 3px solid var(--danger);
+}
+.fact-card h4 {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.fact-card p {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  margin-bottom: 0;
+}
+.checklist-card {
+  background: var(--panel-alt);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+.checklist-card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.checklist-card li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 14.5px;
+  margin-bottom: 12px;
+}
+.checklist-card li:last-child {
+  margin-bottom: 0;
+}
+.chk-box {
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+footer.rep-footer {
+  border-top: 1px solid var(--rule);
+  margin-top: 60px;
+  padding-top: 24px;
+  text-align: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="rep-header">
+    <div class="tag-bar">
+      <span class="tag-pill primary">SEC EDGAR Financial Deep Dive</span>
+      <span class="tag-pill badge">Alphabet Inc. (NASDAQ: GOOG)</span>
+      <span class="tag-pill warn">Portfolio Weight: 52.0% (#1 Core)</span>
+      <span class="tag-ticker">Form 10-Q &amp; Form 10-K</span>
+    </div>
+    <h1 class="main-title">Alphabet Inc. (NASDAQ: GOOG) 실적 심층 분석 리포트</h1>
+    <div class="meta-grid">
+      <div class="meta-item"><strong>포트폴리오 비중</strong>: 일반계좌 핵심 1위 코어 자산 (675주 보유, 국내 주식 청산 후 일반계좌 주식 비중 약 52.0%)</div>
+      <div class="meta-item"><strong>최종 업데이트일</strong>: 2026년 10월 29일 (Q3 2026 실적 반영)</div>
+      <div class="meta-item"><strong>회계 기준</strong>: US GAAP (SEC Form 10-Q / 10-K 공식 공시 데이터 기반)</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Section 1 -->
+    <section>
+      <h2 class="sec-title">1. Executive Summary</h2>
+      <p class="lead-p">
+        Alphabet은 <strong>2026년 3분기(Q3 2026)</strong> 연결 매출액 <strong>$1,275.77억 ($127.58B, +25.0% YoY)</strong>, 연결 영업이익 <strong>$405.76억 ($40.58B, +30.0% YoY, 영업이익률 31.8%)</strong>을 기록하며 사상 최초로 <strong>연 환산 매출 5,000억 달러(Half-Trillion Dollar) 시대</strong>를 돌파했습니다.
+      </p>
+      <p>
+        이번 실적의 가장 압도적인 하이라이트는 <strong>'제2의 심장'인 Google Cloud의 폭발적 가속</strong>입니다. Google Cloud는 전년 동기 대비 무려 <strong>+103.0% 폭증한 $307.09억($30.71B)</strong>의 분기 매출을 달성했으며, 클라우드 부문 영업이익은 <strong>$111억(부문 OPM 36.2%)</strong>으로 수직 상승했습니다. 수주잔고(Contracted Backlog) 역시 <strong>$5,610억</strong>으로 사상 최대치를 경신했습니다.
+      </p>
+      <p>
+        반면, 당기순이익은 SpaceX 지분 미실현 평가손실 등 영업외손실(-$82.21억)이 반영되며 <strong>$264.68억</strong>(보통주 귀속 $261.70억)을 기록했고, AI 인프라 구축을 위한 분기 설비투자(CapEx)가 <strong>$513.6억(+114% YoY)</strong>으로 급증함에 따라 <strong>잉여현금흐름(FCF)이 -$90.7억으로 2분기 연속 적자</strong>를 기록하는 등 공격적인 선투자 사이클의 정점을 지나고 있습니다.
+      </p>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 2 -->
+    <section>
+      <h2 class="sec-title">2. 실적 시각화: App Economy Insights Signature Sankey</h2>
+
+      <!-- (1) Q3 2026 Sankey -->
+      <h3 class="sub-title">(1) 최신 분기 실적 플로우 (Q3 2026: 2026년 9월 30일 종료 분기)</h3>
+      <div class="infographic-card">
+        <div class="card-img-wrap">
+          <img src="./assets/GOOG/goog_q3_2026_sankey.png" alt="Alphabet Q3 2026 Financial Flow" class="sankey-img" loading="lazy">
+        </div>
+        <div class="card-actions">
+          <a href="./assets/GOOG/goog_q3_2026_sankey.html" target="_blank" class="action-btn btn-interactive">🔗 Q3 2026 인터랙티브 차트 열기 (Plotly HTML)</a>
+          <a href="./assets/GOOG/goog_q3_2026_sankey.png" target="_blank" download class="action-btn btn-download">💾 4K 고해상도 이미지 다운로드 (PNG)</a>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="fin-tbl">
+          <thead>
+            <tr>
+              <th>Q3 2026 핵심 지표 요약 (단위: $M / $B)</th>
+              <th class="n">공시 금액</th>
+              <th class="n">비중 / 마진율</th>
+              <th>전년 동기 대비 (YoY) 및 주요 세부 내역</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>총 매출액 (Total Revenue)</strong></td>
+              <td class="n" style="color:var(--accent); font-weight:700;"><strong>$127,577M ($127.58B)</strong></td>
+              <td class="n"><strong>100.0%</strong></td>
+              <td><strong>+25.0% YoY (연 환산 매출 5,000억 달러 돌파)</strong></td>
+            </tr>
+            <tr>
+              <td>— Google Search &amp; other</td>
+              <td class="n">$63,350M ($63.35B)</td>
+              <td class="n">49.7%</td>
+              <td>+12.0% YoY</td>
+            </tr>
+            <tr>
+              <td>— Google Cloud</td>
+              <td class="n" style="color:var(--success); font-weight:700;">$30,709M ($30.71B)</td>
+              <td class="n">24.1%</td>
+              <td style="color:var(--success); font-weight:600;">+103.0% YoY (부문 영업이익 $11.1B / OPM 36.2%)</td>
+            </tr>
+            <tr>
+              <td>— Google Subscriptions, platforms &amp; devices</td>
+              <td class="n">$14,290M ($14.29B)</td>
+              <td class="n">11.2%</td>
+              <td>+11.0% YoY</td>
+            </tr>
+            <tr>
+              <td>— YouTube advertising</td>
+              <td class="n">$11,207M ($11.21B)</td>
+              <td class="n">8.8%</td>
+              <td>+9.2% YoY</td>
+            </tr>
+            <tr>
+              <td>— Google Network</td>
+              <td class="n">$7,455M ($7.46B)</td>
+              <td class="n">5.8%</td>
+              <td>+1.4% YoY</td>
+            </tr>
+            <tr>
+              <td>— Other Bets &amp; hedging</td>
+              <td class="n">$566M ($0.57B)</td>
+              <td class="n">0.4%</td>
+              <td>기타 베팅 및 환헤지 손익</td>
+            </tr>
+            <tr>
+              <td><strong>매출원가 (COGS)</strong></td>
+              <td class="n">$51,419M ($51.42B)</td>
+              <td class="n">GPM <strong>59.7%</strong></td>
+              <td>TAC $16,366M 포함, 매출총이익 $76,158M</td>
+            </tr>
+            <tr>
+              <td><strong>영업비용 (OPEX)</strong></td>
+              <td class="n">$35,582M ($35.58B)</td>
+              <td class="n">27.9%</td>
+              <td>R&amp;D $20,640M ($20.64B, +36.2% YoY), S&amp;M $8,804M ($8.80B), G&amp;A $6,138M ($6.14B)</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>영업이익 (Operating Income)</strong></td>
+              <td class="n" style="color:var(--success);"><strong>$40,576M ($40.58B)</strong></td>
+              <td class="n" style="color:var(--success);"><strong>OPM 31.8%</strong></td>
+              <td><strong>+30.0% YoY</strong></td>
+            </tr>
+            <tr>
+              <td>영업외 손익 (Other income/expense, net)</td>
+              <td class="n" style="color:var(--danger);">-$8,221M (-$8.22B)</td>
+              <td class="n">—</td>
+              <td>SpaceX 지분 미실현 평가손실 등 반영</td>
+            </tr>
+            <tr>
+              <td>법인세비용 (Tax Provision)</td>
+              <td class="n">-$5,887M (-$5.89B)</td>
+              <td class="n">—</td>
+              <td>실효 법인세 반영</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>당기순이익 (Net Income)</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>$26,468M ($26.47B)</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>순이익률 20.7%</strong></td>
+              <td><strong>우선주 배당 차감 후 보통주 귀속 순이익 $26,170M ($26.17B)</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- (2) Q2 2026 Sankey -->
+      <h3 class="sub-title" style="margin-top:36px;">(2) 직전 분기 실적 플로우 (Q2 2026: 2026년 6월 30일 종료 분기)</h3>
+      <div class="infographic-card">
+        <div class="card-img-wrap">
+          <img src="./assets/GOOG/goog_q2_2026_sankey.png" alt="Alphabet Q2 2026 Financial Flow" class="sankey-img" loading="lazy">
+        </div>
+        <div class="card-actions">
+          <a href="./assets/GOOG/goog_q2_2026_sankey.html" target="_blank" class="action-btn btn-interactive">🔗 Q2 2026 인터랙티브 차트 열기 (Plotly HTML)</a>
+          <a href="./assets/GOOG/goog_q2_2026_sankey.png" target="_blank" download class="action-btn btn-download">💾 4K 고해상도 이미지 다운로드 (PNG)</a>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="fin-tbl">
+          <thead>
+            <tr>
+              <th>Q2 2026 핵심 지표 요약 (단위: $B)</th>
+              <th class="n">공시 금액 ($B)</th>
+              <th class="n">비중 / 마진율</th>
+              <th>전년 동기 대비 (YoY) 및 주요 세부 내역</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>총 매출액 (Total Revenue)</strong></td>
+              <td class="n" style="color:var(--accent); font-weight:700;"><strong>$119.80B</strong></td>
+              <td class="n"><strong>100.0%</strong></td>
+              <td><strong>+24.2% YoY</strong></td>
+            </tr>
+            <tr>
+              <td>— Google Search &amp; other</td>
+              <td class="n">$63.80B</td>
+              <td class="n">53.3%</td>
+              <td>+17.5% YoY</td>
+            </tr>
+            <tr>
+              <td>— Google Cloud</td>
+              <td class="n">$24.80B</td>
+              <td class="n">20.7%</td>
+              <td style="color:var(--success); font-weight:600;">+82.0% YoY</td>
+            </tr>
+            <tr>
+              <td>— Google Subscriptions, platforms &amp; devices</td>
+              <td class="n">$12.60B</td>
+              <td class="n">10.5%</td>
+              <td>+24.1% YoY</td>
+            </tr>
+            <tr>
+              <td>— YouTube advertising</td>
+              <td class="n">$11.20B</td>
+              <td class="n">9.3%</td>
+              <td>+21.0% YoY</td>
+            </tr>
+            <tr>
+              <td>— Google Network</td>
+              <td class="n">$7.40B</td>
+              <td class="n">6.2%</td>
+              <td>-3.5% YoY</td>
+            </tr>
+            <tr>
+              <td><strong>매출원가 (COGS / TAC 포함)</strong></td>
+              <td class="n">$45.94B</td>
+              <td class="n">GPM <strong>61.6%</strong></td>
+              <td>매출총이익 $73.85B</td>
+            </tr>
+            <tr>
+              <td><strong>영업비용 (OPEX)</strong></td>
+              <td class="n">$33.08B</td>
+              <td class="n">27.6%</td>
+              <td>R&amp;D $18.22B, S&amp;M $8.40B, G&amp;A $6.46B</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>영업이익 (Operating Income)</strong></td>
+              <td class="n" style="color:var(--success);"><strong>$40.77B</strong></td>
+              <td class="n" style="color:var(--success);"><strong>OPM 34.0%</strong></td>
+              <td><strong>핵심 사업 영업 마진 호조</strong></td>
+            </tr>
+            <tr>
+              <td>영업외 손익</td>
+              <td class="n">+$97.98B</td>
+              <td class="n">—</td>
+              <td>SpaceX 지분가치 재평가이익 등 +$97.83B, 순이자수익 +$0.15B</td>
+            </tr>
+            <tr>
+              <td>법인세비용 (Tax Provision)</td>
+              <td class="n">-$26.56B</td>
+              <td class="n">—</td>
+              <td>비상장 지분 평가이익 관련 이연법인세 반영</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>당기순이익 (Net Income)</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>$112.19B</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>순이익률 93.7%</strong></td>
+              <td><strong>일회성 지분 평가이익 반영</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- (3) FY2025 Sankey -->
+      <h3 class="sub-title" style="margin-top:36px;">(3) 최근 연간 실적 플로우 (FY2025: 2025년 12월 31일 종료 회계연도)</h3>
+      <div class="infographic-card">
+        <div class="card-img-wrap">
+          <img src="./assets/GOOG/goog_fy2025_sankey.png" alt="Alphabet FY2025 Financial Flow" class="sankey-img" loading="lazy">
+        </div>
+        <div class="card-actions">
+          <a href="./assets/GOOG/goog_fy2025_sankey.html" target="_blank" class="action-btn btn-interactive">🔗 FY2025 인터랙티브 차트 열기 (Plotly HTML)</a>
+          <a href="./assets/GOOG/goog_fy2025_sankey.png" target="_blank" download class="action-btn btn-download">💾 4K 고해상도 이미지 다운로드 (PNG)</a>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="fin-tbl">
+          <thead>
+            <tr>
+              <th>FY2025 핵심 지표 요약 (단위: $B)</th>
+              <th class="n">FY2025 연간 ($B)</th>
+              <th class="n">비중 / 마진율</th>
+              <th>전년 대비 (YoY) 및 주요 세부 내역</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>총 매출액 (Total Revenue)</strong></td>
+              <td class="n" style="color:var(--accent); font-weight:700;"><strong>$402.84B</strong></td>
+              <td class="n"><strong>100.0%</strong></td>
+              <td><strong>+15.1% YoY</strong></td>
+            </tr>
+            <tr>
+              <td>— Google Search &amp; other</td>
+              <td class="n">$226.80B</td>
+              <td class="n">56.3%</td>
+              <td>+14.2% YoY</td>
+            </tr>
+            <tr>
+              <td>— Google Cloud</td>
+              <td class="n">$70.00B</td>
+              <td class="n">17.4%</td>
+              <td style="color:var(--success); font-weight:600;">+62.0% YoY</td>
+            </tr>
+            <tr>
+              <td>— Subscriptions, platforms &amp; devices</td>
+              <td class="n">$45.64B</td>
+              <td class="n">11.3%</td>
+              <td>+19.5% YoY</td>
+            </tr>
+            <tr>
+              <td>— YouTube advertising</td>
+              <td class="n">$38.40B</td>
+              <td class="n">9.5%</td>
+              <td>+16.0% YoY</td>
+            </tr>
+            <tr>
+              <td>— Google Network</td>
+              <td class="n">$22.00B</td>
+              <td class="n">5.5%</td>
+              <td>-5.0% YoY</td>
+            </tr>
+            <tr style="font-weight:600;">
+              <td><strong>매출총이익 (Gross Profit)</strong></td>
+              <td class="n">$240.30B</td>
+              <td class="n"><strong>GPM 59.7%</strong></td>
+              <td>연간 GPM 59.7% 유지</td>
+            </tr>
+            <tr>
+              <td><strong>영업비용 (OPEX)</strong></td>
+              <td class="n">$111.26B</td>
+              <td class="n">27.6%</td>
+              <td>R&amp;D $61.09B, S&amp;M $28.69B, G&amp;A $21.48B</td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>영업이익 (Operating Income)</strong></td>
+              <td class="n" style="color:var(--success);"><strong>$129.04B</strong></td>
+              <td class="n" style="color:var(--success);"><strong>OPM 32.0%</strong></td>
+              <td><strong>연간 영업이익률 32.0% 달성</strong></td>
+            </tr>
+            <tr style="background:var(--panel-alt); font-weight:700;">
+              <td><strong>당기순이익 (Net Income)</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>$132.17B</strong></td>
+              <td class="n" style="color:var(--accent);"><strong>순이익률 32.8%</strong></td>
+              <td><strong>연간 순이익률 32.8%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 3 -->
+    <section>
+      <h2 class="sec-title">3. 부문별 펀더멘털 및 시계열 변화 분석</h2>
+      <div class="tbl-wrap">
+        <table class="fin-tbl">
+          <thead>
+            <tr>
+              <th>핵심 지표</th>
+              <th class="c">FY2025 (연간)</th>
+              <th class="c">Q2 2026 (직전 분기)</th>
+              <th class="c">Q3 2026 (최신 분기)</th>
+              <th>시계열 추세 진단</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>전사 매출 성장률 (YoY)</strong></td>
+              <td class="c">+15.1%</td>
+              <td class="c">+24.2%</td>
+              <td class="c" style="color:var(--accent); font-weight:700;"><strong>+25.0%</strong></td>
+              <td>13분기 연속 두 자릿수 성장 및 외형 가속</td>
+            </tr>
+            <tr>
+              <td><strong>Search &amp; other 매출</strong></td>
+              <td class="c">$226.80B (+14.2%)</td>
+              <td class="c">$63.80B (+17.5%)</td>
+              <td class="c"><strong>$63.35B (+12.0%)</strong></td>
+              <td>쿼리 성장률 5년 내 최고치, 견고한 캐시카우</td>
+            </tr>
+            <tr>
+              <td><strong>Google Cloud 매출</strong></td>
+              <td class="c">$70.00B (+62.0%)</td>
+              <td class="c">$24.80B (+82.0%)</td>
+              <td class="c" style="color:var(--success); font-weight:700;"><strong>$30.71B (+103.0%)</strong></td>
+              <td><strong>전사 매출 비중 24.1% 돌파, 2배 성장</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Google Cloud OPM</strong></td>
+              <td class="c">~17.5%</td>
+              <td class="c">~28.5%</td>
+              <td class="c" style="color:var(--success); font-weight:700;"><strong>36.2% ($11.1B)</strong></td>
+              <td><strong>목표 기준(35%+) 초과 달성, 초고마진 안착</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Google Services OPM</strong></td>
+              <td class="c">~39.0%</td>
+              <td class="c">~40.1%</td>
+              <td class="c"><strong>40.7% ($39.16B)</strong></td>
+              <td>검색·유튜브 중심 압도적 수익성 유지</td>
+            </tr>
+            <tr>
+              <td><strong>전사 영업이익 (OPM)</strong></td>
+              <td class="c">$129.04B (32.0%)</td>
+              <td class="c">$40.77B (34.0%)</td>
+              <td class="c"><strong>$40.58B (31.8%)</strong></td>
+              <td>R&amp;D(+36%) 및 감가상각비 증가에도 30%+ 수성</td>
+            </tr>
+            <tr>
+              <td><strong>분기 설비투자 (CapEx)</strong></td>
+              <td class="c">$52.5B (연간)</td>
+              <td class="c">~$38.0B</td>
+              <td class="c" style="color:var(--warn); font-weight:700;"><strong>$51.36B (+114% YoY)</strong></td>
+              <td>연간 $1,950억~$2,050억 가이던스 유지</td>
+            </tr>
+            <tr>
+              <td><strong>분기 잉여현금흐름 (FCF)</strong></td>
+              <td class="c">+$72.8B (연간)</td>
+              <td class="c" style="color:var(--danger);">적자 전환</td>
+              <td class="c" style="color:var(--danger); font-weight:700;"><strong>-$9.07B (적자 지속)</strong></td>
+              <td>영업현금흐름($42.29B)을 초과하는 CapEx 집행</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 4 -->
+    <section>
+      <h2 class="sec-title">4. Atlas의 3대 모니터링 축 검증 및 리스크 평가 (Devil's Advocate)</h2>
+
+      <h3 class="sub-title">💡 포트폴리오 3대 모니터링 축 검증 현황 (<code>docs/portfolio_context.md</code> 연계)</h3>
+      <div class="card-grid">
+        <div class="fact-card pass">
+          <span class="card-badge" style="color:var(--success);">제1의 심장 · 완벽 충족 (Pass)</span>
+          <h4>검색 광고 해자 및 수익성</h4>
+          <p>Search &amp; other 매출이 +12.0% YoY 성장($63.35B)했고, Google Services 영업이익률은 <strong>40.7%($39.16B)</strong>에 달합니다. AI Overviews 도입으로 검색 쿼리 증가율이 최근 5년래 최고치를 기록하며 "AI가 검색을 대체할 것"이라는 공포를 실적으로 불식시켰습니다.</p>
+        </div>
+        <div class="fact-card pass">
+          <span class="card-badge" style="color:var(--success);">제2의 심장 · Strong Pass / FCF 전환 대기</span>
+          <h4>GCP 수주잔고 &amp; 마진 vs CapEx</h4>
+          <p>클라우드 영업이익률이 <strong>36.2%</strong>를 기록하며 목표치(35%+)를 돌파했습니다. 클라우드 수주잔고(Backlog)가 <strong>$5,610억</strong>으로 확대되었고 향후 24개월 내 과반이 매출로 인식될 예정이어서, 높은 성장 가시성을 확보했습니다.</p>
+        </div>
+        <div class="fact-card pass">
+          <span class="card-badge" style="color:var(--success);">두뇌 · 충족 (Pass)</span>
+          <h4>Gemini 4 프론티어 도약</h4>
+          <p>9월 말 발표된 <strong>Gemini 4 Argon</strong>(100만 토큰 출력 및 파격적 토큰 단가)과 자체 <strong>TPU 시스템 판매 호조</strong>가 클라우드 매출 2배 성장의 핵심 견인차로 작용했습니다.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-title" style="margin-top:32px;">⚠️ 간과된 리스크와 최악의 시나리오 (Devil's Advocate)</h3>
+      <div class="card-grid">
+        <div class="fact-card risk">
+          <span class="card-badge" style="color:var(--danger);">Risk 01 · FCF 적자 &amp; 감가상각 부담</span>
+          <h4>2분기 연속 마이너스 FCF(-$90.7억)와 감가상각 시차 폭탄</h4>
+          <p>분기 영업현금흐름(OCF) $422.9억을 벌어들이고도, 분기 CapEx로 <strong>$513.6억</strong>을 지출하여 <strong>-$90.7억의 마이너스 잉여현금흐름(FCF)</strong>을 기록했습니다. 2026년 연간 $2,000억에 육박하는 CapEx는 2027~2029년 손익계산서에 매년 $400억~$500억 규모의 고정 감가상각비로 돌아옵니다. 실제로 Q3 2026에서도 인프라 감가상각비와 AI 인재 보상비 증가로 COGS(+24% YoY)와 R&amp;D(+36% YoY)가 빠르게 늘어나며 전사 OPM이 Q2(34.0%) 대비 Q3(31.8%)로 220bps 낮아졌습니다.</p>
+        </div>
+        <div class="fact-card risk">
+          <span class="card-badge" style="color:var(--danger);">Risk 02 · 영업외 손익 변동성</span>
+          <h4>SpaceX 등 비상장 지분 가치 변동에 따른 당기순이익 왜곡</h4>
+          <p>Q2 2026에는 SpaceX 평가이익(+$97.8B)으로 순이익이 $112.19B로 급증했다가, Q3 2026에는 반대로 미실현 평가손실(-$8.22B)이 발생해 순이익이 $26.47B(-25% YoY)로 급감했습니다. 헤드라인 EPS 변동성에 흔들리지 않고 <strong>연결 영업이익($40.58B)과 OCF($42.29B)</strong>만을 가치평가의 척도로 삼아야 합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- Section 5 -->
+    <section>
+      <h2 class="sec-title">5. 향후 모니터링 체크리스트 (Q4 2026 ~ FY2027)</h2>
+      <div class="checklist-card">
+        <ul>
+          <li>
+            <span class="chk-box">[ ]</span>
+            <span><strong>잉여현금흐름(FCF) 플러스 전환 시점</strong>: 분기 OCF가 $500억을 돌파하거나 CapEx 증가율이 진정되어 분기 FCF가 흑자로 돌아서는 분기 확인.</span>
+          </li>
+          <li>
+            <span class="chk-box">[ ]</span>
+            <span><strong>Google Cloud OPM 35%+ 방어력</strong>: 막대한 신규 서버 감가상각비가 반영되는 2027년에도 클라우드 OPM이 35% 이상을 유지하는지 여부.</span>
+          </li>
+          <li>
+            <span class="chk-box">[ ]</span>
+            <span><strong>$5,610억 수주잔고(Backlog)의 실제 매출 전환 속도</strong>: 분기 클라우드 매출이 $35B ➔ $40B로 계획대로 전환되는지 추적.</span>
+          </li>
+          <li>
+            <span class="chk-box">[ ]</span>
+            <span><strong>DOJ 반독점 최종 구제조치 항소 및 영향</strong>: 검색 유통 계약(TAC $16.37B) 구조에 실질적 변경이 발생하는지 여부.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rep-footer">
+    Alphabet Inc. (NASDAQ: GOOG) Financial Deep Dive &amp; Sankey Flowchart · Pensieve Investment Analysis Ser.
+  </footer>
+</div>
+
+</body>
+</html>

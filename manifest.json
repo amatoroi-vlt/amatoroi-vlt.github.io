@@ -4,10 +4,10 @@
       "name": "Invest",
       "files": [
         {
-          "name": "goog q3 2026 sankey",
-          "path": "reports/Invest/goog_q3_2026_sankey.html",
-          "date": "2026-10-29T04:41:12.459103+00:00",
-          "summary": "Alphabet(NASDAQ: GOOG)의 2026년 3분기(Q3 2026) GAAP 손익계산서 흐름을 시각화한 Plotly 인터랙티브 Sankey 다이어그램이다. 총매출 $127.6B(+25.0% YoY, Google Search $63.35B·Google Cloud $30.71B 등)에서 매출총이익 $76.16B(마진 59.7%), 영업이익 $40.58B(마진 31.8%), 비영업손실(SpaceX 평가손실 -$8.22B) 및 법인세(-$5.89B) 반영 후 당기순이익 $26.47B(순이익률 20.7%)에 이르는 수익·비용 구조를 한눈에 보여준다."
+          "name": "Alphabet Inc. (NASDAQ: GOOG) 실적 심층 분석 리포트",
+          "path": "reports/Invest/goog_earnings_deep_dive.html",
+          "date": "2026-10-29T05:01:46.749313+00:00",
+          "summary": "Alphabet Inc. (NASDAQ: GOOG, 일반계좌 비중 52.0% 1위 코어 자산)의 Q3 2026(연결 매출 $127.58B, 영업이익 $40.58B, OPM 31.8%, 사상 최초 연 환산 매출 $5,000억 돌파), Q2 2026 및 FY2025 연간 실적을 SEC 10-Q/10-K 공시와 App Economy Insights 스타일 Sankey 다이어그램으로 심층 분석한 리포트다. Google Cloud의 폭발적 성장(+103% YoY, 매출 $30.71B, OPM 36.2%, 수주잔고 $5,610억), 3대 모니터링 축 검증, 대규모 AI 설비투자(분기 CapEx $51.36B)에 따른 2분기 연속 마이너스 FCF(-$9.07B) 및 감가상각 부담 리스크, 향후 체크리스트를 종합 정리했다."
         },
         {
           "name": "UiPath Inc. (NYSE: PATH) 실적 심층 분석 리포트",
