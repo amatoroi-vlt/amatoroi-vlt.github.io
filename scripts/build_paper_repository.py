@@ -102,6 +102,8 @@ def derive_tags(title: str, text: str):
         "체렌코프": ["Cherenkov", "체렌코프", "LSC", "액체섬광"],
         "이온성액체": ["Ionic Liquid", "이온성 액체", "Bmim", "Salicylate", "파장 시프터"],
         "Pb-210/Bi-210": ["210Pb", "210Bi", "Pb-210", "Bi-210", "납-210"],
+        "Ra-226": ["226Ra", "Ra-226", "radium-226", "라듐-226"],
+        "Geant4/시뮬레이션": ["Geant4", "Monte Carlo", "몬테카를로", "remage"],
         "효율교정": ["Efficiency calibration", "효율 교정", "FEPER", "검출 효율"],
         "방사평형": ["Equilibrium", "Disequilibrium", "영속평형", "방사평형 불평형"],
         "방사선안전/규제": ["EU-BSS", "Gamma Index", "방사선 기준치", "MDA", "먹는물"]
