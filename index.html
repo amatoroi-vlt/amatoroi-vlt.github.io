@@ -6,7 +6,12 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body { height: 100%; overflow: hidden; }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
 
     body {
       display: flex;
@@ -71,19 +76,19 @@
     #sidebar-floating-expand-btn {
       display: none;
       position: fixed;
-      left: 14px;
-      top: 14px;
+      left: 16px;
+      bottom: 18px;
       z-index: 1000;
-      background: rgba(22, 27, 34, 0.85);
+      background: rgba(22, 27, 34, 0.88);
       backdrop-filter: blur(8px);
       border: 1px solid #30363d;
       color: #c9d1d9;
-      border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 0.8rem;
-      font-weight: 500;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 0.76rem;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
       align-items: center;
       gap: 6px;
       transition: all 0.2s ease;
@@ -370,8 +375,8 @@
 <body>
 
 <!-- Floating Expand Button (shown when sidebar is hidden) -->
-<button id="sidebar-floating-expand-btn" title="사이드바 열기 (단축키: [ 또는 Ctrl+B)">
-  <span>📂</span> <span>목록 열기</span>
+<button id="sidebar-floating-expand-btn" title="블로그 사이드바 열기 (단축키: [ 또는 Ctrl+B)">
+  <span>📂</span> <span>블로그 메뉴</span>
 </button>
 
 <div id="sidebar">

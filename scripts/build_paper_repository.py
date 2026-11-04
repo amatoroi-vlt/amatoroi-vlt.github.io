@@ -138,9 +138,6 @@ def collect_paper_data(source_dir: Path):
     # 2. INDEX.md 메타데이터 파싱
     md_meta = parse_index_md(index_md_path)
 
-    # 3. 이미지 복사 대상 준비
-    ASSETS_DEST_DIR.mkdir(parents=True, exist_ok=True)
-
     papers = []
 
     # raw_index_data를 기준으로 조합하거나, 파일 목록 기준 조합
@@ -164,46 +161,20 @@ def collect_paper_data(source_dir: Path):
         else:
             authors_str = str(authors)
 
-        # 대상 폴더 생성 (reports/Overwatch/assets/papers/<paper_id>/)
-        paper_dest_dir = ASSETS_DEST_DIR / paper_id
-        paper_dest_dir.mkdir(parents=True, exist_ok=True)
-
-        # 1. 요약문 Markdown 읽기 및 링크 치환
+        # 1. 요약문 Markdown 읽기 (원문 파일은 복사하지 않으며, 상단 중복 메타/문서링크 블록 제거)
         summary_md = ""
         summary_file = summaries_dir / f"{paper_id}.md"
         if summary_file.exists():
             summary_md = summary_file.read_text(encoding="utf-8")
-            # 상대 경로(../transcribed/..., ../raw/...)를 웹 경로(assets/papers/<id>/...)로 변환
-            summary_md = re.sub(r'\]\(\.\./transcribed/([^\)]+?)\.md\)', r'](assets/papers/\1/\1.md)', summary_md)
-            summary_md = re.sub(r'\]\(\.\./raw/([^\)]+?)\.pdf\)', r'](assets/papers/\1/\1.pdf)', summary_md)
-
-        # 2. 전사본 Markdown 읽기 및 원문 파일 복사
-        transcribed_md = ""
-        transcribed_file = transcribed_dir / f"{paper_id}.md"
-        if transcribed_file.exists():
-            transcribed_md = transcribed_file.read_text(encoding="utf-8")
-            # 전사본 MD 파일 자체를 assets 폴더로 복사하여 직접 열람 가능하게 함
-            shutil.copy2(transcribed_file, paper_dest_dir / f"{paper_id}.md")
-
-        # 3. 전사본 이미지 복사 및 경로 변환
-        paper_img_src_dir = images_dir / paper_id
-        if paper_img_src_dir.exists():
-            for img_file in paper_img_src_dir.glob("*.png"):
-                shutil.copy2(img_file, paper_dest_dir / img_file.name)
-            # 마크다운 내 이미지 링크를 웹 상대 경로로 변환
-            transcribed_md = re.sub(
-                r'!\[(.*?)\]\(images/' + re.escape(paper_id) + r'/(.*?)\)',
-                r'![\1](assets/papers/' + paper_id + r'/\2)',
-                transcribed_md
+            # 상단 중복 헤더(# 제목 ~ ---) 및 '## 심층 구조화 분석...' 타이틀 제거하여 본문(### 1. ...)부터 바로 시작하도록 정리
+            summary_md = re.sub(
+                r'\A# .*?\n---\s*\n+(?:## 심층 구조화 분석[^\n]*\n+)?',
+                '',
+                summary_md,
+                flags=re.DOTALL
             )
-
-        # 4. 원본 PDF 복사
-        pdf_file = raw_dir / f"{paper_id}.pdf"
-        has_pdf = pdf_file.exists()
-        pdf_size_mb = "N/A"
-        if has_pdf:
-            pdf_size_mb = f"{pdf_file.stat().st_size / (1024*1024):.1f} MB"
-            shutil.copy2(pdf_file, paper_dest_dir / f"{paper_id}.pdf")
+            # 혹시 남아있을 수 있는 문서링크 라인 제거
+            summary_md = re.sub(r'^- \*\*문서링크\*\*:.*?\n', '', summary_md, flags=re.MULTILINE)
 
         # 태그 자동 도출
         tags = derive_tags(en_title + " " + ko_title, summary_md + " " + takeaway)
@@ -217,10 +188,7 @@ def collect_paper_data(source_dir: Path):
             "authors": authors_str,
             "takeaway": takeaway,
             "tags": tags,
-            "summary_md": summary_md,
-            "has_pdf": has_pdf,
-            "pdf_name": f"{paper_id}.pdf",
-            "pdf_size": pdf_size_mb,
+            "summary_md": summary_md.strip(),
             "converted_at": item.get("converted_at", "")
         })
 
@@ -282,13 +250,18 @@ def generate_dashboard_html(papers: list) -> str:
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
       --font-serif: 'Noto Serif KR', Georgia, serif;
       --font-mono: 'IBM Plex Mono', Menlo, Consolas, monospace;
-      --header-height: 72px;
+      --header-height: 54px;
     }}
 
     * {{
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }}
+
+    html, body {{
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }}
 
     body {{
@@ -310,8 +283,8 @@ def generate_dashboard_html(papers: list) -> str:
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 1.5rem;
-      gap: 1.5rem;
+      padding: 0 1rem;
+      gap: 1rem;
       flex-shrink: 0;
       z-index: 20;
     }}
@@ -319,27 +292,28 @@ def generate_dashboard_html(papers: list) -> str:
     .brand {{
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 0.65rem;
     }}
 
     .brand-badge {{
       background: var(--accent-subtle);
       color: var(--accent-primary);
       border: 1px solid rgba(56, 189, 248, 0.3);
-      padding: 0.3rem 0.65rem;
+      padding: 0.22rem 0.55rem;
       border-radius: 6px;
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.05em;
     }}
 
     .brand-title {{
       font-family: var(--font-serif);
-      font-size: 1.2rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: var(--ink-heading);
       letter-spacing: -0.02em;
+      white-space: nowrap;
     }}
 
     .search-box-wrapper {{
@@ -420,7 +394,7 @@ def generate_dashboard_html(papers: list) -> str:
     }}
 
     .app-container.master-collapsed .master-pane {{
-      margin-left: -380px;
+      display: none !important;
     }}
 
     .filter-bar {{
@@ -592,19 +566,20 @@ def generate_dashboard_html(papers: list) -> str:
     }}
 
     .detail-header {{
-      padding: 1.5rem 2rem 1.25rem;
+      padding: 0.95rem 1.25rem;
       background: var(--bg-panel);
-      border-bottom: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      flex-shrink: 0;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
     }}
 
     .detail-top-badges {{
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.55rem;
       flex-wrap: wrap;
     }}
 
@@ -613,22 +588,23 @@ def generate_dashboard_html(papers: list) -> str:
       color: var(--accent-primary);
       border: 1px solid rgba(56, 189, 248, 0.3);
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      padding: 0.25rem 0.6rem;
-      border-radius: 6px;
+      padding: 0.15rem 0.48rem;
+      border-radius: 5px;
     }}
 
     .badge-journal {{
       color: var(--accent-gold);
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       font-style: italic;
       font-weight: 500;
+      line-height: 1.35;
     }}
 
     .detail-title-ko {{
       font-family: var(--font-serif);
-      font-size: 1.5rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: var(--ink-heading);
       line-height: 1.35;
@@ -636,27 +612,28 @@ def generate_dashboard_html(papers: list) -> str:
     }}
 
     .detail-title-en {{
-      font-size: 1rem;
+      font-size: 0.84rem;
       color: var(--ink-muted);
-      line-height: 1.4;
+      line-height: 1.35;
       font-weight: 400;
     }}
 
     .detail-authors {{
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       color: #cbd5e1;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
+      line-height: 1.35;
     }}
 
     .action-btn {{
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.4rem 0.85rem;
+      gap: 0.35rem;
+      padding: 0.35rem 0.7rem;
       border-radius: 6px;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       font-weight: 600;
       text-decoration: none;
       cursor: pointer;
@@ -665,6 +642,8 @@ def generate_dashboard_html(papers: list) -> str:
       color: var(--ink-base);
       transition: all 0.15s ease;
       font-family: var(--font-sans);
+      white-space: nowrap;
+      flex-shrink: 0;
     }}
 
     .action-btn:hover {{
@@ -677,8 +656,8 @@ def generate_dashboard_html(papers: list) -> str:
     .detail-body {{
       flex: 1;
       overflow-y: auto;
-      padding: 2.2rem 2.5rem 4rem;
-      line-height: 1.75;
+      padding: 1.25rem 1.75rem 3.5rem;
+      line-height: 1.7;
       scrollbar-width: thin;
     }}
 
@@ -707,25 +686,26 @@ def generate_dashboard_html(papers: list) -> str:
     .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {{
       font-family: var(--font-serif);
       color: var(--ink-heading);
-      margin-top: 2rem;
-      margin-bottom: 0.85rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.65rem;
       line-height: 1.35;
     }}
 
-    .markdown-body h1 {{ font-size: 1.6rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.6rem; }}
-    .markdown-body h2 {{ font-size: 1.35rem; color: var(--accent-primary); border-left: 3px solid var(--accent-primary); padding-left: 0.75rem; margin-top: 2.5rem; }}
-    .markdown-body h3 {{ font-size: 1.15rem; color: #f1f5f9; }}
+    .markdown-body h1 {{ font-size: 1.3rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; }}
+    .markdown-body h2 {{ font-size: 1.15rem; color: var(--accent-primary); border-left: 3px solid var(--accent-primary); padding-left: 0.65rem; margin-top: 1.75rem; }}
+    .markdown-body h3 {{ font-size: 1.02rem; color: #f1f5f9; border-left: 3px solid var(--accent-primary); padding-left: 0.6rem; margin-top: 1.5rem; }}
 
     .markdown-body p {{
-      margin-bottom: 1.15rem;
+      margin-bottom: 0.95rem;
       color: #cbd5e1;
-      font-size: 0.96rem;
+      font-size: 0.9rem;
     }}
 
     .markdown-body ul, .markdown-body ol {{
-      margin-bottom: 1.25rem;
-      padding-left: 1.6rem;
+      margin-bottom: 1.05rem;
+      padding-left: 1.4rem;
       color: #cbd5e1;
+      font-size: 0.9rem;
     }}
 
     .markdown-body li {{
@@ -870,12 +850,13 @@ def generate_dashboard_html(papers: list) -> str:
       }}
       .master-pane {{
         width: 100%;
-        height: 40vh;
+        height: 38vh;
         border-right: none;
         border-bottom: 1px solid var(--border-subtle);
       }}
       .detail-pane {{
-        height: 60vh;
+        flex: 1;
+        min-height: 0;
       }}
     }}
   </style>
@@ -885,8 +866,8 @@ def generate_dashboard_html(papers: list) -> str:
   <!-- Header -->
   <header>
     <div class="brand">
-      <button class="action-btn" id="toggleMasterBtn" title="좌측 목록 접기/펼치기" style="padding: 0.35rem 0.65rem;">
-        <span id="toggleMasterIcon">◀</span> <span id="toggleMasterText">목록 접기</span>
+      <button class="action-btn" id="toggleMasterBtn" title="논문 목록 접기/펼치기" style="padding: 0.3rem 0.6rem;">
+        <span id="toggleMasterIcon">◀</span> <span id="toggleMasterText">논문 목록</span>
       </button>
       <span class="brand-badge">RESEARCH ARCHIVE</span>
       <h1 class="brand-title">논문 아카이브</h1>
@@ -928,31 +909,33 @@ def generate_dashboard_html(papers: list) -> str:
 
     <!-- Right Detail Pane -->
     <main class="detail-pane" id="detailPane">
-      
-      <!-- Detail Header -->
-      <div class="detail-header" id="detailHeader">
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;">
-          <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
-            <div class="detail-top-badges">
-              <span class="badge-year" id="dhYear">2026</span>
-              <span class="badge-journal" id="dhJournal">Journal Name</span>
-            </div>
-            <h2 class="detail-title-ko" id="dhTitleKo">논문 제목 (한글)</h2>
-            <div class="detail-title-en" id="dhTitleEn">Paper Full Title in English</div>
-            <div class="detail-authors" id="dhAuthors">
-              <span>✍️</span> <span id="dhAuthorsText">저자 정보</span>
+
+      <!-- Detail Content Body (Header + Summary scroll together) -->
+      <div class="detail-body" id="detailBody">
+        <div class="summary-wrapper">
+          <!-- Detail Header (scrolls naturally with content) -->
+          <div class="detail-header" id="detailHeader">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem;">
+              <div style="display: flex; flex-direction: column; gap: 0.35rem; flex: 1; min-width: 0;">
+                <div class="detail-top-badges">
+                  <span class="badge-year" id="dhYear">2026</span>
+                  <span class="badge-journal" id="dhJournal">Journal Name</span>
+                </div>
+                <h2 class="detail-title-ko" id="dhTitleKo">논문 제목 (한글)</h2>
+                <div class="detail-title-en" id="dhTitleEn">Paper Full Title in English</div>
+                <div class="detail-authors" id="dhAuthors">
+                  <span>✍️</span> <span id="dhAuthorsText">저자 정보</span>
+                </div>
+              </div>
+              <button class="action-btn" id="copyCitationBtn" title="인용 정보 복사">
+                📋 인용 복사
+              </button>
             </div>
           </div>
-          <button class="action-btn" id="copyCitationBtn" title="인용 정보 복사">
-            📋 인용 복사
-          </button>
-        </div>
-      </div>
 
-      <!-- Detail Content Body -->
-      <div class="detail-body">
-        <div class="summary-wrapper markdown-body" id="paneSummary">
-          <!-- Rendered Structured Summary -->
+          <div class="markdown-body" id="paneSummary">
+            <!-- Rendered Structured Summary -->
+          </div>
         </div>
       </div>
 
@@ -1085,6 +1068,8 @@ def generate_dashboard_html(papers: list) -> str:
       currentPaperId = paperId;
       document.querySelectorAll(".paper-card").forEach(c => c.classList.remove("active"));
       renderCardList();
+      const detailBody = document.getElementById("detailBody");
+      if (detailBody) detailBody.scrollTop = 0;
     }}
 
     function renderDetailPane() {{
@@ -1158,7 +1143,7 @@ def generate_dashboard_html(papers: list) -> str:
       toggleMasterBtn.addEventListener("click", () => {{
         const isCollapsed = appContainer.classList.toggle("master-collapsed");
         toggleMasterIcon.textContent = isCollapsed ? "▶" : "◀";
-        toggleMasterText.textContent = isCollapsed ? "목록 열기" : "목록 접기";
+        toggleMasterText.textContent = "논문 목록";
       }});
     }}
 
