@@ -156,5 +156,9 @@
   "reports/Invest/goog_earnings_deep_dive.html": {
     "hash": "05e88b00864148973bcc06631c02ae04b44601aa",
     "summary": "Alphabet Inc. (NASDAQ: GOOG, 일반계좌 비중 52.0% 1위 코어 자산)의 Q3 2026(연결 매출 $127.58B, 영업이익 $40.58B, OPM 31.8%, 사상 최초 연 환산 매출 $5,000억 돌파), Q2 2026 및 FY2025 연간 실적을 SEC 10-Q/10-K 공시와 App Economy Insights 스타일 Sankey 다이어그램으로 심층 분석한 리포트다. Google Cloud의 폭발적 성장(+103% YoY, 매출 $30.71B, OPM 36.2%, 수주잔고 $5,610억), 3대 모니터링 축 검증, 대규모 AI 설비투자(분기 CapEx $51.36B)에 따른 2분기 연속 마이너스 FCF(-$9.07B) 및 감가상각 부담 리스크, 향후 체크리스트를 종합 정리했다."
+  },
+  "reports/Research/pb210_fitting_model_steps.html": {
+    "hash": "539dfee25f4bad642c3942e4e86af586a53b9169",
+    "summary": "DAT-LSC 분석 엔진(templates.py, fitter.py)의 3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델이 순수 이론(Bare) 상태에서 출발해 7개 최적화 변인(소광 Q, 광통계 분해능 σ₀, 알파 피크 μ_Po·w_Po, 핵종별 진폭 A_Pb·A_Bi·A_Po)과 TDCR 저채널 문턱(ch₀=85.0)을 거치며 최종 합성 스펙트럼으로 변환되는 Step 0~Step 5 전 과정을 인터랙티브 슬라이드와 상세 그래프·수식으로 시각화한 리포트다."
   }
 }

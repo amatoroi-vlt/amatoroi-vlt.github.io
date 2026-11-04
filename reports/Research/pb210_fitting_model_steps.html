@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  function tryRenderMath() {
+    if (typeof renderMathInElement === "function") {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+          { left: "\\[", right: "\\]", display: true },
+          { left: "\\(", right: "\\)", display: false }
+        ],
+        throwOnError: false
+      });
+    } else {
+      setTimeout(tryRenderMath, 100);
+    }
+  }
+  tryRenderMath();
+});
+</script>
+<style>
+:root {
+  color-scheme: light dark;
+  --ground:      #fdfdfc; --panel:       #f8f9fa; --panel-2:     #f1f3f5;
+  --ink:         #1a1d24; --ink-2:       #495057; --ink-3:       #868e96;
+  --rule:        #e9ecef; --rule-2:      #dee2e6;
+  --accent:      #1f6feb; --accent-bg:   #e7f5ff;
+  --pb:          #9333ea; --bi:          #16a34a; --po:          #ea580c;
+  --wide:        1120px;
+  --code-bg:     #f1f3f5; --code-ink:    #1f6feb;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #121316; --panel:       #1a1d24; --panel-2:     #222630;
+    --ink:         #e6edf3; --ink-2:       #adb5bd; --ink-3:       #6c757d;
+    --rule:        #2d3139; --rule-2:      #3d4450;
+    --accent:      #58a6ff; --accent-bg:   #182635;
+    --pb:          #bc8cff; --bi:          #3fb950; --po:          #f0883e;
+    --code-bg:     #222630; --code-ink:    #79c0ff;
+  }
+}
+* { box-sizing: border-box; }
+html, body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font-family: "Noto Serif KR", serif; font-size: 15.5px; line-height: 1.85;
+}
+header.paper-header {
+  padding: 52px 24px 32px; max-width: var(--wide); margin: 0 auto; border-bottom: 2px solid var(--rule-2);
+}
+.journal-tag {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px;
+}
+h1.paper-title {
+  font-family: "Inter", "Noto Serif KR", sans-serif; font-size: clamp(22px, 3.2vw, 29px);
+  font-weight: 700; line-height: 1.4; margin: 0 0 16px; color: var(--ink);
+}
+.abstract-box {
+  background: var(--panel); border: 1px solid var(--rule-2); border-left: 4px solid var(--accent);
+  padding: 16px 20px; border-radius: 0 6px 6px 0; margin-top: 16px;
+}
+.abstract-box p { font-size: 14.5px; line-height: 1.75; color: var(--ink); margin: 0; }
+code {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.88em;
+  background: var(--code-bg); color: var(--code-ink);
+  padding: 2px 6px; border-radius: 4px;
+}
+main.paper-body { max-width: var(--wide); margin: 0 auto; padding: 32px 24px 90px; }
+section.paper-sec { padding: 32px 0; border-bottom: 1px solid var(--rule); }
+section.paper-sec:last-of-type { border-bottom: none; }
+h2.sec-heading {
+  font-family: "Inter", sans-serif; font-size: 20px; font-weight: 700;
+  margin: 0 0 18px; color: var(--ink); display: flex; align-items: baseline; gap: 10px;
+}
+h3.sub-heading {
+  font-family: "Inter", sans-serif; font-size: 17px; font-weight: 700;
+  margin: 0 0 14px; color: var(--ink);
+}
+p, li { color: var(--ink); }
+ul { padding-left: 22px; margin: 12px 0 0; }
+li { margin-bottom: 8px; }
+ul ul { margin-top: 6px; }
+
+.step-box {
+  background: var(--panel); border: 1px solid var(--rule-2); border-radius: 10px;
+  padding: 22px 24px; margin: 22px 0;
+}
+.step-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  border-bottom: 1px solid var(--rule); padding-bottom: 12px; margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.step-tag {
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 700; color: #fff;
+  background: var(--accent); padding: 3px 9px; border-radius: 4px; flex-shrink: 0;
+}
+.figure-wrap {
+  background: #ffffff; border: 1px solid var(--rule-2); border-radius: 8px;
+  padding: 10px; margin: 14px 0 18px; text-align: center;
+}
+.figure-wrap img {
+  max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 4px;
+}
+.formula-card {
+  background: var(--ground); border: 1px solid var(--rule-2); border-radius: 8px;
+  padding: 14px 18px; margin: 16px 0; text-align: center; overflow-x: auto;
+}
+
+/* Interactive Carousel Styles */
+.carousel-card {
+  background: var(--panel); border: 1px solid var(--rule-2); border-radius: 12px;
+  padding: 20px; margin: 18px 0 8px;
+}
+.carousel-tabs {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;
+}
+.carousel-tab {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+  padding: 6px 12px; border-radius: 6px; border: 1px solid var(--rule-2);
+  background: var(--ground); color: var(--ink-2); cursor: pointer;
+  transition: all 0.15s ease;
+}
+.carousel-tab:hover {
+  border-color: var(--accent); color: var(--ink);
+}
+.carousel-tab.active {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.carousel-stage {
+  background: #ffffff; border: 1px solid var(--rule-2); border-radius: 8px;
+  padding: 12px; position: relative; text-align: center;
+}
+.carousel-stage img {
+  max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 4px;
+}
+.carousel-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 14px; gap: 12px; flex-wrap: wrap;
+}
+.carousel-caption {
+  font-family: "Inter", "Noto Serif KR", sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--ink);
+}
+.carousel-nav {
+  display: flex; gap: 8px;
+}
+.carousel-btn {
+  font-family: "Inter", sans-serif; font-size: 13px; font-weight: 600;
+  padding: 6px 14px; border-radius: 6px; border: 1px solid var(--rule-2);
+  background: var(--ground); color: var(--ink); cursor: pointer;
+  transition: all 0.15s ease;
+}
+.carousel-btn:hover {
+  border-color: var(--accent); color: var(--accent);
+}
+footer.paper-footer {
+  max-width: var(--wide); margin: 0 auto; padding: 24px;
+  border-top: 1px solid var(--rule); text-align: center;
+  font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-3);
+}
+</style>
+</head>
+<body>
+
+<header class="paper-header">
+  <div class="journal-tag">DAT-LSC First-Principles Spectral Deconvolution · Step-by-Step Model Visualization</div>
+  <h1 class="paper-title">3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화</h1>
+  <div class="abstract-box">
+    <p>
+      <code>server/python/pb210fit/templates.py</code> 및 <code>server/python/pb210fit/fitter.py</code>의 실제 함수를 그대로 호출하여, <strong>순수 이론(Bare) 상태</strong>에서 출발해 7개의 최적화 변인($Q, \sigma_0, \mu_{\text{Po}}, w_{\text{Po}}, A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}$)과 고정 문턱($\text{ch}_0 = 85.0$)이 작동할 때 스펙트럼이 변화하는 전 과정을 스텝별로 시각화했습니다.
+    </p>
+  </div>
+</header>
+
+<main class="paper-body">
+
+  <!-- Section 1: Interactive Carousel -->
+  <section class="paper-sec" id="sec-overview">
+    <h2 class="sec-heading">한눈에 보기 (Step 0 $\to$ Step 5 슬라이드)</h2>
+
+    <div class="carousel-card">
+      <div class="carousel-tabs" id="carouselTabs">
+        <button class="carousel-tab active" data-idx="0">Step 0 · Bare 이론</button>
+        <button class="carousel-tab" data-idx="1">Step 1 · 소광 Q</button>
+        <button class="carousel-tab" data-idx="2">Step 2 · 분해능 σ₀</button>
+        <button class="carousel-tab" data-idx="3">Step 3 · TDCR 문턱</button>
+        <button class="carousel-tab" data-idx="4">Step 4 · Po-210 알파</button>
+        <button class="carousel-tab" data-idx="5">Step 5 · 최종 3핵종 합성</button>
+      </div>
+
+      <div class="carousel-stage">
+        <img id="carouselImg" src="./assets/pb210_fitting_model_steps/step0_bare_theoretical.png" alt="Step 0: 순수 이론 상태 (Bare Theoretical State)">
+      </div>
+
+      <div class="carousel-footer">
+        <div class="carousel-caption" id="carouselCaption">Step 0: 순수 이론 상태 (Bare Theoretical State)</div>
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="prevSlideBtn">◀ 이전 스텝</button>
+          <button class="carousel-btn" id="nextSlideBtn">다음 스텝 ▶</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Step-by-Step Details -->
+  <section class="paper-sec" id="sec-steps">
+    <h2 class="sec-heading">스텝별 상세 그래프 및 물리적 의미</h2>
+
+    <!-- Step 0 -->
+    <div class="step-box" id="step0">
+      <div class="step-header">
+        <h3 class="sub-heading">Step 0. 순수 이론 상태 (Bare State: $Q=1.0, \sigma_0=0, \varepsilon_{\text{TDCR}}=1, w_{\text{Po}} \to 0$)</h3>
+        <span class="step-tag">STEP 0 · BARE STATE</span>
+      </div>
+      <div class="figure-wrap">
+        <img src="./assets/pb210_fitting_model_steps/step0_bare_theoretical.png" alt="Step 0: 순수 이론 상태" loading="lazy">
+      </div>
+      <ul>
+        <li><strong>좌측 ($^{210}\text{Pb}$)</strong>: <code>trans1</code>($17.0\,\text{keV}$, $80.2\%$) 베타 전이 직후 나노초 이내에 방출되는 $46.539\,\text{keV}$ 내부전환전자(IC) 및 Auger/X선이 섬광액 내에서 동시합산(coincidence summing)되면서 <strong>$35.0\,\text{keV}$(L X-선 탈출 문턱)</strong> 와 <strong>$46.5\,\text{keV}$(완전 흡수 문턱)</strong> 에서 깎아지른 듯한 수직 절벽이 나타납니다.</li>
+        <li><strong>우측 ($^{210}\text{Bi}$ &amp; $^{210}\text{Po}$)</strong>: $^{210}\text{Bi}$는 $1162.2\,\text{keV}$까지 매끄럽게 이어지는 연속 베타 스펙트럼이며, $^{210}\text{Po}$는 폭이 $0$인 단일 에너지 델타 함수입니다.</li>
+      </ul>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step-box" id="step1">
+      <div class="step-header">
+        <h3 class="sub-heading">Step 1. 에너지 $\to$ 로그 채널 매핑 및 소광 변인 $Q$ ($1.00 \to 0.40 \to 0.265 \to 0.18$)</h3>
+        <span class="step-tag">STEP 1 · QUENCHING Q</span>
+      </div>
+      <div class="figure-wrap">
+        <img src="./assets/pb210_fitting_model_steps/step1_quenching_Q.png" alt="Step 1: 소광 변인 Q" loading="lazy">
+      </div>
+      <div class="formula-card">
+        $$\text{ch}(E; Q) = 362 \cdot \log_{10}\!\big(Q \cdot (E + 3.0)\big) - 173$$
+      </div>
+      <ul>
+        <li>분해능 퍼짐이 없는($\sigma_0 = 0$) 상태에서 로그 채널 축으로 야코비안($\frac{dE}{d\text{ch}} \propto E+3$) 변환만 수행한 결과(<code>step1_raw</code>)입니다.</li>
+        <li>$Q$가 $1.00$에서 $0.265 \to 0.18$로 작아질수록 $\Delta\text{ch} = 362\log_{10}(Q)$만큼 <strong>$^{210}\text{Pb}$와 $^{210}\text{Bi}$ 두 스펙트럼이 동일한 채널 폭만큼 동시에 저채널(왼쪽)로 평행 이동</strong>합니다.</li>
+      </ul>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-box" id="step2">
+      <div class="step-header">
+        <h3 class="sub-heading">Step 2. 광통계 분해능 퍼짐 변인 $\sigma_0$ ($\sigma_0 = 0 \to 80 \to 200 \to 320 \to 550$)</h3>
+        <span class="step-tag">STEP 2 · RESOLUTION σ₀</span>
+      </div>
+      <div class="figure-wrap">
+        <img src="./assets/pb210_fitting_model_steps/step2_resolution_sigma0.png" alt="Step 2: 분해능 변인 sigma_0" loading="lazy">
+      </div>
+      <div class="formula-card">
+        $$\sigma_{\text{ch}}(E; Q, \sigma_0) = \max\!\left(\frac{\sigma_0}{\sqrt{Q \cdot (E + 3.0)}},\; 1.0\right)$$
+      </div>
+      <ul>
+        <li><strong>좌측 ($^{210}\text{Pb}$)</strong>: 저에너지 영역이므로 분모 $\sqrt{Q(E+3)}$가 작아 $\sigma_{\text{ch}}$가 매우 큽니다($\sigma_0=320$일 때 약 $85\,\text{ch}$). 따라서 $\sigma_0$가 커질수록 Step 1의 날카로운 $46.5\,\text{keV}$ 절벽이 양옆으로 뭉개지면서 부드러운 종 모양 피크(<code>step2_gauss</code>)로 변합니다.</li>
+        <li><strong>우측 ($^{210}\text{Bi}$)</strong>: 고에너지 영역($\text{ch } 400 \sim 700$)에서는 분모 $\sqrt{Q(E+3)}$가 커서 $\sigma_{\text{ch}}$가 작기 때문에, $\sigma_0$가 $80$에서 $550$으로 변해도 고원(plateau) 형태는 거의 그대로 유지됩니다.</li>
+      </ul>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-box" id="step3">
+      <div class="step-header">
+        <h3 class="sub-heading">Step 3. 3중 동시계수(TDCR) 저채널 문턱 감쇠 ($\text{ch}_0 = 85.0$ 고정)</h3>
+        <span class="step-tag">STEP 3 · TDCR CUTOFF</span>
+      </div>
+      <div class="figure-wrap">
+        <img src="./assets/pb210_fitting_model_steps/step3_tdcr_cutoff.png" alt="Step 3: TDCR 문턱 감쇠" loading="lazy">
+      </div>
+      <div class="formula-card">
+        $$\varepsilon_{\text{TDCR}}(\text{ch}) = \left(1 - \exp\!\left[-\left(10^{(\text{ch} - 85.0)/362}\right)^2\right]\right)^3$$
+      </div>
+      <ul>
+        <li><strong>좌측</strong>: 붉은 점선($\varepsilon_{\text{TDCR}}$)이 Step 2 스펙트럼(하늘색 파선, 면적 $= 1.00$)에 곱해지면서 $\text{ch } 150$ 이하의 저채널 꼬리를 깎아내어 최종 템플릿(진한 파란 실선, 유효 면적 $= 0.85$)을 만듭니다.</li>
+        <li><strong>우측</strong>: Step 2에서만 면적을 $1.0$으로 정규화하고 Step 3 이후에는 재정규화하지 않기 때문에, 소광이 강해져($Q = 0.35 \to 0.265 \to 0.18$) 스펙트럼이 왼쪽으로 밀릴수록 $\varepsilon_{\text{TDCR}}$ 문턱에 깎여 나가는 면적이 커집니다(유효 면적 $0.91 \to 0.85 \to 0.72$).</li>
+      </ul>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-box" id="step4">
+      <div class="step-header">
+        <h3 class="sub-heading">Step 4. $^{210}\text{Po}$ 알파 피크 전용 변인 ($\mu_{\text{Po}}, w_{\text{Po}}$)</h3>
+        <span class="step-tag">STEP 4 · Po-210 ALPHA</span>
+      </div>
+      <div class="figure-wrap">
+        <img src="./assets/pb210_fitting_model_steps/step4_po210_alpha.png" alt="Step 4: Po-210 알파 변인" loading="lazy">
+      </div>
+      <ul>
+        <li><strong>좌측 ($w_{\text{Po}}$ 변화)</strong>: $w_{\text{Po}} = 1.0$(델타 함수 근사)에서 $7 \to 14 \to 28$로 커질수록 선형 광량 공간($u = 10^{\text{ch}/283.6}$)의 가우시안이 로그 채널 공간으로 투영되면서 야코비안($du/d\text{ch} \propto u$)과 결합해 <strong>왼쪽 꼬리가 완만하고 오른쪽이 가파른 비대칭(skewed) 알파 피크</strong>가 됩니다.</li>
+        <li><strong>우측 ($\mu_{\text{Po}}$ 변화)</strong>: $\mu_{\text{Po}}$가 $555 \to 574 \to 592\,\text{ch}$로 변하면 알파 피크의 중심 위치가 이동하며, 전체 면적은 항상 $1.0$으로 유지됩니다.</li>
+      </ul>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step-box" id="step5">
+      <div class="step-header">
+        <h3 class="sub-heading">Step 5. 진폭 스케일 변인 ($A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}$) 및 최종 3핵종 합성 모델</h3>
+        <span class="step-tag">STEP 5 · FINAL SYNTHESIS</span>
+      </div>
+      <div class="figure-wrap">
+        <img src="./assets/pb210_fitting_model_steps/step5_final_synthesis.png" alt="Step 5: 최종 합성 모델" loading="lazy">
+      </div>
+      <ul>
+        <li><strong>좌측</strong>: $A_{\text{Pb}} = A_{\text{Bi}} = A_{\text{Po}} = 1.0\,\text{CPS}$인 단위 템플릿 상태입니다.</li>
+        <li><strong>우측</strong>: 실제 계수율($A_{\text{Pb}}=1.20, A_{\text{Bi}}=1.50, A_{\text{Po}}=0.35\,\text{CPS}$)이 곱해진 뒤 합산된 최종 모델 $M(\text{ch})$(붉은 실선)입니다.
+          <ul>
+            <li><strong>$\text{Ch } 350 \sim 520$ 및 $620 \sim 750$</strong>: $^{210}\text{Pb}$와 $^{210}\text{Po}$가 모두 $0$인 <strong>$^{210}\text{Bi}$ 단독 고원(Plateau) 구간</strong>이 존재하여 $A_{\text{Bi}}$가 간섭 없이 먼저 단단히 고정(anchor)됩니다.</li>
+            <li>그 위($\text{Ch } 520 \sim 620$)에 얹힌 알파 피크로부터 $A_{\text{Po}}, \mu_{\text{Po}}, w_{\text{Po}}$가 분리되고, 저채널($\text{Ch } 120 \sim 350$)에서 $^{210}\text{Bi}$ 기여분을 뺀 나머지로부터 $A_{\text{Pb}}, Q, \sigma_0$가 결정됩니다.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="paper-footer">
+  DAT-LSC 3-Nuclide Physical Fitting Model Visualization · Pensieve Research Archive
+</footer>
+
+<script>
+(function() {
+  const slides = [
+    {
+      src: "./assets/pb210_fitting_model_steps/step0_bare_theoretical.png",
+      caption: "Step 0: 순수 이론 상태 (Bare Theoretical State)"
+    },
+    {
+      src: "./assets/pb210_fitting_model_steps/step1_quenching_Q.png",
+      caption: "Step 1: 로그 채널 변환 및 소광 변인 Q"
+    },
+    {
+      src: "./assets/pb210_fitting_model_steps/step2_resolution_sigma0.png",
+      caption: "Step 2: 광통계 분해능 퍼짐 변인 sigma_0"
+    },
+    {
+      src: "./assets/pb210_fitting_model_steps/step3_tdcr_cutoff.png",
+      caption: "Step 3: 3중 동시계수(TDCR) 저채널 문턱 감쇠"
+    },
+    {
+      src: "./assets/pb210_fitting_model_steps/step4_po210_alpha.png",
+      caption: "Step 4: Po-210 알파 피크 변인 (mu_Po, w_Po)"
+    },
+    {
+      src: "./assets/pb210_fitting_model_steps/step5_final_synthesis.png",
+      caption: "Step 5: 진폭 스케일 변인 및 최종 3핵종 합성 모델"
+    }
+  ];
+
+  let currentIdx = 0;
+  const imgEl = document.getElementById("carouselImg");
+  const capEl = document.getElementById("carouselCaption");
+  const tabs = document.querySelectorAll(".carousel-tab");
+  const prevBtn = document.getElementById("prevSlideBtn");
+  const nextBtn = document.getElementById("nextSlideBtn");
+
+  function setSlide(idx) {
+    currentIdx = (idx + slides.length) % slides.length;
+    imgEl.src = slides[currentIdx].src;
+    imgEl.alt = slides[currentIdx].caption;
+    capEl.textContent = slides[currentIdx].caption;
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle("active", i === currentIdx);
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      setSlide(parseInt(tab.dataset.idx, 10));
+    });
+  });
+
+  prevBtn.addEventListener("click", () => setSlide(currentIdx - 1));
+  nextBtn.addEventListener("click", () => setSlide(currentIdx + 1));
+})();
+</script>
+
+</body>
+</html>

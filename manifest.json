@@ -81,22 +81,28 @@
       "name": "Overwatch",
       "files": [
         {
+          "name": "논문 아카이브",
+          "path": "reports/Overwatch/paper_review.html",
+          "date": "2026-11-04T16:50:59+09:00",
+          "summary": "방사선 계측, NORM 특성평가, HPGe 검출기 효율 교정, Geant4 시뮬레이션 등 보관된 연구 논문들을 연도별·주제별로 검색하고 Tier 2 심층 구조화 분석 요약을 한눈에 탐색할 수 있는 Master-Detail 논문 아카이브 대시보드 리포트다."
+        },
+        {
           "name": "DeepTrX Live Model Report",
           "path": "reports/Overwatch/live_report.html",
           "date": "2026-11-04T09:10:04+09:00",
           "summary": "DeepTrX v2·v4·v5 모델의 실거래 라이브 트래킹 대시보드다. 버전별로 거래일수·거래횟수·승률·평균수익률·누적수익률·MDD(롤링 3개월)를 나란히 비교하고, 일별 수익률 추이와 누적수익률·MDD 그래프를 함께 보여준다. 개별 매수·매도 거래 내역(종목, 매수가, 매도가, 수익률, 진입 시가총액)도 일자별로 제공하며, 매 거래일 09:05에 자동 갱신된다."
-        },
-        {
-          "name": "논문 아카이브",
-          "path": "reports/Overwatch/paper_review.html",
-          "date": "2026-11-04T07:36:47.795938+00:00",
-          "summary": "방사선 계측, NORM 특성평가, HPGe 검출기 효율 교정, Geant4 시뮬레이션 등 보관된 연구 논문들을 연도별·주제별로 검색하고 Tier 2 심층 구조화 분석 요약을 한눈에 탐색할 수 있는 Master-Detail 논문 아카이브 대시보드 리포트다."
         }
       ]
     },
     {
       "name": "Research",
       "files": [
+        {
+          "name": "3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화",
+          "path": "reports/Research/pb210_fitting_model_steps.html",
+          "date": "2026-11-04T23:21:32.941454+00:00",
+          "summary": "DAT-LSC 분석 엔진(templates.py, fitter.py)의 3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델이 순수 이론(Bare) 상태에서 출발해 7개 최적화 변인(소광 Q, 광통계 분해능 σ₀, 알파 피크 μ_Po·w_Po, 핵종별 진폭 A_Pb·A_Bi·A_Po)과 TDCR 저채널 문턱(ch₀=85.0)을 거치며 최종 합성 스펙트럼으로 변환되는 Step 0~Step 5 전 과정을 인터랙티브 슬라이드와 상세 그래프·수식으로 시각화한 리포트다."
+        },
         {
           "name": "Pb-210 농도 분석 보고서 — 20240822ALL.csv (15샘플)",
           "path": "reports/Research/pb210_20240822ALL.html",
