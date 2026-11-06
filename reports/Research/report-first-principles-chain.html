@@ -408,9 +408,9 @@ svg { width: 100%; height: auto; display: block; }
         <tr>
           <td class="k">최적화 변인 4</td>
           <td>$Q$</td>
-          <td>시료 칵테일 상대 소광 효율 (Quenching Factor)</td>
+          <td>유효 광량 변환 계수 (Effective Scintillation Yield Factor)</td>
           <td>$0.15 \le Q \le 0.45$ (초기값 pre-scan)</td>
-          <td>유기 용매 화학적/광학적 소광에 따른 광량 감쇄율</td>
+          <td>이론적 침적 에너지당 유효 감지 광량 변환율 ($E_{\text{eff}} = Q \cdot E_{\text{dep}}$)</td>
         </tr>
         <tr>
           <td class="k">최적화 변인 5</td>
@@ -453,7 +453,7 @@ svg { width: 100%; height: auto; display: block; }
   $$M_i(\mathbf{p}) = A_{\text{Pb}} T_{\text{Pb}}(\text{ch}_i; Q, \sigma_0, P_{\text{esc,XL}}) + A_{\text{Bi}} T_{\text{Bi}}(\text{ch}_i; Q, \sigma_0) + A_{\text{Po}} T_{\text{Po}}(\text{ch}_i; Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w)$$
 
   <ul style="line-height:1.75; font-size:13px; color:var(--ink-2); margin-bottom:14px;">
-    <li><strong>소프트 커플링(Soft-Coupling)의 장점</strong>: $^{210}\text{Po}$ 피크의 중심 채널 $\mu_{\text{Po}}$와 폭 $w_{\text{Po}}$를 독자적으로 임의 탐색하지 않고, 기기 캘리브레이션 곡선과 소광 인자 $Q$에 물리적으로 커플링함으로써 저방사능 시료나 $^{210}\text{Po}$ 피크가 약한 시료에서도 파라미터 폭주(Runaway) 현상을 원천 방지한다.</li>
+    <li><strong>소프트 커플링(Soft-Coupling)의 장점</strong>: $^{210}\text{Po}$ 피크의 중심 채널 $\mu_{\text{Po}}$와 폭 $w_{\text{Po}}$를 독자적으로 임의 탐색하지 않고, 기기 캘리브레이션 곡선과 유효 광량 변환 계수 $Q$에 물리적으로 커플링함으로써 저방사능 시료나 $^{210}\text{Po}$ 피크가 약한 시료에서도 파라미터 폭주(Runaway) 현상을 원천 방지한다.</li>
     <li><strong>유도값(Derived Physical Values) 계산식</strong>:
       $$\mu_{\text{Po}} = 362.0 \times \log_{10}\left(Q \cdot \rho_{\alpha\beta} \cdot (E_{\alpha} + 3.0)\right) - 173.0 \quad (\text{ch})$$
       $$w_{\text{Po}} = \text{scale}_w \times \frac{\sigma_0}{\sqrt{Q \cdot \rho_{\alpha\beta} \cdot (E_{\alpha} + 3.0)}} \quad (\text{ch})$$
@@ -859,7 +859,7 @@ def build_po210_template(Q, sig_0, rho_ab, scale_w, E_alpha=5304.33):
     <b>3. Q-Q 플롯 선형성</b>: 잔차 분위수가 이론 가우시안 분위수와 붉은색 45도 직선상에 정확히 일치하여 잔차가 순수한 통계적 백색 잡음(Poisson White Noise)임을 입증.</p>
   </div>
 
-  <p>특히 2024년 C02 시료($Q=26.37 \sim 26.98\%$)와 2026년 A02 시료($Q=26.46\%$)에서 2년의 측정 시차에도 불구하고 동일한 칵테일 매트릭스에서 소광 효율 $Q$가 <strong>$26.4\%$대의 완전한 불변 물리 상수</strong>로 유지됨이 규명되었다.</p>
+  <p>특히 2024년 C02 시료($Q=26.37 \sim 26.98\%$)와 2026년 A02 시료($Q=26.46\%$)에서 2년의 측정 시차에도 불구하고 동일한 칵테일 매트릭스에서 유효 광량 변환 계수 $Q$가 <strong>$26.4\%$대의 완전한 불변 물리 상수</strong>로 유지됨이 규명되었다.</p>
 </section>
 
 <!-- Section 7. 결론 -->
