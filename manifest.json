@@ -98,6 +98,12 @@
       "name": "Research",
       "files": [
         {
+          "name": "LSC 소광 파라미터 QPE와 제일원리 물리 모델 유효 광량 변환 계수 Q 간의 정량적 상관관계 규명 및 정량화 연구",
+          "path": "reports/Research/report-qpe-quenching-correlation.html",
+          "date": "2026-11-06T16:08:37+09:00",
+          "summary": "Hidex 300 SL 장비의 계측 소광 지표인 QPE와 제일원리 물리 모델의 핵심 파라미터인 유효 광량 변환 계수 Q 간의 정량적 상관관계를 규명한 연구 보고서다. Ultima Gold A/B 기반 질산 농도별 6개 시료의 4회 반복 계측(24개 스펙트럼) 데이터를 바탕으로 피크 이동률과 비선형 회귀식을 도출하고, 미지 시료의 Q 초깃값 자동 예측 및 배경 차감 전략을 인터랙티브 인스펙터와 함께 제시한다."
+        },
+        {
           "name": "²¹⁰Pb-²¹⁰Bi-²¹⁰Po 액체섬광 스펙트럼의 LNHB 붕괴 데이터 기반 물리 모델링, 비선형 하드웨어 매핑 및 3핵종 동시 분해 연구",
           "path": "reports/Research/report-first-principles-chain.html",
           "date": "2026-11-06T15:17:45+09:00",
@@ -108,12 +114,6 @@
           "path": "reports/Research/report-pb210-uncertainty-practical-guide.html",
           "date": "2026-11-06T14:12:56+09:00",
           "summary": "DAT-LSC 분석 엔진이 원시 LSC 계수 데이터를 입력받아 1024 채널 3핵종 물리 디컨볼루션을 수행하고, 최종 시료의 Pb-210 방사능 농도(Bq/kg) 및 합성 불확도를 산출하는 Step 1~6 전체 실무 계산 파이프라인 지침서다. 다핵종 공분산 역행렬, Birge factor(카이제곱 적합도 보정), 백그라운드 차감, TDCR 검출효율·화학회수율 전파, 감쇠·인그로우스 보정, 최종 합성 농도 및 확장 불확도 산출의 각 단계별 실무 수식과 실행 알고리즘(Pseudocode)을 정리했다."
-        },
-        {
-          "name": "연구 보고서: LSC 소광 파라미터 QPE와 물리 모델 유효 광량 변환 계수 Q 간의 정량적 상관관계 규명",
-          "path": "reports/Research/report-qpe-quenching-correlation.html",
-          "date": "2026-11-06T07:03:22.909685+00:00",
-          "summary": "Hidex 300 SL 장비의 계측 소광 지표인 QPE와 제일원리 물리 모델의 핵심 파라미터인 유효 광량 변환 계수 Q 간의 정량적 상관관계를 규명한 연구 보고서다. Ultima Gold A/B 기반 질산 농도별 6개 시료의 4회 반복 계측(24개 스펙트럼) 데이터를 바탕으로 피크 이동률과 비선형 회귀식을 도출하고, 미지 시료의 Q 초깃값 자동 예측 및 배경 차감 전략을 인터랙티브 인스펙터와 함께 제시한다."
         },
         {
           "name": "3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화",

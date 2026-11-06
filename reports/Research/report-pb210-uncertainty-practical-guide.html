@@ -214,6 +214,16 @@ pre.code-block {
       방사선 붕괴는 독립적인 희박 사건이므로 계수 $y_i$의 분산은 기댓값 자신과 같다 ($\text{Var}(y_i) = y_i$).<br>
       오차 전파의 법칙에 의해 계수율 $r_i = y_i / t$의 분산은 $\text{Var}(r_i) = \frac{1}{t^2} \text{Var}(y_i) = \frac{y_i}{t^2}$이 되며, BKG와 상호 독립이므로 두 분산이 단순 직교 합산된다.
     </div>
+
+    <h3 class="sub-heading" style="margin-top:20px;">1.2 전통적 배경 감산의 한계와 QPE-Warped 실측 BKG 내장 최적화 불확도 전파 체계</h3>
+    <p>전통적인 전처리 감산 방식($r_{i, \text{net}} = y_i/t_{\text{sample}} - b_i/t_{\text{bkg}}$)은 시료와 공시료의 칵테일 매트릭스나 소광 상태가 엄밀히 동일하다는 가정 하에서만 유효하다. 시료와 공시료 간에 $\Delta\text{QPE}$ 편차가 존재하면 고에너지/저에너지 비대칭 왜곡이 발생하여 통계적 불확도 외에 <strong>미해소 계통오차(Uncompensated Systematic Error)</strong>가 잔존하게 된다.</p>
+
+    <div class="callout-box warning" style="border-left:4px solid var(--accent); background:#fff5f5; padding:14px; margin:14px 0; border-radius:4px;">
+      <strong>💡 GUM / ISO 11929-2 부합형 배경 처리 고도화 아키텍처:</strong><br>
+      시료와 공시료의 소광비 $k = Q(\text{QPE}_{\text{sample}}) / Q(\text{QPE}_{\text{blank}})$에 따라 공시료 스펙트럼을 사전 에너지 정렬(Warping)한 후, Fitter 내부에서 배경 진폭 $A_{\text{bg}}$를 핵종들과 함께 동시 최적화한다:
+      $$\text{Model}_i = A_{\text{Pb}} \phi_{i, \text{Pb}} + A_{\text{Bi}} \phi_{i, \text{Bi}} + A_{\text{Po}} \phi_{i, \text{Po}} + A_{\text{bg}} \phi_{i, \text{blank}}^{\text{corr}}(k)$$
+      이 방식이 적용될 경우, 배경 불확도와 핵종 간의 상관성 $\text{Cov}(A_{\text{Pb}}, A_{\text{bg}})$ 및 $\text{Cov}(A_{\text{Bi}}, A_{\text{bg}})$가 Step 2의 파라미터 공분산 행렬 $\boldsymbol{V} = \boldsymbol{H}^{-1}$을 통해 <strong>수학적으로 엄밀하게 자동 산출</strong>되므로, 임의적인 배경 오차 가산 없이 완전한 GUM 불확도 예산 체계로 수렴하게 된다.
+    </div>
   </div>
 </section>
 

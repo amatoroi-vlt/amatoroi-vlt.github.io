@@ -552,6 +552,31 @@ def build_po210_template(Q, sig_0, rho_ab, scale_w, E_alpha=5304.33):
       <li><strong>종합 판정 등급 부여</strong>: 모든 기준을 만족하면 <strong>PASS</strong>(우수 시료는 EXCELLENT), 경계치 도달이나 미세 편차 시 <strong>WARN</strong>, 심각한 모델 불일치 시 <strong>FAIL</strong>로 분류한다.</li>
     </ul>
   </div>
+
+  <div class="step-box" style="border-left: 4px solid var(--accent); background: #fdfdfe;">
+    <div class="step-header">
+      <span class="step-title-text" style="color:var(--accent);">4.5 배경 처리(BKG) 모델링의 한계와 QPE 정합 실측 공시료 동시 최적화 아키텍처</span>
+      <span class="step-tag" style="background:#fef2f2; color:#b91c1c;">Background Quench-Warping</span>
+    </div>
+    <p style="margin: 8px 0 12px 0; font-size:13.5px; line-height:1.75; color:var(--ink);">
+      <strong>전통적 단순 블랭크 감산($	ext{Net} = 	ext{Gross} - 	ext{Blank}$)의 한계:</strong><br>
+      일반적인 방사능 분석 파이프라인에서는 계측 시간으로 정규화된 공시료(Blank) 계수율을 시료 스펙트럼에서 채널별로 단순 뺄셈한 뒤 피팅에 전달한다. 그러나 시료와 공시료 간에 화학적 매트릭스(산도 등)나 소광 상태($\Delta	ext{QPE}$)가 다를 경우, 소광에 따른 스펙트럼 에너지 압축률 차이로 인해 저채널(ch &lt; 200)에서는 유효 반감기를 위반하는 과대차감 및 음수 잔차가 발생하고, 고채널에서는 과소차감이 유발되어 $^{210}	ext{Bi}$ 면적과 $^{210}	ext{Pb}$ 분해가 심각하게 왜곡된다.
+    </p>
+    <div class="formula-box" style="background:#fff; border:1px solid #fed7aa; padding:12px; margin:12px 0; border-radius:6px;">
+      $$	ext{Model}(ch) = A_{	ext{Pb}} \cdot T_{	ext{Pb}}(ch; Q, \sigma_0, P_{	ext{esc,XL}}) + A_{	ext{Bi}} \cdot T_{	ext{Bi}}(ch; Q, \sigma_0) + A_{	ext{Po}} \cdot T_{	ext{Po}}(ch; \mu_{	ext{Po}}, w_{	ext{Po}}) + A_{	ext{bg}} \cdot T_{	ext{blank}}^{	ext{corr}}(ch; k_{	ext{QPE}})$$
+    </div>
+    <ul style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;">
+      <li><strong>소광비($k_{	ext{QPE}}$) 기반 배경 템플릿 에너지 정합</strong>:
+        시료 QPE와 공시료 QPE로부터 본 연구의 유효 광량 변환 공식($Q = 0.002189 \cdot 	ext{QPE} - 1.3186$)을 통해 소광비 $k = Q(	ext{QPE}_{	ext{sample}}) / Q(	ext{QPE}_{	ext{blank}})$를 산출하고, 덜 소광된(또는 더 소광된) 공시료 스펙트럼 $T_{	ext{blank}}(ch)$를 에너지 스케일에서 정밀하게 신축(Warp)하여 시료의 소광 상태에 완벽히 정렬된 $T_{	ext{blank}}^{	ext{corr}}(ch)$를 생성한다.
+      </li>
+      <li><strong>Fitter 내장형 비음수 진폭 동시 최적화</strong>:
+        외부에서 단순 감산하지 않고, 정합된 배경 템플릿을 피터 내부의 독립 기저로 투입하여 진폭 $A_{	ext{bg}}$를 3대 핵종과 함께 비음수 제약($A_{	ext{bg}} \ge 0$) 하에 동시 최적화한다. 이를 통해 저채널 음수 잔차를 원천 배제한다.
+      </li>
+      <li><strong>배경 적합도 품질 관리(QC 지표화)</strong>:
+        정상적인 측정 환경에서 최적화된 배경 진폭은 이론적으로 $A_{	ext{bg}} pprox 1.0$ 부근으로 수렴해야 한다. 만약 $A_{	ext{bg}}$가 허용 오차($0.8 \sim 1.2$)를 크게 벗어날 경우, 공시료 바이알 오염이나 이상 화학발광 혼입을 즉시 감지하는 시스템 자동 진단 지표로 활용된다.
+      </li>
+    </ul>
+  </div>
 </section>
 
 <!-- Section 5. 실측 데이터 적합성 검토 및 결과 -->
