@@ -183,7 +183,7 @@ pre.code-block {
   <div class="formula-card" style="font-family:'IBM Plex Mono', monospace; font-size:13px; text-align:left; line-height:1.9; background:#fffdf8;">
     <b>[DAT-LSC 불확도 계산 6단계 실무 흐름]</b><br>
     <b>Step 1. 원시 스펙트럼 전처리</b> ➔ 채널별 포아송 불확도 $\sigma_i = \sqrt{y_i/t_s^2 + b_i/t_b^2}$ 및 가중치 $w_i = 1/\sigma_i^2$ 산출<br>
-    <b>Step 2. 3핵종 물리 디컨볼루션 피팅</b> ➔ 야코비안 $\boldsymbol{J}$, 헤시안 $\boldsymbol{H}=\boldsymbol{J}^T\boldsymbol{J}$, 공분산 $\boldsymbol{V}=\chi^2_\nu \boldsymbol{H}^{-1} \to \sigma(A_{\text{Pb}})$ 도출<br>
+    <b>Step 2. 3핵종 8차원 물리 디컨볼루션 피팅</b> ➔ 야코비안 $\boldsymbol{J}$ ($M \times 8$), 헤시안 $\boldsymbol{H}=\boldsymbol{J}^T\boldsymbol{J}$, 공분산 $\boldsymbol{V}=\max(1.0, \chi^2/(M-8)) \boldsymbol{H}^{-1} \to \sigma(A_{\text{Pb}})$ 도출<br>
     <b>Step 3. 표준선원 효율($\varepsilon$) 불확도</b> ➔ 인증서($C_{\text{std}}$), 저울($M_{\text{std}}$), 피팅($A_{\text{std}}$) 합성 $\to \frac{\sigma(\varepsilon)}{\varepsilon}$ 도출<br>
     <b>Step 4. 화학적 납 회수율($Y$) 불확도</b> ➔ 침전물($m_{\text{ppt}}$), 캐리어($m_{\text{ca}}, C_{\text{cc}}$) 저울 오차 합성 $\to \frac{\sigma(Y)}{Y}$ 도출<br>
     <b>Step 5. 시료 순수 농도($\text{Conc}$) 합성</b> ➔ GUM 마스터 공식에 의한 4대 상대 불확도 직교합 $\to u_c(\text{Conc})$ 산출<br>
@@ -227,20 +227,23 @@ pre.code-block {
       <span class="step-tag">Type A / ISO 11929-2 Cl. 6.3</span>
     </div>
 
-    <h3 class="sub-heading">2.1 피팅 파라미터 및 모델식</h3>
-    <p>DAT-LSC 엔진은 7개의 물리 파라미터 $\boldsymbol{\theta} = [A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}, Q, \sigma_0, \mu_{\text{Po}}, w_{\text{Po}}]^T$를 탐색하며, 합성 모델식은 다음과 같다:</p>
-    $$f_i(\boldsymbol{\theta}) = A_{\text{Pb}} \phi_{i, \text{Pb}}(Q, \sigma_0) + A_{\text{Bi}} \phi_{i, \text{Bi}}(Q, \sigma_0) + A_{\text{Po}} \phi_{i, \text{Po}}(\mu_{\text{Po}}, w_{\text{Po}})$$
-    *(단, 단위 물리 스펙트럼 형상 벡터 $\boldsymbol{\phi}_k$는 전체 1024 채널 합이 정확히 $1.000$으로 정규화된 확률밀도함수이다)*
+    <h3 class="sub-heading">2.1 8차원 물리 파라미터 및 소프트 커플링 모델식</h3>
+    <p>DAT-LSC 엔진은 8개의 물리 파라미터 $\boldsymbol{\theta} = [A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}, Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w, P_{\text{esc,XL}}]^T$를 탐색하며, 합성 모델식은 다음과 같다:</p>
+    $$f_i(\boldsymbol{\theta}) = A_{\text{Pb}} \phi_{i, \text{Pb}}(Q, \sigma_0, P_{\text{esc,XL}}) + A_{\text{Bi}} \phi_{i, \text{Bi}}(Q, \sigma_0) + A_{\text{Po}} \phi_{i, \text{Po}}(Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w)$$
+    <ul style="font-size:13.5px; line-height:1.75; color:var(--ink-2); margin-top:8px;">
+      <li><strong>$^{210}\text{Pb}$ 형상 $\phi_{\text{Pb}}$</strong>: $20\text{ mL}$ 바이알의 Bi L-특성 X선 탈출 확률 $P_{\text{esc,XL}}$에 따른 완전 흡수형($50.7\text{ keV}$)과 탈출형($39.2\text{ keV}$) 기저의 즉시 선형 결합 $\phi_{\text{Pb}} = (1 - P_{\text{esc,XL}})\phi_{\text{Pb,abs}} + P_{\text{esc,XL}}\phi_{\text{Pb,esc}}$.</li>
+      <li><strong>$^{210}\text{Po}$ 형상 $\phi_{\text{Po}}$</strong>: 제조사 공인 정수 설계 공식($A_{\text{MFG}}=362.0$)과 $Q$에 소프트 커플링된 가우시안으로 피크 중심 $\mu_{\text{Po}} = 362 \log_{10}[Q \rho_{\alpha\beta}(E_\alpha+3)] - 173$ 및 폭 $w_{\text{Po}} = \text{scale}_w \sigma_0 / \sqrt{Q \rho_{\alpha\beta}(E_\alpha+3)}$ 유도.</li>
+    </ul>
 
     <h3 class="sub-heading">2.2 가중 카이제곱 최적화 및 야코비안 행렬</h3>
-    <p>가중 잔차 벡터 $\boldsymbol{R}(\boldsymbol{\theta})$의 $i$번째 원소는 $R_i(\boldsymbol{\theta}) = \frac{f_i(\boldsymbol{\theta}) - r_{i, \text{net}}}{\sigma_i}$ 이며, 최적화 목적함수는 카이제곱 최소화이다:</p>
-    $$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \chi^2(\boldsymbol{\theta}) = \arg\min_{\boldsymbol{\theta}} \sum_{i=1}^{M} R_i(\boldsymbol{\theta})^2$$
-    최적점에서의 야코비안 행렬 $\boldsymbol{J}$ ($M \times 7$)는 $J_{ik} = \frac{\partial R_i}{\partial \theta_k} = \frac{1}{\sigma_i} \frac{\partial f_i}{\partial \theta_k}$ 로 산출된다.
+    <p>가중 잔차 벡터 $\boldsymbol{R}(\boldsymbol{\theta})$는 $M$개 채널 잔차와 베이지안 사전분포 페널티를 포함하며, 최적화 목적함수는 총 카이제곱 최소화이다:</p>
+    $$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \chi^2_{\text{total}}(\boldsymbol{\theta}) = \arg\min_{\boldsymbol{\theta}} \left[ \sum_{i=1}^{M} \left( \frac{f_i(\boldsymbol{\theta}) - r_{i, \text{net}}}{\sigma_i} \right)^2 + \left(\frac{\rho_{\alpha\beta} - 0.0965}{0.006}\right)^2 + \left(\frac{\text{scale}_w - 1.00}{0.06}\right)^2 + \left(\frac{P_{\text{esc,XL}} - 0.230}{0.12}\right)^2 \right]$$
+    최적 수렴점에서의 야코비안 행렬 $\boldsymbol{J}$ ($M \times 8$)는 $J_{ik} = \frac{1}{\sigma_i} \frac{\partial f_i}{\partial \theta_k}$ 로 산출된다.
 
     <h3 class="sub-heading">2.3 파라미터 공분산 행렬 역산 및 보수적 클램핑(Clamping) 보정</h3>
     <div class="formula-card">
-      $$\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J} \quad (\text{헤시안 곡률 행렬})$$
-      $$\boldsymbol{V}_{\text{actual}} = \max\left(1.0, \chi^2_{\nu}\right) \times \boldsymbol{H}^{-1} = \max\left(1.0, \frac{\chi^2}{M - 7}\right) \left(\boldsymbol{J}^T \boldsymbol{J}\right)^{-1}$$
+      $$\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J} \quad (\text{8차원 헤시안 곡률 행렬})$$
+      $$\boldsymbol{V}_{\text{actual}} = \max\left(1.0, \chi^2_{\nu}\right) \times \boldsymbol{H}^{-1} = \max\left(1.0, \frac{\chi^2_{\text{ROI}}}{M - 8}\right) \left(\boldsymbol{J}^T \boldsymbol{J}\right)^{-1}$$
       $$\sigma(A_{\text{Pb}}) = \sqrt{V_{\text{actual}, 11}}$$
     </div>
 
@@ -260,7 +263,7 @@ pre.code-block {
 
     <div class="callout-box supplement">
       <span class="badge">핵심 보충설명 3</span> <strong>[3단계] 피팅 행위 자체의 불확도 & \(\chi^2_\nu\)가 너무 낮을 때의 위험성</strong><br>
-      1. <strong>파라미터 간섭:</strong> $Q$와 $\sigma_0$가 미세하게 변하면 피크가 움직여 $A_{\text{Pb}}$가 흔들린다 ($5 \times 5$ 전체 야코비안 역산으로 흡수).<br>
+      1. <strong>파라미터 간섭:</strong> $Q, \sigma_0, P_{\text{esc,XL}}$ 등이 미세하게 변하면 피크가 움직여 $A_{\text{Pb}}$가 흔들린다 ($8 \times 8$ 전체 야코비안 역산으로 흡수).<br>
       2. <strong>\(\chi^2_\nu > 1.0\) (모델 불완전성):</strong> 피팅 잔차가 통계 잡음보다 크면, GUM Clause 4.2.4 및 Birge 원리에 따라 공분산 행렬에 $\chi^2_\nu$를 곱해 불확도를 정직하게 확대(Scale-up)한다.<br>
       3. <strong>\(\chi^2_\nu \ll 1.0\) (1보다 너무 낮을 때의 위험):</strong> 채널 오차 $\sigma_i$ 과대평가, 잡음 과적합(Overfitting), 또는 채널 간 상관관계(스무딩)가 원인일 수 있다. 이때 불확도를 임의로 축소($\chi^2_\nu < 1$)하면 위험하므로, <strong>GUM/PDG 표준에 따라 $\max(1.0, \chi^2_\nu)$로 클램핑하여 순수 포아송 불확도를 하한선으로 방어</strong>한다!
     </div>
@@ -379,7 +382,7 @@ pre.code-block {
           <td class="k">① 피팅 순수 계수율</td>
           <td>\(A_{\text{Pb}} \pm \sigma(A_{\text{Pb}})\)</td>
           <td><strong>Type A</strong></td>
-          <td>\(\sigma(A_{\text{Pb}}) = \sqrt{V_{\text{actual}, 11}} = \sqrt{\chi^2_{\nu} (\boldsymbol{J}^T \boldsymbol{J})^{-1}_{11}}\)</td>
+          <td>\(\sigma(A_{\text{Pb}}) = \sqrt{V_{\text{actual}, 11}} = \sqrt{\max(1.0, \frac{\chi^2}{M-8}) (\boldsymbol{J}^T \boldsymbol{J})^{-1}_{11}}\)</td>
           <td>ISO 11929-2 Cl. 6.3 & GUM 4.2.4</td>
         </tr>
         <tr>
@@ -417,14 +420,24 @@ pre.code-block {
        rate_net[i] = sample_counts[i] / t_sample - bkg_counts[i] / t_bkg
        sigma_net[i] = sqrt(sample_counts[i] / t_sample^2 + bkg_counts[i] / t_bkg^2)
 
-<span style="color:#79c0ff;">2. [Non-linear Levenberg-Marquardt Fit & Covariance Matrix]</span>
-   opt = least_squares(residual_func, x0=[A_pb, A_bi, A_po, Q, sig0, mu, w])
-   J = opt.jac                                       # Weighted residual Jacobian (M x 7)
-   chi2_red = sum(((model - rate_net) / sigma_net)^2) / (M - 7)
-   H = J.T @ J                                       # Hessian curvature matrix
+<span style="color:#79c0ff;">2. [Global 2D Grid Pre-scan for (Q, rho_ab) & Non-linear TRF 8-Param Fit]</span>
+   # 2D Grid Pre-scan over (Q in [0.18, 0.38], rho_ab in [0.088, 0.106]) with Fast NNLS
+   (Q0, rho0, A_pb0, A_bi0, A_po0) = grid_prescan_nnls(rate_net, sigma_net)
+   x0 = [A_pb0, A_bi0, A_po0, Q0, 320.0, rho0, 1.0, 0.230]
+
+   # 8-parameter Trust Region Reflective (TRF) fit with weak Bayesian priors
+   opt = least_squares(residual_func_with_priors, x0=x0, bounds=(lower_bounds, upper_bounds), method='trf')
+   J = opt.jac                                       # Weighted residual Jacobian (M x 8)
+   chi2_roi = sum(((model_roi - rate_net_roi) / sigma_net_roi)^2)
+   chi2_red = chi2_roi / (M - 8)                     # Degrees of freedom: M - 8
+   H = J.T @ J                                       # 8x8 Hessian curvature matrix
    cov = max(1.0, chi2_red) * inv(H)                 # Clamped covariance matrix (Birge factor)
    A_pb = opt.x[0]
    sigma_A_pb = sqrt(cov[0, 0])                      # Final Pb-210 CPS uncertainty
+
+   # Derived physical values
+   mu_po = 362.0 * log10(opt.x[3] * opt.x[5] * (5304.33 + 3.0)) - 173.0
+   w_po = opt.x[6] * (opt.x[4] / sqrt(opt.x[3] * opt.x[5] * (5304.33 + 3.0)))
 
 <span style="color:#79c0ff;">3. [Detector Efficiency Uncertainty]</span>
    eps = A_std / (C_std * M_std * exp(-lambda * dt_std))

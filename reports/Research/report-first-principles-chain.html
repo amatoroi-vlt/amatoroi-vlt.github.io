@@ -348,16 +348,18 @@ svg { width: 100%; height: auto; display: block; }
 <section class="paper-sec" id="sec4">
   <h2 class="sec-heading"><span class="sec-num">4.</span> 피팅 변인 체계 및 최적화 알고리즘 (Fitting Parameterization & Algorithm)</h2>
 
-  <h3 class="sub-heading">4.1 고정 파라미터 및 최적화 변인 체계</h3>
+  <h3 class="sub-heading">4.1 고정 파라미터 및 8차원 물리 최적화 변인 체계</h3>
+  <p>2026년 최신 개정 엔진에서는 기존 독립 탐색 변인이었던 $^{210}\text{Po}$ 피크 변인($\mu_{\text{Po}}, w_{\text{Po}}$)을 하드웨어 캘리브레이션 공식($A_{\text{MFG}}=362.0$)과 $Q$에 직접 연동하는 <strong>소프트 커플링(Soft-Coupled) 체계</strong>로 통합하고, $20\text{ mL}$ 바이알의 기하학적 특성에 따른 $^{210}\text{Pb}$ Bi L-특성 X선 탈출 확률($P_{\text{esc,XL}}$)을 8번째 물리 변인으로 도입하였다. 이를 통해 총 8차원 물리 공간($\mathbf{p} \in \mathbb{R}^8$)을 동시 최적화한다:</p>
+
   <div class="tbl-container">
     <table class="paper-tbl">
       <thead>
         <tr>
           <th>구분</th>
           <th>변인 기호</th>
-          <th>물리적 의미</th>
+          <th>물리적 의미 및 수식</th>
           <th>설정값 / 탐색 범위</th>
-          <th>결정 근거</th>
+          <th>결정 근거 및 제약 조건</th>
         </tr>
       </thead>
       <tbody>
@@ -376,102 +378,180 @@ svg { width: 100%; height: auto; display: block; }
           <td>C01/C02 표준선원 정밀 역산 최적해 ($\text{ch}_0 = 83.2 \sim 85.7\text{ ch}$)</td>
         </tr>
         <tr>
-          <td class="k">최적화 변인</td>
+          <td class="k">고정 상수</td>
+          <td>$E_{\alpha,\text{Po}}$</td>
+          <td>$^{210}\text{Po}$ 순수 알파선 단색 붕괴 에너지</td>
+          <td>$5304.33\text{ keV}$</td>
+          <td>LNHB 공인 핵데이터</td>
+        </tr>
+        <tr>
+          <td class="k">최적화 변인 1</td>
+          <td>$A_{\text{Pb}}$</td>
+          <td>$^{210}\text{Pb}$ 절대 방사능 계수율 (CPS)</td>
+          <td>$A_{\text{Pb}} \ge 0.0$</td>
+          <td>복합 침적 스펙트럼 템플릿 $T_{\text{Pb}}$ 진폭</td>
+        </tr>
+        <tr>
+          <td class="k">최적화 변인 2</td>
+          <td>$A_{\text{Bi}}$</td>
+          <td>$^{210}\text{Bi}$ 절대 방사능 계수율 (CPS)</td>
+          <td>$A_{\text{Bi}} \ge 0.0$</td>
+          <td>연속 베타 붕괴 템플릿 $T_{\text{Bi}}$ 진폭</td>
+        </tr>
+        <tr>
+          <td class="k">최적화 변인 3</td>
+          <td>$A_{\text{Po}}$</td>
+          <td>$^{210}\text{Po}$ 절대 방사능 계수율 (CPS)</td>
+          <td>$A_{\text{Po}} \ge 0.0$</td>
+          <td>알파선 가우시안 템플릿 $T_{\text{Po}}$ 진폭</td>
+        </tr>
+        <tr>
+          <td class="k">최적화 변인 4</td>
           <td>$Q$</td>
-          <td>시료 칵테일 상대 소광 효율</td>
-          <td>$0.15 \le Q \le 0.45$ (초기값 $0.265$)</td>
-          <td>유기 용매 소광에 따른 광량 감쇄</td>
+          <td>시료 칵테일 상대 소광 효율 (Quenching Factor)</td>
+          <td>$0.15 \le Q \le 0.45$ (초기값 pre-scan)</td>
+          <td>유기 용매 화학적/광학적 소광에 따른 광량 감쇄율</td>
         </tr>
         <tr>
-          <td class="k">최적화 변인</td>
+          <td class="k">최적화 변인 5</td>
           <td>$\sigma_0$</td>
-          <td>에너지 분해능 스케일 계수</td>
-          <td>$50.0 \le \sigma_0 \le 600.0$</td>
-          <td>광음극 광전자 통계적 분산</td>
+          <td>광음극 분해능 스케일 상수</td>
+          <td>$50.0 \le \sigma_0 \le 600.0$ (초기값 $320.0$)</td>
+          <td>$\sigma_{\text{ch}}(E) = \sigma_0 / \sqrt{Q \cdot (E + 3.0)}$</td>
         </tr>
         <tr>
-          <td class="k">최적화 변인</td>
-          <td>$\mu_{\text{Po}}, w_{\text{Po}}$</td>
-          <td>Po-210 피크 중심 및 선폭</td>
-          <td>$\mu \in [550, 600], w \in [5, 35]\text{ ch}$</td>
-          <td>알파선 이온화 소광 특성</td>
+          <td class="k">최적화 변인 6</td>
+          <td>$\rho_{\alpha\beta}$</td>
+          <td>$\alpha/\beta$ 상대 광량비 (Relative Light Yield)</td>
+          <td>$0.075 \le \rho_{\alpha\beta} \le 0.120$ (공칭 $0.0965$)</td>
+          <td>사전분포 페널티 ($\sigma = 0.006$); $\mu_{\text{Po}}$ 유도값 결정</td>
         </tr>
         <tr>
-          <td class="k">최적화 변인</td>
-          <td>$A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}$</td>
-          <td>핵종별 절대 방사능 계수율 (cps)</td>
-          <td>$A \ge 0.0$</td>
-          <td>최종 산출 대상 물리량</td>
+          <td class="k">최적화 변인 7</td>
+          <td>$\text{scale}_w$</td>
+          <td>$\alpha$ 피크 폭 보정계수 (Alpha Width Scale)</td>
+          <td>$0.70 \le \text{scale}_w \le 1.35$ (공칭 $1.00$)</td>
+          <td>사전분포 페널티 ($\sigma = 0.06$); $w_{\text{Po}}$ 유도값 결정</td>
+        </tr>
+        <tr>
+          <td class="k">최적화 변인 8</td>
+          <td>$P_{\text{esc,XL}}$</td>
+          <td>$20\text{ mL}$ 바이알 Bi L-특성 X선 탈출 확률</td>
+          <td>$0.00 \le P_{\text{esc,XL}} \le 0.65$ (공칭 $0.230$)</td>
+          <td>사전분포 페널티 ($\sigma = 0.12$); $^{210}\text{Pb}$ 좌측 어깨 형상 조절</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <h3 class="sub-heading">4.2 가중 카이제곱 손실 함수 및 Scipy TRF 최적화 기법</h3>
-  <p>계측 푸아송 통계에 따른 채널별 분산 $\sigma_i^2 = N_i/T_{\text{sample}}^2 + B_i/T_{\text{bkg}}^2$을 가중치로 사용하는 비선형 가중 최소자승법(WLS) 손실 함수를 정의하고, <code>scipy.optimize.least_squares</code>의 <strong>Trust Region Reflective (TRF)</strong> 알고리즘을 통해 7차원 매개변수 공간을 동시 최적화한다:</p>
+  <h3 class="sub-heading">4.2 베이지안 사전분포 페널티가 결합된 가중 손실 함수 및 Scipy TRF 최적화</h3>
+  <p>측정 스펙트럼의 포아송 계측 통계 $\sigma_i^2 = y_i / t_{\text{sample}}^2 + b_i / t_{\text{bkg}}^2$에 의한 가중 최소제곱 잔차와 물리적으로 확립된 파라미터의 베이지안 약사전분포(Weak Bayesian Prior) 페널티를 결합한 <strong>정규화 가중 최소제곱(Regularized Weighted Least Squares)</strong> 손실 함수를 정의한다:</p>
 
-  $$\chi^2(\mathbf{p}) = \sum_{i=\text{ch}_{\min}}^{\text{ch}_{\max}} \left( \frac{y_i - [A_{\text{Pb}} T_{\text{Pb}}(\text{ch}_i; Q, \sigma_0) + A_{\text{Bi}} T_{\text{Bi}}(\text{ch}_i; Q, \sigma_0) + A_{\text{Po}} g_{\text{Po}}(\text{ch}_i; \mu_{\text{Po}}, w_{\text{Po}})]}{\sigma_i} \right)^2$$
+  $$\chi^2_{\text{total}}(\mathbf{p}) = \sum_{i=\text{ch}_{\min}}^{\text{ch}_{\max}} \left( \frac{y_i - M_i(\mathbf{p})}{\sigma_i} \right)^2 + \left(\frac{\rho_{\alpha\beta} - 0.0965}{0.006}\right)^2 + \left(\frac{\text{scale}_w - 1.00}{0.06}\right)^2 + \left(\frac{P_{\text{esc,XL}} - 0.230}{0.12}\right)^2$$
+
+  <p>여기서 모델 합성 스펙트럼 $M_i(\mathbf{p})$는 다음과 같이 정의된다:</p>
+  $$M_i(\mathbf{p}) = A_{\text{Pb}} T_{\text{Pb}}(\text{ch}_i; Q, \sigma_0, P_{\text{esc,XL}}) + A_{\text{Bi}} T_{\text{Bi}}(\text{ch}_i; Q, \sigma_0) + A_{\text{Po}} T_{\text{Po}}(\text{ch}_i; Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w)$$
 
   <ul style="line-height:1.75; font-size:13px; color:var(--ink-2); margin-bottom:14px;">
-    <li><strong>패키지 및 모듈</strong>: 파이썬 과학 라이브러리 <code>scipy.optimize.least_squares</code>를 사용하며, <code>method='trf'</code> (신뢰영역 반사 알고리즘) 및 잔차 벡터에 대해 $L_2$ 선형 손실(<code>loss='linear'</code>)을 적용한다.</li>
-    <li><strong>TRF(Trust Region Reflective)의 장점</strong>: 변수별 상하한 경계 조건(Box Constraints, $A_i \ge 0$, $Q \in [0.15, 0.45]$)이 설정된 비선형 역문제에서, 경계면 충돌 시 궤적을 반사(Reflection)시켜 물리적으로 불가능한 음의 계수율 영역으로의 이탈을 수학적으로 엄밀히 방지한다.</li>
+    <li><strong>소프트 커플링(Soft-Coupling)의 장점</strong>: $^{210}\text{Po}$ 피크의 중심 채널 $\mu_{\text{Po}}$와 폭 $w_{\text{Po}}$를 독자적으로 임의 탐색하지 않고, 기기 캘리브레이션 곡선과 소광 인자 $Q$에 물리적으로 커플링함으로써 저방사능 시료나 $^{210}\text{Po}$ 피크가 약한 시료에서도 파라미터 폭주(Runaway) 현상을 원천 방지한다.</li>
+    <li><strong>유도값(Derived Physical Values) 계산식</strong>:
+      $$\mu_{\text{Po}} = 362.0 \times \log_{10}\left(Q \cdot \rho_{\alpha\beta} \cdot (E_{\alpha} + 3.0)\right) - 173.0 \quad (\text{ch})$$
+      $$w_{\text{Po}} = \text{scale}_w \times \frac{\sigma_0}{\sqrt{Q \cdot \rho_{\alpha\beta} \cdot (E_{\alpha} + 3.0)}} \quad (\text{ch})$$
+    </li>
+    <li><strong>TRF(Trust Region Reflective)의 안정성</strong>: $A_k \ge 0$, $Q \in [0.15, 0.45]$, $P_{\text{esc,XL}} \in [0.0, 0.65]$ 등 엄밀한 물리적 상하한 경계조건(Box Constraints) 하에서 경계면 충돌 시 탐색 벡터를 반사(Reflection)시켜 물리적으로 불가능한 영역으로의 이탈을 완벽히 차단한다.</li>
   </ul>
 
-  <h3 class="sub-heading">4.3 템플릿 변환 함수 `build_template_from_spectrum` 및 인자 구조</h3>
-  <p>Figure 2.1a 및 Figure 2.1b의 <strong>우측 패널 템플릿 스펙트럼($T(\text{ch})$)을 생성하는 핵심 물리 변환 엔진</strong>의 함수 시그니처 및 각 인자의 물리적 정의는 다음과 같다:</p>
+  <h3 class="sub-heading">4.3 템플릿 변환 엔진 및 $P_{\text{esc,XL}}$ 기저 분리 기법</h3>
+  <p>$^{210}\text{Pb}$의 경우, Bi L-특성 X선 탈출 여부에 따른 두 가지 극한 기저 스펙트럼(Basis Spectra: $P_{\text{esc,XL}}=0.0$ 완전 흡수형 vs $P_{\text{esc,XL}}=1.0$ 완전 탈출형)을 사전 생성하고, 피팅 최적화 루프 내에서는 선형 결합(Linear Combination)을 통해 순방향 합성 속도를 $100\mu\text{s}$ 이하로 극대화한다:</p>
 
-  <pre class="code-block"><code>def build_template_from_spectrum(E_tab, dNdE, Q, sigma_0, ch_0=85.0):
-    # [핵물리 에너지 분포 -> LSC 1024 채널 템플릿 순방향 물리 변환 함수]
-    #
-    # 인자(Arguments):
-    #   1. E_tab   : LNHB Decay Scheme / BetaShape 계산 에너지 격자 배열 (keV, 예: 0.1 ~ 70.0 keV)
-    #   2. dNdE    : 각 에너지점에서의 확률 밀도 dN/dE 배열 (keV^-1, 총면적 = 1.0)
-    #   3. Q       : 화학적/광학적 소광 인자 Quenching Factor (무차원, 0 < Q <= 1.0, 공칭 ~26.46%)
-    #   4. sigma_0 : PMT 광음극 종합 분해능 계수 (Resolution Broadening Constant, 공칭 ~326.8)
-    #                -> 채널별 가우시안 표준편차: sigma_ch(E) = sigma_0 / sqrt(Q * (E + 3.0))
-    #   5. ch_0    : TDCR 3-PMT 일치 계측 턴온 중심 채널 (Turn-on Center, ch, 기본값 = 85.0 ch)
-    #                -> 2배 멱지수 턴온 효율: eff_tdcr(ch) = 1.0 / [1.0 + (ch_0 / ch)^2]
-    #
-    # 반환값(Returns):
-    #   T_ch : 기기 전달함수가 전면 반영된 1024 채널 LSC 표준화 템플릿 스펙트럼 (ch 0~1023, sum = 1.0)
-    #          (Figure 2.1a / 2.1b의 우측 패널 실선 템플릿)
-    ch_centers = 362.0 * np.log10(np.maximum(Q * (E_tab + 3.0), 1e-6)) - 173.0
-    sigma_ch = np.maximum(sigma_0 / np.sqrt(np.maximum(Q * (E_tab + 3.0), 1e-3)), 1.0)
+  $$T_{\text{Pb}}(\text{ch}; Q, \sigma_0, P_{\text{esc,XL}}) = (1 - P_{\text{esc,XL}}) \cdot T_{\text{Pb, abs}}(\text{ch}; Q, \sigma_0) + P_{\text{esc,XL}} \cdot T_{\text{Pb, esc}}(\text{ch}; Q, \sigma_0)$$
+
+  <pre class="code-block"><code>def build_pb210_templates(Q, sig_0, P_esc_xl, ch_0=85.0):
+    # [Pb-210 완전 흡수(50.7 keV) 및 완전 탈출(39.2 keV) 기저 스펙트럼의 즉시 선형 합성]
+    T_abs = build_template_from_spectrum(E_pb_abs, dN_pb_abs, Q, sig_0, ch_0=ch_0)
+    T_esc = build_template_from_spectrum(E_pb_esc, dN_pb_esc, Q, sig_0, ch_0=ch_0)
+    T_pb = (1.0 - P_esc_xl) * T_abs + P_esc_xl * T_esc
+    return T_pb / max(T_pb.sum(), 1e-30)
+
+def build_po210_template(Q, sig_0, rho_ab, scale_w, E_alpha=5304.33):
+    # [Po-210 하드웨어 캘리브레이션 축 및 Q 소프트 커플링 가우시안 템플릿]
+    E_eff = rho_ab * (E_alpha + 3.0)
+    mu_po = 362.0 * np.log10(np.maximum(Q * E_eff, 1e-6)) - 173.0
+    w_po = scale_w * (sig_0 / np.sqrt(np.maximum(Q * E_eff, 1e-3)))
     
     CH = np.arange(1024)
-    # 에너지 격자별 가우시안 확산 및 확률 가중 적분
-    gauss = np.exp(-0.5 * ((CH[:, None] - ch_centers[None, :]) / sigma_ch[None, :]) ** 2)
-    template = (gauss * dNdE[None, :]).sum(axis=1)
-    
-    # TDCR 다이노드 전하 증배 2배 멱지수 턴온 적용
-    eff = 1.0 / (1.0 + (ch_0 / np.maximum(CH, 1.0)) ** 2.0)
-    final_template = template * eff
-    return final_template / max(final_template.sum(), 1e-30)</code></pre>
+    T_po = np.exp(-0.5 * ((CH - mu_po) / np.maximum(w_po, 1.0)) ** 2)
+    return T_po / max(T_po.sum(), 1e-30), mu_po, w_po</code></pre>
 
-  <p style="margin-top:14px;">위 함수를 통해 순수 핵물리 스펙트럼 $dN/dE$로부터 산출된 템플릿 $T_{\text{Pb}}, T_{\text{Bi}}, T_{\text{Po}}$는 아래의 피팅 실행 루틴을 통해 실측 계측 스펙트럼에 즉시 피팅된다:</p>
+  <h3 class="sub-heading">4.4 피팅의 기술적 접근 단계별 절차 (Step-by-Step Fitting Pipeline: From Initialization to Termination)</h3>
+  <p>DAT-LSC 분석 엔진이 임의의 계측 스펙트럼을 입력받아 초기값 선정부터 비선형 최적화 수렴 및 다계층 통계 검증을 완료하기까지의 <strong>5단계 엔지니어링 실행 파이프라인</strong>은 다음과 같다:</p>
 
-  <pre class="code-block"><code>def fit_3nuclides_spectrum(rate_net, sigma_net, E_pb, dN_pb, E_bi, dN_bi):
-    # ROI: ch 120 ~ 750 (Pb, Bi, Po 3핵종 완전 분해 구간)
-    ok = (CH &gt;= 120) & (CH &lt;= 750)
-    a0 = rate_net[ok].max()
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">Step 1. 원시 계측 스펙트럼 입력 및 채널별 가중 분산 할당</span>
+      <span class="step-tag">Preprocessing</span>
+    </div>
+    <ul style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;">
+      <li><strong>순단계수율(Net Rate) 도출</strong>: 시료 총계수 $y_i$ ($t_s$초)와 블랭크 계수 $b_i$ ($t_b$초)로부터 $r_{i, \text{net}} = y_i / t_s - b_i / t_b$를 계산한다.</li>
+      <li><strong>포아송 가중치</strong>: ISO 11929 규격에 따라 $\sigma_i = \sqrt{y_i / t_s^2 + b_i / t_b^2}$를 산출하고, 0 이하 계수율 구간에 대해 분모 발산 방지 클램핑을 적용한다.</li>
+      <li><strong>관심 영역(ROI) 설정</strong>: $^{210}\text{Pb}$, $^{210}\text{Bi}$, $^{210}\text{Po}$ 3핵종의 유효 신호가 집중된 공칭 $\text{ch} \in [120, 750]$ ($N_{\text{ROI}} = 631\text{ 채널}$) 구간을 피팅 윈도우로 확정한다.</li>
+    </ul>
+  </div>
 
-    def residual_func(p):
-        A_pb, A_bi, A_po, Q, sig_0, mu_p, w_p = p
-        T_pb = build_template_from_spectrum(E_pb, dN_pb, Q, sig_0, ch_0=85.0)
-        T_bi = build_template_from_spectrum(E_bi, dN_bi, Q, sig_0, ch_0=85.0)
-        T_po = po_light_gauss(CH, mu_p, w_p)
-        model = A_pb * T_pb + A_bi * T_bi + A_po * T_po
-        return (model[ok] - rate_net[ok]) / sigma_net[ok]
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">Step 2. 2차원 고속 그리드 사전 스캔을 통한 전역 초기값($\mathbf{p}_0$) 자동 결정</span>
+      <span class="step-tag">Global Pre-scan</span>
+    </div>
+    <p style="font-size:13.5px; line-height:1.75; margin-bottom:8px;">
+      비선형 최적화의 가장 큰 위험인 국소 최솟값(Local Minima) 함몰을 방지하기 위해, 주요 비선형 파라미터 $(Q, \rho_{\alpha\beta})$에 대한 2차원 그리드 탐색을 <strong>$10\text{ ms}$ 이내</strong>로 수행한다:
+    </p>
+    <ul style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;">
+      <li><strong>그리드 격자 분할</strong>: $Q \in [0.18, 0.38]$ (11단계 균등 분할) $\times$ $\rho_{\alpha\beta} \in [0.088, 0.106]$ (7단계 균등 분할) $\implies$ 총 77개 격자점 생성. ($\sigma_{0,\text{init}} = 320.0$, $P_{\text{esc,XL},\text{init}} = 0.230$ 고정)</li>
+      <li><strong>고속 비음수 선형 최소제곱(Fast NNLS)</strong>: 각 격자점에서 템플릿 $T_{\text{Pb}}, T_{\text{Bi}}, T_{\text{Po}}$의 형상이 확정되므로, 3개 핵종 계수율 $[A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}]$에 대한 최적 진폭을 <code>np.linalg.lstsq</code> 및 비음수 프로젝션을 통해 행렬 연산 1회로 고속 역산한다.</li>
+      <li><strong>최적 초기값 선택</strong>: 77개 격자점 중 가중 카이제곱 $\chi^2$이 최소인 점 $(Q_0, \rho_{\alpha\beta, 0})$ 및 해당 계수율 $(A_{\text{Pb},0}, A_{\text{Bi},0}, A_{\text{Po},0})$을 본 피팅의 출발점 $\mathbf{p}_0$로 확정한다.</li>
+    </ul>
+  </div>
 
-    # Scipy least_squares (TRF 알고리즘, 경계 제약조건 완비)
-    opt = least_squares(
-        residual_func,
-        x0=[a0*0.5, a0*0.5, a0*0.5, 0.265, 320.0, 574.0, 14.0],
-        bounds=([0.0, 0.0, 0.0, 0.15, 50.0, 550.0, 5.0], 
-                [np.inf, np.inf, np.inf, 0.45, 600.0, 600.0, 35.0]),
-        method='trf', max_nfev=3000
-    )
-    return opt</code></pre>
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">Step 3. 8차원 신뢰영역 반사(TRF) 비선형 최적화 실행</span>
+      <span class="step-tag">Nonlinear Solver</span>
+    </div>
+    <ul style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;">
+      <li><strong>잔차 벡터 구성</strong>: 스펙트럼 ROI 채널 잔차 $N_{\text{ROI}}$개와 3개 베이지안 사전분포 페널티를 결합하여 총 $(N_{\text{ROI}} + 3)$차원의 잔차 벡터 $\mathbf{R}(\mathbf{p})$를 실시간 평가한다.</li>
+      <li><strong>반사 경계(Reflective Bounds)</strong>: 파라미터가 물리적 한계치(예: $A_k < 0$, $Q < 0.15$, $P_{\text{esc,XL}} < 0$)에 도달하면 탐색 궤적을 경계면에서 반사시켜 내부 허용 공간으로 강제 복귀시킨다.</li>
+      <li><strong>야코비안 계산</strong>: 2차 미분 근사 헤시안 $\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J}$ 및 신뢰 반경(Trust Radius $\Delta$)을 매 이터레이션마다 적응적으로 조절하여 수렴성을 보장한다.</li>
+    </ul>
+  </div>
+
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">Step 4. 수렴 판정 및 최적화 종료 기준</span>
+      <span class="step-tag">Convergence Criteria</span>
+    </div>
+    <ul style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;">
+      <li><strong>손실 함수 수렴 ($\text{ftol} = 1.0 \times 10^{-6}$)</strong>: 연속 두 반복 단계 간 가중 카이제곱의 상대 변화량 $|\Delta \chi^2 / \chi^2| < 10^{-6}$ 충족 시 수렴 종료.</li>
+      <li><strong>파라미터 변위 수렴 ($\text{xtol} = 1.0 \times 10^{-6}$)</strong>: 파라미터 벡터의 노름 변화량 $\|\Delta \mathbf{p}\| / \|\mathbf{p}\| < 10^{-6}$ 충족 시 수렴 종료.</li>
+      <li><strong>기울기 소멸 ($\text{gtol} = 1.0 \times 10^{-6}$)</strong>: 목적함수 그래디언트의 무한대 노름 $\|\boldsymbol{J}^T \mathbf{R}\|_{\infty} < 10^{-6}$ 충족 시 정상 극솟값 도달 판정.</li>
+      <li><strong>최대 평가 한도</strong>: <code>max_nfev = 300</code> (통상 25~45회 반복 내 정상 수렴).</li>
+    </ul>
+  </div>
+
+  <div class="step-box">
+    <div class="step-header">
+      <span class="step-title-text">Step 5. 사후 공분산 역산, 불확도 산출 및 8대 QC 품질 판정</span>
+      <span class="step-tag">Post-fit Quality Assurance</span>
+    </div>
+    <ul style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;">
+      <li><strong>공분산 행렬 역산</strong>: 최적 수렴점에서의 야코비안 $\boldsymbol{J}$ ($N_{\text{ROI}} \times 8$)로부터 곡률 행렬 $\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J}$을 구하고, Birge factor 클램핑 공분산 $\boldsymbol{V} = \max(1.0, \chi^2 / (N_{\text{ROI}} - 8)) \boldsymbol{H}^{-1}$을 계산하여 각 파라미터의 표준불확도 $\sigma(p_k) = \sqrt{V_{kk}}$를 도출한다.</li>
+      <li><strong>유도 물리량 변환</strong>: $\rho_{\alpha\beta}$ 및 $\text{scale}_w$로부터 실제 에너지/채널 축 상의 $^{210}\text{Po}$ 피크 위치 $\mu_{\text{Po}}$와 선폭 $w_{\text{Po}}$를 계산하여 리포트에 병기한다.</li>
+      <li><strong>8대 방사선 품질 지표(QC Metrics) 평가</strong>:
+        <br>① 환산 카이제곱 ($\chi^2 / \nu$), ② 잔차 무작위성 검정(Runs Test $p$-value), ③ 체계적 오차율(Systematic Err %), ④ 표준화 잔차 분포(Pull $\mu, \sigma$), ⑤ 단순 상대 잔차(Relative Residual %), ⑥ 자유도(NDF), ⑦ 피팅 수렴 상태(TRF Status), ⑧ 방사평형비($\text{Bi}/\text{Pb}$, 이론치 1.000).
+      </li>
+      <li><strong>종합 판정 등급 부여</strong>: 모든 기준을 만족하면 <strong>PASS</strong>(우수 시료는 EXCELLENT), 경계치 도달이나 미세 편차 시 <strong>WARN</strong>, 심각한 모델 불일치 시 <strong>FAIL</strong>로 분류한다.</li>
+    </ul>
+  </div>
 </section>
 
 <!-- Section 5. 실측 데이터 적합성 검토 및 결과 -->
@@ -786,6 +866,8 @@ svg { width: 100%; height: auto; display: block; }
 <section class="paper-sec" id="sec7">
   <h2 class="sec-heading"><span class="sec-num">7.</span> 결론 (Conclusion)</h2>
   <p class="lead-p">본 연구는 LSC 계측기에서 $^{210}\text{Pb}-^{210}\text{Bi}-^{210}\text{Po}$ 붕괴 사슬의 복합 스펙트럼을 LNHB 표준 핵붕괴 데이터와 제조사 공인 정수 설계 공식 `(362, 173, 3)`, 그리고 다이노드 증배 2배 멱지수 TDCR 턴온을 통해 완벽하게 규명하였다.</p>
+
+  <p>특히 8번째 물리 변인으로 도입된 $20\text{ mL}$ 바이알의 Bi L-특성 X선 탈출 확률($P_{\text{esc,XL}}$)과 $^{210}\text{Po}$ 로그축 소프트 커플링($\rho_{\alpha\beta}, \text{scale}_w$), 그리고 2차원 고속 그리드 사전 스캔을 결합한 5단계 피팅 파이프라인은 초기값 의존성과 국소 최솟값 위험을 원천 차단하고 임의의 소광 시료에서도 무편향 수렴을 달성함을 입증하였다.</p>
 
   <p>방사평형 표준선원 C02에서 도출된 $\text{Bi}/\text{Pb} = 0.990$ 활성비와 시계열 A02에서 달성된 $1.96\%$ 상대 잔차는 제안된 방법론이 극저준위 자연방사능 분석 및 시료 핵종 분해에 신뢰성 있는 표준 분석 툴로서 활용될 수 있음을 증명한다.</p>
 </section>
