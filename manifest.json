@@ -83,7 +83,7 @@
         {
           "name": "DeepTrX Live Model Report",
           "path": "reports/Overwatch/live_report.html",
-          "date": "2026-11-06T09:10:03+09:00",
+          "date": "2026-11-09T09:10:09+09:00",
           "summary": "DeepTrX v2·v4·v5 모델의 실거래 라이브 트래킹 대시보드다. 버전별로 거래일수·거래횟수·승률·평균수익률·누적수익률·MDD(롤링 3개월)를 나란히 비교하고, 일별 수익률 추이와 누적수익률·MDD 그래프를 함께 보여준다. 개별 매수·매도 거래 내역(종목, 매수가, 매도가, 수익률, 진입 시가총액)도 일자별로 제공하며, 매 거래일 09:05에 자동 갱신된다."
         },
         {
@@ -97,6 +97,12 @@
     {
       "name": "Research",
       "files": [
+        {
+          "name": "Po-210 Deconvolution & Core+Tail Study (A02 vs A03)",
+          "path": "reports/Research/po210_tailing_emg_vs_crystalball.html",
+          "date": "2026-11-10T00:02:10.808726+00:00",
+          "summary": "fitter.py의 Bi-210 물리 모델 차감(디컨볼루션)을 통해 A02(무필터)와 A03(필터) 계측 데이터에서 순수 Po-210 피크를 분리하고 실제 여과지 손실 분포를 규명한 연구 보고서다. 필터 투입 시 알파 입자의 총 방사능(면적)은 99.6% 보존되며 중심 피크 손실분이 저에너지 테일로 온전히 이동함을 확인하고, 88% 무손실 코어와 12% 손실 테일의 합성 모델이 단일 Left-EMG 곡선과 수학적으로 완벽히 귀결됨을 실증한다."
+        },
         {
           "name": "²¹⁰Pb-²¹⁰Bi-²¹⁰Po 액체섬광 스펙트럼의 LNHB 붕괴 데이터 기반 물리 모델링, 비선형 하드웨어 매핑 및 3핵종 동시 분해 연구",
           "path": "reports/Research/report-first-principles-chain.html",
