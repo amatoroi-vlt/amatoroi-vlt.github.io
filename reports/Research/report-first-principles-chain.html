@@ -156,7 +156,7 @@ svg { width: 100%; height: auto; display: block; }
 
   <div class="abstract-box">
     <h3>Abstract</h3>
-    <p>본 논문에서는 HIDEX 300 SL 3-PMT 액체섬광계측기(LSC) 환경에서 관측되는 $^{210}\text{Pb} \to ^{210}\text{Bi} \to ^{210}\text{Po}$ 자연 방사능 붕괴 계열 전체를 기술하기 위해, <strong>프랑스 국립방사선표준연구소(LNHB) 공인 핵붕괴 데이터(Decay Scheme 및 BetaShape)</strong>를 기초 입력으로 채택하고 기기 하드웨어 전달함수를 결합한 스펙트럼 역산 방법론을 제시한다. 각 핵종별로 $^{210}\text{Pb}$의 복합 준위 탈여기(내부전환전자+오제전자) 에너지 흡수 합성, $^{210}\text{Bi}$의 1차 금지 Fermi 베타 스펙트럼, 그리고 $^{210}\text{Po}$의 $5.304\text{ MeV}$ 단색 알파선 광량축 가우시안 변환에 의한 비대칭 왜도(Asymmetric Skewness) 모델을 수립하였다. 계측기 하드웨어 특성으로 공인 엑셀 캘리브레이션 역추적으로부터 제조사 정수 설계 공식 $\text{ch}(E; Q) = 362 \log_{10}[Q(E+3)] - 173$을 확립하고, PMT 다이노드 2차 전하 증배 메커니즘에 기반한 2배 멱지수($\alpha=2.0$) TDCR 계측 효율 턴온 모델을 도입하였다. 제안된 모델을 2024년 C02 표준선원 데이터에 적용한 결과 $^{210}\text{Bi}/^{210}\text{Pb}$ 방사평형비 $0.990$ (1.0% 오차)의 정합성을 달성하였으며, 2026년 A02 시계열 8개 배치 전수 피팅에서 평균 상대 잔차 $1.96\%$를 달성하였다. Pull 잔차, $\mathcal{N}(0, 1)$ 정규분포 히스토그램, Q-Q 플롯 분석을 통해 잔차가 통계적 백색 잡음(Poisson White Noise)에 완전히 수렴함을 엄밀하게 증명하였다.</p>
+    <p>본 논문에서는 HIDEX 300 SL 3-PMT 액체섬광계측기(LSC) 환경에서 관측되는 $^{210}\text{Pb} \to ^{210}\text{Bi} \to ^{210}\text{Po}$ 자연 방사능 붕괴 계열 전체를 기술하기 위해, <strong>프랑스 국립방사선표준연구소(LNHB) 공인 핵붕괴 데이터(Decay Scheme 및 BetaShape)</strong>를 기초 입력으로 채택하고 기기 하드웨어 전달함수를 결합한 스펙트럼 역산 방법론을 제시한다. 각 핵종별로 $^{210}\text{Pb}$의 복합 준위 탈여기(내부전환전자+오제전자) 에너지 흡수 합성, $^{210}\text{Bi}$의 1차 금지 Fermi 베타 스펙트럼, 그리고 $^{210}\text{Po}$의 $5.304\text{ MeV}$ 단색 알파선 선형 광량축 가우시안(<code>po_light_gauss</code>) 및 필터용지·침전물 자가흡수에 의한 지수감쇠 합성곱(Left-EMG, <code>po_light_emg</code>, $\tau_{\text{rel}}$) 비대칭 모델을 수립하였다. 계측기 하드웨어 특성으로 공인 엑셀 캘리브레이션 역추적으로부터 제조사 정수 설계 공식 $\text{ch}(E; Q) = 362 \log_{10}[Q(E+3)] - 173$을 확립하고, PMT 다이노드 2차 전하 증배 메커니즘에 기반한 2배 멱지수($\alpha=2.0$) TDCR 계측 효율 턴온 모델을 도입하였다. 제안된 모델을 2024년 C02 표준선원 데이터에 적용한 결과 $^{210}\text{Bi}/^{210}\text{Pb}$ 방사평형비 $0.990$ (1.0% 오차)의 정합성을 달성하였으며, 2026년 A02 시계열 8개 배치 전수 피팅에서 평균 상대 잔차 $1.96\%$를 달성하였다. Pull 잔차, $\mathcal{N}(0, 1)$ 정규분포 히스토그램, Q-Q 플롯 분석을 통해 잔차가 통계적 백색 잡음(Poisson White Noise)에 완전히 수렴함을 엄밀하게 증명하였다.</p>
     <div class="keywords"><b>Keywords:</b> Liquid Scintillation Counting (LSC), Pb-210 Decay Chain, LNHB Decay Scheme, BetaShape, TDCR Method, Manufacturer Integer Formula, Non-linear Spectrum Decomposition</div>
   </div>
 </header>
@@ -291,8 +291,33 @@ svg { width: 100%; height: auto; display: block; }
     <h3 style="font-size:14.5px; margin:0 0 10px;">Figure 2.1c: ²¹⁰Po LSC 템플릿 형성 진화 (단색선 ➔ 기기 종합 분해능 퍼짐 ➔ 로그 야코비안 비대칭 왜도)</h3>
     <div id="plot-evo-po"></div>
     <div class="fig-caption">
-      <b>Figure 2.1c. ²¹⁰Po LSC 템플릿 형성 전 과정:</b> (1) $5304.33\text{ keV}$ 단색 알파선의 이온화 소광($Q_\alpha \approx 1/11, \sim 480\text{ keV}_{\text{eq}}$) 위치($573\text{ ch}$) ➔ (2) 기기 종합 분해능 번짐(Broadening)에 의한 선형 광량축 대칭 가우시안 ➔ (3) BJT 로그 증폭기 좌표 변환 시의 야코비안($\cdot 10^{\text{ch}/a_L}$)에 의해 저채널 비대칭 꼬리(Skewness)가 형성된 최종 Po 템플릿 ($450 \sim 700\text{ ch}$). (※ 피크 중심 $\mu_{\text{Po}} = 572.8\text{ ch}$, 선폭 $w_{\text{Po}} = 14.0\text{ ch}$. 상단 범례 항목을 클릭하여 각 곡선을 켜고 끌 수 있음)
+      <b>Figure 2.1c. ²¹⁰Po LSC 템플릿 형성 전 과정:</b> (1) $5304.33\text{ keV}$ 단색 알파선의 이온화 소광($Q_\alpha \approx 1/11, \sim 480\text{ keV}_{\text{eq}}$) 위치($573\text{ ch}$) ➔ (2) 기기 종합 분해능 번짐(Broadening)에 의한 선형 광량축 대칭 가우시안 ➔ (3) BJT 로그 증폭기 좌표 변환 시의 야코비안($\cdot 10^{(\text{ch}+173)/362}$)에 의해 저채널 비대칭 꼬리(Skewness)가 형성된 기본 Po 템플릿(<code>po_light_gauss</code>) 및 필터 자가흡수 지수감쇠 합성곱(<code>po_light_emg</code>, $\tau_{\text{rel}}$) 모델 ($450 \sim 700\text{ ch}$). (※ 피크 중심 $\mu_{\text{Po}} = 572.8\text{ ch}$, 선폭 $w_{\text{Po}} = 14.0\text{ ch}$. 상단 범례 항목을 클릭하여 각 곡선을 켜고 끌 수 있음)
     </div>
+  </div>
+
+  <h3 class="sub-heading">2.2 ²¹⁰Po 선형 광량 가우시안(<code>po_light_gauss</code>) 및 필터 자가흡수 Left-EMG(<code>po_light_emg</code>, \(\tau_{\text{rel}}\)) 수식 체계</h3>
+  <p>$^{210}\text{Po}$는 $5304.33\text{ keV}$의 단일 에너지 알파 입자를 방출한다. 균질한 투명 액체섬광 칵테일 내에서는 알파 입자 비정($\sim 40\,\mu\text{m}$)이 전량 섬광액에 흡수되어 선형 유효 광량 공간($u$)에서 대칭 가우시안 분포를 형성한다. 반면, 화학 회수율 산정을 위해 바이알 내부에 <strong>여과 필터용지(Filter Paper) 및 옥살산납($\text{PbC}_2\text{O}_4$) 침전물</strong>이 투입된 시료에서는 일부 알파 입자가 셀룰로오스 섬유나 결정 입자를 비스듬히 관통하며 연속적인 에너지 손실(Straggling, $\Delta u \ge 0$)을 겪는다. 본 엔진은 두 상황을 단일 연속 수식 체계로 통합하였다:</p>
+
+  <ul style="line-height:1.8; font-size:14px; color:var(--ink-2); margin-bottom:16px;">
+    <li><strong>공통 물리 좌표 변환 (로그 채널 $\text{ch} \leftrightarrow$ 선형 유효 광량 $u$)</strong>:
+      $$u(\text{ch}) = 10^{\frac{\text{ch} + 173}{362}}, \quad u_0 = 10^{\frac{\mu_{\text{Po}} + 173}{362}}, \quad s = u_0 \cdot \frac{\ln 10}{362} \cdot w_{\text{Po}}, \quad \frac{du}{d\text{ch}} = u(\text{ch}) \cdot \frac{\ln 10}{362}$$
+    </li>
+    <li><strong>① 무손실 균질 용액 모델 (<code>po_light_gauss</code>, $\tau_{\text{rel}} = 0$)</strong>:
+      선형 광량 공간의 정규분포 $\mathcal{N}(u_0, s^2)$에 로그 채널 야코비안 $\frac{du}{d\text{ch}}$를 곱한 분포이다:
+      $$g_{\text{gauss}}(\text{ch}; \mu_{\text{Po}}, w_{\text{Po}}) = \frac{1}{\sqrt{2\pi}\,s} \exp\!\left(-\frac{(u(\text{ch}) - u_0)^2}{2s^2}\right) \cdot \left(u(\text{ch})\frac{\ln 10}{362}\right)$$
+    </li>
+    <li><strong>② 필터/침전물 자가흡수 테일링 통합 모델 (<code>po_light_emg</code>, $\tau_{\text{rel}} \ge 0$)</strong>:
+      무작위 관통 경로 길이에 따른 지수형 광량 손실 분포 $h(\Delta u) = \frac{1}{\tau_u}\exp(-\Delta u/\tau_u)$ ($\Delta u \ge 0$)와 가우시안 광학 분해능 $\mathcal{N}(0, s^2)$을 합성곱(Convolution)한 <strong>좌측 지수 수정 가우시안(Left-tailed Exponentially Modified Gaussian, Left-EMG)</strong>이다. 이때 절대 감쇠 길이를 피크 중심 광량 $u_0$에 대한 무차원 상대 비율 $\tau_{\text{rel}}$ ($\tau_u = u_0 \cdot \tau_{\text{rel}}$)로 정의하여 소광도($Q$)와 무관한 순수 기하학적 테일링 척도로 규격화하였다:
+      $$g_{\text{emg}}(\text{ch}; \mu_{\text{Po}}, w_{\text{Po}}, \tau_{\text{rel}}) = \underbrace{\frac{1}{2\tau_u} \exp\!\left(\frac{s^2}{2\tau_u^2} - \frac{u_0 - u(\text{ch})}{\tau_u}\right) \text{erfc}\!\left(\frac{\frac{s}{\tau_u} - \frac{u_0 - u(\text{ch})}{s}}{\sqrt{2}}\right)}_{\text{선형 광량 공간의 가우시안 } \otimes \text{ 지수 에너지 손실 합성곱 } f_{\text{EMG}}(u)} \cdot \underbrace{\left(u(\text{ch})\frac{\ln 10}{362}\right)}_{\text{동일한 야코비안 } \frac{du}{d\text{ch}}}$$
+      <span style="font-size:13px;">(※ 극한 $\tau_{\text{rel}} \to 0$에서 $g_{\text{emg}}$는 수학적으로 $g_{\text{gauss}}$에 완벽히 수렴하며, 수치 구현에서는 $\tau_{\text{rel}} \le 10^{-4}$일 때 <code>po_light_gauss</code>로 즉시 분기하여 오버플로우를 방지한다.)</span>
+    </li>
+  </ul>
+
+  <div class="callout-box">
+    <span class="badge">실측 검증: 무필터(A02) vs 필터 투입(A03) 비교 분석</span>
+    <p>동일한 방사능의 용액에서 필터용지 유무만 달리한 실측 데이터(<code>260620_Bi_repeat_002_w_blank.csv</code>, A02 무필터 vs A03 유필터)에 대해 $^{210}\text{Bi}$ 베타 스펙트럼을 디컨볼루션하여 순수 $^{210}\text{Po}$ 알파 신호를 비교한 결과:<br>
+    <b>1. 총 알파 계수율 보존</b>: 무필터 A02($1.298\text{ CPS}$)와 유필터 A03($1.293\text{ CPS}$)의 전체 알파 면적은 $99.6\%$ 일치하여 필터에 의해 완전 소멸되는 사건 없이 저에너지 테일 영역($\text{ch } 475 \sim 555$)으로 약 $12\%$가 이동함을 확인하였다.<br>
+    <b>2. 디컨볼루션 정밀도 향상</b>: 유필터 시료(A03)에 <code>po_light_emg</code>를 적용하면 $\tau_{\text{rel}} = 0.124$로 수렴하며 환산 카이제곱이 $\chi^2_\nu = 0.961 \to \mathbf{0.265}$로 대폭 개선되고, $^{210}\text{Bi}$가 알파 테일($\sim 0.09\text{ CPS}$)을 과대 흡수하던 현상과 $Q$, $\sigma_0$ 왜곡이 완전히 해소된다.</p>
   </div>
 </section>
 
@@ -348,8 +373,8 @@ svg { width: 100%; height: auto; display: block; }
 <section class="paper-sec" id="sec4">
   <h2 class="sec-heading"><span class="sec-num">4.</span> 피팅 변인 체계 및 최적화 알고리즘 (Fitting Parameterization & Algorithm)</h2>
 
-  <h3 class="sub-heading">4.1 고정 파라미터 및 8차원 물리 최적화 변인 체계</h3>
-  <p>2026년 최신 개정 엔진에서는 기존 독립 탐색 변인이었던 $^{210}\text{Po}$ 피크 변인($\mu_{\text{Po}}, w_{\text{Po}}$)을 하드웨어 캘리브레이션 공식($A_{\text{MFG}}=362.0$)과 $Q$에 직접 연동하는 <strong>소프트 커플링(Soft-Coupled) 체계</strong>로 통합하고, $20\text{ mL}$ 바이알의 기하학적 특성에 따른 $^{210}\text{Pb}$ Bi L-특성 X선 탈출 확률($P_{\text{esc,XL}}$)을 8번째 물리 변인으로 도입하였다. 이를 통해 총 8차원 물리 공간($\mathbf{p} \in \mathbb{R}^8$)을 동시 최적화한다:</p>
+  <h3 class="sub-heading">4.1 고정 파라미터 및 9차원 물리 최적화 변인 체계</h3>
+  <p>2026년 최신 개정 엔진에서는 기존 독립 탐색 변인이었던 $^{210}\text{Po}$ 피크 변인($\mu_{\text{Po}}, w_{\text{Po}}$)을 하드웨어 캘리브레이션 공식($A_{\text{MFG}}=362.0$)과 $Q$에 직접 연동하는 <strong>소프트 커플링(Soft-Coupled) 체계</strong>로 통합하고, $20\text{ mL}$ 바이알의 기하학적 특성에 따른 $^{210}\text{Pb}$ Bi L-특성 X선 탈출 확률($P_{\text{esc,XL}}$) 및 필터/침전물 자가흡수에 의한 $^{210}\text{Po}$ 알파 저에너지 테일링 변인($\tau_{\text{rel}}$)을 도입하였다. 이를 통해 총 9차원 물리 공간($\mathbf{p} \in \mathbb{R}^9$, Mode B 동시 배경 최적화 시 $A_{\text{bg}}$ 포함 10차원)을 동시 최적화한다:</p>
 
   <div class="tbl-container">
     <table class="paper-tbl">
@@ -403,13 +428,13 @@ svg { width: 100%; height: auto; display: block; }
           <td>$A_{\text{Po}}$</td>
           <td>$^{210}\text{Po}$ 절대 방사능 계수율 (CPS)</td>
           <td>$A_{\text{Po}} \ge 0.0$</td>
-          <td>알파선 가우시안 템플릿 $T_{\text{Po}}$ 진폭</td>
+          <td>알파선 Left-EMG 템플릿 $T_{\text{Po}}$ 진폭</td>
         </tr>
         <tr>
           <td class="k">최적화 변인 4</td>
           <td>$Q$</td>
           <td>유효 광량 변환 계수 (Effective Scintillation Yield Factor)</td>
-          <td>$0.15 \le Q \le 0.45$ (초기값 pre-scan)</td>
+          <td>$0.02 \le Q \le 2.00$ (초기값 pre-scan)</td>
           <td>이론적 침적 에너지당 유효 감지 광량 변환율 ($E_{\text{eff}} = Q \cdot E_{\text{dep}}$)</td>
         </tr>
         <tr>
@@ -422,23 +447,30 @@ svg { width: 100%; height: auto; display: block; }
         <tr>
           <td class="k">최적화 변인 6</td>
           <td>$\rho_{\alpha\beta}$</td>
-          <td>$\alpha/\beta$ 상대 광량비 (Relative Light Yield)</td>
-          <td>$0.075 \le \rho_{\alpha\beta} \le 0.120$ (공칭 $0.0965$)</td>
-          <td>사전분포 페널티 ($\sigma = 0.006$); $\mu_{\text{Po}}$ 유도값 결정</td>
+          <td>$\alpha/\beta$ 상대 광량비 보정인자 (Relative Alpha/Beta Factor)</td>
+          <td>$0.75 \le \rho_{\alpha\beta} \le 1.30$ (공칭 $1.00$)</td>
+          <td>사전분포 페널티 ($\sigma_\rho = 0.20$); $\mu_{\text{Po}}$ 유도값 결정</td>
         </tr>
         <tr>
           <td class="k">최적화 변인 7</td>
           <td>$\text{scale}_w$</td>
           <td>$\alpha$ 피크 폭 보정계수 (Alpha Width Scale)</td>
-          <td>$0.70 \le \text{scale}_w \le 1.35$ (공칭 $1.00$)</td>
-          <td>사전분포 페널티 ($\sigma = 0.06$); $w_{\text{Po}}$ 유도값 결정</td>
+          <td>$0.35 \le \text{scale}_w \le 2.50$ (공칭 $1.00$)</td>
+          <td>사전분포 페널티 ($\sigma_w = 0.50$); $w_{\text{Po}}$ 유도값 결정</td>
         </tr>
         <tr>
           <td class="k">최적화 변인 8</td>
           <td>$P_{\text{esc,XL}}$</td>
           <td>$20\text{ mL}$ 바이알 Bi L-특성 X선 탈출 확률</td>
           <td>$0.00 \le P_{\text{esc,XL}} \le 0.65$ (공칭 $0.230$)</td>
-          <td>사전분포 페널티 ($\sigma = 0.12$); $^{210}\text{Pb}$ 좌측 어깨 형상 조절</td>
+          <td>사전분포 페널티 ($\sigma_{\text{pesc}} = 0.12$); $^{210}\text{Pb}$ 좌측 어깨 형상 조절</td>
+        </tr>
+        <tr>
+          <td class="k">최적화 변인 9</td>
+          <td>$\tau_{\text{rel}}$</td>
+          <td>$^{210}\text{Po}$ 알파 저에너지 상대 테일링 상수 ($\tau_u = u_0 \cdot \tau_{\text{rel}}$)</td>
+          <td>$0.00 \le \tau_{\text{rel}} \le 0.35$ (공칭 $0.000$)</td>
+          <td>사전분포 페널티 ($\sigma_\tau = 0.15$); 필터/침전물 자가흡수 Left-EMG 테일 모사</td>
         </tr>
       </tbody>
     </table>
@@ -447,10 +479,10 @@ svg { width: 100%; height: auto; display: block; }
   <h3 class="sub-heading">4.2 베이지안 사전분포 페널티가 결합된 가중 손실 함수 및 Scipy TRF 최적화</h3>
   <p>측정 스펙트럼의 포아송 계측 통계 $\sigma_i^2 = y_i / t_{\text{sample}}^2 + b_i / t_{\text{bkg}}^2$에 의한 가중 최소제곱 잔차와 물리적으로 확립된 파라미터의 베이지안 약사전분포(Weak Bayesian Prior) 페널티를 결합한 <strong>정규화 가중 최소제곱(Regularized Weighted Least Squares)</strong> 손실 함수를 정의한다:</p>
 
-  $$\chi^2_{\text{total}}(\mathbf{p}) = \sum_{i=\text{ch}_{\min}}^{\text{ch}_{\max}} \left( \frac{y_i - M_i(\mathbf{p})}{\sigma_i} \right)^2 + \left(\frac{\rho_{\alpha\beta} - 0.0965}{0.006}\right)^2 + \left(\frac{\text{scale}_w - 1.00}{0.06}\right)^2 + \left(\frac{P_{\text{esc,XL}} - 0.230}{0.12}\right)^2$$
+  $$\chi^2_{\text{total}}(\mathbf{p}) = \sum_{i=\text{ch}_{\min}}^{\text{ch}_{\max}} \left( \frac{y_i - M_i(\mathbf{p})}{\sigma_i} \right)^2 + \left(\frac{\rho_{\alpha\beta} - 1.00}{0.20}\right)^2 + \left(\frac{\text{scale}_w - 1.00}{0.50}\right)^2 + \left(\frac{P_{\text{esc,XL}} - 0.230}{0.12}\right)^2 + \left(\frac{\tau_{\text{rel}} - 0.00}{0.15}\right)^2$$
 
   <p>여기서 모델 합성 스펙트럼 $M_i(\mathbf{p})$는 다음과 같이 정의된다:</p>
-  $$M_i(\mathbf{p}) = A_{\text{Pb}} T_{\text{Pb}}(\text{ch}_i; Q, \sigma_0, P_{\text{esc,XL}}) + A_{\text{Bi}} T_{\text{Bi}}(\text{ch}_i; Q, \sigma_0) + A_{\text{Po}} T_{\text{Po}}(\text{ch}_i; Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w)$$
+  $$M_i(\mathbf{p}) = A_{\text{Pb}} T_{\text{Pb}}(\text{ch}_i; Q, \sigma_0, P_{\text{esc,XL}}) + A_{\text{Bi}} T_{\text{Bi}}(\text{ch}_i; Q, \sigma_0) + A_{\text{Po}} T_{\text{Po}}(\text{ch}_i; Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w, \tau_{\text{rel}})$$
 
   <ul style="line-height:1.75; font-size:13px; color:var(--ink-2); margin-bottom:14px;">
     <li><strong>소프트 커플링(Soft-Coupling)의 장점</strong>: $^{210}\text{Po}$ 피크의 중심 채널 $\mu_{\text{Po}}$와 폭 $w_{\text{Po}}$를 독자적으로 임의 탐색하지 않고, 기기 캘리브레이션 곡선과 유효 광량 변환 계수 $Q$에 물리적으로 커플링함으로써 저방사능 시료나 $^{210}\text{Po}$ 피크가 약한 시료에서도 파라미터 폭주(Runaway) 현상을 원천 방지한다.</li>
@@ -495,15 +527,21 @@ svg { width: 100%; height: auto; display: block; }
     T_pb = (1.0 - P_esc_xl) * T_abs + P_esc_xl * T_esc
     return T_pb / max(T_pb.sum(), 1e-30)
 
-def build_po210_template(Q, sig_0, rho_ab, scale_w, E_alpha=5304.33):
-    # [Po-210 하드웨어 캘리브레이션 축 및 Q 소프트 커플링 가우시안 템플릿]
-    E_eff = rho_ab * (E_alpha + 3.0)
-    mu_po = 362.0 * np.log10(np.maximum(Q * E_eff, 1e-6)) - 173.0
-    w_po = scale_w * (sig_0 / np.sqrt(np.maximum(Q * E_eff, 1e-3)))
-    
-    CH = np.arange(1024)
-    T_po = np.exp(-0.5 * ((CH - mu_po) / np.maximum(w_po, 1.0)) ** 2)
-    return T_po / max(T_po.sum(), 1e-30), mu_po, w_po</code></pre>
+def po_light_emg(ch, mu, w, tau_rel=0.0):
+    # [Po-210 선형 광량 가우시안(tau_rel=0) 및 필터 자가흡수 Left-EMG(tau_rel>0) 통합 템플릿]
+    w_eff = max(float(w), 1.5)
+    if tau_rel <= 1e-4:
+        return po_light_gauss(ch, mu, w_eff)
+    ln10_a = math.log(10.0) / 362.0
+    u = np.power(10.0, (ch + 173.0) / 362.0)
+    u0 = math.pow(10.0, (float(mu) + 173.0) / 362.0)
+    s = max(u0 * ln10_a * w_eff, 1e-12)
+    tau_u = max(u0 * float(tau_rel), 1e-12)
+    arg_exp = np.clip(0.5 * (s / tau_u) ** 2 - (u0 - u) / tau_u, -500.0, 500.0)
+    arg_erfc = ((s / tau_u) - (u0 - u) / s) / math.sqrt(2.0)
+    g = (0.5 / tau_u) * np.exp(arg_exp) * _scipy_erfc(arg_erfc) * (u * ln10_a)
+    g = np.nan_to_num(g, nan=0.0, posinf=0.0, neginf=0.0)
+    return g / max(float(g.sum()), 1e-30)</code></pre>
 
   <h3 class="sub-heading">4.4 피팅의 기술적 접근 단계별 절차 (Step-by-Step Fitting Pipeline: From Initialization to Termination)</h3>
   <p>DAT-LSC 분석 엔진이 임의의 계측 스펙트럼을 입력받아 초기값 선정부터 비선형 최적화 수렴 및 다계층 통계 검증을 완료하기까지의 <strong>5단계 엔지니어링 실행 파이프라인</strong>은 다음과 같다:</p>
@@ -537,12 +575,12 @@ def build_po210_template(Q, sig_0, rho_ab, scale_w, E_alpha=5304.33):
 
   <div class="step-box">
     <div class="step-header">
-      <span class="step-title-text">Step 3. 8차원 신뢰영역 반사(TRF) 비선형 최적화 실행</span>
+      <span class="step-title-text">Step 3. 9차원 신뢰영역 반사(TRF) 비선형 최적화 실행</span>
       <span class="step-tag">Nonlinear Solver</span>
     </div>
     <ul style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;">
-      <li><strong>잔차 벡터 구성</strong>: 스펙트럼 ROI 채널 잔차 $N_{\text{ROI}}$개와 3개 베이지안 사전분포 페널티를 결합하여 총 $(N_{\text{ROI}} + 3)$차원의 잔차 벡터 $\mathbf{R}(\mathbf{p})$를 실시간 평가한다.</li>
-      <li><strong>반사 경계(Reflective Bounds)</strong>: 파라미터가 물리적 한계치(예: $A_k < 0$, $Q < 0.15$, $P_{\text{esc,XL}} < 0$)에 도달하면 탐색 궤적을 경계면에서 반사시켜 내부 허용 공간으로 강제 복귀시킨다.</li>
+      <li><strong>잔차 벡터 구성</strong>: 스펙트럼 ROI 채널 잔차 $N_{\text{ROI}}$개와 4개 베이지안 사전분포 페널티($\rho_{\alpha\beta}, \text{scale}_w, P_{\text{esc,XL}}, \tau_{\text{rel}}$)를 결합하여 총 $(N_{\text{ROI}} + 4)$차원의 잔차 벡터 $\mathbf{R}(\mathbf{p})$를 실시간 평가한다.</li>
+      <li><strong>반사 경계(Reflective Bounds)</strong>: 파라미터가 물리적 한계치(예: $A_k < 0$, $Q < 0.02$, $P_{\text{esc,XL}} < 0$, $\tau_{\text{rel}} < 0$)에 도달하면 탐색 궤적을 경계면에서 반사시켜 내부 허용 공간으로 강제 복귀시킨다.</li>
       <li><strong>야코비안 계산</strong>: 2차 미분 근사 헤시안 $\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J}$ 및 신뢰 반경(Trust Radius $\Delta$)을 매 이터레이션마다 적응적으로 조절하여 수렴성을 보장한다.</li>
     </ul>
   </div>
@@ -566,8 +604,8 @@ def build_po210_template(Q, sig_0, rho_ab, scale_w, E_alpha=5304.33):
       <span class="step-tag">Post-fit Quality Assurance</span>
     </div>
     <ul style="margin:0; padding-left:20px; font-size:13.5px; line-height:1.8;">
-      <li><strong>공분산 행렬 역산</strong>: 최적 수렴점에서의 야코비안 $\boldsymbol{J}$ ($N_{\text{ROI}} \times 8$)로부터 곡률 행렬 $\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J}$을 구하고, Birge factor 클램핑 공분산 $\boldsymbol{V} = \max(1.0, \chi^2 / (N_{\text{ROI}} - 8)) \boldsymbol{H}^{-1}$을 계산하여 각 파라미터의 표준불확도 $\sigma(p_k) = \sqrt{V_{kk}}$를 도출한다.</li>
-      <li><strong>유도 물리량 변환</strong>: $\rho_{\alpha\beta}$ 및 $\text{scale}_w$로부터 실제 에너지/채널 축 상의 $^{210}\text{Po}$ 피크 위치 $\mu_{\text{Po}}$와 선폭 $w_{\text{Po}}$를 계산하여 리포트에 병기한다.</li>
+      <li><strong>공분산 행렬 역산</strong>: 최적 수렴점에서의 야코비안 $\boldsymbol{J}$ ($N_{\text{ROI}} \times 9$)로부터 곡률 행렬 $\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J}$을 구하고, Birge factor 클램핑 공분산 $\boldsymbol{V} = \max(1.0, \chi^2 / (N_{\text{ROI}} - 9)) \boldsymbol{H}^{-1}$을 계산하여 각 파라미터의 표준불확도 $\sigma(p_k) = \sqrt{V_{kk}}$를 도출한다.</li>
+      <li><strong>유도 물리량 변환</strong>: $\rho_{\alpha\beta}$ 및 $\text{scale}_w$로부터 실제 에너지/채널 축 상의 $^{210}\text{Po}$ 피크 위치 $\mu_{\text{Po}}$와 선폭 $w_{\text{Po}}$, 그리고 저에너지 테일링 지수 $\tau_{\text{rel}}$을 계산하여 리포트에 병기한다.</li>
       <li><strong>8대 방사선 품질 지표(QC Metrics) 평가</strong>:
         <br>① 환산 카이제곱 ($\chi^2 / \nu$), ② 잔차 무작위성 검정(Runs Test $p$-value), ③ 체계적 오차율(Systematic Err %), ④ 표준화 잔차 분포(Pull $\mu, \sigma$), ⑤ 단순 상대 잔차(Relative Residual %), ⑥ 자유도(NDF), ⑦ 피팅 수렴 상태(TRF Status), ⑧ 방사평형비($\text{Bi}/\text{Pb}$, 이론치 1.000).
       </li>
@@ -587,7 +625,7 @@ def build_po210_template(Q, sig_0, rho_ab, scale_w, E_alpha=5304.33):
   <p>이러한 물리적 왜곡을 원천 배제하기 위해, 본 분석 엔진은 외부 감산 방식을 폐지하고 소광비($k_{\text{QPE}}$)로 정합된 실측 배경 템플릿 $T_{\text{blank}}^{\text{corr}}(\text{ch}; k_{\text{QPE}})$를 피터의 독립 기저 성분으로 직접 투입하여 동시 최적화한다:</p>
 
   <div class="formula-box">
-    $$\text{Model}(\text{ch}) = A_{\text{Pb}} \cdot T_{\text{Pb}}(\text{ch}; Q, \sigma_0, P_{\text{esc,XL}}) + A_{\text{Bi}} \cdot T_{\text{Bi}}(\text{ch}; Q, \sigma_0) + A_{\text{Po}} \cdot T_{\text{Po}}(\text{ch}; \mu_{\text{Po}}, w_{\text{Po}}) + A_{\text{bg}} \cdot T_{\text{blank}}^{\text{corr}}(\text{ch}; k_{\text{QPE}})$$
+    $$\text{Model}(\text{ch}) = A_{\text{Pb}} \cdot T_{\text{Pb}}(\text{ch}; Q, \sigma_0, P_{\text{esc,XL}}) + A_{\text{Bi}} \cdot T_{\text{Bi}}(\text{ch}; Q, \sigma_0) + A_{\text{Po}} \cdot T_{\text{Po}}(\text{ch}; \mu_{\text{Po}}, w_{\text{Po}}, \tau_{\text{rel}}) + A_{\text{bg}} \cdot T_{\text{blank}}^{\text{corr}}(\text{ch}; k_{\text{QPE}})$$
   </div>
 
   <ul style="margin:16px 0; padding-left:22px; font-size:14.5px; line-height:1.8;">

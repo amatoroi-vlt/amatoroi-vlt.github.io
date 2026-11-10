@@ -183,7 +183,7 @@ footer.paper-footer {
   <h1 class="paper-title">3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화</h1>
   <div class="abstract-box">
     <p>
-      <code>server/python/pb210fit/templates.py</code> 및 <code>server/python/pb210fit/fitter.py</code>의 실제 함수를 그대로 호출하여, <strong>순수 이론(Bare) 상태</strong>에서 출발해 7개의 최적화 변인($Q, \sigma_0, \mu_{\text{Po}}, w_{\text{Po}}, A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}$)과 고정 문턱($\text{ch}_0 = 85.0$)이 작동할 때 스펙트럼이 변화하는 전 과정을 스텝별로 시각화했습니다.
+      <code>server/python/pb210fit/templates.py</code> 및 <code>server/python/pb210fit/fitter.py</code>의 실제 함수를 그대로 호출하여, <strong>순수 이론(Bare) 상태</strong>에서 출발해 9개의 최적화 변인($Q, \sigma_0, P_{\text{esc,XL}}, \rho_{\alpha\beta}(\mu_{\text{Po}}), \text{scale}_w(w_{\text{Po}}), \tau_{\text{rel}}, A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}$)과 고정 문턱($\text{ch}_0 = 85.0$)이 작동할 때 스펙트럼이 변화하는 전 과정을 스텝별로 시각화했습니다.
     </p>
   </div>
 </header>
@@ -294,15 +294,21 @@ footer.paper-footer {
     <!-- Step 4 -->
     <div class="step-box" id="step4">
       <div class="step-header">
-        <h3 class="sub-heading">Step 4. $^{210}\text{Po}$ 알파 피크 전용 변인 ($\mu_{\text{Po}}, w_{\text{Po}}$)</h3>
-        <span class="step-tag">STEP 4 · Po-210 ALPHA</span>
+        <h3 class="sub-heading">Step 4. $^{210}\text{Po}$ 알파 피크 전용 변인 ($\mu_{\text{Po}}, w_{\text{Po}}, \tau_{\text{rel}}$) — <code>po_light_gauss</code> vs <code>po_light_emg</code></h3>
+        <span class="step-tag">STEP 4 · Po-210 ALPHA &amp; LEFT-EMG</span>
       </div>
       <div class="figure-wrap">
-        <img src="./assets/pb210_fitting_model_steps/step4_po210_alpha.png" alt="Step 4: Po-210 알파 변인" loading="lazy">
+        <img src="./assets/pb210_fitting_model_steps/step4_po210_alpha.png" alt="Step 4: Po-210 알파 변인 및 Left-EMG 테일링" loading="lazy">
+      </div>
+      <div class="formula-card">
+        $$u(\text{ch}) = 10^{\frac{\text{ch} + 173}{362}}, \quad u_0 = 10^{\frac{\mu_{\text{Po}} + 173}{362}}, \quad s = u_0 \frac{\ln 10}{362} w_{\text{Po}}, \quad \tau_u = u_0 \cdot \tau_{\text{rel}}$$
+        $$g_{\text{gauss}}(\text{ch}) = \frac{1}{\sqrt{2\pi}\,s} \exp\!\left(-\frac{(u - u_0)^2}{2s^2}\right) \cdot \left(u \frac{\ln 10}{362}\right)$$
+        $$g_{\text{emg}}(\text{ch}; \tau_{\text{rel}}) = \frac{1}{2\tau_u} \exp\!\left(\frac{s^2}{2\tau_u^2} - \frac{u_0 - u}{\tau_u}\right) \text{erfc}\!\left(\frac{\frac{s}{\tau_u} - \frac{u_0 - u}{s}}{\sqrt{2}}\right) \cdot \left(u \frac{\ln 10}{362}\right)$$
       </div>
       <ul>
-        <li><strong>좌측 ($w_{\text{Po}}$ 변화)</strong>: $w_{\text{Po}} = 1.0$(델타 함수 근사)에서 $7 \to 14 \to 28$로 커질수록 선형 광량 공간($u = 10^{\text{ch}/283.6}$)의 가우시안이 로그 채널 공간으로 투영되면서 야코비안($du/d\text{ch} \propto u$)과 결합해 <strong>왼쪽 꼬리가 완만하고 오른쪽이 가파른 비대칭(skewed) 알파 피크</strong>가 됩니다.</li>
-        <li><strong>우측 ($\mu_{\text{Po}}$ 변화)</strong>: $\mu_{\text{Po}}$가 $555 \to 574 \to 592\,\text{ch}$로 변하면 알파 피크의 중심 위치가 이동하며, 전체 면적은 항상 $1.0$으로 유지됩니다.</li>
+        <li><strong>(a) 좌측 ($w_{\text{Po}}$ 변화, $\text{scale}_w$ 연동)</strong>: $\tau_{\text{rel}} = 0$(<code>po_light_gauss</code>) 상태에서 $w_{\text{Po}}$가 $5 \to 9 \to 14 \to 24\,\text{ch}$로 커질수록 선형 광량 공간($u = 10^{(\text{ch}+173)/362}$)의 대칭 가우시안이 로그 채널 공간으로 투영되면서 야코비안($\frac{du}{d\text{ch}} = u\frac{\ln 10}{362}$)과 결합해 자연스러운 비대칭(skewed) 알파 피크를 형성합니다.</li>
+        <li><strong>(b) 중앙 ($\mu_{\text{Po}}$ 이동, $Q \cdot \rho_{\alpha\beta}$ 연동)</strong>: $\mu_{\text{Po}} = 362\log_{10}[Q\rho_{\alpha\beta}(E_\alpha+3)] - 173$이 $555 \to 574 \to 592\,\text{ch}$로 변하면 알파 피크 중심이 이동하며, 전체 면적은 항상 $1.0$으로 보존됩니다.</li>
+        <li><strong>(c) 우측 ($\tau_{\text{rel}}$ 변화, <code>po_light_emg</code> 필터 자가흡수 테일링)</strong>: 바이알 내부에 회수율 측정용 <strong>여과 필터용지 및 $\text{PbC}_2\text{O}_4$ 침전물</strong>이 존재할 때, 알파 입자가 섬유/결정을 비스듬히 탈출하며 겪는 지수형 광량 손실($\Delta u \sim \text{Exp}(1/\tau_u)$, $\tau_u = u_0 \cdot \tau_{\text{rel}}$)과 가우시안 광학 분해능의 합성곱(Left-EMG)입니다. $\tau_{\text{rel}} = 0$일 때는 무손실 <code>po_light_gauss</code>와 완전히 일치하며, 유필터 실측치($\tau_{\text{rel}} \approx 0.124$, A03)에서는 우측 고에너지 엣지를 보존한 채 좌측 저채널($\text{ch } 475 \sim 555$) 테일만 물리적으로 정확하게 모사합니다.</li>
       </ul>
     </div>
 
@@ -320,7 +326,7 @@ footer.paper-footer {
         <li><strong>우측</strong>: 실제 계수율($A_{\text{Pb}}=1.20, A_{\text{Bi}}=1.50, A_{\text{Po}}=0.35\,\text{CPS}$)이 곱해진 뒤 합산된 최종 모델 $M(\text{ch})$(붉은 실선)입니다.
           <ul>
             <li><strong>$\text{Ch } 350 \sim 520$ 및 $620 \sim 750$</strong>: $^{210}\text{Pb}$와 $^{210}\text{Po}$가 모두 $0$인 <strong>$^{210}\text{Bi}$ 단독 고원(Plateau) 구간</strong>이 존재하여 $A_{\text{Bi}}$가 간섭 없이 먼저 단단히 고정(anchor)됩니다.</li>
-            <li>그 위($\text{Ch } 520 \sim 620$)에 얹힌 알파 피크로부터 $A_{\text{Po}}, \mu_{\text{Po}}, w_{\text{Po}}$가 분리되고, 저채널($\text{Ch } 120 \sim 350$)에서 $^{210}\text{Bi}$ 기여분을 뺀 나머지로부터 $A_{\text{Pb}}, Q, \sigma_0$가 결정됩니다.</li>
+            <li>그 위($\text{Ch } 475 \sim 620$)에 얹힌 알파 피크로부터 $A_{\text{Po}}, \rho_{\alpha\beta}(\mu_{\text{Po}}), \text{scale}_w(w_{\text{Po}}), \tau_{\text{rel}}$이 분리되고, 저채널($\text{Ch } 120 \sim 350$)에서 $^{210}\text{Bi}$ 기여분을 뺀 나머지로부터 $A_{\text{Pb}}, Q, \sigma_0, P_{\text{esc,XL}}$이 결정됩니다.</li>
           </ul>
         </li>
       </ul>
@@ -355,7 +361,7 @@ footer.paper-footer {
     },
     {
       src: "./assets/pb210_fitting_model_steps/step4_po210_alpha.png",
-      caption: "Step 4: Po-210 알파 피크 변인 (mu_Po, w_Po)"
+      caption: "Step 4: Po-210 알파 피크 변인 (mu_Po, w_Po, tau_rel · Left-EMG)"
     },
     {
       src: "./assets/pb210_fitting_model_steps/step5_final_synthesis.png",
