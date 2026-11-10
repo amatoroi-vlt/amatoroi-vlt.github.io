@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
   --ink:         #1a1d24; --ink-2:       #48505e; --ink-3:       #747d8c;
   --rule:        #e1e4ea; --rule-2:      #cbcfd8;
   --accent:      #1f6feb; --bi: #16a34a; --po: #ea580c; --pb: #9333ea;
-  --grid:        rgba(26,29,36,.07); --wide: 1100px;
+  --grid:        rgba(26,29,36,.07); --wide: 1120px;
   --code-bg:     #1e1e24; --code-ink:    #dcdfe4;
 }
 @media (prefers-color-scheme: dark) {
@@ -106,9 +106,9 @@ p.lead-p { font-size: 16px; font-weight: 500; color: var(--ink); }
 }
 .callout-box.theory { border-left-color: var(--pb); }
 .callout-box.highlight { border-left-color: var(--bi); }
-.callout-box.standard { border-left-color: #0284c7; background: #f0f9ff; }
-.callout-box.math-step { border-left-color: #8b5cf6; background: #faf5ff; }
-.callout-box.missing-link { border-left-color: #dc2626; background: #fff5f5; }
+.callout-box.standard { border-left-color: #0284c7; background: rgba(2, 132, 199, 0.06); }
+.callout-box.math-step { border-left-color: #8b5cf6; background: rgba(139, 92, 246, 0.06); }
+.callout-box.missing-link { border-left-color: #dc2626; background: rgba(220, 38, 38, 0.06); }
 
 .callout-box .badge {
   display: inline-block; font-family: "IBM Plex Mono"; font-size: 10.5px; font-weight: 600;
@@ -125,7 +125,7 @@ p.lead-p { font-size: 16px; font-weight: 500; color: var(--ink); }
   border: 1px solid var(--rule); border-radius: 6px;
 }
 table.paper-tbl { width: 100%; border-collapse: collapse; font-family: "IBM Plex Mono", sans-serif; font-size: 12.5px; }
-table.paper-tbl th, table.paper-tbl td { padding: 9px 14px; border-bottom: 1px solid var(--rule); text-align: left; }
+table.paper-tbl th, table.paper-tbl td { padding: 9px 14px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
 table.paper-tbl thead th { background: var(--panel-2); color: var(--ink-3); font-size: 11px; text-transform: uppercase; }
 table.paper-tbl td.n, table.paper-tbl th.n { text-align: right; }
 table.paper-tbl td.k { font-weight: 600; }
@@ -147,6 +147,7 @@ table.paper-tbl td.k { font-weight: 600; }
   padding: 20px 24px;
   margin: 24px 0;
   text-align: center;
+  overflow-x: auto;
 }
 
 .step-card {
@@ -166,24 +167,30 @@ table.paper-tbl td.k { font-weight: 600; }
   align-items: center;
   gap: 8px;
 }
-
+code.inline-code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12.5px;
+  background: var(--panel-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
 svg { width: 100%; height: auto; display: block; }
 </style>
 </head>
 <body>
 
 <header class="paper-header">
-  <div class="journal-tag">DAT-LSC Metrological Guideline & Statistical Physics Ser. 2026-09</div>
+  <div class="journal-tag">DAT-LSC Metrological Guideline & Statistical Physics Ser. 2026-11 (v2.0 Program-Aligned Edition)</div>
   <h1 class="paper-title">스펙트럼 물리 디컨볼루션(피팅)에 따른 불확도 평가와 GUM(ISO/IEC Guide 98-3) 표준 전파 체계 해설</h1>
   <div class="author-block">
     <strong>DAT-LSC Metrology & Applied Statistics Team</strong><br>
-    <div class="affil">Radiation Detection & Scintillation Spectroscopy Laboratory · Technical Report Ser. 2026-09</div>
+    <div class="affil">Radiation Detection & Scintillation Spectroscopy Laboratory · Aligned with <code>pb210fit/fitter.py</code>, <code>preprocessing.py</code> & <code>radiochemistry.py</code></div>
   </div>
 
   <div class="abstract-box">
     <h3>Abstract</h3>
-    <p>본 기술 해설서는 액체섬광계측기(LSC)의 연속 에너지 스펙트럼으로부터 $^{210}\text{Pb}$, $^{210}\text{Bi}$, $^{210}\text{Po}$ 3개 핵종의 순수 계수율을 분리해내는 <strong>제1원리 물리 디컨볼루션(Non-linear Spectral Fitting)</strong> 과정에서, <strong>피팅으로 도출한 $^{210}\text{Pb}$의 순수 총 계수($\text{Sum\_count}$) 및 계수율($A_{\text{Pb}}$)에 대한 불확도가 1024개 채널의 포아송 통계로부터 어떻게 수학적으로 산출되는가</strong>에 대한 완전한 연결고리를 밝힌다. <strong>GUM (JCGM 100:2008 / ISO/IEC Guide 98-3:2008)</strong> 및 <strong>ISO 11929:2019</strong> 국제 표준 규격의 조항을 바탕으로, 단독 핵종일 때 피팅 불확도가 포아송 총합의 제곱근 법칙($\sqrt{N}$)과 정확히 일치함을 증명하고, 다핵종 스펙트럼 중첩(Overlap)에 따른 공분산 행렬 역산($\boldsymbol{V} = \boldsymbol{H}^{-1}$)을 통해 불확도가 도출되는 과정을 빈틈없이 해설한다.</p>
-    <div class="keywords"><b>Keywords:</b> GUM (ISO/IEC Guide 98-3:2008), JCGM 100:2008, ISO 11929:2019, Sum Count Uncertainty, Spectral Deconvolution, Hessian Matrix, Covariance Matrix, Law of Propagation of Uncertainty, Pb-210 Metrology</div>
+    <p>본 기술 해설서는 액체섬광계측기(LSC)의 연속 에너지 스펙트럼으로부터 $^{210}\text{Pb}$, $^{210}\text{Bi}$, $^{210}\text{Po}$ 3개 핵종(및 백그라운드)의 순수 계수율을 분리해내는 <strong>DAT-LSC 제1원리 물리 디컨볼루션 엔진(<code>pb210fit/fitter.py</code>)</strong>과 <strong>방사화학 농도·불확도 평가 파이프라인(<code>pb210fit/radiochemistry.py</code>)</strong>의 전체 수학적·계량학적 연결고리를 엄밀하게 기술한다. <strong>GUM (JCGM 100:2008 / ISO/IEC Guide 98-3:2008)</strong> 및 <strong>ISO 11929:2019 (Part 1 & Part 2)</strong> 국제 표준 규격을 바탕으로, ① 단독 핵종에서 행렬 역산 불확도가 포아송 제곱근 법칙($\sigma(N)=\sqrt{N}$, $\sigma(A)=\sqrt{A/t}$)과 정확히 일치하는 원리, ② 2가지 백그라운드 처리 모드(Mode A 고전적 차감 vs. Mode B QPE-Warped Blank 4-성분 동시 피팅)의 채널 분산 정의, ③ 9차원(Mode A) / 10차원(Mode B) 비선형 물리 파라미터($Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w, P_{\text{esc,XL}}, \tau_{\text{rel}}$)와 약한 베이즈 사전분포(Weak Bayesian Priors)가 결합된 가우스-뉴턴 헤시안 역산 및 Birge Factor 클램핑($\max(1.0, \chi^2_\nu)$), 그리고 ④ 표준선원 효율 교정·담체 $^{210}\text{Pb}$ 불순물 보정·$\text{PbSO}_4$ 중량법 화학수율·붕괴 보정 부호 규약을 거쳐 최종 비방사능($\text{Bq/kg}$)의 합성표준불확도 $u_c(\text{Conc})$가 산출되는 전 과정을 프로그램 실제 코드와 1:1로 대응시켜 해설한다.</p>
+    <div class="keywords"><b>Keywords:</b> GUM (ISO/IEC Guide 98-3:2008), JCGM 100:2008, ISO 11929-2:2019, Spectral Deconvolution, Left-EMG Alpha Tailing ($\tau_{\text{rel}}$), QPE-Warped Blank, Regularized Gauss-Newton Hessian, Birge Factor, Pb-210 Radiochemical Metrology</div>
   </div>
 </header>
 
@@ -193,19 +200,19 @@ svg { width: 100%; height: auto; display: block; }
 <section class="paper-sec" id="sec1">
   <h2 class="sec-heading"><span class="sec-num">1.</span> 국제 표준 규격의 정의와 측정불확도의 본질 (Foundations of Measurement Uncertainty)</h2>
   
-  <p class="lead-p">과학적 측정에서 단 하나의 숫자로만 표현된 결과는 계량학적으로 불완전하다. 국제도량형국(BIPM), 국제표준화기구(ISO) 등 7개 국제기구가 공동 제정한 <strong>GUM (JCGM 100:2008 / ISO/IEC Guide 98-3:2008)</strong>에서는 측정 결과를 항상 <strong>최선의 추정값(Best Estimate)</strong>과 그 추정값의 분산 크기를 나타내는 <strong>표준불확도(Standard Uncertainty, $u$)</strong>의 쌍으로 표현하도록 규정한다.</p>
+  <p class="lead-p">과학적 측정에서 단 하나의 숫자로만 표현된 결과는 계량학적으로 불완전하다. 국제도량형국(BIPM), 국제표준화기구(ISO) 등 8개 국제기구가 공동 제정한 <strong>GUM (JCGM 100:2008 / ISO/IEC Guide 98-3:2008)</strong>에서는 측정 결과를 항상 <strong>최선의 추정값(Best Estimate)</strong>과 그 추정값의 분산 크기를 나타내는 <strong>표준불확도(Standard Uncertainty, $u$)</strong>의 쌍으로 표현하도록 규정한다.</p>
 
   <div class="callout-box standard">
     <span class="badge">GUM 2008 CLAUSE 2.2.3 & 3.3.3</span> <strong>표준불확도(Standard Uncertainty)의 국제 표준 정의</strong><br>
     <em>"측정 결과의 불확도로서 표준편차(Standard Deviation, $\sigma$)로 표현되는 불확도"</em> [GUM Clause 2.2.3, p.3].<br>
-    모든 측정 결과 $y$는 $y \pm u(y)$로 표기되며, 이는 참값 $Y$가 측정값 $y$를 중심으로 표준편차 $u(y)$를 갖는 확률분포를 형성함을 의미한다 [GUM Clause 3.3.3, p.6].
+    모든 측정 결과 $y$는 $y \pm u(y)$ (또는 확장불확도 $U = k \cdot u_c(y)$)로 표기되며, 이는 측정량(Measurand) $Y$에 대해 합리적으로 부여될 수 있는 값들의 분산이 표준편차 $u(y)$로 특징지어짐을 의미한다 [GUM Clause 3.3.3, p.6].
   </div>
 
   <h3 class="sub-heading">1.1 불확도 평가의 두 가지 경로: Type A vs Type B</h3>
-  <p>GUM은 불확도를 그 평가 방식에 따라 두 가지로 엄격히 구분한다:</p>
+  <p>GUM은 불확도를 그 평가 방식에 따라 두 가지로 구분하며, 두 유형 모두 분산을 기반으로 합성될 때 동등한 계량학적 지위를 갖는다:</p>
   <ul>
-    <li><strong>Type A 불확도 평가 [GUM Clause 4.2, p.8]:</strong> 일련의 관측값에 대한 <em>통계적 분석(Statistical Analysis)</em>에 의해 산정된 불확도 (예: 1024 채널 스펙트럼 피팅 잔차의 공분산 역산).</li>
-    <li><strong>Type B 불확도 평가 [GUM Clause 4.3, p.10]:</strong> 통계적 분석 이외의 <em>과학적 판단, 공인 교정성적서, 제조사 규격서</em> 등에 의해 산정된 불확도 (예: 표준선원 인증서 불확도, 전자천칭 분해능).</li>
+    <li><strong>Type A 불확도 평가 [GUM Clause 4.2, p.8]:</strong> 관측값 계열에 대한 <em>통계적 분석(Statistical Analysis)</em>에 의해 산정된 불확도. DAT-LSC에서는 포아송 계수 통계 및 ROI 채널($\text{CH } 120 \sim 750$) 가중 최소제곱 피팅의 야코비안 공분산 행렬 역산으로 도출되는 계수율 불확도 $\sigma(A_{\text{Pb}})$와 표준선원 계측 피팅 불확도 $\sigma(A_{\text{std}})$가 이에 해당한다.</li>
+    <li><strong>Type B 불확도 평가 [GUM Clause 4.3, p.10]:</strong> 통계적 분석 이외의 <em>과학적 판단, 공인 교정성적서, 제조사 규격서, 사전 물리 분포</em> 등에 의해 산정된 불확도. 표준선원 인증서 비방사능 불확도 $\sigma(C_{\text{std}})$, 전자천칭 분해능 및 분동 교정 불확도($\sigma(M_{\text{sample}}), \sigma(f_{\text{before}}), \sigma(f_{\text{after}})$), Pb 담체 농도 불확도 $\sigma(C_{\text{carr}})$, 그리고 스펙트럼 형상 파라미터의 약한 베이즈 사전분포(Weak Priors)가 이에 해당한다.</li>
   </ul>
 </section>
 
@@ -214,207 +221,326 @@ svg { width: 100%; height: auto; display: block; }
   <h2 class="sec-heading"><span class="sec-num">2.</span> 기초 수학적 지식의 징검다리: 기댓값, 분산, 테일러 전개 (Mathematical Stepping Stones)</h2>
 
   <div class="step-card">
-    <div class="step-title">징검다리 1 · 기댓값(Expectation)과 분산(Variance)의 정의</div>
-    <p>확률변수 $X$의 확률밀도함수가 $P(x)$일 때, $X$의 평균(기댓값)과 분산은 다음과 같이 정의된다:</p>
-    $$\text{E}[X] = \mu_X = \sum x P(x) \quad \left(\text{또는 } \int x P(x) dx\right)$$
+    <div class="step-title">징검다리 1 · 기댓값(Expectation), 분산(Variance), 공분산(Covariance)의 정의</div>
+    <p>확률변수 $X$의 확률질량(또는 밀도)함수가 $P(x)$일 때, $X$의 기댓값과 분산은 다음과 같이 정의된다:</p>
+    $$\text{E}[X] = \mu_X = \sum x P(x) \quad \left(\text{연속형: } \int x P(x)\,dx\right)$$
     $$\text{Var}(X) = \sigma_X^2 = \text{E}\left[(X - \mu_X)^2\right] = \text{E}[X^2] - (\text{E}[X])^2$$
-    두 확률변수 $X, Y$ 사이의 선형 연관성을 나타내는 <strong>공분산(Covariance)</strong>은 다음과 같이 정의된다:
-    $$\text{Cov}(X, Y) = \sigma_{XY} = \text{E}\left[(X - \mu_X)(Y - \mu_Y)\right] = \text{E}[XY] - \text{E}[X]\text{E}[Y]$$
-    만약 $X$와 $Y$가 상호 독립(Independent)이라면 $\text{E}[XY] = \text{E}[X]\text{E}[Y]$이므로 $\text{Cov}(X, Y) = 0$이 된다.
+    두 확률변수 $X, Y$가 함께 변할 때의 선형 연동성을 나타내는 <strong>공분산(Covariance)</strong> 및 무차원 <strong>상관계수(Correlation Coefficient, $\rho_{XY}$)</strong>는 다음과 같다:
+    $$\text{Cov}(X, Y) = \sigma_{XY} = \text{E}\left[(X - \mu_X)(Y - \mu_Y)\right], \qquad \rho_{XY} = \frac{\text{Cov}(X, Y)}{\sigma_X \sigma_Y} \in [-1, 1]$$
+    만약 $X$와 $Y$가 통계적으로 독립(Independent)이라면 $\text{E}[XY] = \text{E}[X]\text{E}[Y]$이므로 $\text{Cov}(X, Y) = 0$이 된다. 반면 하나의 스펙트럼에서 동시에 추출된 두 핵종의 계수율 추정량 $\hat{A}_{\text{Pb}}$와 $\hat{A}_{\text{Bi}}$는 에너지 영역이 중첩되므로 음($-$)의 공분산($\text{Cov}(\hat{A}_{\text{Pb}}, \hat{A}_{\text{Bi}}) < 0$)을 갖는다.
   </div>
 
   <div class="step-card">
     <div class="step-title">징검다리 2 · 1변수 함수의 테일러 1차 선형화와 오차 전파 증명</div>
-    <p>어떤 출력량 $Y = f(X)$가 있고, 입력 $X$의 참값이 $x_0$, 표준편차가 $\sigma_X$라고 하자. $X$가 $x_0$ 주변에서 미세하게 변할 때($\Delta X = X - x_0$), 1차 테일러 급수(Taylor Series)에 의해 함수는 다음과 같이 직선으로 근사된다:</p>
-    $$f(X) \approx f(x_0) + f'(x_0)(X - x_0)$$
-    이 근사식의 기댓값을 취하면 $\text{E}[f(X)] \approx f(x_0)$이므로, 평균으로부터의 편차는:
-    $$f(X) - \text{E}[f(X)] \approx f'(x_0)(X - x_0)$$
-    양변을 제곱하고 기댓값(분산의 정의)을 취하면:
-    $$\text{Var}(Y) = \text{E}\left[(f(X) - \text{E}[f(X)])^2\right] \approx \text{E}\left[\left(f'(x_0)(X - x_0)\right)^2\right] = [f'(x_0)]^2 \underbrace{\text{E}\left[(X - x_0)^2\right]}_{\text{Var}(X)}$$
-    $$\therefore \sigma_Y^2 = \left(\frac{df}{dx}\right)^2 \sigma_X^2 \implies \sigma_Y = \left|\frac{df}{dx}\right| \sigma_X$$
-    이것이 바로 <strong>도함수의 제곱이 분산에 곱해지는 근본적인 수학적 이유</strong>이다.
+    <p>출력량 $Y = f(X)$에서 입력 $X$의 기댓값이 $x_0$, 표준불확도가 $\sigma_X$라 하자. $X$가 $x_0$ 근방에서 미소하게 요동할 때($\Delta X = X - x_0$), 1차 테일러 급수(Taylor Series)에 의해 함수는 접선으로 근사된다:</p>
+    $$f(X) \approx f(x_0) + \left.\frac{df}{dx}\right|_{x_0} (X - x_0)$$
+    양변의 기댓값을 취하면 $\text{E}[f(X)] \approx f(x_0)$이므로, 편차의 제곱 기댓값(분산)은:
+    $$\text{Var}(Y) = \text{E}\left[(f(X) - \text{E}[f(X)])^2\right] \approx \left(\frac{df}{dx}\right)^2 \underbrace{\text{E}\left[(X - x_0)^2\right]}_{\text{Var}(X) = \sigma_X^2} \implies \sigma_Y = \left|\frac{df}{dx}\right| \sigma_X$$
+    즉, <strong>감도계수(Sensitivity Coefficient, $\partial f / \partial x$)의 제곱이 분산에 곱해지는 이유</strong>는 미소 요동이 함수의 기울기를 따라 증폭·감쇠되기 때문이다.
   </div>
 
   <div class="step-card">
-    <div class="step-title">징검다리 3 · 다변수 함수 $Y = f(X_1, X_2)$의 합성 분산 증명</div>
-    <p>입력량이 2개인 경우 $Y = f(X_1, X_2)$에 대해 다변수 1차 테일러 전개를 수행하면:</p>
-    $$f(X_1, X_2) \approx f(\mu_1, \mu_2) + \frac{\partial f}{\partial x_1}(X_1 - \mu_1) + \frac{\partial f}{\partial x_2}(X_2 - \mu_2)$$
-    편차를 제곱하여 기댓값을 취하면:
-    $$\text{E}\left[(Y - \mu_Y)^2\right] = \text{E}\left[ \left( \frac{\partial f}{\partial x_1}\Delta X_1 + \frac{\partial f}{\partial x_2}\Delta X_2 \right)^2 \right]$$
-    $$= \left(\frac{\partial f}{\partial x_1}\right)^2 \underbrace{\text{E}[\Delta X_1^2]}_{\sigma_1^2} + \left(\frac{\partial f}{\partial x_2}\right)^2 \underbrace{\text{E}[\Delta X_2^2]}_{\sigma_2^2} + 2\left(\frac{\partial f}{\partial x_1}\right)\left(\frac{\partial f}{\partial x_2}\right) \underbrace{\text{E}[\Delta X_1 \Delta X_2]}_{\text{Cov}(X_1, X_2)}$$
-    이로써 <strong>GUM Eq. 13 일반 불확도 전파 공식</strong>이 완전하게 증명된다!
+    <div class="step-title">징검다리 3 · 다변수 함수 $Y = f(X_1, X_2, \dots, X_m)$의 합성 분산과 행렬 표현</div>
+    <p>입력량이 여러 개인 함수 $Y = f(\boldsymbol{X})$에 대해 다변수 1차 테일러 전개를 수행하고 편차 제곱의 기댓값을 취하면 <strong>GUM Eq. (13) 일반 불확도 전파 법칙</strong>이 유도된다:</p>
+    $$u_c^2(y) = \sum_{i=1}^{m} \left(\frac{\partial f}{\partial x_i}\right)^2 u^2(x_i) + 2 \sum_{i=1}^{m-1}\sum_{j=i+1}^{m} \left(\frac{\partial f}{\partial x_i}\right)\left(\frac{\partial f}{\partial x_j}\right) u(x_i, x_j) = \boldsymbol{g}^T \boldsymbol{V}_X \boldsymbol{g}$$
+    여기서 $\boldsymbol{g} = \nabla_{\boldsymbol{x}} f$는 감도계수(기울기) 벡터이고, $\boldsymbol{V}_X$는 입력량들의 공분산 행렬이다.
   </div>
 </section>
 
-<!-- Section 3. 방사선 계측의 포아송 통계 -->
+<!-- Section 3. 방사선 계측의 포아송 통계와 2가지 백그라운드 처리 모드 -->
 <section class="paper-sec" id="sec3">
-  <h2 class="sec-heading"><span class="sec-num">3.</span> 방사선 계측의 포아송 통계와 LSC 채널 분산 (Poisson Statistics)</h2>
+  <h2 class="sec-heading"><span class="sec-num">3.</span> 방사선 계측의 포아송 통계와 백그라운드 처리 모드별 채널 분산 (Poisson Statistics & Dual Background Modes)</h2>
 
-  <h3 class="sub-heading">3.1 포아송 분포의 분산 유도</h3>
-  <p>방사성 원자핵의 자발적 붕괴는 독립적인 희박 사건이므로 계수 $k$는 포아송 분포 $P(k) = \frac{\mu^k e^{-\mu}}{k!}$를 따른다. 이 분포의 분산은 기댓값과 같다 [Knoll, 2010]:</p>
-  $$\text{Var}(k) = \sigma_k^2 = \mu \implies \sigma_k = \sqrt{\mu}$$
-
-  <h3 class="sub-heading">3.2 LSC 1024 채널의 계수율(CPS) 분산 공식</h3>
-  <p>측정 시간 $t$ 동안 $i$번째 채널에 기록된 총 계수(counts)를 $y_i$라 하면, 실측값 자체가 최선 추정량이므로 $\mu_i \approx y_i$이다. 따라서 <strong>$i$번째 채널 계수율 $r_i = y_i / t$ (단위: CPS)의 분산</strong>은:</p>
+  <h3 class="sub-heading">3.1 단일 스펙트럼의 포아송 계수 및 계수율(CPS) 분산</h3>
+  <p>방사성 원자핵의 붕괴 및 광전자증배관(PMT) 동시계수 사건은 단위 시간당 독립 사건이므로, 계측 시간 $t$ (단위: $\text{s}$) 동안 $i$번째 MCA 채널에 누적된 원시 계수(Gross Counts) $y_i$는 포아송 분포 $P(y_i) = \frac{\mu_i^{y_i} e^{-\mu_i}}{y_i!}$를 따른다. 포아송 분포의 분산은 기댓값과 동일하므로($\text{Var}(y_i) = \mu_i \approx y_i$), <strong>$i$번째 채널의 계수율 $r_i = y_i / t$ (단위: $\text{CPS} = \text{s}^{-1}$)의 분산과 표준불확도</strong>는 징검다리 2($f(y_i) = y_i / t \implies df/dy_i = 1/t$)에 의해 다음과 같이 결정된다:</p>
 
   <div class="formula-card">
-    $$\sigma_i^2 = \text{Var}(r_i) = \text{Var}\left(\frac{y_i}{t}\right) = \frac{1}{t^2} \text{Var}(y_i) = \frac{y_i}{t^2} = \frac{r_i}{t} \quad \left(\text{표준편차 } \sigma_i = \frac{\sqrt{y_i}}{t}\right)$$
+    $$\sigma_i^2 = \text{Var}(r_i) = \text{Var}\!\left(\frac{y_i}{t}\right) = \frac{1}{t^2}\text{Var}(y_i) = \frac{y_i}{t^2} = \frac{r_i}{t} \qquad \left(\text{표준불확도 } \sigma_i = \frac{\sqrt{\max(y_i, 1)}}{t}\;\text{ [CPS]}\right)$$
   </div>
 
   <div class="callout-box standard">
-    <span class="badge">ISO 11929-1:2019 CLAUSE 5.2</span> <strong>방사선 계수율 불확도 산정 표준 규격</strong><br>
-    계측 시간 $t$ 동안 누적 계수 $n$이 관측되었을 때, 계수율 $r = n/t$의 표준불확도는 $u(r) = \sqrt{n}/t = \sqrt{r/t}$로 산정한다 [ISO 11929-1:2019, Eq. 3, p.8].
+    <span class="badge">ISO 11929-1:2019 CLAUSE 5.2</span> <strong>방사선 계수율 불확도 산정 표준 규격 및 영계수(Zero-count) 방어</strong><br>
+    계측 시간 $t$ 동안 누적 계수 $n$이 관측되었을 때, 계수율 $r = n/t$의 표준불확도는 $u(r) = \sqrt{n}/t = \sqrt{r/t}$로 산정한다 [ISO 11929-1:2019, Eq. 3, p.8]. 다만 고에너지 극단 채널에서 $y_i = 0$이 발생할 때 가중치 $w_i = 1/\sigma_i^2$가 무한대($\infty$)로 발산하는 수치 오류를 막기 위해, 프로그램(<code>preprocessing.py</code> 및 <code>analyze.py</code>)에서는 최소 1 count 분산 바닥값($\max(y_i, 1)/t^2$ 또는 분산 하한 $10^{-12}\text{ CPS}^2$)을 부여한다.
+  </div>
+
+  <h3 class="sub-heading">3.2 DAT-LSC의 2가지 백그라운드 처리 모드 (Mode A vs. Mode B)</h3>
+  <p>실제 LSC 스펙트럼 분석에서는 시료 스펙트럼($y_{i,s}$, 측정 시간 $t_s$)과 공시료(Blank) 백그라운드 스펙트럼($y_{i,b}$, 측정 시간 $t_b$)이 함께 주어진다. 현재 DAT-LSC 프로그램(<code>analyze.py</code>, <code>preprocessing.py</code>, <code>fitter.py</code>)은 사용자의 분석 목적에 따라 두 가지 백그라운드 모드를 엄밀하게 지원한다.</p>
+
+  <div class="step-card">
+    <div class="step-title">Mode A · 고전적 채널별 공시료 차감 모드 (<code>bgMode = "subtract"</code>, <code>subtract_blank_poisson</code>)</div>
+    <p>시료 계수율에서 공시료 계수율을 채널별로 사전 차감하여 순 계수율(Net Count Rate) $r_{i,\text{net}}$을 생성한 뒤 3핵종($^{210}\text{Pb}, {}^{210}\text{Bi}, {}^{210}\text{Po}$)을 피팅하는 방식이다. <strong>차감 연산으로 인해 계수율은 줄어들지만, 통계적 분산은 두 독립 포아송 과정의 분산 합으로 증가</strong>한다 (GUM Eq. 10):</p>
+    $$r_{i,\text{net}} = \max\!\left(\frac{y_{i,s}}{t_s} - \frac{y_{i,b}}{t_b},\; 0\right), \qquad \sigma_{i,\text{net}} = \sqrt{\max\!\left(\frac{y_{i,s}}{t_s^2} + \frac{y_{i,b}}{t_b^2},\; 10^{-12}\right)} \quad \text{[단위: CPS]}$$
+    <p style="margin-bottom:0; font-size:14px; color:var(--ink-2);">※ 구현 위치: <code>server/python/pb210fit/preprocessing.py</code>의 <code>subtract_blank_poisson()</code>.</p>
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">Mode B · QPE-Warped Blank 4-성분 동시 피팅 모드 (<code>bgMode = "simultaneous"</code>, 기본 권장 모드)</div>
+    <p>저준위 시료에서 채널별 사전 차감 시 음수 계수율을 $0$으로 잘라내어($\max(\cdot, 0)$) 발생하는 미세한 양(+)의 편향(Clipping Bias)과 시료-공시료 간 소광(QPE) 차이를 해결하기 위해, <strong>원시 시료 계수율 $r_{i,s} = y_{i,s}/t_s$를 차감하지 않고 그대로 피팅 대상 데이터로 사용</strong>한다:</p>
+    $$r_i = \frac{y_{i,s}}{t_s}, \qquad \sigma_i = \frac{\sqrt{\max(y_{i,s}, 1)}}{t_s} \quad \text{[단위: CPS]}$$
+    <p>대신 공시료 스펙트럼을 Savitzky-Golay 필터(윈도우 21, 다항식 차수 3)로 평활화하고 시료와 공시료의 QPE 비율 $k_{\text{QPE}} = \text{clip}(\text{QPE}_s / \text{QPE}_b, 0.85, 1.15)$만큼 로그-오프셋 채널 축($\text{CH}_0 = 85$) 기준으로 신축(Warping)하여 정규화된 제4의 템플릿 $T_{\text{bg},i}^{\text{warp}}$($\sum_i T_{\text{bg},i}^{\text{warp}} = 1$)를 구축한다. 이후 10번째 파라미터인 백그라운드 진폭 $A_{\text{bg}}$를 동시 추정함으로써, 백그라운드 분리 불확도와 $\text{Cov}(A_{\text{Pb}}, A_{\text{bg}})$가 $10 \times 10$ 공분산 행렬 역산에 자동으로 통합된다.</p>
   </div>
 </section>
 
-<!-- Section 4. 제1원리: 최대우도추정(MLE)과 가중 최소제곱법(WLS) -->
+<!-- Section 4. 제1원리 물리 디컨볼루션 모델과 가중 최소제곱/베이즈 목적함수 -->
 <section class="paper-sec" id="sec4">
-  <h2 class="sec-heading"><span class="sec-num">4.</span> 제1원리: 최대우도추정(MLE)과 가중 최소제곱법(WLS / $\chi^2$) (Maximum Likelihood Formulation)</h2>
+  <h2 class="sec-heading"><span class="sec-num">4.</span> 제1원리 물리 디컨볼루션 모델과 정규화 가중 최소제곱법(Regularized WLS / MAP)</h2>
 
-  <p>우리가 추정하려는 파라미터 벡터를 $\boldsymbol{\theta} = [A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}]^T$라 하고, 모델이 예측하는 $i$번째 채널 계수율을 $f_i(\boldsymbol{\theta})$라 하자. 1024개 전체 채널의 결합 우도함수 $\mathcal{L}(\boldsymbol{\theta})$의 로그를 취하면:</p>
-  $$\ln \mathcal{L}(\boldsymbol{\theta}) = -\frac{N}{2} \ln(2\pi) - \sum_{i=1}^{N} \ln \sigma_i - \frac{1}{2} \underbrace{\sum_{i=1}^{N} \frac{\left(y_i - f_i(\boldsymbol{\theta})\right)^2}{\sigma_i^2}}_{\chi^2(\boldsymbol{\theta})}$$
+  <div class="callout-box missing-link">
+    <span class="badge">METROLOGICAL CORRECTION NOTE</span> <strong>단위 일관성(CPS vs. Counts) 및 구버전 수식 교정</strong><br>
+    구버전 문서에서는 목적함수 분자에 원시 계수 $y_i$와 계수율 모델 $f_i(\boldsymbol{\theta})$를 혼용하여 $(y_i - f_i(\boldsymbol{\theta}))^2/\sigma_i^2$로 표기한 오류가 있었다. 실제 <code>fitter.py</code>에서는 관측 데이터 $r_i$, 이론 모델 $f_i(\boldsymbol{\theta})$, 채널 표준불확도 $\sigma_i$가 모두 <strong>초당 계수율(CPS, $\text{s}^{-1}$) 단위</strong>로 완벽히 통일되어 있으므로, 잔차는 $\left(r_i - f_i(\boldsymbol{\theta})\right)/\sigma_i$ (무차원 Pull)로 정의된다.
+  </div>
 
-  <p>우도 $\mathcal{L}$을 최대화하는 것은 <strong>가중 카이제곱 목적함수 $\chi^2(\boldsymbol{\theta})$를 최소화하는 것과 완벽히 동치</strong>이다:</p>
+  <h3 class="sub-heading">4.1 9차원(Mode A) / 10차원(Mode B) 제1원리 스펙트럼 합성 모델</h3>
+  <p>피팅 유효 구간(ROI) $\Omega_{\text{ROI}} = \{i \mid 120 \le \text{CH}_i \le 750\}$ ($M = 631$개 채널)에서, $i$번째 채널의 예측 계수율 $f_i(\boldsymbol{\theta})$ (단위: $\text{CPS}$)는 물리적으로 정규화된($\sum_{i=1}^{1024} T_{\nu,i} = 1$) 각 핵종 템플릿과 핵종별 총 계수율 진폭($A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}, [A_{\text{bg}}]$)의 결합으로 표현된다:</p>
 
   <div class="formula-card">
-    $$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \chi^2(\boldsymbol{\theta}) = \arg\min_{\boldsymbol{\theta}} \sum_{i=1}^{N} w_i \left(y_i - f_i(\boldsymbol{\theta})\right)^2 \quad \left(\text{여기서 가중치 } w_i = \frac{1}{\sigma_i^2} = \frac{t^2}{y_i}\right)$$
+    $$f_i(\boldsymbol{\theta}) = A_{\text{Pb}}\,T_{\text{Pb},i}\!\left(Q, \sigma_0, P_{\text{esc,XL}}\right) + A_{\text{Bi}}\,T_{\text{Bi},i}\!\left(Q, \sigma_0\right) + A_{\text{Po}}\,T_{\text{Po},i}^{\text{EMG}}\!\left(Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w, \tau_{\text{rel}}\right) + \underbrace{A_{\text{bg}}\,T_{\text{bg},i}^{\text{warp}}}_{\text{Mode B 전용}}$$
+  </div>
+
+  <p>여기서 각 템플릿은 LNHB(프랑스 국립계량시험소) 붕괴 데이터와 Birks-TDCR 섬광 물리 사슬로부터 실시간 합성된다:</p>
+  <ul>
+    <li><strong>$^{210}\text{Pb}$ 템플릿 $T_{\text{Pb},i}(Q, \sigma_0, P_{\text{esc,XL}})$:</strong> $46.5\text{ keV}$ 내부전환전자·오제전자와 Bi L X-선 탈출 가중치 $P_{\text{esc,XL}}$을 반영한 유효 에너지 분포 $\text{d}N_{\text{Pb}} = (1 - P_{\text{esc,XL}})\text{d}N_{\text{Pb},0} + P_{\text{esc,XL}}\text{d}N_{\text{Pb},1}$에 비선형 광량 소광 $L(E)=(E\cdot Q)\cdot[1 - a\exp(-E/E_1) - b\exp(-E/E_2)]$, 3-PMT TDCR 효율 절단 $\varepsilon_{\text{TDCR}}(L) = (1 - e^{-L/3})^3$, 가우스 광통계 분해능 $\sigma_L(L) = \frac{L}{\sigma_0}\sqrt{\sigma_0 + L + 0.005 L^2}$, 로그 에너지-채널 매핑 $\text{CH}(L) = \text{CH}_0 + 185.5\log_{10}(\max(L, 10^{-3}))$ ($\text{CH}_0 = 85.0$)을 적용한다.</li>
+    <li><strong>$^{210}\text{Bi}$ 템플릿 $T_{\text{Bi},i}(Q, \sigma_0)$:</strong> RaE 형상 인자 $C(W)$가 반영된 제1금지 베타 연속 스펙트럼($E_{\max}=1161.2\text{ keV}$)에 동일한 광량·분해능·로그 채널 변환 사슬을 적용하여 $^{210}\text{Pb}$와 $Q, \sigma_0$를 공유한다.</li>
+    <li><strong>$^{210}\text{Po}$ 알파 비대칭 템플릿 $T_{\text{Po},i}^{\text{EMG}}(Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w, \tau_{\text{rel}})$:</strong> $5.304\text{ MeV}$ 알파 입자의 등가 광량 $L_\alpha = 5304 \cdot (0.0706\,\rho_{\alpha\beta})\cdot Q$와 광량-도메인 비대칭 지수감쇠-가우시안 합성곱(Left-skewed EMG, <code>po_light_emg</code>)을 통해, 무필터 표준 바이알($\tau_{\text{rel}} \to 0$, 대칭 로그-가우시안 수렴)과 여과지(Filter paper) 침전 시료에서 발생하는 저에너지 알파 에너지 손실 테일링($\tau = \tau_{\text{rel}}\cdot L_\alpha > 0$)을 연속적으로 모사한다.</li>
+  </ul>
+
+  <div class="tbl-container">
+    <table class="paper-tbl">
+      <thead>
+        <tr>
+          <th>인덱스</th>
+          <th>파라미터 기호</th>
+          <th>코드 변수명</th>
+          <th>물리적 의미 및 단위</th>
+          <th>탐색 경계 (Bounds)</th>
+          <th>약한 베이즈 사전분포 (Weak Prior)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="n">0</td>
+          <td class="k">\(A_{\text{Pb}}\)</td>
+          <td><code>A_pb</code></td>
+          <td>\(^{210}\text{Pb}\) 전체 스펙트럼 적분 계수율 [CPS]</td>
+          <td>\([0, \infty)\)</td>
+          <td>무정보 (Uniform, 데이터 전담)</td>
+        </tr>
+        <tr>
+          <td class="n">1</td>
+          <td class="k">\(A_{\text{Bi}}\)</td>
+          <td><code>A_bi</code></td>
+          <td>\(^{210}\text{Bi}\) 전체 스펙트럼 적분 계수율 [CPS]</td>
+          <td>\([0, \infty)\)</td>
+          <td>무정보 (Uniform, 데이터 전담)</td>
+        </tr>
+        <tr>
+          <td class="n">2</td>
+          <td class="k">\(A_{\text{Po}}\)</td>
+          <td><code>A_po</code></td>
+          <td>\(^{210}\text{Po}\) 전체 스펙트럼 적분 계수율 [CPS]</td>
+          <td>\([0, \infty)\)</td>
+          <td>무정보 (Uniform, 데이터 전담)</td>
+        </tr>
+        <tr>
+          <td class="n">3</td>
+          <td class="k">\(Q\)</td>
+          <td><code>Q</code></td>
+          <td>화학적 소광(Quenching) 광수율 스케일 인자 [무차원]</td>
+          <td>\([0.02, 2.00]\)</td>
+          <td>무정보 (2D Pre-Scan 초기치 고정밀 탐색)</td>
+        </tr>
+        <tr>
+          <td class="n">4</td>
+          <td class="k">\(\sigma_0\)</td>
+          <td><code>sig_0</code></td>
+          <td>광전자 통계 분해능 스케일 파라미터 [무차원]</td>
+          <td>\([50.0, 600.0]\)</td>
+          <td>무정보 (\(\sigma_{0,\text{init}} = 212.97\))</td>
+        </tr>
+        <tr>
+          <td class="n">5</td>
+          <td class="k">\(\rho_{\alpha\beta}\)</td>
+          <td><code>rho_ab</code></td>
+          <td>\(\alpha/\beta\) 상대 소광 결합비 편차 인자 [무차원]</td>
+          <td>\([0.75, 1.30]\)</td>
+          <td>\(\mathcal{N}(1.00,\; 0.20^2)\)</td>
+        </tr>
+        <tr>
+          <td class="n">6</td>
+          <td class="k">\(\text{scale}_w\)</td>
+          <td><code>scale_w</code></td>
+          <td>\(^{210}\text{Po}\) 알파 피크 고유 폭 배율 인자 [무차원]</td>
+          <td>\([0.35, 2.50]\)</td>
+          <td>\(\mathcal{N}(1.00,\; 0.50^2)\)</td>
+        </tr>
+        <tr>
+          <td class="n">7</td>
+          <td class="k">\(P_{\text{esc,XL}}\)</td>
+          <td><code>P_esc_xl</code></td>
+          <td>\(^{210}\text{Pb}\) Bi L X-선 탈출 분율 [무차원]</td>
+          <td>\([0.00, 0.65]\)</td>
+          <td>\(\mathcal{N}(0.230,\; 0.12^2)\)</td>
+        </tr>
+        <tr>
+          <td class="n">8</td>
+          <td class="k">\(\tau_{\text{rel}}\)</td>
+          <td><code>tau_rel</code></td>
+          <td>\(^{210}\text{Po}\) Left-EMG 상대 저에너지 테일링 감쇠율 (\(\tau/L_\alpha\))</td>
+          <td>\([0.00, 0.35]\)</td>
+          <td>\(\mathcal{N}^+(0.00,\; 0.15^2)\)</td>
+        </tr>
+        <tr>
+          <td class="n">9</td>
+          <td class="k">\(A_{\text{bg}}\)</td>
+          <td><code>A_bg</code></td>
+          <td>[Mode B 전용] QPE-Warped Blank 백그라운드 적분 계수율 [CPS]</td>
+          <td>\([0, \infty)\)</td>
+          <td>무정보 (Mode B에서만 활성화)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub-heading">4.2 최대사후확률(MAP) / 정규화 가중 최소제곱(Regularized WLS) 목적함수</h3>
+  <p>특정 핵종(예: 순수 $^{210}\text{Bi}$ 선원에서 $^{210}\text{Pb}, {}^{210}\text{Po} \approx 0$)의 신호가 미약할 때 전용 형상 파라미터($\rho_{\alpha\beta}, \text{scale}_w, P_{\text{esc,XL}}, \tau_{\text{rel}}$)가 불필요하게 표류하거나 야코비안 행렬이 특이행렬(Singular Matrix)이 되는 현상을 방지하기 위해, <code>fitter.py</code>는 $M=631$개 ROI 채널의 가중 데이터 잔차 벡터 $\boldsymbol{r}_{\text{data}} \in \mathbb{R}^M$ 뒤에 4개의 약한 베이즈 사전분포 잔차 $\boldsymbol{r}_{\text{prior}} \in \mathbb{R}^4$를 결합한 확장 잔차 벡터 $\boldsymbol{r}(\boldsymbol{\theta}) \in \mathbb{R}^{M+4}$를 구성한다:</p>
+
+  <div class="formula-card">
+    $$\hat{\boldsymbol{\theta}} = \arg\min_{\boldsymbol{\theta}} \chi^2_{\text{MAP}}(\boldsymbol{\theta}) = \arg\min_{\boldsymbol{\theta}} \left[ \underbrace{\sum_{i \in \Omega_{\text{ROI}}} \left(\frac{f_i(\boldsymbol{\theta}) - r_i}{\sigma_i}\right)^2}_{\chi^2_{\text{data}}(\boldsymbol{\theta})\text{ : } M=631\text{개 채널 가중 최소제곱}} + \underbrace{\left(\frac{\rho_{\alpha\beta}-1.0}{0.20}\right)^2 + \left(\frac{\text{scale}_w-1.0}{0.50}\right)^2 + \left(\frac{P_{\text{esc,XL}}-0.230}{0.12}\right)^2 + \left(\frac{\tau_{\text{rel}}-0.0}{0.15}\right)^2}_{\chi^2_{\text{prior}}(\boldsymbol{\theta})\text{ : 4개 형상 파라미터 약한 사전분포 정규화}} \right]$$
   </div>
 
   <div class="callout-box standard">
-    <span class="badge">GUM 2008 CLAUSE 4.2.4 & ANNEX H.2</span> <strong>최소제곱법을 통한 Type A 불확도 평가 표준</strong><br>
-    데이터 포인트마다 불확도가 상이한 물리 스펙트럼 피팅에서는 각 데이터 분산의 역수 $w_i = 1/\sigma_i^2$를 가중치로 사용하는 가중 최소제곱법(WLS)을 적용해야 한다 [GUM 2008, Clause 4.2.4, p.9 및 Annex H.2.3, p.68].
+    <span class="badge">GUM 2008 CLAUSE 4.2.4, ANNEX H.2 & BAYESIAN REGULARIZATION</span> <strong>가중 최소제곱법과 Type B 사전분포 결합의 정당성</strong><br>
+    데이터 포인트마다 분산 $\sigma_i^2$가 상이한 스펙트럼 피팅에서는 역분산 가중치 $w_i = 1/\sigma_i^2 = t^2 / y_i$를 사용하는 가중 최소제곱법(WLS)이 최소분산 불편추정량(BLUE)을 제공한다 [GUM 2008, Clause 4.2.4, p.9 및 Annex H.2.3, p.68]. 여기에 물리적으로 알려진 형상 파라미터의 명목값과 허용 표준편차(Type B 정보)를 가우스 사전분포 항 $\chi^2_{\text{prior}}$로 결합하면, 신호가 강할 때는 $M=631$개 채널의 데이터 우도($\chi^2_{\text{data}}$)가 압도하여 자유롭게 물리 형상을 적응시키고, 신호가 없을 때는 명목값으로 부드럽게 고정하여 헤시안 행렬 $\boldsymbol{H}$의 가역성(Invertibility)을 완벽히 보장한다.
   </div>
 </section>
 
 <!-- Section 5. [핵심 1 & 2단계] 스펙트럼 디컨볼루션에서 포아송 계수와 다핵종 중첩 공분산의 수학적 실체 -->
 <section class="paper-sec" id="sec5">
-  <h2 class="sec-heading"><span class="sec-num">5.</span> [핵심 1 & 2단계] 스펙트럼 디컨볼루션에서 포아송 계수와 다핵종 중첩 공분산의 수학적 실체 (From Poisson Counting to Multi-Nuclide Overlap)</h2>
+  <h2 class="sec-heading"><span class="sec-num">5.</span> [핵심 1 & 2단계] 포아송 계수와 다핵종 중첩 공분산의 수학적 실체 및 2-Window 기법과의 대칭성</h2>
 
-  <p class="lead-p">스펙트럼 디컨볼루션(피팅)에 의한 불확도 도출의 원리를 <strong>"왜 이게 말이 되는가?"</strong>라는 관점에서 가장 기초적인 포아송 계수부터 다핵종 중첩 분리까지 단계별로 완벽하게 증명한다.</p>
+  <p class="lead-p">스펙트럼 디컨볼루션(피팅)에 의한 불확도 도출의 원리를 <strong>"왜 631개 채널 행렬 역산이 포아송 통계와 정확히 일치하며, 다핵종 중첩 시 어떻게 팽창되는가?"</strong>라는 관점에서 단계별로 증명한다.</p>
 
-  <h3 class="sub-heading">5.1 ISO 11929 규격서의 실제 명시 문구와 공식</h3>
+  <h3 class="sub-heading">5.1 ISO 11929-2:2019 규격서의 스펙트럼 전개(Unfolding) 공분산 공식</h3>
   
   <div class="callout-box standard">
     <span class="badge">ISO 11929-2:2019 CLAUSE 6.3</span> <strong>ISO 11929-2:2019 (전리방사선 계측 - 파트 2: 고급 디컨볼루션 및 전개)</strong><br>
     <strong>Clause 6.3 "Unfolding with spectral decomposition (스펙트럼 분해를 통한 전개)" [p.14, Eq. 18 & 19]</strong><br><br>
-    <em>"스펙트럼 분해 모델 $\boldsymbol{y} = \boldsymbol{A}\boldsymbol{a} + \boldsymbol{\varepsilon}$에서, 각 채널의 포아송 측정 공분산 행렬 $\boldsymbol{V}_y$가 주어졌을 때, 최적 분해 파라미터 벡터 $\hat{\boldsymbol{a}}$의 공분산 행렬 $\tilde{\boldsymbol{u}}^2(\hat{\boldsymbol{a}})$는 다음과 같이 산출된다:"</em>
-    $$\tilde{\boldsymbol{u}}^2(\hat{\boldsymbol{a}}) = \left( \boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A} \right)^{-1}$$
-    <em>(여기서 $\boldsymbol{A}$는 각 핵종의 1024 채널 표준 스펙트럼 형상 행렬, $\boldsymbol{V}_y = \text{diag}(\sigma_1^2, \dots, \sigma_N^2)$는 각 채널의 포아송 계측 분산 대각 행렬)</em>
+    <em>"스펙트럼 분해 모델 $\boldsymbol{r} = \boldsymbol{T}\boldsymbol{A} + \boldsymbol{\varepsilon}$에서, 각 채널의 포아송 계측 공분산 행렬 $\boldsymbol{V}_r = \text{diag}(\sigma_1^2, \dots, \sigma_M^2)$가 주어졌을 때, 최적 분해 계수율 벡터 $\hat{\boldsymbol{A}}$의 공분산 행렬 $\boldsymbol{V}_{\hat{\boldsymbol{A}}}$는 다음과 같이 산출된다:"</em>
+    $$\boldsymbol{V}_{\hat{\boldsymbol{A}}} = \left( \boldsymbol{T}^T \boldsymbol{V}_r^{-1} \boldsymbol{T} \right)^{-1}$$
+    <em>(여기서 $\boldsymbol{T}$는 각 핵종의 정규화된 채널 템플릿 행렬, $\boldsymbol{V}_r$은 각 채널의 계수율 분산 대각 행렬)</em>
   </div>
 
-  <p>이 수식을 처음 보면 <em>"행렬을 전치하고($\boldsymbol{A}^T$), 역행렬을 곱하고($\boldsymbol{V}_y^{-1}$), 그걸 통째로 또 역행렬을 취하라고($^{-1}$)? 이게 물리적으로 방사선 계측 오차와 무슨 상관이지?"</em>라는 의문이 드는 것이 당연하다.</p>
-
-  <h3 class="sub-heading">5.2 [1단계: 기본 포아송] 거꾸로 증명: 1024개 채널 행렬 역산이 왜 정확히 $\sqrt{N}$이 되는가?</h3>
+  <h3 class="sub-heading">5.2 [1단계: 단독 핵종 증명] 왜 행렬 역산이 총 계수에서는 $\sqrt{N}$, 계수율에서는 $\sqrt{A/t}$가 되는가?</h3>
   
-  <p>우리가 $^{210}\text{Pb}$ 단독 표준선원을 계측하여 1024개 채널에 총 $N$개의 방사선 신호가 들어왔다고 가정해 보자.</p>
+  <p>백그라운드가 없는 이상적인 조건에서 $^{210}\text{Pb}$ 단독 선원을 시간 $t$ 동안 계측하여 총 $N = \sum_{i} y_i$개의 카운트(즉, 총 계수율 $A_{\text{Pb}} = N / t\text{ [CPS]}$)가 기록되었다고 가정하자.</p>
 
-  <div class="formula-card" style="font-family:'IBM Plex Mono', monospace; font-size:13px; background:#fffdf8;">
-    [ 채널 1 ] &nbsp;&nbsp; [ 채널 2 ] &nbsp;&nbsp; ... &nbsp;&nbsp; [ 채널 i ] &nbsp;&nbsp; ... &nbsp;&nbsp; [ 채널 1024 ] &nbsp; ===> &nbsp; <b>총합 \(N = \sum y_i\)</b><br>
-    \(y_1\) 계수 &nbsp;&nbsp;&nbsp;&nbsp; \(y_2\) 계수 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \(y_i\) 계수 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \(y_{1024}\) 계수 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>포아송 분산 \(= N\)</b>
+  <div class="step-card">
+    <div class="step-title">Step 1. 상식적인 포아송 단순 합산 (Counts 도메인 vs. CPS 도메인)</div>
+    <p>• <strong>총 계수(Sum Count) 도메인:</strong> 각 채널의 계수 $y_i$는 독립 포아송 변수이므로 총합 $N = \sum_i y_i$의 분산은 $\text{Var}(N) = \sum_i y_i = N \implies \sigma(N) = \sqrt{N}\text{ [counts]}$이다.<br>
+    • <strong>계수율(CPS) 도메인:</strong> 총 계수율 $A_{\text{Pb}} = N / t$의 분산은 $\text{Var}(A_{\text{Pb}}) = \frac{1}{t^2}\text{Var}(N) = \frac{N}{t^2} = \frac{A_{\text{Pb}}}{t} \implies \sigma(A_{\text{Pb}}) = \frac{\sqrt{N}}{t} = \sqrt{\frac{A_{\text{Pb}}}{t}}\text{ [CPS]}$이다.</p>
   </div>
 
   <div class="step-card">
-    <div class="step-title">Step 1. 상식적인 포아송 단순 합산</div>
-    <p>• $i$번째 채널의 계수 $y_i$는 포아송 분포를 따르므로 분산은 $\text{Var}(y_i) = y_i$이다.<br>
-    • 각 채널의 사건은 독립이므로, 단순 합산 $N = \sum_{i=1}^{1024} y_i$의 분산은:</p>
-    $$\text{Var}(N) = \sum_{i=1}^{1024} \text{Var}(y_i) = \sum_{i=1}^{1024} y_i = N \implies \sigma(N) = \sqrt{N}$$
-  </div>
-
-  <div class="step-card">
-    <div class="step-title">Step 2. ISO 11929의 거대한 공분산 역행렬 공식에 그대로 대입</div>
-    <p>이제 ISO 11929가 시키는 대로 행렬 공식 $\left( \boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A} \right)^{-1}$에 하나씩 대입해 본다:</p>
+    <div class="step-title">Step 2. ISO 11929-2의 공분산 역행렬 공식 $\left(\boldsymbol{T}^T \boldsymbol{V}_r^{-1} \boldsymbol{T}\right)^{-1}$에 그대로 대입</div>
     <ol style="line-height: 1.9;">
-      <li><strong>스펙트럼 형상 벡터 $\boldsymbol{A}$:</strong><br>
-        각 채널에 신호가 떨어질 확률(형상)을 $\phi_i$라 하면, $\sum_{i=1}^{1024} \phi_i = 1$이며, $i$번째 채널의 평균 계수는 $y_i = N \phi_i$이다.
-        $$\boldsymbol{A} = \begin{bmatrix} \phi_1 \\ \phi_2 \\ \vdots \\ \phi_{1024} \end{bmatrix}$$
+      <li><strong>정규화된 템플릿 벡터 $\boldsymbol{T}$:</strong><br>
+        각 채널에 신호가 들어올 확률(형상)을 $\phi_i$ ($\sum_i \phi_i = 1$)라 하면, $i$번째 채널의 평균 계수율은 $r_i = A_{\text{Pb}} \phi_i$ (원시 계수는 $y_i = N \phi_i = A_{\text{Pb}} t \phi_i$)이다.
       </li>
-      <li><strong>채널 분산 행렬 $\boldsymbol{V}_y$와 그 역행렬 $\boldsymbol{V}_y^{-1}$ :</strong><br>
-        각 채널의 분산은 $\sigma_i^2 = y_i = N \phi_i$이다.<br>
-        따라서 대각 역행렬 $\boldsymbol{V}_y^{-1}$의 $i$번째 원소는 단순히 $\frac{1}{N \phi_i}$이다.
+      <li><strong>채널 계수율 분산 행렬 $\boldsymbol{V}_r$과 그 역행렬 $\boldsymbol{V}_r^{-1}$:</strong><br>
+        3.1절에 의해 $i$번째 채널 계수율의 분산은 $\sigma_i^2 = \frac{r_i}{t} = \frac{A_{\text{Pb}} \phi_i}{t}$이므로, 대각 역행렬 $\boldsymbol{V}_r^{-1}$의 $i$번째 원소는 $\frac{1}{\sigma_i^2} = \frac{t}{A_{\text{Pb}} \phi_i}$이다.
       </li>
-      <li><strong>안쪽의 행렬 곱 $\left( \boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A} \right)$ 계산:</strong>
-        $$\boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A} = \sum_{i=1}^{1024} \phi_i \times \left(\frac{1}{N \phi_i}\right) \times \phi_i = \sum_{i=1}^{1024} \frac{\phi_i^2}{N \phi_i}$$
-        여기서 <strong>분자의 $\phi_i^2$과 분모의 $\phi_i$가 기적처럼 약분</strong>된다!
-        $$\boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A} = \sum_{i=1}^{1024} \frac{\phi_i}{N} = \frac{1}{N} \underbrace{\sum_{i=1}^{1024} \phi_i}_{= 1.000} = \frac{1}{N}$$
+      <li><strong>안쪽의 피셔 정보 행렬(헤시안) $\left( \boldsymbol{T}^T \boldsymbol{V}_r^{-1} \boldsymbol{T} \right)$ 계산:</strong>
+        $$\boldsymbol{T}^T \boldsymbol{V}_r^{-1} \boldsymbol{T} = \sum_{i} \phi_i \times \left(\frac{t}{A_{\text{Pb}} \phi_i}\right) \times \phi_i = \frac{t}{A_{\text{Pb}}} \sum_{i} \frac{\phi_i^2}{\phi_i} = \frac{t}{A_{\text{Pb}}} \underbrace{\sum_{i} \phi_i}_{= 1.000} = \frac{t}{A_{\text{Pb}}}$$
+        여기서 <strong>분자의 $\phi_i^2$과 분모의 $\phi_i$가 정확히 약분</strong>된다!
       </li>
       <li><strong>마지막 바깥쪽의 역행렬($^{-1}$) 취하기:</strong>
-        $$\text{Var}(\hat{N}) = \left( \boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A} \right)^{-1} = \left( \frac{1}{N} \right)^{-1} = N$$
-        $$\therefore \sigma(\hat{N}) = \sqrt{N}$$
+        $$\text{Var}(\hat{A}_{\text{Pb}}) = \left( \boldsymbol{T}^T \boldsymbol{V}_r^{-1} \boldsymbol{T} \right)^{-1} = \left( \frac{t}{A_{\text{Pb}}} \right)^{-1} = \frac{A_{\text{Pb}}}{t} = \frac{N}{t^2}$$
+        $$\therefore \sigma(\hat{A}_{\text{Pb}}) = \sqrt{\frac{A_{\text{Pb}}}{t}} = \frac{\sqrt{N}}{t}\;\text{ [CPS]} \quad \Longleftrightarrow \quad \sigma(\hat{N}) = t \cdot \sigma(\hat{A}_{\text{Pb}}) = \sqrt{N}\;\text{ [counts]}$$
       </li>
     </ol>
   </div>
 
-  <h3 class="sub-heading">5.3 [2단계: 다핵종 중첩] 왜 단순 $\sqrt{\text{Sum}}$만 쓰면 안 되고 공분산 역행렬을 써야 하는가?</h3>
+  <h3 class="sub-heading">5.3 [2단계: 다핵종 중첩] 왜 단순 $\sqrt{A_{\text{Pb}}/t}$만 쓰면 안 되고 공분산 역행렬을 써야 하는가?</h3>
   
-  <p>어떤 채널 $i$에 실제로 계측기에서 <strong>총 1,000 counts</strong>가 찍혔다고 하자. 피팅(Deconvolution)을 통해 이 1,000 counts를 분리했더니:</p>
-  <ul>
-    <li>🟣 <strong>$^{210}\text{Pb}$ 기여분:</strong> $400\text{ counts}$</li>
-    <li>🔵 <strong>$^{210}\text{Bi}$ 기여분:</strong> $600\text{ counts}$</li>
-  </ul>
+  <p>실제 시료에서는 저에너지 채널 영역($\text{CH } 120 \sim 380$)에 $^{210}\text{Pb}$ 베타/전환전자 신호뿐만 아니라 $^{210}\text{Bi}$의 저에너지 베타 연속 스펙트럼 꼬리, $^{210}\text{Po}$의 여과지 에너지 손실 테일($\tau_{\text{rel}}$), 그리고 백그라운드($A_{\text{bg}}$)가 함께 겹쳐서 들어온다. 예를 들어 어떤 채널에 총 $1,000\text{ counts}$가 찍혔고 피팅으로 분리한 결과 $^{210}\text{Pb}$가 $400\text{ counts}$, $^{210}\text{Bi}$가 $600\text{ counts}$였다면, 그 채널의 실제 포아송 요동 크기는 $\sqrt{400}=20$이 아니라 총 계수에 의한 $\sqrt{1000} \approx 31.6\text{ counts}$이다.</p>
 
-  <p>만약 단순히 $\sqrt{\text{Sum}}$을 쓴다면 $^{210}\text{Pb}$의 불확도는 $\sqrt{400} = 20\text{ counts}$라고 착각하게 된다. 그러나 <strong>이 채널의 실제 물리적 포아송 잡음 크기는 실제로 들어온 총 1,000개에 의한 $\sqrt{1000} \approx 31.6\text{ counts}$</strong>이다! 즉, $^{210}\text{Pb}$ 신호 위에는 $^{210}\text{Bi}$의 거대한 통계적 안개가 얹혀져 있다.</p>
-
-  <p>ISO 공분산 역행렬 공식 $(\boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A})^{-1}$을 풀면, $^{210}\text{Pb}$의 실제 불확도는 다음과 같이 정확히 팽창된다:</p>
+  <p>다핵종 공분산 역행렬 $(\boldsymbol{T}^T \boldsymbol{V}_r^{-1} \boldsymbol{T})^{-1}$을 풀면, 비대각 내적 원소 $H_{\text{Pb,Bi}} = \sum_i \frac{\phi_{i,\text{Pb}}\phi_{i,\text{Bi}}}{\sigma_i^2}$ (두 스펙트럼의 가중 중첩도)에 의해 $^{210}\text{Pb}$ 계수율 불확도는 다음과 같이 정확히 팽창된다:</p>
 
   <div class="formula-card">
-    $$\sigma(\text{Sum}_{\text{Pb}}) = \underbrace{\sqrt{\text{Sum}_{\text{Pb}}}}_{\text{순수 Pb 자체 포아송}} \times \underbrace{\sqrt{1 + \frac{\text{Bi 통계 잡음} + \text{BKG 잡음}}{\text{Pb 신호}}}}_{\text{중첩 간섭 팽창 계수 (항상 } > 1.0\text{)}}$$
+    $$\sigma(\hat{A}_{\text{Pb}}) = \underbrace{\sqrt{\frac{A_{\text{Pb}}}{t_s}}}_{\text{순수 Pb 자체 포아송 하한}} \times \underbrace{\sqrt{\frac{1}{1 - R_{\text{Pb}\mid (\text{Bi, Po, bg})}^2} \cdot \left(1 + \frac{\text{Bi}\cdot\text{Po}\cdot\text{BKG 유효 간섭 분산}}{\text{Pb 신호 분산}}\right)}}_{\text{중첩 간섭 및 공분산 팽창 계수 (항상 } > 1.0\text{)}}$$
   </div>
 
-  <div class="callout-box highlight">
-    <span class="badge">KEY QUESTION</span> <strong>그렇다면 ISO는 왜 굳이 단순 덧셈 대신 이 행렬 역산 공식을 쓸까?</strong><br>
-    <ul>
-      <li><strong>단독 핵종일 때:</strong> 단순 덧셈 $\sqrt{N}$과 결과가 100% 똑같다.</li>
-      <li><strong>3핵종이 겹칠 때 ($^{210}\text{Pb} + {}^{210}\text{Bi} + {}^{210}\text{Po}$):</strong><br>
-        • 단순 덧셈으로는 겹쳐진 채널에서 누구 신호인지 분리할 수가 없다.<br>
-        • 이때 ISO의 행렬 공식은 비대각 원소 $\sum \frac{\phi_{i,\text{Pb}}\phi_{i,\text{Bi}}}{y_i}$ (두 스펙트럼이 겹친 면적)를 통해, <strong>"겹침으로 인해 발생하는 추가 불확실성"을 수학적으로 가장 완벽하고 최소화된 가중치(Gauss-Markov 정리, BLUE)로 분리·계산</strong>해 주기 때문이다.
-      </li>
-    </ul>
+  <h3 class="sub-heading">5.4 전통적 2-Window (Tailing Factor) 기법과 3-핵종 물리 디컨볼루션의 수학적 대칭성</h3>
+  <p>DAT-LSC 프로그램(<code>Pb210AnalysisPanel.tsx</code> 및 <code>radiochemistry.py</code>)은 전통적인 <strong>2-Window (Tailing Factor) 기법</strong>과 <strong>제1원리 3-핵종 디컨볼루션 기법</strong>을 모두 지원하며, 두 기법이 산출한 $(r_{\text{Pb, net}},\, u(r_{\text{Pb, net}}))$ 쌍은 완전히 동일한 후단 GUM 방사화학 파이프라인으로 전달된다:</p>
+
+  <div class="tbl-container">
+    <table class="paper-tbl">
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>전통적 2-Window (Tailing Factor) 기법</th>
+          <th>제1원리 3-핵종 물리 디컨볼루션 (<code>fitter.py</code>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">순수 $^{210}\text{Pb}$ 계수율 산출식</td>
+          <td>$$r_{\text{Pb, net}} = A_{\text{net}} - B_{\text{net}} \cdot \text{TF}$$<br>(저에너지 창 $A_{\text{net}}$에서 고에너지 창 $B_{\text{net}} \times \text{TF}$ 차감)</td>
+          <td>$$r_{\text{Pb, net}} = \hat{A}_{\text{Pb}}$$<br>($631$개 채널 연속 템플릿 최소제곱 최적 분리)</td>
+        </tr>
+        <tr>
+          <td class="k">계수율 표준불확도 $u(r_{\text{Pb, net}})$</td>
+          <td>$$\sqrt{\sigma^2(A_{\text{net}}) + \text{TF}^2\sigma^2(B_{\text{net}}) + B_{\text{net}}^2\sigma^2(\text{TF})}$$</td>
+          <td>$$\sigma(\hat{A}_{\text{Pb}}) = \sqrt{\max(1.0, \chi^2_\nu)\cdot \left[(\boldsymbol{J}^T\boldsymbol{J})^{-1}\right]_{00}}$$</td>
+        </tr>
+        <tr>
+          <td class="k">물리적·통계적 특징</td>
+          <td>• 시료마다 소광($Q$)이나 $^{210}\text{Po}$ 테일링($\tau_{\text{rel}}$)이 달라져도 고정된 $\text{TF}$를 적용하므로 체계적 편향에 취약함.<br>• $^{210}\text{Po}$ 알파 피크가 창 A/B 경계에 걸칠 때 보정 불가.</td>
+          <td>• 시료별 소광($Q$), 분해능($\sigma_0$), 여과지 알파 테일링($\tau_{\text{rel}}$)을 자동 적응 추정.<br>• $\text{TF}$ 차감 오차가 야코비안 역행렬의 비대각 공분산($\text{Cov}(A_{\text{Pb}}, A_{\text{Bi}})$, $\text{Cov}(A_{\text{Pb}}, A_{\text{Po}})$)으로 일반화되어 최소분산(BLUE) 달성.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
 <!-- Section 6. [핵심 3단계] 피팅(Fitting)이라는 행위로 인한 불확도의 추가 반영 -->
 <section class="paper-sec" id="sec6">
-  <h2 class="sec-heading"><span class="sec-num">6.</span> [핵심 3단계] 피팅(Fitting)이라는 행위로 인한 불확도의 추가 반영 (Fitting-Induced Uncertainty & Birge Factor)</h2>
+  <h2 class="sec-heading"><span class="sec-num">6.</span> [핵심 3단계] 9/10차원 비선형 파라미터 간섭, 사전분포 정규화 헤시안, 그리고 Birge Factor 보정</h2>
 
-  <p class="lead-p">앞서 5장에서 다룬 ISO 공분산 행렬 $(\boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A})^{-1}$은 <em>"물리 모델의 모양과 가정이 100% 완벽하다"</em>는 전제 하에서의 '순수 계측 통계 오차'이다. 그러나 현실에서 <strong>"피팅(Fitting)을 수행하는 행위 자체"</strong>로 인해 다음과 같은 <strong>3대 불확실성(Fitting-induced Uncertainties)</strong>이 추가로 개입된다.</p>
+  <p class="lead-p">5장에서 다룬 선형 템플릿 공분산 $(\boldsymbol{T}^T \boldsymbol{V}_r^{-1} \boldsymbol{T})^{-1}$은 <em>"스펙트럼의 위치($Q$)와 폭($\sigma_0$), 알파 테일링($\tau_{\text{rel}}$) 등 형상 파라미터가 오차 없이 완벽히 고정되어 있다"</em>는 가정 하의 불확도이다. 그러나 실제 디컨볼루션에서는 <strong>형상 파라미터를 동시에 탐색하는 비선형 피팅 행위 자체</strong>로 인해 추가적인 불확실성이 개입되며, <code>fitter.py</code>는 이를 가우스-뉴턴 야코비안 행렬과 Birge Factor로 엄밀하게 계산한다.</p>
 
-  <h3 class="sub-heading">6.1 피팅이라는 행위로 인해 추가되는 3대 불확실성</h3>
-
-  <div class="step-card">
-    <div class="step-title">1. 비선형 파라미터 간섭 오차 (Parameter Cross-talk)</div>
-    <p>스펙트럼의 형상 $\boldsymbol{\phi}(Q, \sigma_0)$은 고정된 것이 아니라, 피팅 엔진이 방사능($A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}$)과 함께 <strong>화학적 소광 정도($Q$)와 검출기 분해능($\sigma_0$)을 동시에 탐색</strong>한다.<br>
-    만약 $Q$ 값이 $0.1\%$만 변해도 피크 위치가 이동하여 이를 보상하기 위해 $A_{\text{Pb}}$가 흔들린다. 즉, <strong>$Q$와 $\sigma_0$의 미세한 흔들림이 $A_{\text{Pb}}$의 불확도를 추가로 팽창</strong>시키며, 이는 $5 \times 5$ 전체 야코비안 행렬 $\boldsymbol{J}$의 역행렬을 풀 때 정확히 반영된다.</p>
-  </div>
+  <h3 class="sub-heading">6.1 비선형 피팅 행위로 인해 반영되는 3대 메커니즘</h3>
 
   <div class="step-card">
-    <div class="step-title">2. 모델 불완전성 오차 (Lack-of-Fit / Model Discrepancy)</div>
-    <p>LNHB 이론 붕괴식이나 기기 하드웨어 변환식이 아무리 정밀해도, 실제 바이알 튜브의 기하학적 난반사, 섬광액 노화 등으로 인해 <strong>'이론 모델과 실제 스펙트럼 사이의 미세한 체계적 괴리(Systematic Residual)'</strong>가 남을 수 있다.<br>
-    순수 통계 잡음만 있다면 Reduced 카이제곱 $\chi^2_{\nu} = \chi^2 / \text{DoF}$가 정확히 $1.000$이어야 하지만, 만약 $\chi^2_{\nu} = 1.30$이 나왔다면 순수 통계 요동보다 $30\%$ 더 큰 '피팅 모델 불일치 오차'가 존재함을 의미한다.</p>
+    <div class="step-title">1. 9차원(Mode A) / 10차원(Mode B) 비선형 파라미터 간섭 (Parameter Cross-talk via Full Jacobian)</div>
+    <p><code>fitter.py</code>의 최적화기는 진폭 파라미터($A_{\text{Pb}}, A_{\text{Bi}}, A_{\text{Po}}, [A_{\text{bg}}]$)와 함께 6개의 비선형 물리 형상 파라미터($Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w, P_{\text{esc,XL}}, \tau_{\text{rel}}$)를 동시에 최적화한다. 예를 들어 소광 인자 $Q$나 X-선 탈출 분율 $P_{\text{esc,XL}}$이 미세하게 변하면 $^{210}\text{Pb}$ 템플릿 모양이 이동하고, 이를 보상하기 위해 $A_{\text{Pb}}$ 추정치가 연동되어 흔들린다.<br>
+    확장 잔차 벡터 $\boldsymbol{r}(\boldsymbol{\theta}) \in \mathbb{R}^{M+4}$ ($M=631$)에 대한 $(M+4) \times P$ ($P=9$ 또는 $10$) 가중 야코비안 행렬 $\boldsymbol{J} = \texttt{opt.jac}$ ($J_{ki} = \partial r_k / \partial \theta_i$)를 구성하면, 가우스-뉴턴 헤시안 행렬 $\boldsymbol{H}$는 데이터 피셔 정보 행렬과 사전분포 정밀도 행렬의 합이 된다:</p>
+    $$\boldsymbol{H} = \boldsymbol{J}^T \boldsymbol{J} = \boldsymbol{J}_{\text{data}}^T \boldsymbol{J}_{\text{data}} + \boldsymbol{\Sigma}_{\text{prior}}^{-1} \;\in\; \mathbb{R}^{P \times P}$$
+    <p style="margin-bottom:0;">블록 행렬의 슈어 보수(Schur Complement) 정리에 의해, $\boldsymbol{H}^{-1}$의 첫 번째 대각 원소 $\left(\boldsymbol{H}^{-1}\right)_{00}$는 <strong>나머지 8개(또는 9개) 파라미터의 불확실성을 주변화(Marginalization)하여 $A_{\text{Pb}}$로 전파된 총 분산</strong>을 정확히 산출한다.</p>
   </div>
 
   <div class="step-card">
-    <div class="step-title">3. 최적화 알고리즘 수렴 불확도 (Convergence Uncertainty)</div>
-    <p>비선형 최적화(Levenberg-Marquardt 등)가 전역 최솟값(Global Minimum)에 도달했는지에 대한 수렴 신뢰성을 검증해야 한다.</p>
+    <div class="step-title">2. 모델 불완전성 오차 (Lack-of-Fit)와 Clamped Birge Factor ($\max(1.0, \chi^2_\nu)$)</div>
+    <p>이론 붕괴 모델과 기기 응답 함수가 아무리 정밀하더라도, 고농도 선원이나 특수 매질에서는 미소 잔차(Systematic Residual)로 인해 환산 카이제곱 $\chi^2_{\nu} = \frac{\chi^2_{\text{data}}}{\text{ndf}}$ ($\text{ndf} = M - P = 631 - 9 = 622$ 또는 $621$)가 $1.0$을 초과할 수 있다. 반대로 저준위 시료에서는 고에너지 빈 채널들 때문에 명목 $\chi^2_\nu < 1.0$이 나타날 수 있다.<br>
+    만약 $\chi^2_\nu < 1.0$일 때 무비판적으로 $\chi^2_\nu$를 곱하면 포아송 통계 하한선보다 불확도가 인위적으로 축소(Underestimation)되는 심각한 계량학적 오류가 발생한다. 따라서 <code>fitter.py</code>(409–416행)는 <strong>Clamped Birge Factor $\max(1.0, \chi^2_\nu)$</strong>를 적용한다:</p>
+    $$\boldsymbol{V}_{\text{actual}} = \max\!\left(1.0,\; \chi^2_{\nu}\right) \times \left(\boldsymbol{J}^T \boldsymbol{J}\right)^{-1}, \qquad \sigma(A_{\text{Pb}}) = \sqrt{\left(\boldsymbol{V}_{\text{actual}}\right)_{00}} \quad \text{[단위: CPS]}$$
   </div>
 
-  <h3 class="sub-heading">6.2 GUM 규격과 Birge Ratio에 의한 공분산 행렬 스케일링</h3>
-
-  <div class="callout-box standard">
-    <span class="badge">GUM 2008 CLAUSE 4.2.4 & BIRGE (1932)</span> <strong>피팅 적합도(Lack-of-Fit) 반영 공분산 보정 공식</strong><br>
-    <em>"최소제곱 피팅에서 잔차의 분산이 이론적 기댓값보다 큰 경우($\chi^2_{\nu} > 1$), 모델의 불완전성이나 미지의 영향량을 반영하기 위해 **공분산 행렬 전체에 $\chi^2_{\nu}$ 스케일링 팩터를 곱하여 불확도를 확대(Scale-up)**해야 한다."</em> [GUM Clause 4.2.4, p.9 및 Birge, 1932].
-    $$\boldsymbol{V}_{\text{actual}} = \underbrace{\frac{\chi^2}{\text{DoF}}}_{\text{피팅 적합도 보정 (Birge Factor)}} \times \left( \boldsymbol{J}^T \boldsymbol{V}_y^{-1} \boldsymbol{J} \right)^{-1}$$
-    • $\chi^2_{\nu} \le 1.0$ 일 때: 피팅이 완벽하므로 순수 포아송 공분산 그대로 사용.<br>
-    • $\chi^2_{\nu} > 1.0$ 일 때: 피팅 모델의 불완전성만큼 <strong>불확도를 $\sqrt{\chi^2_{\nu}}$ 배만큼 자동으로 키워서 정직하게 반영!</strong>
+  <div class="step-card">
+    <div class="step-title">3. 전역 최적해 수렴 보장(2D Grid Pre-Scan) 및 특이행렬 안전 폴백(Safety Fallback)</div>
+    <p>• <strong>2D $(Q, \rho_{\alpha\beta})$ 변수사영(Variable-Projection) Pre-Scan:</strong> 비선형 최적화(TRF) 시작 전, $Q \in [0.15, 0.45]$ (41개 격자) $\times$ $\rho_{\alpha\beta} \in [0.75, 1.30]$ (12개 격자)의 492개 격자점에서 비음수 최소제곱(NNLS)으로 선형 진폭을 즉시 풀어 전역 최적 분지(Global Basin) 초기치를 찾고, 만약 $\chi^2_\nu > 1.5$이면 제2 후보 분지에서 재최적화하여 국소 최솟값(Local Minimum) 수렴을 차단한다.<br>
+    • <strong>수치 역행렬 실패 시 안전 폴백:</strong> 극단적인 불량 스펙트럼에서 $\boldsymbol{H}$가 수치적으로 역산 불가능할 경우, 표준 측정시간($43,200\text{ s}$) 기준 포아송 하한치 $\sigma(A_\nu) = \sqrt{\max(A_\nu / 43200.0,\, 10^{-6})}$으로 안전하게 폴백한다.<br>
+    • <strong>보조 적합도 진단 지표:</strong> 빈 채널 희석 효과를 제거한 유효 활성 채널 기준 $\chi^2_{\nu,\text{eff}}$ 및 광학 분해능 폭($12\text{ ch}$) 단위로 묶은 <strong>Resolution-Binned Wald-Wolfowitz Runs Test ($Z_{\text{runs}}$)</strong>를 함께 산출하여 거시적 형상 왜곡 여부를 감시한다.</p>
   </div>
 
-  <h3 class="sub-heading">6.3 불확도 발전 3단계 총괄 비교표</h3>
+  <h3 class="sub-heading">6.2 불확도 발전 3단계 총괄 비교표</h3>
 
   <div class="tbl-container">
     <table class="paper-tbl">
       <thead>
         <tr>
           <th>불확도 발전 단계</th>
-          <th>계산 수식</th>
+          <th>계산 수식 (CPS 도메인)</th>
           <th>반영되는 오차 물리 요인</th>
           <th>적용 시점</th>
         </tr>
@@ -422,21 +548,21 @@ svg { width: 100%; height: auto; display: block; }
       <tbody>
         <tr>
           <td class="k">1단계: 기본 포아송 통계</td>
-          <td>\(\sqrt{\text{Sum}_{\text{Pb}}}\)</td>
-          <td>순수 방사선 붕괴 요동만 반영</td>
-          <td>단독 분리 핵종 (이론적 하한선)</td>
+          <td>\(\sqrt{A_{\text{Pb}} / t_s}\) &nbsp; (총 계수 기준 \(\sqrt{N_{\text{Pb}}}\))</td>
+          <td>순수 $^{210}\text{Pb}$ 방사선 붕괴 요동만 반영</td>
+          <td>단독 분리 핵종 (이론적 Cramér-Rao 하한선)</td>
         </tr>
         <tr>
-          <td class="k">2단계: 다핵종 공분산 역산</td>
-          <td>\((\boldsymbol{A}^T \boldsymbol{V}_y^{-1} \boldsymbol{A})^{-1}\)</td>
-          <td>\(+ \text{Bi, Po, BKG}\)와의 <strong>스펙트럼 중첩 잡음</strong> 반영</td>
-          <td>다핵종 복합 스펙트럼 분해</td>
+          <td class="k">2단계: 다핵종 중첩 공분산 역산</td>
+          <td>\(\sqrt{\left[\left(\boldsymbol{T}^T \boldsymbol{V}_r^{-1} \boldsymbol{T}\right)^{-1}\right]_{00}}\)</td>
+          <td>\(+ {}^{210}\text{Bi}, {}^{210}\text{Po}, \text{BKG}\)와의 <strong>스펙트럼 에너지 중첩 잡음</strong> 반영</td>
+          <td>형상 고정 시 다핵종 선형 분해 (ISO 11929-2 Cl. 6.3)</td>
         </tr>
         <tr>
-          <td class="k">3단계: 피팅 행위 불확도 반영</td>
-          <td>\(\boldsymbol{V}_{\text{actual}} = \chi^2_{\nu} \times (\boldsymbol{J}^T \boldsymbol{V}_y^{-1} \boldsymbol{J})^{-1}\)</td>
-          <td>\(+ \boldsymbol{Q, \sigma_0}\) <strong>탐색 간섭 + 모델 불완전성(Lack-of-Fit)</strong>까지 최종 반영!</td>
-          <td><strong>DAT-LSC 최종 피팅 불확도 \(\sigma(A_{\text{Pb}})\)</strong></td>
+          <td class="k">3단계: 비선형 피팅 & Birge 반영</td>
+          <td>\(\sqrt{\max(1.0, \chi^2_\nu)\cdot\left[\left(\boldsymbol{J}^T \boldsymbol{J}\right)^{-1}\right]_{00}}\)</td>
+          <td>\(+ \boldsymbol{Q, \sigma_0, \rho_{\alpha\beta}, \text{scale}_w, P_{\text{esc,XL}}, \tau_{\text{rel}}}\) <strong>탐색 간섭 + 사전분포 정규화 + 모델 불완전성(Lack-of-Fit)</strong> 최종 반영</td>
+          <td><strong>DAT-LSC 최종 피팅 불확도 \(\sigma(A_{\text{Pb}})\) (<code>fitter.py</code>)</strong></td>
         </tr>
       </tbody>
     </table>
@@ -445,20 +571,47 @@ svg { width: 100%; height: auto; display: block; }
 
 <!-- Section 7. 최종 ²¹⁰Pb 방사능 농도의 완전한 계량학적 사슬 -->
 <section class="paper-sec" id="sec7">
-  <h2 class="sec-heading"><span class="sec-num">7.</span> GUM 제5장: 최종 ²¹⁰Pb 농도 및 합성 불확도의 완전한 계량학적 사슬 (Complete Pb-210 Metrological Chain)</h2>
+  <h2 class="sec-heading"><span class="sec-num">7.</span> GUM 제5장: 최종 ²¹⁰Pb 방사능 농도 및 합성 불확도의 완전한 계량학적 사슬 (<code>radiochemistry.py</code>)</h2>
 
-  <h3 class="sub-heading">7.1 GUM 제5장 불확도 전파의 법칙</h3>
-  <div class="callout-box standard">
-    <span class="badge">GUM 2008 CLAUSE 5.1.2 & 5.1.6</span> <strong>불확도 전파의 법칙 및 상대 불확도 직교 합성</strong><br>
-    측정 모델 $Y = f(X_1, X_2, \dots, X_N)$에 대해 입력량들이 상호 독립일 때 [GUM Clause 5.1.2, Eq. 10, p.19]:
-    $$u_c^2(y) = \sum_{i=1}^{N} \left(\frac{\partial f}{\partial x_i}\right)^2 u^2(x_i)$$
-    특히 거듭제곱 곱셈·나눗셈 모델 $Y = c \cdot \frac{X_1^{a} X_2^{b}}{X_3^{c} X_4^{d}}$에서는 각 요인의 상대 불확도 제곱합으로 합성된다 [GUM Clause 5.1.6, Eq. 11 & 12, p.20]:
-    $$\left(\frac{u_c(Y)}{Y}\right)^2 = a^2 \left(\frac{u(X_1)}{X_1}\right)^2 + b^2 \left(\frac{u(X_2)}{X_2}\right)^2 + c^2 \left(\frac{u(X_3)}{X_3}\right)^2 + d^2 \left(\frac{u(X_4)}{X_4}\right)^2$$
+  <p class="lead-p">피팅 엔진(또는 2-Window 기법)에서 산출된 시료의 순 $^{210}\text{Pb}$ 계수율 $r_{\text{Pb, net}} = A_{\text{Pb}}$와 그 표준불확도 $u(r_{\text{Pb, net}}) = \sigma(A_{\text{Pb}})$는 <code>server/python/pb210fit/radiochemistry.py</code>로 전달되어 담체 불순물 보정, 표준선원 검출효율 교정, $\text{PbSO}_4$ 중량법 화학수율 산정, 그리고 붕괴 보정을 거쳐 최종 비방사능 농도 $\text{Conc}$ ($\text{Bq/kg}$ 또는 $\text{Bq/g}$)와 합성표준불확도 $u_c(\text{Conc})$로 완성된다.</p>
+
+  <div class="callout-box missing-link">
+    <span class="badge">CRITICAL SIGN & FORMULA CORRECTION</span> <strong>방사성 붕괴 보정 부호($e^{+\lambda\Delta t}$ vs. $e^{-\lambda\Delta t}$) 및 표준선원 피팅 불확도 누락 교정</strong><br>
+    <ul>
+      <li><strong>붕괴 보정 부호 규약 교정:</strong> 구버전 문서(7.2절)에서는 시료 농도 공식 분자에 $e^{-\lambda\Delta t}$를 표기하였으나, 이는 부호가 반대이다! 시료 채취일(또는 기준일 $t_{\text{ref}}$)로부터 계측일($t_{\text{meas}}$)까지 경과한 시간 $\Delta t_{\text{sample}} = t_{\text{meas}} - t_{\text{ref}} > 0$ 동안 붕괴로 줄어든 방사능을 채취일 기준으로 복원할 때는 반드시 <strong>$e^{+\lambda\Delta t_{\text{sample}}}$</strong>을 곱해야 한다(<code>radiochemistry.py</code> 135행: <code>np.exp(+PB210_LAMBDA_DAYS * elapsed_days)</code>). 반면, 표준선원 인증일($t_{\text{cert}}$)로부터 표준선원 계측일($t_{\text{std,meas}}$)까지 감소한 현재 표준선원 방사능을 구할 때는 분모의 표준선원 항에 <strong>$e^{-\lambda\Delta t_{\text{std}}}$</strong>를 곱한다(<code>radiochemistry.py</code> 303행). 여기서 $^{210}\text{Pb}$ 반감기는 $T_{1/2} = 22.20\text{ yr} = 8108.55\text{ d}$, 붕괴상수는 $\lambda = \frac{\ln 2}{T_{1/2}} \approx 8.5484 \times 10^{-5}\text{ d}^{-1}$이다.</li>
+      <li><strong>마스터 합성 공식 누락 항 교정:</strong> 구버전 문서 7.4절의 마스터 합성 공식에서 표준선원 계측/피팅 불확도 $\left(\frac{\sigma(A_{\text{std}})}{A_{\text{std}}}\right)^2$ 및 표준선원 화학수율 불확도 $\left(\frac{u(Y_{\text{std}})}{Y_{\text{std}}}\right)^2$가 누락되어 있던 오류를 아래 7.3~7.5절에서 완전히 바로잡았다.</li>
+    </ul>
   </div>
 
-  <h3 class="sub-heading">7.2 최종 방사능 농도 측정 방정식</h3>
+  <h3 class="sub-heading">7.1 단계별 세부 측정 모델 및 불확도 전파 공식 (<code>radiochemistry.py</code> 1:1 대응)</h3>
+
+  <div class="step-card">
+    <div class="step-title">Step A · Pb 담체(Carrier) 내 $^{210}\text{Pb}$ 불순물 보정 (선택 기능: <code>lsc_cps</code>, <code>gamma_bq</code>, <code>na_bq</code>)</div>
+    <p>첨가한 안정 Pb 담체 용액 자체에 미량의 $^{210}\text{Pb}$ 불순물이 포함된 경우, 시료의 순 계수율 $r_{\text{Pb, net}}$에서 담체 기여 계수율 $\Delta r_{\text{carr}}$를 차감하여 보정 계수율 $A_{\text{Pb, corr}}$를 산출한다:</p>
+    $$A_{\text{Pb, corr}} = r_{\text{Pb, net}} - \Delta r_{\text{carr}}, \qquad u^2(A_{\text{Pb, corr}}) = u^2(r_{\text{Pb, net}}) + u^2(\Delta r_{\text{carr}})$$
+    <p style="margin-bottom:0; font-size:14px;">• <strong>LSC CPS 모드(<code>lsc_cps</code>):</strong> 담체 공시료($m_{\text{carr,ref}}$)에서 측정한 단위 질량당 계수율 $r_{\text{carr,sp}} = \frac{r_{\text{carr,blank}}}{m_{\text{carr,ref}}}$에 시료의 담체 첨가량 $m_{\text{carr}}$와 화학수율 비 $\frac{Y_{\text{Pb}}}{Y_{\text{carr,ref}}}$를 곱해 $\Delta r_{\text{carr}} = r_{\text{carr,sp}} \cdot m_{\text{carr}} \cdot \frac{Y_{\text{Pb}}}{Y_{\text{carr,ref}}}$로 산출한다.<br>
+    • <strong>Gamma / NA Bq 모드(<code>gamma_bq</code>, <code>na_bq</code>):</strong> 담체의 비방사능 $a_{\text{carr}}\text{ [Bq/g]}$에 대해 $\Delta r_{\text{carr}} = a_{\text{carr}} \cdot m_{\text{carr}} \cdot \varepsilon \cdot Y_{\text{Pb}}$를 차감한다 (불확성 미부여 시 <code>na_bq</code>는 $\sigma(a_{\text{carr}})=0$ 처리).</p>
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">Step B · $\text{PbSO}_4$ 중량법 화학 회수율 ($Y_{\text{Pb}}$, <code>compute_chemical_yield</code>)</div>
+    <p>여과지 침전 전후 질량 차 $m_{\text{ppt}} = f_{\text{after}} - f_{\text{before}}$에 황산납($\text{PbSO}_4$, 몰질량 $295.2\text{ g/mol}$ 기준 규격 상수) 중 순수 납($\text{Pb}$, 원자량 $207.2\text{ g/mol}$)의 질량비 상수 $K_{\text{Pb/PbSO}_4} = \frac{207.2}{295.2} \approx 0.7019$를 곱해 회수된 Pb 질량을 구하고, 이를 초기 첨가된 Pb 담체 질량 $m_{\text{carr}} \cdot C_{\text{carr}}$로 나누어 화학 회수율 $Y_{\text{Pb}}$를 산출한다:</p>
+    $$m_{\text{ppt}} = f_{\text{after}} - f_{\text{before}}, \qquad u(m_{\text{ppt}}) = \sqrt{u^2(f_{\text{before}}) + u^2(f_{\text{after}})}$$
+    $$Y_{\text{Pb}} = \frac{m_{\text{ppt}} \times \left(\dfrac{207.2}{295.2}\right)}{m_{\text{carr}} \cdot C_{\text{carr}}}, \qquad \left(\frac{u(Y_{\text{Pb}})}{Y_{\text{Pb}}}\right)^2 = \left(\frac{u(m_{\text{ppt}})}{m_{\text{ppt}}}\right)^2 + \left(\frac{u(m_{\text{carr}})}{m_{\text{carr}}}\right)^2 + \left(\frac{u(C_{\text{carr}})}{C_{\text{carr}}}\right)^2$$
+  </div>
+
+  <div class="step-card">
+    <div class="step-title">Step C · $^{210}\text{Pb}$ 검출효율 교정 ($\varepsilon$, 표준선원 자동 산출 vs. 수동 입력)</div>
+    <p>• <strong>표준선원 자동 산출 모드(<code>eff_mode = "auto"</code>):</strong> 인증 비방사능 $C_{\text{std}}\text{ [Bq/g]}$, 분취 질량 $M_{\text{std}}\text{ [g]}$, 인증일로부터 표준선원 계측일까지의 경과일수 $\Delta t_{\text{std}} = t_{\text{std,meas}} - t_{\text{cert}}\text{ [d]}$, 표준선원 바이알의 화학수율 $Y_{\text{std}}$ (직접 분취 시 $Y_{\text{std}}=1, u(Y_{\text{std}})=0$), 그리고 표준선원의 담체 보정 후 순 $^{210}\text{Pb}$ 계수율 $A_{\text{std, corr}}\text{ [CPS]}$로부터 검출효율 $\varepsilon\text{ [CPS/Bq]}$과 상대 분산이 결정된다:</p>
+    $$\varepsilon = \frac{A_{\text{std, corr}}}{C_{\text{std}} \cdot M_{\text{std}} \cdot e^{-\lambda \Delta t_{\text{std}}} \cdot Y_{\text{std}}}, \qquad \left(\frac{u(\varepsilon)}{\varepsilon}\right)^2 = \left(\frac{u(A_{\text{std, corr}})}{A_{\text{std, corr}}}\right)^2 + \left(\frac{u(C_{\text{std}})}{C_{\text{std}}}\right)^2 + \left(\frac{u(M_{\text{std}})}{M_{\text{std}}}\right)^2 + \left(\frac{u(Y_{\text{std}})}{Y_{\text{std}}}\right)^2$$
+    <p style="margin-bottom:0; font-size:14px;">• <strong>수동 효율 입력 모드(<code>eff_mode = "manual"</code>):</strong> 사용자가 교정 곡선 등으로부터 $\varepsilon \pm u(\varepsilon)$을 직접 입력하면 위 식 대신 입력된 상대 분산 $\left(u(\varepsilon)/\varepsilon\right)^2$가 그대로 사용된다.</p>
+  </div>
+
+  <h3 class="sub-heading">7.2 최종 시료 $^{210}\text{Pb}$ 방사능 농도 측정 방정식</h3>
+  <p>시료 계측일($t_{\text{meas}}$)에서 기준일/채취일($t_{\text{ref}}$)로 역산 보정하는 경과일수를 $\Delta t_{\text{sample}} = t_{\text{meas}} - t_{\text{ref}}\text{ [d]}$라 할 때, 최종 시료 비방사능 농도 $\text{Conc}$ ($\text{Bq/kg}$ 또는 $\text{Bq/g}$)는 다음과 같다:</p>
+
   <div class="formula-card">
-    $$\text{Conc} = \frac{A_{\text{Pb, sample}} \cdot e^{-\lambda \Delta t}}{\varepsilon \cdot Y_{\text{Pb}} \cdot M_{\text{sample}}}$$
+    $$\text{Conc} = \frac{A_{\text{Pb, corr}} \cdot e^{+\lambda \Delta t_{\text{sample}}}}{\varepsilon \cdot Y_{\text{Pb}} \cdot M_{\text{sample}}} \qquad \left(\text{여기서 } \lambda = \frac{\ln 2}{22.20 \times 365.25} \approx 8.5484 \times 10^{-5}\;\text{d}^{-1}\right)$$
   </div>
 
   <h3 class="sub-heading">7.3 4대 불확도 요인의 세부 성분과 GUM 표준 분류</h3>
@@ -468,53 +621,53 @@ svg { width: 100%; height: auto; display: block; }
       <thead>
         <tr>
           <th>불확도 요인</th>
-          <th>변수 기호</th>
+          <th>상대 불확도 기호</th>
           <th>GUM 분류</th>
-          <th>도출 수식 및 출처</th>
+          <th>도출 수식 및 구성 성분 (<code>radiochemistry.py</code>)</th>
           <th>표준 근거 조항</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="k">① 계측/피팅 오차</td>
-          <td>\(\frac{\sigma(A_{\text{Pb}})}{A_{\text{Pb}}}\)</td>
-          <td><strong>Type A</strong></td>
-          <td>피팅 공분산 역산 \(\sqrt{V_{\text{actual},11}} / A_{\text{Pb}}\) (3단계 통합 불확도)</td>
+          <td class="k">① 시료 계측/피팅 및 담체 보정 오차</td>
+          <td>\(\frac{u(A_{\text{Pb, corr}})}{A_{\text{Pb, corr}}}\)</td>
+          <td><strong>Type A (+B)</strong></td>
+          <td>\(\frac{\sqrt{\sigma^2(A_{\text{Pb}}) + u^2(\Delta r_{\text{carr}})}}{A_{\text{Pb}} - \Delta r_{\text{carr}}}\) (3단계 디컨볼루션 불확도 또는 2-Window 불확도 + 담체 보정)</td>
           <td>GUM 4.2.4 & ISO 11929-2 Cl. 6.3</td>
         </tr>
         <tr>
-          <td class="k">② 표준선원 효율 오차</td>
-          <td>\(\frac{\sigma(\varepsilon)}{\varepsilon}\)</td>
-          <td><strong>Type B + A</strong></td>
-          <td>\(\sqrt{ (\sigma_C/C_{\text{std}})^2 + (\sigma_M/M_{\text{std}})^2 + (\sigma(A_{\text{std}})/A_{\text{std}})^2 }\)</td>
+          <td class="k">② 검출효율 교정 오차</td>
+          <td>\(\frac{u(\varepsilon)}{\varepsilon}\)</td>
+          <td><strong>Type A + B</strong></td>
+          <td>\(\sqrt{ \left(\frac{u(A_{\text{std, corr}})}{A_{\text{std, corr}}}\right)^2 + \left(\frac{u(C_{\text{std}})}{C_{\text{std}}}\right)^2 + \left(\frac{u(M_{\text{std}})}{M_{\text{std}}}\right)^2 + \left(\frac{u(Y_{\text{std}})}{Y_{\text{std}}}\right)^2 }\)</td>
           <td>GUM 4.3.7 (교정성적서) & 5.1.6</td>
         </tr>
         <tr>
-          <td class="k">③ 화학 회수율 오차</td>
-          <td>\(\frac{\sigma(Y)}{Y}\)</td>
+          <td class="k">③ 시료 화학 회수율 오차</td>
+          <td>\(\frac{u(Y_{\text{Pb}})}{Y_{\text{Pb}}}\)</td>
           <td><strong>Type B</strong></td>
-          <td>\(\sqrt{ (\sigma_{\text{ppt}}/m_{\text{ppt}})^2 + (\sigma_{\text{carr}}/m_{\text{carr}})^2 + (\sigma_{\text{c\_conc}}/C_{\text{carr}})^2 }\)</td>
-          <td>GUM 5.1.6 (상대제곱합)</td>
+          <td>\(\sqrt{ \frac{u^2(f_{\text{before}}) + u^2(f_{\text{after}})}{(f_{\text{after}} - f_{\text{before}})^2} + \left(\frac{u(m_{\text{carr}})}{m_{\text{carr}}}\right)^2 + \left(\frac{u(C_{\text{carr}})}{C_{\text{carr}}}\right)^2 }\)</td>
+          <td>GUM 5.1.2 & 5.1.6 (상대제곱합)</td>
         </tr>
         <tr>
-          <td class="k">④ 시료 질량 오차</td>
-          <td>\(\frac{\sigma(M)}{M}\)</td>
+          <td class="k">④ 시료 분취 질량 오차</td>
+          <td>\(\frac{u(M_{\text{sample}})}{M_{\text{sample}}}\)</td>
           <td><strong>Type B</strong></td>
-          <td>\(\sigma_{\text{sample}} / M_{\text{sample}}\) (전자천칭 교정분산)</td>
-          <td>GUM 4.3.8 (직사각형/정규분포)</td>
+          <td>\(u(M_{\text{sample}}) / M_{\text{sample}}\) (전자천칭 칭량 표준불확도)</td>
+          <td>GUM 4.3.8 (교정/분해능)</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <h3 class="sub-heading">7.4 최종 GUM 마스터 합성 공식</h3>
-  <div class="formula-card" style="padding: 26px 16px; background: #fffdf8; border: 2px solid #cbd5e1;">
-    <div style="font-size: 16.5px; line-height: 2.2;">
+  <h3 class="sub-heading">7.4 최종 GUM 마스터 합성 공식 (Complete Master Equation)</h3>
+  <div class="formula-card" style="padding: 26px 18px; border: 2px solid var(--rule-2);">
+    <div style="font-size: 15.5px; line-height: 2.3;">
       $$u_c(\text{Conc}) = \text{Conc} \times \sqrt{ 
-        \underbrace{\left(\frac{\sigma(A_{\text{Pb}})}{A_{\text{Pb}}}\right)^2}_{\text{① 계측/피팅 오차 (Type A)}} + 
-        \underbrace{\left(\frac{\sigma_{\text{std\_src}}}{C_{\text{std}}}\right)^2 + \left(\frac{\sigma_{\text{std\_mass}}}{M_{\text{std}}}\right)^2}_{\text{② 표준선원 효율 오차 (Type B+A)}} + 
-        \underbrace{\left(\frac{\sigma_{\text{ppt}}}{m_{\text{ppt}}}\right)^2 + \left(\frac{\sigma_{\text{carrier}}}{m_{\text{carrier}}}\right)^2 + \left(\frac{\sigma_{\text{c\_conc}}}{C_{\text{carrier}}}\right)^2}_{\text{③ 화학 회수율 오차 (Type B)}} + 
-        \underbrace{\left(\frac{\sigma_{\text{sample}}}{M_{\text{sample}}}\right)^2}_{\text{④ 시료 질량 오차 (Type B)}} 
+        \underbrace{\left(\frac{u(A_{\text{Pb, corr}})}{A_{\text{Pb, corr}}}\right)^2}_{\text{① 시료 피팅·계측 오차 (Type A)}} + 
+        \underbrace{\left(\frac{u(A_{\text{std, corr}})}{A_{\text{std, corr}}}\right)^2 + \left(\frac{u(C_{\text{std}})}{C_{\text{std}}}\right)^2 + \left(\frac{u(M_{\text{std}})}{M_{\text{std}}}\right)^2 + \left(\frac{u(Y_{\text{std}})}{Y_{\text{std}}}\right)^2}_{\text{② 표준선원 검출효율 교정 오차 } \left(u(\varepsilon)/\varepsilon\right)^2\text{ (Type A+B)}} + 
+        \underbrace{\left(\frac{u(m_{\text{ppt}})}{m_{\text{ppt}}}\right)^2 + \left(\frac{u(m_{\text{carr}})}{m_{\text{carr}}}\right)^2 + \left(\frac{u(C_{\text{carr}})}{C_{\text{carr}}}\right)^2}_{\text{③ 시료 화학 회수율 오차 } \left(u(Y_{\text{Pb}})/Y_{\text{Pb}}\right)^2\text{ (Type B)}} + 
+        \underbrace{\left(\frac{u(M_{\text{sample}})}{M_{\text{sample}}}\right)^2}_{\text{④ 시료 질량 오차 (Type B)}} 
       }$$
     </div>
   </div>
@@ -525,44 +678,51 @@ svg { width: 100%; height: auto; display: block; }
   <h2 class="sec-heading"><span class="sec-num">8.</span> 결론 및 국제 표준 규격 조항 총괄 (Summary & Normative References)</h2>
 
   <div class="callout-box highlight">
-    <span class="badge">NORMATIVE SUMMARY</span> <strong>국제 표준 규격 조항 대조 총괄표</strong><br>
+    <span class="badge">NORMATIVE SUMMARY</span> <strong>국제 표준 규격 조항 및 DAT-LSC 모듈 대조 총괄표</strong><br>
     <div class="tbl-container" style="margin-top: 10px;">
       <table class="paper-tbl">
         <thead>
           <tr>
             <th>해당 이론 및 공식</th>
+            <th>DAT-LSC 구현 모듈</th>
             <th>GUM 2008 (ISO/IEC Guide 98-3)</th>
             <th>ISO 11929:2019</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="k">포아송 계수율 불확도 (\(\sigma = \sqrt{n}/t\))</td>
-            <td>Clause 4.2.2 (Type A 표본분산)</td>
+            <td class="k">포아송 계수율 및 공시료 차감 분산</td>
+            <td><code>preprocessing.py</code>, <code>analyze.py</code></td>
+            <td>Clause 4.2.2 & Clause 5.1.2</td>
             <td><strong>ISO 11929-1 Clause 5.2, Eq. (3)</strong></td>
           </tr>
           <tr>
-            <td class="k">가중 최소제곱법 카이제곱 (\(\chi^2\)) 피팅</td>
+            <td class="k">가중 최소제곱법(\(\chi^2\)) 및 베이즈 사전분포 결합</td>
+            <td><code>fitter.py</code> (<code>residual_func</code>)</td>
             <td><strong>Clause 4.2.4 & Annex H.2, Eq. (H.13)</strong></td>
             <td>ISO 11929-2 Clause 6.2</td>
           </tr>
           <tr>
-            <td class="k">공분산 행렬 역산 (\(\boldsymbol{V} = \boldsymbol{H}^{-1}\))</td>
+            <td class="k">가우스-뉴턴 공분산 역산 (\(\boldsymbol{V} = (\boldsymbol{J}^T\boldsymbol{J})^{-1}\))</td>
+            <td><code>fitter.py</code> (<code>opt.jac.T @ opt.jac</code>)</td>
             <td><strong>Clause 4.2.4 & Annex H.2.3, Table H.2</strong></td>
-            <td><strong>ISO 11929-2 Clause 6.3, Eq. (18)</strong></td>
+            <td><strong>ISO 11929-2 Clause 6.3, Eq. (18) & (19)</strong></td>
           </tr>
           <tr>
-            <td class="k">Pb-210 Sum_count 및 계수율 불확도 연결</td>
-            <td><strong>Clause 4.2.4 & Clause 5.1.2</strong></td>
-            <td><strong>ISO 11929-2 Clause 6.3, Eq. (19)</strong></td>
+            <td class="k">Clamped Birge Factor (\(\max(1.0, \chi^2_\nu)\)) 보정</td>
+            <td><code>fitter.py</code> (<code>birge_scale</code>)</td>
+            <td><strong>Clause 4.2.4 & Annex H.2.3 [Birge, 1932]</strong></td>
+            <td>ISO 11929-2 Clause 6.3</td>
           </tr>
           <tr>
-            <td class="k">불확도 전파의 법칙 (일반식)</td>
+            <td class="k">불확도 전파의 법칙 (일반식 및 차감 연산)</td>
+            <td><code>radiochemistry.py</code></td>
             <td><strong>Clause 5.1.2, Eq. (10) & Clause 5.2.2, Eq. (13)</strong></td>
             <td>ISO 11929-1 Clause 5.1</td>
           </tr>
           <tr>
             <td class="k">상대 불확도 직교 합성 (\(\sum (u/x)^2\))</td>
+            <td><code>radiochemistry.py</code> (<code>evaluate_pb210_radiochemistry</code>)</td>
             <td><strong>Clause 5.1.6, Eq. (11) & Eq. (12)</strong></td>
             <td>ISO 11929-1 Clause 5.3, Eq. (6)</td>
           </tr>
@@ -574,10 +734,11 @@ svg { width: 100%; height: auto; display: block; }
   <h3 class="sub-heading">공식 규격서 및 참고 문헌 (Normative References)</h3>
   <ul style="font-family:'IBM Plex Mono',monospace; font-size:12.5px; line-height:1.7; color:var(--ink-2);">
     <li>[1] <strong>JCGM 100:2008 / ISO/IEC Guide 98-3:2008</strong>, <em>"Evaluation of measurement data — Guide to the expression of uncertainty in measurement (GUM)"</em>, Joint Committee for Guides in Metrology (JCGM/WG 1), 2008. (Clauses 2.2, 3.3, 4.2, 4.3, 5.1, 5.2, Annex H).</li>
-    <li>[2] <strong>ISO 11929-1:2019</strong>, <em>"Determination of the characteristic limits for measurements of ionizing radiation — Part 1: Elementary applications"</em>, International Organization for Standardization, Geneva, Switzerland (Clauses 5, 6, 7).</li>
+    <li>[2] <strong>ISO 11929-1:2019</strong>, <em>"Determination of the characteristic limits (decision threshold, detection limit and limits of the coverage interval) for measurements of ionizing radiation — Fundamentals and application — Part 1: Elementary applications"</em>, International Organization for Standardization, Geneva, Switzerland (Clauses 5, 6, 7).</li>
     <li>[3] <strong>ISO 11929-2:2019</strong>, <em>"Determination of the characteristic limits for measurements of ionizing radiation — Part 2: Advanced applications (Unfolding & Deconvolution)"</em>, International Organization for Standardization, Geneva, Switzerland (Clauses 6.2, 6.3).</li>
-    <li>[4] Glenn F. Knoll, <em>"Radiation Detection and Measurement"</em>, 4th Edition, John Wiley & Sons, 2010 (Chapter 3: Counting Statistics and Error Prediction, pp. 65–104).</li>
-    <li>[5] Philip R. Bevington and D. Keith Robinson, <em>"Data Reduction and Error Analysis for the Physical Sciences"</em>, 3rd Edition, McGraw-Hill, 2003 (Chapter 6 & 8: Least-Squares Fit, Error Matrix and Covariance, pp. 142–167).</li>
+    <li>[4] Raymond T. Birge, <em>"The Calculation of Errors by the Method of Least Squares"</em>, Physical Review, Vol. 40, pp. 207–227, 1932.</li>
+    <li>[5] Glenn F. Knoll, <em>"Radiation Detection and Measurement"</em>, 4th Edition, John Wiley & Sons, 2010 (Chapter 3: Counting Statistics and Error Prediction, pp. 65–104).</li>
+    <li>[6] Philip R. Bevington and D. Keith Robinson, <em>"Data Reduction and Error Analysis for the Physical Sciences"</em>, 3rd Edition, McGraw-Hill, 2003 (Chapter 6 & 8: Least-Squares Fit, Error Matrix and Covariance, pp. 142–167).</li>
   </ul>
 </section>
 
