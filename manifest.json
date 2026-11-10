@@ -98,6 +98,12 @@
       "name": "Research",
       "files": [
         {
+          "name": "스펙트럼 물리 디컨볼루션(피팅)에 따른 불확도 평가와 GUM(ISO/IEC Guide 98-3) 표준 전파 체계 해설",
+          "path": "reports/Research/report-deconvolution-uncertainty-gum.html",
+          "date": "2026-11-10T10:09:53+09:00",
+          "summary": "LSC 연속 스펙트럼에서 Pb-210·Bi-210·Po-210 3개 핵종을 분리하는 비선형 물리 디컨볼루션 과정의 측정불확도(Measurement Uncertainty) 도출 원리와 GUM(ISO/IEC Guide 98-3) 및 ISO 11929:2019 국제 표준 규격 적용 체계를 실제 pb210fit 파이썬 엔진 구현부와 1:1로 매핑하여 해설한 v2.0 기술 가이드다. 포아송 가중 χ² 및 베이즈 사전분포 결합 최소화, 가우스-뉴턴 야코비안·곡률 행렬 및 파라미터 공분산 역산, Birge factor 클램핑 보정, Type A 피팅 불확도와 4대 측정 사슬(효율·회수율·질량·시간) 간 불확도 전파 법칙의 엄밀한 수학적 연결고리를 상세한 규격 조항 및 파이썬 코드 구현과 함께 제시한다."
+        },
+        {
           "name": "3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화",
           "path": "reports/Research/pb210_fitting_model_steps.html",
           "date": "2026-11-10T09:53:32+09:00",
@@ -138,12 +144,6 @@
           "path": "reports/Research/interactive_ax_blueprint.html",
           "date": "2026-09-11T10:46:25+09:00",
           "summary": "원자력·방사선 안전 및 규제 행정 분야의 전사 AX(AI Transformation) 3대 전략 과제(수출입신고 자동심사, 방사능 Raw 스펙트럼 분석, 온라인 쇼핑몰 위험제품 탐지)와 에어갭 온프레미스 인프라 아키텍처, 그리고 인간 개입(HITL) 신뢰도 감시 및 지속적 피드백 재학습 플라이휠을 종합적으로 다룬 인터랙티브 마스터 블루프린트 대시보드다."
-        },
-        {
-          "name": "스펙트럼 물리 디컨볼루션(피팅)에 따른 불확도 평가와 GUM(ISO/IEC Guide 98-3) 표준 전파 체계 해설",
-          "path": "reports/Research/report-deconvolution-uncertainty-gum.html",
-          "date": "2026-09-01T17:40:23+09:00",
-          "summary": "LSC 연속 스펙트럼에서 Pb-210·Bi-210·Po-210 3개 핵종을 분리하는 비선형 물리 디컨볼루션 과정의 측정불확도(Measurement Uncertainty) 도출 원리와 GUM(ISO/IEC Guide 98-3) 및 ISO 11929:2019 국제 표준 규격 적용 체계를 실제 pb210fit 파이썬 엔진 구현부와 1:1로 매핑하여 해설한 v2.0 기술 가이드다. 포아송 가중 χ² 및 베이즈 사전분포 결합 최소화, 가우스-뉴턴 야코비안·곡률 행렬 및 파라미터 공분산 역산, Birge factor 클램핑 보정, Type A 피팅 불확도와 4대 측정 사슬(효율·회수율·질량·시간) 간 불확도 전파 법칙의 엄밀한 수학적 연결고리를 상세한 규격 조항 및 파이썬 코드 구현과 함께 제시한다."
         },
         {
           "name": "Bi 에도 필터항을 붙이면 001–003 이 설명되는가",

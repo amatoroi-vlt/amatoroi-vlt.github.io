@@ -295,7 +295,33 @@ svg { width: 100%; height: auto; display: block; }
     </div>
   </div>
 
-  <h3 class="sub-heading">2.2 ²¹⁰Po 선형 광량 가우시안(<code>po_light_gauss</code>) 및 필터 자가흡수 Left-EMG(<code>po_light_emg</code>, \(\tau_{\text{rel}}\)) 수식 체계</h3>
+  <h3 class="sub-heading">2.2 ²¹⁰Pb Bi L-특성 X선 탈출 확률(\(P_{\text{esc,XL}}\)) 기저 분리 및 어깨(Shoulder) 형상 변형 모델</h3>
+  <p>$^{210}\text{Pb}$의 경우, 2.1절에서 규명한 바와 같이 $20\text{ mL}$ 바이알 내 Bi L-특성 X선($11.5\text{ keV}$) 탈출 여부에 따른 두 가지 극한 기저 스펙트럼(Basis Spectra: $P_{\text{esc,XL}}=0.0$ 완전 흡수형 vs $P_{\text{esc,XL}}=1.0$ 완전 탈출형)을 사전 생성하고, 임의의 탈출 확률 $P_{\text{esc,XL}}$에 대해 두 기저의 선형 결합(Linear Combination)으로 침적 에너지 분포 및 채널 템플릿을 구성한다:</p>
+
+  $$T_{\text{Pb}}(\text{ch}; Q, \sigma_0, P_{\text{esc,XL}}) = (1 - P_{\text{esc,XL}}) \cdot T_{\text{Pb, abs}}(\text{ch}; Q, \sigma_0) + P_{\text{esc,XL}} \cdot T_{\text{Pb, esc}}(\text{ch}; Q, \sigma_0)$$
+
+  <!-- Figure 2.2: Bi L-특성 X선 탈출 확률(P_esc_xl) 변동에 따른 기저 분리 및 어깨(Shoulder) 형상 변형 거동 분석 -->
+  <div class="figure-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+      <h3 style="font-size:14.5px; margin:0;">Figure 2.2: Bi L-특성 X선 탈출 확률($P_{\text{esc,XL}}$) 변인 변동에 따른 $^{210}\text{Pb}$ 기저 스펙트럼 분리 및 LSC 채널 템플릿 어깨(Shoulder) 형상 변형 거동</h3>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-family:'IBM Plex Mono'; font-size:12px; color:var(--ink-2); font-weight:600;">$P_{\text{esc,XL}}$ 선택:</span>
+        <div class="btn-group" id="btn-group-pesc">
+          <button onclick="setFigure43P(0.0, this)">0.00 (완전 흡수)</button>
+          <button class="active" onclick="setFigure43P(0.23, this)">0.23 (20mL 표준)</button>
+          <button onclick="setFigure43P(0.45, this)">0.45</button>
+          <button onclick="setFigure43P(0.70, this)">0.70</button>
+          <button onclick="setFigure43P(1.00, this)">1.00 (완전 탈출)</button>
+        </div>
+      </div>
+    </div>
+    <div id="plot-pesc-xl"></div>
+    <div class="fig-caption">
+      <b>Figure 2.2. $P_{\text{esc,XL}}$ 변동에 따른 $^{210}\text{Pb}$ 에너지 침적 스펙트럼 분해 및 LSC 채널 템플릿 왜곡 거동:</b> [좌측 패널] $20\text{ mL}$ 바이알 내 Bi L-특성 X선($11.5\text{ keV}$) 재흡수 여부에 따른 제1원리 기저 스펙트럼 ($P_{\text{esc,XL}}=0.0$ 완전 흡수형 기저 보라선 vs $P_{\text{esc,XL}}=1.0$ 완전 탈출형 기저 주황 파선). 탈출 확률이 증가하면 $46.54\text{ keV}$ 복합 흡수 피크가 억제되고 $11.5\text{ keV}$ 감소한 $35.04\text{ keV}$ 탈출 어깨 영역으로 사건이 직접 전이된다. ➔ [우측 상단 패널] 합성 LSC 채널 템플릿 $T_{\text{Pb}}(\text{ch})$의 형태 변화 ($100 \sim 450\text{ ch}$). 탈출 확률이 커짐에 따라 $150 \sim 250\text{ ch}$ 저채널 어깨(Shoulder)가 점진적으로 융기하고 주 피크($300 \sim 360\text{ ch}$) 계수율은 상대적으로 억제된다. ➔ [우측 하단 패널] 표준 기준선($P=0.23$) 대비 잔차 곡선 $\Delta T_{\text{Pb}}(\text{ch}) = T(P) - T(0.23)$. 탈출 확률 변동 시 저채널 어깨 영역에서 최대 $+25\%$에 달하는 구조적 계수율 왜곡이 발생함을 입증한다. (상단 버튼을 통해 실시간 파라미터 변동 관찰 가능)
+    </div>
+  </div>
+
+  <h3 class="sub-heading">2.3 ²¹⁰Po 선형 광량 가우시안(<code>po_light_gauss</code>) 및 필터 자가흡수 Left-EMG(<code>po_light_emg</code>, \(\tau_{\text{rel}}\)) 수식 체계</h3>
   <p>$^{210}\text{Po}$는 $5304.33\text{ keV}$의 단일 에너지 알파 입자를 방출한다. 균질한 투명 액체섬광 칵테일 내에서는 알파 입자 비정($\sim 40\,\mu\text{m}$)이 전량 섬광액에 흡수되어 선형 유효 광량 공간($u$)에서 대칭 가우시안 분포를 형성한다. 반면, 화학 회수율 산정을 위해 바이알 내부에 <strong>여과 필터용지(Filter Paper) 및 옥살산납($\text{PbC}_2\text{O}_4$) 침전물</strong>이 투입된 시료에서는 일부 알파 입자가 셀룰로오스 섬유나 결정 입자를 비스듬히 관통하며 연속적인 에너지 손실(Straggling, $\Delta u \ge 0$)을 겪는다. 본 엔진은 두 상황을 단일 연속 수식 체계로 통합하였다:</p>
 
   <ul style="line-height:1.8; font-size:14px; color:var(--ink-2); margin-bottom:16px;">
@@ -319,6 +345,29 @@ svg { width: 100%; height: auto; display: block; }
     <b>1. 총 알파 계수율 보존</b>: 무필터 A02($1.298\text{ CPS}$)와 유필터 A03($1.293\text{ CPS}$)의 전체 알파 면적은 $99.6\%$ 일치하여 필터에 의해 완전 소멸되는 사건 없이 저에너지 테일 영역($\text{ch } 475 \sim 555$)으로 약 $12\%$가 이동함을 확인하였다.<br>
     <b>2. 디컨볼루션 정밀도 향상</b>: 유필터 시료(A03)에 <code>po_light_emg</code>를 적용하면 $\tau_{\text{rel}} = 0.124$로 수렴하며 환산 카이제곱이 $\chi^2_\nu = 0.961 \to \mathbf{0.265}$로 대폭 개선되고, $^{210}\text{Bi}$가 알파 테일($\sim 0.09\text{ CPS}$)을 과대 흡수하던 현상과 $Q$, $\sigma_0$ 왜곡이 완전히 해소된다.</p>
   </div>
+
+  <pre class="code-block"><code>def build_pb210_templates(Q, sig_0, P_esc_xl, ch_0=85.0):
+    # [Pb-210 완전 흡수(50.7 keV) 및 완전 탈출(39.2 keV) 기저 스펙트럼의 즉시 선형 합성]
+    T_abs = build_template_from_spectrum(E_pb_abs, dN_pb_abs, Q, sig_0, ch_0=ch_0)
+    T_esc = build_template_from_spectrum(E_pb_esc, dN_pb_esc, Q, sig_0, ch_0=ch_0)
+    T_pb = (1.0 - P_esc_xl) * T_abs + P_esc_xl * T_esc
+    return T_pb / max(T_pb.sum(), 1e-30)
+
+def po_light_emg(ch, mu, w, tau_rel=0.0):
+    # [Po-210 선형 광량 가우시안(tau_rel=0) 및 필터 자가흡수 Left-EMG(tau_rel>0) 통합 템플릿]
+    w_eff = max(float(w), 1.5)
+    if tau_rel <= 1e-4:
+        return po_light_gauss(ch, mu, w_eff)
+    ln10_a = math.log(10.0) / 362.0
+    u = np.power(10.0, (ch + 173.0) / 362.0)
+    u0 = math.pow(10.0, (float(mu) + 173.0) / 362.0)
+    s = max(u0 * ln10_a * w_eff, 1e-12)
+    tau_u = max(u0 * float(tau_rel), 1e-12)
+    arg_exp = np.clip(0.5 * (s / tau_u) ** 2 - (u0 - u) / tau_u, -500.0, 500.0)
+    arg_erfc = ((s / tau_u) - (u0 - u) / s) / math.sqrt(2.0)
+    g = (0.5 / tau_u) * np.exp(arg_exp) * _scipy_erfc(arg_erfc) * (u * ln10_a)
+    g = np.nan_to_num(g, nan=0.0, posinf=0.0, neginf=0.0)
+    return g / max(float(g.sum()), 1e-30)</code></pre>
 </section>
 
 <!-- Section 3. 비선형 하드웨어 매핑 및 2배 멱지수 턴온 -->
@@ -493,57 +542,7 @@ svg { width: 100%; height: auto; display: block; }
     <li><strong>TRF(Trust Region Reflective)의 안정성</strong>: $A_k \ge 0$, $Q \in [0.15, 0.45]$, $P_{\text{esc,XL}} \in [0.0, 0.65]$ 등 엄밀한 물리적 상하한 경계조건(Box Constraints) 하에서 경계면 충돌 시 탐색 벡터를 반사(Reflection)시켜 물리적으로 불가능한 영역으로의 이탈을 완벽히 차단한다.</li>
   </ul>
 
-  <h3 class="sub-heading">4.3 템플릿 변환 엔진 및 $P_{\text{esc,XL}}$ 기저 분리 기법</h3>
-  <p>$^{210}\text{Pb}$의 경우, Bi L-특성 X선 탈출 여부에 따른 두 가지 극한 기저 스펙트럼(Basis Spectra: $P_{\text{esc,XL}}=0.0$ 완전 흡수형 vs $P_{\text{esc,XL}}=1.0$ 완전 탈출형)을 사전 생성하고, 피팅 최적화 루프 내에서는 선형 결합(Linear Combination)을 통해 순방향 합성 속도를 $100\mu\text{s}$ 이하로 극대화한다:</p>
-
-  $$T_{\text{Pb}}(\text{ch}; Q, \sigma_0, P_{\text{esc,XL}}) = (1 - P_{\text{esc,XL}}) \cdot T_{\text{Pb, abs}}(\text{ch}; Q, \sigma_0) + P_{\text{esc,XL}} \cdot T_{\text{Pb, esc}}(\text{ch}; Q, \sigma_0)$$
-
-  <!-- Figure 4.3: Bi L-특성 X선 탈출 확률(P_esc_xl) 변동에 따른 기저 분리 및 어깨(Shoulder) 형상 변형 거동 분석 -->
-  <div class="figure-card">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
-      <h3 style="font-size:14.5px; margin:0;">Figure 4.3: Bi L-특성 X선 탈출 확률($P_{\text{esc,XL}}$) 변인 변동에 따른 $^{210}\text{Pb}$ 기저 스펙트럼 분리 및 LSC 채널 템플릿 어깨(Shoulder) 형상 변형 거동</h3>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span style="font-family:'IBM Plex Mono'; font-size:12px; color:var(--ink-2); font-weight:600;">$P_{\text{esc,XL}}$ 선택:</span>
-        <div class="btn-group" id="btn-group-pesc">
-          <button onclick="setFigure43P(0.0, this)">0.00 (완전 흡수)</button>
-          <button class="active" onclick="setFigure43P(0.23, this)">0.23 (20mL 표준)</button>
-          <button onclick="setFigure43P(0.45, this)">0.45</button>
-          <button onclick="setFigure43P(0.70, this)">0.70</button>
-          <button onclick="setFigure43P(1.00, this)">1.00 (완전 탈출)</button>
-        </div>
-      </div>
-    </div>
-    <div id="plot-pesc-xl"></div>
-    <div class="fig-caption">
-      <b>Figure 4.3. $P_{\text{esc,XL}}$ 변동에 따른 $^{210}\text{Pb}$ 에너지 침적 스펙트럼 분해 및 LSC 채널 템플릿 왜곡 거동:</b> [좌측 패널] $20\text{ mL}$ 바이알 내 Bi L-특성 X선($11.5\text{ keV}$) 재흡수 여부에 따른 제1원리 기저 스펙트럼 ($P_{\text{esc,XL}}=0.0$ 완전 흡수형 기저 보라선 vs $P_{\text{esc,XL}}=1.0$ 완전 탈출형 기저 주황 파선). 탈출 확률이 증가하면 $46.54\text{ keV}$ 복합 흡수 피크가 억제되고 $11.5\text{ keV}$ 감소한 $35.04\text{ keV}$ 탈출 어깨 영역으로 사건이 직접 전이된다. ➔ [우측 상단 패널] 합성 LSC 채널 템플릿 $T_{\text{Pb}}(\text{ch})$의 형태 변화 ($100 \sim 450\text{ ch}$). 탈출 확률이 커짐에 따라 $150 \sim 250\text{ ch}$ 저채널 어깨(Shoulder)가 점진적으로 융기하고 주 피크($300 \sim 360\text{ ch}$) 계수율은 상대적으로 억제된다. ➔ [우측 하단 패널] 표준 기준선($P=0.23$) 대비 잔차 곡선 $\Delta T_{\text{Pb}}(\text{ch}) = T(P) - T(0.23)$. 탈출 확률 변동 시 저채널 어깨 영역에서 최대 $+25\%$에 달하는 구조적 계수율 왜곡이 발생함을 입증한다. (상단 버튼을 통해 실시간 파라미터 변동 관찰 가능)
-    </div>
-  </div>
-
-
-  <pre class="code-block"><code>def build_pb210_templates(Q, sig_0, P_esc_xl, ch_0=85.0):
-    # [Pb-210 완전 흡수(50.7 keV) 및 완전 탈출(39.2 keV) 기저 스펙트럼의 즉시 선형 합성]
-    T_abs = build_template_from_spectrum(E_pb_abs, dN_pb_abs, Q, sig_0, ch_0=ch_0)
-    T_esc = build_template_from_spectrum(E_pb_esc, dN_pb_esc, Q, sig_0, ch_0=ch_0)
-    T_pb = (1.0 - P_esc_xl) * T_abs + P_esc_xl * T_esc
-    return T_pb / max(T_pb.sum(), 1e-30)
-
-def po_light_emg(ch, mu, w, tau_rel=0.0):
-    # [Po-210 선형 광량 가우시안(tau_rel=0) 및 필터 자가흡수 Left-EMG(tau_rel>0) 통합 템플릿]
-    w_eff = max(float(w), 1.5)
-    if tau_rel <= 1e-4:
-        return po_light_gauss(ch, mu, w_eff)
-    ln10_a = math.log(10.0) / 362.0
-    u = np.power(10.0, (ch + 173.0) / 362.0)
-    u0 = math.pow(10.0, (float(mu) + 173.0) / 362.0)
-    s = max(u0 * ln10_a * w_eff, 1e-12)
-    tau_u = max(u0 * float(tau_rel), 1e-12)
-    arg_exp = np.clip(0.5 * (s / tau_u) ** 2 - (u0 - u) / tau_u, -500.0, 500.0)
-    arg_erfc = ((s / tau_u) - (u0 - u) / s) / math.sqrt(2.0)
-    g = (0.5 / tau_u) * np.exp(arg_exp) * _scipy_erfc(arg_erfc) * (u * ln10_a)
-    g = np.nan_to_num(g, nan=0.0, posinf=0.0, neginf=0.0)
-    return g / max(float(g.sum()), 1e-30)</code></pre>
-
-  <h3 class="sub-heading">4.4 피팅의 기술적 접근 단계별 절차 (Step-by-Step Fitting Pipeline: From Initialization to Termination)</h3>
+  <h3 class="sub-heading">4.3 피팅의 기술적 접근 단계별 절차 (Step-by-Step Fitting Pipeline: From Initialization to Termination)</h3>
   <p>DAT-LSC 분석 엔진이 임의의 계측 스펙트럼을 입력받아 초기값 선정부터 비선형 최적화 수렴 및 다계층 통계 검증을 완료하기까지의 <strong>5단계 엔지니어링 실행 파이프라인</strong>은 다음과 같다:</p>
 
   <div class="step-box">
@@ -613,7 +612,7 @@ def po_light_emg(ch, mu, w, tau_rel=0.0):
     </ul>
   </div>
 
-    <h3 class="sub-heading">4.5 배경 처리(BKG) 모델링의 한계와 QPE 정합 실측 공시료 동시 최적화 아키텍처</h3>
+    <h3 class="sub-heading">4.4 배경 처리(BKG) 모델링의 한계와 QPE 정합 실측 공시료 동시 최적화 아키텍처</h3>
   <p class="lead-p">기존의 전통적 LSC 분석 파이프라인에서 널리 사용되던 '단순 블랭크 채널별 감산'의 물리적 결함을 수학적으로 규명하고, 화학적·광학적 소광 차이에 따른 스펙트럼 뒤틀림(Quench Warping)을 능동 보정하여 피터 내부에서 3대 핵종과 동시 최적화하는 2026 차세대 배경 처리 아키텍처를 도입한다.</p>
 
   <div class="callout-box warning">
@@ -1268,7 +1267,7 @@ function renderFigure43(selectedP) {
         <line x1="${rightLeft-4}" y1="${getYT(y).toFixed(1)}" x2="${rightLeft}" y2="${getYT(y).toFixed(1)}" stroke="var(--ink)" stroke-width="1"/>
         <text x="${rightLeft-6}" y="${(getYT(y)+3.5).toFixed(1)}" font-size="10" fill="var(--ink-2)" font-family="'IBM Plex Mono'" text-anchor="end">${(y*1000).toFixed(0)}m</text>
       `).join('')}
-      <text x="${rightLeft+8}" y="${yTop0+14}" font-size="12" font-weight="700" fill="var(--ink)">(b) LSC 채널 템플릿 $T_{\text{Pb}}(\text{ch})$ ($P_{\text{esc}}=${selectedP.toFixed(2)}$)</text>
+      <text x="${rightLeft+8}" y="${yTop0+14}" font-size="12" font-weight="700" fill="var(--ink)">(b) LSC 채널 템플릿 T<tspan baseline-shift="sub" font-size="75%">Pb</tspan>(ch) (P<tspan baseline-shift="sub" font-size="75%">esc</tspan> = ${selectedP.toFixed(2)})</text>
 
       <!-- Panel B Bottom (Delta T Residual) Grid -->
       <g stroke="var(--grid)" stroke-width="1">
@@ -1988,7 +1987,6 @@ function toggleScaleDecay(mode, btn) {
   btn.parentNode.querySelectorAll('button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderDecayDynamicsPlot();
-  renderFigure43(0.23);
 }
 
 function toggleCurveDecay(key) {
@@ -2098,6 +2096,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderEvoPb();
   renderEvoBi();
   renderEvoPo();
+  renderFigure43(0.23);
   renderA02Plots();
   renderC02CompletePlots();
   renderDecayDynamicsPlot();
