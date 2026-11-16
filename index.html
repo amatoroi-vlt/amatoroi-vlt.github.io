@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Pensieve</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      display: flex;
+      font-family: 'Georgia', serif;
+      background: #0d1117;
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: 240px;
+      min-width: 240px;
+      height: 100vh;
+      background: #0d1117;
+      border-right: 1px solid #21262d;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+      transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    body.sidebar-collapsed #sidebar {
+      margin-left: -240px;
+    }
+
+    #sidebar-header {
+      padding: 20px 18px 16px;
+      border-bottom: 1px solid #21262d;
+      position: relative;
+    }
+
+    .sidebar-header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sidebar-toggle-btn {
+      background: #161b22;
+      border: 1px solid #30363d;
+      color: #8b949e;
+      border-radius: 6px;
+      padding: 4px 7px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      line-height: 1;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: #21262d;
+      color: #e6edf3;
+      border-color: #58a6ff;
+    }
+
+    /* Floating Expand Button (shown when sidebar is collapsed) */
+    #sidebar-floating-expand-btn {
+      display: none;
+      position: fixed;
+      left: 16px;
+      bottom: 18px;
+      z-index: 1000;
+      background: rgba(22, 27, 34, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    #sidebar-floating-expand-btn:hover {
+      background: #21262d;
+      border-color: #58a6ff;
+      color: #58a6ff;
+      transform: translateX(2px);
+    }
+
+    body.sidebar-collapsed #sidebar-floating-expand-btn {
+      display: flex;
+    }
+
+    .site-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #e6edf3;
+      line-height: 1.2;
+    }
+
+    .site-subtitle {
+      font-size: 0.72rem;
+      color: #6e7681;
+      font-style: italic;
+      margin-top: 3px;
+    }
+
+    .site-desc {
+      margin-top: 14px;
+      font-size: 0.67rem;
+      color: #8b7d6b;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    #site-stats {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid #21262d;
+      display: flex;
+      gap: 12px;
+      font-size: 0.65rem;
+      color: #5c7a8a;
+      letter-spacing: 0.02em;
+    }
+
+    #site-stats .stat-value {
+      color: #8b949e;
+      font-weight: 600;
+    }
+
+    #nav {
+      padding: 12px 12px;
+      flex: 1;
+    }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      margin-top: 16px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.1s;
+    }
+
+    .group-header:hover {
+      background: #161b22;
+    }
+
+    .group-arrow {
+      font-size: 0.6rem;
+      color: #5c7a8a;
+      width: 10px;
+      flex-shrink: 0;
+      transition: transform 0.12s;
+      display: inline-block;
+    }
+
+    .group-header.open .group-arrow {
+      transform: rotate(90deg);
+    }
+
+    .group-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #5c7a8a;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .view-all-btn {
+      font-size: 0.6rem;
+      color: #6e7681;
+      background: none;
+      border: 1px solid #21262d;
+      border-radius: 4px;
+      padding: 2px 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-family: inherit;
+      transition: color 0.1s, border-color 0.1s;
+    }
+
+    .view-all-btn:hover {
+      color: #58a6ff;
+      border-color: #30363d;
+    }
+
+    .file-list {
+      display: none;
+    }
+
+    .file-list.open {
+      display: block;
+    }
+
+    .file-item {
+      display: block;
+      padding: 6px 8px;
+      font-size: 0.77rem;
+      color: #8b949e;
+      text-decoration: none;
+      border-radius: 5px;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .file-item:hover {
+      background: #161b22;
+      color: #c9d1d9;
+    }
+
+    .file-item.active {
+      background: #1c2432;
+      color: #58a6ff;
+    }
+
+    /* ── Content ── */
+    #content {
+      flex: 1;
+      height: 100vh;
+      position: relative;
+    }
+
+    #report-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+      background: #f6f8fa;
+    }
+
+    #welcome {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #f6f8fa;
+      color: #8b949e;
+      gap: 10px;
+    }
+
+    #welcome .wt {
+      font-size: 2.2rem;
+      color: #24292f;
+      letter-spacing: -0.02em;
+    }
+
+    #welcome .ws {
+      font-size: 0.85rem;
+      color: #8b949e;
+      font-style: italic;
+    }
+
+    /* ── All-files card view ── */
+    #all-view {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      background: #f6f8fa;
+      overflow-y: auto;
+    }
+
+    #all-view-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 32px 16px;
+      border-bottom: 1px solid #d0d7de;
+      background: #f6f8fa;
+      position: sticky;
+      top: 0;
+    }
+
+    #all-view-back {
+      font-size: 0.8rem;
+      color: #57606a;
+      background: #fff;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    #all-view-back:hover {
+      background: #f3f4f6;
+    }
+
+    #all-view-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #24292f;
+    }
+
+    #all-view-count {
+      font-size: 0.75rem;
+      color: #8b949e;
+    }
+
+    #card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      padding: 24px 32px 32px;
+    }
+
+    .report-card {
+      background: #fff;
+      border: 1px solid #d0d7de;
+      border-radius: 8px;
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.12s, box-shadow 0.12s, transform 0.12s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .report-card:hover {
+      border-color: #58a6ff;
+      box-shadow: 0 4px 10px rgba(140, 149, 159, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .report-card .rc-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #24292f;
+      line-height: 1.4;
+    }
+
+    .report-card .rc-date {
+      font-size: 0.7rem;
+      color: #8b949e;
+    }
+
+    .report-card .rc-summary {
+      font-size: 0.75rem;
+      color: #57606a;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating Expand Button (shown when sidebar is hidden) -->
+<button id="sidebar-floating-expand-btn" title="블로그 사이드바 열기 (단축키: [ 또는 Ctrl+B)">
+  <span>📂</span> <span>블로그 메뉴</span>
+</button>
+
+<div id="sidebar">
+  <div id="sidebar-header">
+    <div class="sidebar-header-top">
+      <div>
+        <div class="site-title">Pensieve</div>
+        <div class="site-subtitle">for amatoroi only</div>
+      </div>
+      <button class="sidebar-toggle-btn" id="sidebar-collapse-btn" title="사이드바 접기 (단축키: [ 또는 Ctrl+B)">
+        ◀
+      </button>
+    </div>
+    <div class="site-desc">
+      햇빛이여, 데이지여, 버터 멜로우여,<br>
+      이 멍청한 인간이 기억하게 해라.
+    </div>
+    <div id="site-stats" title="이 브라우저 기준 조회수 (아직 전체 방문자 집계 서비스는 미연결)">
+      <span>오늘 <span class="stat-value" id="stat-daily">-</span></span>
+      <span>전체 <span class="stat-value" id="stat-total">-</span></span>
+    </div>
+  </div>
+  <div id="nav"></div>
+</div>
+
+<div id="content">
+  <div id="welcome">
+    <div class="wt">Pensieve</div>
+    <div class="ws">보고서를 선택하세요</div>
+  </div>
+  <iframe id="report-frame" src="about:blank"></iframe>
+  <div id="all-view">
+    <div id="all-view-header">
+      <button id="all-view-back">← 뒤로</button>
+      <div id="all-view-title"></div>
+      <div id="all-view-count"></div>
+    </div>
+    <div id="card-grid"></div>
+  </div>
+</div>
+
+<script>
+  const RECENT_LIMIT = 7;
+
+  const frame = document.getElementById('report-frame');
+  const welcome = document.getElementById('welcome');
+  const nav = document.getElementById('nav');
+  const allView = document.getElementById('all-view');
+  const allViewTitle = document.getElementById('all-view-title');
+  const allViewCount = document.getElementById('all-view-count');
+  const cardGrid = document.getElementById('card-grid');
+  const allViewBack = document.getElementById('all-view-back');
+  const collapseBtn = document.getElementById('sidebar-collapse-btn');
+  const floatingExpandBtn = document.getElementById('sidebar-floating-expand-btn');
+  let active = null;
+
+  // Sidebar Collapse/Expand Logic
+  function setSidebarCollapsed(collapsed) {
+    if (collapsed) {
+      document.body.classList.add('sidebar-collapsed');
+      localStorage.setItem('pensieve_sidebar_collapsed', 'true');
+    } else {
+      document.body.classList.remove('sidebar-collapsed');
+      localStorage.setItem('pensieve_sidebar_collapsed', 'false');
+    }
+  }
+
+  function toggleSidebar() {
+    const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+    setSidebarCollapsed(!isCollapsed);
+  }
+
+  if (collapseBtn) collapseBtn.addEventListener('click', toggleSidebar);
+  if (floatingExpandBtn) floatingExpandBtn.addEventListener('click', toggleSidebar);
+
+  // Restore saved state
+  if (localStorage.getItem('pensieve_sidebar_collapsed') === 'true') {
+    setSidebarCollapsed(true);
+  }
+
+  // Keyboard shortcut: '[' or Ctrl+B / Cmd+B
+  window.addEventListener('keydown', (e) => {
+    if ((e.key === '[' && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) ||
+        ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b')) {
+      e.preventDefault();
+      toggleSidebar();
+    }
+  });
+
+  function formatDate(iso) {
+    if (!iso) return '';
+    return iso.slice(0, 10);
+  }
+
+  function showFrame() {
+    allView.style.display = 'none';
+    welcome.style.display = 'none';
+    frame.style.display = 'block';
+  }
+
+  function load(path, el) {
+    if (active) active.classList.remove('active');
+    active = el || null;
+    if (active) active.classList.add('active');
+    showFrame();
+    frame.src = path;
+  }
+
+  function showAllView(groupName, files) {
+    frame.style.display = 'none';
+    welcome.style.display = 'none';
+    allView.style.display = 'flex';
+    allViewTitle.textContent = groupName;
+    allViewCount.textContent = `${files.length}개`;
+    cardGrid.innerHTML = '';
+    files.forEach(({ name: title, path, date, summary }) => {
+      const card = document.createElement('div');
+      card.className = 'report-card';
+      const t = document.createElement('div');
+      t.className = 'rc-title';
+      t.textContent = title;
+      const d = document.createElement('div');
+      d.className = 'rc-date';
+      d.textContent = formatDate(date);
+      card.appendChild(t);
+      card.appendChild(d);
+      if (summary) {
+        const s = document.createElement('div');
+        s.className = 'rc-summary';
+        s.textContent = summary;
+        card.appendChild(s);
+      }
+      card.onclick = () => load(path, null);
+      cardGrid.appendChild(card);
+    });
+  }
+
+  allViewBack.onclick = () => {
+    allView.style.display = 'none';
+    frame.style.display = 'none';
+    welcome.style.display = 'flex';
+  };
+
+  fetch('manifest.json')
+    .then(r => r.json())
+    .then(({ groups }) => {
+      groups.forEach(({ name, files }) => {
+        const header = document.createElement('div');
+        header.className = 'group-header open';
+
+        const arrow = document.createElement('span');
+        arrow.className = 'group-arrow';
+        arrow.textContent = '▸';
+
+        const label = document.createElement('div');
+        label.className = 'group-label';
+        label.textContent = name;
+
+        const viewAllBtn = document.createElement('button');
+        viewAllBtn.className = 'view-all-btn';
+        viewAllBtn.textContent = '모두보기';
+        viewAllBtn.onclick = (e) => {
+          e.stopPropagation();
+          showAllView(name, files);
+        };
+
+        header.appendChild(arrow);
+        header.appendChild(label);
+        header.appendChild(viewAllBtn);
+        nav.appendChild(header);
+
+        const list = document.createElement('div');
+        list.className = 'file-list open';
+
+        files.slice(0, RECENT_LIMIT).forEach(({ name: title, path, summary }) => {
+          const a = document.createElement('a');
+          a.className = 'file-item';
+          a.textContent = title;
+          if (summary) a.title = summary;
+          a.onclick = () => load(path, a);
+          list.appendChild(a);
+        });
+
+        nav.appendChild(list);
+
+        header.onclick = () => {
+          const isOpen = header.classList.toggle('open');
+          list.classList.toggle('open', isOpen);
+        };
+      });
+    })
+    .catch(() => {
+      nav.innerHTML = '<div style="padding:12px;font-size:0.72rem;color:#484f58">목록을 불러올 수 없습니다</div>';
+    });
+
+  (function trackVisit() {
+    const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Seoul' });
+    const dailyKey = `pensieve-visits-${today}`;
+    const totalKey = 'pensieve-visits-total';
+    const dailyEl = document.getElementById('stat-daily');
+    const totalEl = document.getElementById('stat-total');
+
+    const daily = parseInt(localStorage.getItem(dailyKey) || '0', 10) + 1;
+    const total = parseInt(localStorage.getItem(totalKey) || '0', 10) + 1;
+    localStorage.setItem(dailyKey, daily);
+    localStorage.setItem(totalKey, total);
+
+    dailyEl.textContent = daily;
+    totalEl.textContent = total;
+  })();
+</script>
+
+</body>
+</html>

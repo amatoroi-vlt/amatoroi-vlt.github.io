@@ -1,0 +1,271 @@
+{
+  "groups": [
+    {
+      "name": "Invest",
+      "files": [
+        {
+          "name": "🔒 Alphabet Inc. (NASDAQ: GOOG) 실적 심층 분석 리포트",
+          "path": "reports/Invest/goog_earnings_deep_dive.html",
+          "date": "2026-10-29T14:05:44+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 UiPath Inc. (NYSE: PATH) 실적 심층 분석 리포트",
+          "path": "reports/Invest/path_earnings_deep_dive.html",
+          "date": "2026-09-28T16:03:08+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 TypeSafe AI 'Jev' 모델 패러다임과 UiPath(PATH) 비즈니스 모델 비교 검증 리포트",
+          "path": "reports/Invest/path_jev_ai_impact_analysis.html",
+          "date": "2026-09-28T15:58:27+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Alphabet Inc. (NASDAQ: GOOG / GOOGL) 최신 실적 및 손익 구조 심층 분석",
+          "path": "reports/Invest/alphabet_financial_breakdown.html",
+          "date": "2026-09-10T16:36:42+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Sandisk Corp (NASDAQ: SNDK) 최신 실적 및 손익 구조 심층 분석",
+          "path": "reports/Invest/sandisk_financial_breakdown.html",
+          "date": "2026-09-10T16:36:42+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 UiPath Inc. (NYSE: PATH) 최신 실적 및 손익 구조 심층 분석",
+          "path": "reports/Invest/uipath_financial_breakdown.html",
+          "date": "2026-09-10T16:36:42+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 DeepTrX v1–v5 개발 보고서",
+          "path": "reports/Invest/model_report_v1_v5.html",
+          "date": "2026-07-15T17:50:03+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 전략 후보 분석 — Phase 1 | TraderX",
+          "path": "reports/Invest/phase1_strategy_candidates.html",
+          "date": "2026-07-07T19:15:32+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Phase 1 완료 보고서: 전략 명세화 | TraderX",
+          "path": "reports/Invest/phase1_strategy_spec_report.html",
+          "date": "2026-07-07T19:15:32+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 전략 A 확정 승인 요청 | TraderX",
+          "path": "reports/Invest/strategy_a_confirmation_report.html",
+          "date": "2026-07-07T19:15:32+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 전략 B 확정 승인 요청 | TraderX",
+          "path": "reports/Invest/strategy_b_confirmation_report.html",
+          "date": "2026-07-07T19:15:32+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 독서 노트 — The New Trading for a Living (Elder, 2014)",
+          "path": "reports/Invest/elder_new_trading_for_a_living.html",
+          "date": "2026-06-26T16:50:43+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        }
+      ]
+    },
+    {
+      "name": "Overwatch",
+      "files": [
+        {
+          "name": "🔒 DeepTrX Live Model Report",
+          "path": "reports/Overwatch/live_report.html",
+          "date": "2026-11-16T09:10:09+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 논문 아카이브",
+          "path": "reports/Overwatch/paper_review.html",
+          "date": "2026-11-04T16:50:59+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        }
+      ]
+    },
+    {
+      "name": "Research",
+      "files": [
+        {
+          "name": "🔒 ²¹⁰Pb-²¹⁰Bi-²¹⁰Po 액체섬광 스펙트럼의 LNHB 붕괴 데이터 기반 물리 모델링, 비선형 하드웨어 매핑 및 3핵종 동시 분해 연구",
+          "path": "reports/Research/report-first-principles-chain.html",
+          "date": "2026-11-10T15:26:24+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 스펙트럼 물리 디컨볼루션(피팅)에 따른 불확도 평가와 GUM(ISO/IEC Guide 98-3) 표준 전파 체계 해설",
+          "path": "reports/Research/report-deconvolution-uncertainty-gum.html",
+          "date": "2026-11-10T10:09:53+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화",
+          "path": "reports/Research/pb210_fitting_model_steps.html",
+          "date": "2026-11-10T09:53:32+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 DAT-LSC ²¹⁰Pb 방사능 분석 및 불확도 평가 실무 지침서 (Practical Uncertainty Guide)",
+          "path": "reports/Research/report-pb210-uncertainty-practical-guide.html",
+          "date": "2026-11-10T09:53:32+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Po-210 Deconvolution & Core+Tail Study (A02 vs A03)",
+          "path": "reports/Research/po210_tailing_emg_vs_crystalball.html",
+          "date": "2026-11-10T09:07:30+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 LSC 소광 파라미터 QPE와 제일원리 물리 모델 유효 광량 변환 계수 Q 간의 정량적 상관관계 규명 및 정량화 연구",
+          "path": "reports/Research/report-qpe-quenching-correlation.html",
+          "date": "2026-11-06T17:57:51+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Pb-210 농도 분석 보고서 — 20240822ALL.csv (15샘플)",
+          "path": "reports/Research/pb210_20240822ALL.html",
+          "date": "2026-10-27T18:25:26+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Enterprise AX Master Blueprint - Radiation & Trade Domain (with HITL)",
+          "path": "reports/Research/interactive_ax_blueprint.html",
+          "date": "2026-09-11T10:46:25+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Bi 에도 필터항을 붙이면 001–003 이 설명되는가",
+          "path": "reports/Research/bi_filter.html",
+          "date": "2026-08-13T17:54:11+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 필터가 스펙트럼에 무슨 짓을 하는가 — 지금까지의 이야기",
+          "path": "reports/Research/story.html",
+          "date": "2026-08-13T17:54:11+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 필터 손실 커널 — Po 에는 통하고 Bi 에는 안 통한다",
+          "path": "reports/Research/filter_kernel.html",
+          "date": "2026-08-11T09:43:11+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 재검토 — 필터 효과는 Po 에만 국한되지 않는다",
+          "path": "reports/Research/filter_kernel_review.html",
+          "date": "2026-08-11T09:43:11+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 2024 데이터 적용 — 정리안 모델 전이 시험",
+          "path": "reports/Research/fit_2024.html",
+          "date": "2026-08-04T09:16:41+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 A02 Po/Bi 적합 — 정리안 적용",
+          "path": "reports/Research/fit_settled.html",
+          "date": "2026-08-04T08:48:09+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Bi-210 스펙트럼 템플릿은 어떻게 만들어졌나",
+          "path": "reports/Research/bi210_template_explained.html",
+          "date": "2026-08-03T18:01:25+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Bi-210 LSC 템플릿 스터디 보고서",
+          "path": "reports/Research/report.html",
+          "date": "2026-07-27T17:00:48+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Technical Report: QPE-Driven Spectral Change (Step 1)",
+          "path": "reports/Research/260506_qpe_ratio_stage1_report.html",
+          "date": "2026-06-25T18:50:42+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Step 3 QPE Correction Failure Diagnostic",
+          "path": "reports/Research/260506_qpe_sigmoid_stage3_report.html",
+          "date": "2026-06-25T18:50:42+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Step 2 Technical Report",
+          "path": "reports/Research/260506_stage1_affine_warp_report.html",
+          "date": "2026-06-25T18:50:42+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 QPE Direct Warp Limit and Fitting-Prior Transition",
+          "path": "reports/Research/260507_qpe_direct_warp_limit_and_fitting_prior_report.html",
+          "date": "2026-06-25T18:50:42+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Step B 탐색 — 차분 스펙트럼 분석",
+          "path": "reports/Research/260625_bi210_step_b.html",
+          "date": "2026-06-25T18:29:48+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Bi-210 / Po-210 스펙트럼 분리 분석 보고서 v3",
+          "path": "reports/Research/260620_bi_po_unmixing_v3.html",
+          "date": "2026-06-25T17:35:40+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 Step A — Bi-210 스펙트럼 추출의 논리적 기반",
+          "path": "reports/Research/260625_bi210_step_a.html",
+          "date": "2026-06-25T17:35:40+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 plotly-logomark",
+          "path": "reports/Research/260421_adaptive_smoothing_final.html",
+          "date": "2026-06-24T09:52:22+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 plotly-logomark",
+          "path": "reports/Research/260422_empirical_shift_formula_report.html",
+          "date": "2026-06-24T09:52:22+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 plotly-logomark",
+          "path": "reports/Research/260422_energy_space_shift_report.html",
+          "date": "2026-06-24T09:52:22+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 QPE 기반 블랭크 감산 Jacobian 보정 — 분석 및 검증 보고서",
+          "path": "reports/Research/260330_qpe_jacobian_correction_report.html",
+          "date": "2026-06-23T09:53:26+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "🔒 UGAB_jeongsoo_exp01 4회 반복 측정(Rep01~Rep04) 종합 분석 보고서",
+          "path": "reports/Research/260330_rep01_rep04_combined_analysis.html",
+          "date": "2026-06-23T09:53:26+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        }
+      ]
+    }
+  ]
+}
