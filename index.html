@@ -524,73 +524,14 @@
   fetch('manifest.json')
     .then(r => r.json())
     .then(({ groups }) => {
-      // 1. 전체 최신 보고서 피드 (시간 역순 정렬)
-      const allFiles = [];
-      groups.forEach(({ name, files }) => {
-        files.forEach(f => {
-          allFiles.push({ ...f, groupName: name });
-        });
-      });
-      allFiles.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-
-      // 최상단 '최근 보고서' 섹션
-      if (allFiles.length > 0) {
-        const recentHeader = document.createElement('div');
-        recentHeader.className = 'group-header open';
-        recentHeader.style.marginTop = '6px';
-
-        const arrow = document.createElement('span');
-        arrow.className = 'group-arrow';
-        arrow.textContent = '▸';
-
-        const label = document.createElement('div');
-        label.className = 'group-label';
-        label.textContent = '최근 보고서';
-        label.style.color = '#58a6ff';
-        label.style.fontWeight = '600';
-
-        const viewAllBtn = document.createElement('button');
-        viewAllBtn.className = 'view-all-btn';
-        viewAllBtn.textContent = '전체보기';
-        viewAllBtn.onclick = (e) => {
-          e.stopPropagation();
-          showAllView('전체 최신 보고서', allFiles);
-        };
-
-        recentHeader.appendChild(arrow);
-        recentHeader.appendChild(label);
-        recentHeader.appendChild(viewAllBtn);
-        nav.appendChild(recentHeader);
-
-        const recentList = document.createElement('div');
-        recentList.className = 'file-list open';
-
-        allFiles.slice(0, 8).forEach(({ name: title, path, summary, groupName }) => {
-          const cleanTitle = (title || '').replace(/^[🔒\s]+/, '');
-          const a = document.createElement('a');
-          a.className = 'file-item';
-          a.innerHTML = `<span style="font-size:0.62rem;opacity:0.5;margin-right:5px;font-family:monospace;">[${groupName}]</span>${cleanTitle}`;
-          if (summary) a.title = summary;
-          a.onclick = () => load(path, a);
-          recentList.appendChild(a);
-        });
-
-        nav.appendChild(recentList);
-
-        recentHeader.onclick = () => {
-          const isOpen = recentHeader.classList.toggle('open');
-          recentList.classList.toggle('open', isOpen);
-        };
-      }
-
-      // 2. 카테고리별 그룹 (최신 활동순 정렬)
-      groups.sort((a, b) => {
-        const dateA = a.files && a.files[0] ? a.files[0].date : '';
-        const dateB = b.files && b.files[0] ? b.files[0].date : '';
-        return dateB.localeCompare(dateA);
-      });
+      // 폴더 순서 지정: Research, Invest, Overwatch
+      const orderMap = { 'Research': 1, 'Invest': 2, 'Overwatch': 3 };
+      groups.sort((a, b) => (orderMap[a.name] || 99) - (orderMap[b.name] || 99));
 
       groups.forEach(({ name, files }) => {
+        // 각 폴더 내부 파일들을 생성일 기준 최신순(시간역순)으로 엄격 정렬
+        files.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
         const header = document.createElement('div');
         header.className = 'group-header open';
 
@@ -618,7 +559,8 @@
         const list = document.createElement('div');
         list.className = 'file-list open';
 
-        files.slice(0, 5).forEach(({ name: title, path, summary }) => {
+        // 최신순 상위 RECENT_LIMIT개 표시, 이전 과거 문서는 '모두보기'로 밀려나도록 구성
+        files.slice(0, RECENT_LIMIT).forEach(({ name: title, path, summary }) => {
           const cleanTitle = (title || '').replace(/^[🔒\s]+/, '');
           const a = document.createElement('a');
           a.className = 'file-item';
