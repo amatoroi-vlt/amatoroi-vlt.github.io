@@ -521,7 +521,7 @@
     welcome.style.display = 'flex';
   };
 
-  fetch('manifest.json')
+  fetch('manifest.json?t=' + Date.now(), { cache: 'no-cache' })
     .then(r => r.json())
     .then(({ groups }) => {
       // 폴더 순서 지정: Research, Invest, Overwatch

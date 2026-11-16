@@ -35,7 +35,10 @@ def extract_title(filepath):
         pass
     return None
 
-METADATA_DATES_PATH = os.path.join('reports_src', 'metadata_dates.json')
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+METADATA_DATES_PATH = os.path.join(SCRIPT_DIR, 'metadata_dates.json')
+if not os.path.exists(METADATA_DATES_PATH):
+    METADATA_DATES_PATH = os.path.join('reports_src', 'metadata_dates.json')
 
 def load_metadata_dates():
     try:
