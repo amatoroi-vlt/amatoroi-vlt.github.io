@@ -27,6 +27,7 @@ def extract_title(filepath):
             title = re.sub(r'<sup[^>]*>(.*?)</sup>', lambda m: m.group(1).translate(sup_map), title, flags=re.IGNORECASE)
             title = re.sub(r'<sub[^>]*>(.*?)</sub>', lambda m: m.group(1).translate(sub_map), title, flags=re.IGNORECASE)
             title = re.sub(r'<[^>]+>', '', title)
+            title = re.sub(r'^[🔒\s]+', '', title)
             title = re.sub(r'\s+', ' ', title).strip()
             if title:
                 return title
@@ -34,9 +35,20 @@ def extract_title(filepath):
         pass
     return None
 
-def get_last_modified(filepath):
-    # Pure renames (R100, no content change) must not count as a "modification" —
-    # otherwise mass folder renames make every file's date collapse to the rename commit.
+METADATA_DATES_PATH = os.path.join('reports_src', 'metadata_dates.json')
+
+def load_metadata_dates():
+    try:
+        with open(METADATA_DATES_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+HISTORICAL_DATES = load_metadata_dates()
+
+def get_last_modified(filepath, rel_path=None):
+    if rel_path and rel_path in HISTORICAL_DATES:
+        return HISTORICAL_DATES[rel_path]
     try:
         result = subprocess.run(
             ['git', 'log', '--follow', '--name-status', '--format=COMMIT\t%H\t%cI', '--', filepath],
@@ -84,7 +96,7 @@ for group in sorted(os.listdir(reports_dir)):
             continue
         path = f'reports/{group}/{f}'
         title = extract_title(filepath) or f.replace('.html', '').replace('_', ' ')
-        date = get_last_modified(filepath)
+        date = get_last_modified(filepath, path)
         cached = summaries.get(path)
         h = content_hash(filepath)
         # volatile: 내용이 주기적으로 갱신되지만(라이브 리포트 등) 요약은 그대로 유효한 파일.
@@ -99,6 +111,9 @@ for group in sorted(os.listdir(reports_dir)):
     files.sort(key=lambda x: x['date'], reverse=True)
     if files:
         groups.append({'name': group, 'files': files})
+
+# 최신 보고서가 있는 그룹이 상단에 오도록 그룹 정렬
+groups.sort(key=lambda g: g['files'][0]['date'] if g['files'] else '', reverse=True)
 
 output = sys.argv[1] if len(sys.argv) > 1 else 'manifest.json'
 with open(output, 'w', encoding='utf-8') as out:
