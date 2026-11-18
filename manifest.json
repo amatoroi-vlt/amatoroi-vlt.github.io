@@ -1,47 +1,30 @@
 {
   "groups": [
     {
-      "name": "Overwatch",
-      "files": [
-        {
-          "name": "DeepTrX Live Model Report",
-          "path": "reports/Overwatch/live_report.html",
-          "date": "2026-11-16T18:10:09+09:00",
-          "summary": ""
-        },
-        {
-          "name": "논문 아카이브",
-          "path": "reports/Overwatch/paper_review.html",
-          "date": "2026-11-04T16:50:59+09:00",
-          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
-        }
-      ]
-    },
-    {
       "name": "Research",
       "files": [
         {
-          "name": "²¹⁰Pb-²¹⁰Bi-²¹⁰Po 액체섬광 스펙트럼의 LNHB 붕괴 데이터 기반 물리 모델링, 비선형 하드웨어 매핑 및 3핵종 동시 분해 연구",
-          "path": "reports/Research/report-first-principles-chain.html",
-          "date": "2026-11-16T18:05:00+09:00",
+          "name": "3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화",
+          "path": "reports/Research/pb210_fitting_model_steps.html",
+          "date": "2026-11-18T16:09:00+09:00",
           "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
         },
         {
           "name": "스펙트럼 물리 디컨볼루션(피팅)에 따른 불확도 평가와 GUM(ISO/IEC Guide 98-3) 표준 전파 체계 해설",
           "path": "reports/Research/report-deconvolution-uncertainty-gum.html",
-          "date": "2026-11-10T10:09:53+09:00",
+          "date": "2026-11-18T16:09:00+09:00",
           "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
         },
         {
-          "name": "3핵종(Pb-210, Bi-210, Po-210) 물리 피팅 모델의 스텝별 변환 시각화",
-          "path": "reports/Research/pb210_fitting_model_steps.html",
-          "date": "2026-11-10T09:53:32+09:00",
+          "name": "²¹⁰Pb-²¹⁰Bi-²¹⁰Po 액체섬광 스펙트럼의 LNHB 붕괴 데이터 기반 물리 모델링, 비선형 하드웨어 매핑 및 3핵종 동시 분해 연구",
+          "path": "reports/Research/report-first-principles-chain.html",
+          "date": "2026-11-18T16:09:00+09:00",
           "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
         },
         {
           "name": "DAT-LSC ²¹⁰Pb 방사능 분석 및 불확도 평가 실무 지침서 (Practical Uncertainty Guide)",
           "path": "reports/Research/report-pb210-uncertainty-practical-guide.html",
-          "date": "2026-11-10T09:53:32+09:00",
+          "date": "2026-11-18T16:09:00+09:00",
           "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
         },
         {
@@ -186,6 +169,23 @@
           "name": "UGAB_jeongsoo_exp01 4회 반복 측정(Rep01~Rep04) 종합 분석 보고서",
           "path": "reports/Research/260330_rep01_rep04_combined_analysis.html",
           "date": "2026-06-23T09:53:26+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        }
+      ]
+    },
+    {
+      "name": "Overwatch",
+      "files": [
+        {
+          "name": "DeepTrX Live Model Report",
+          "path": "reports/Overwatch/live_report.html",
+          "date": "2026-11-16T18:10:09+09:00",
+          "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
+        },
+        {
+          "name": "논문 아카이브",
+          "path": "reports/Overwatch/paper_review.html",
+          "date": "2026-11-04T16:50:59+09:00",
           "summary": "🔒 암호화된 보호 보고서입니다. 열람하려면 비밀번호가 필요합니다."
         }
       ]
